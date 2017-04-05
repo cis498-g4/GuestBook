@@ -1,5 +1,5 @@
 # GuestBook
-Guest book and feedback system for events
+Guest book and feedback system for events.
 
 # Project Structure
 
