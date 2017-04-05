@@ -16,6 +16,7 @@
       <scope>test</scope>
     </dependency>
 
+    <!-- Servlet libraries -->
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
@@ -26,7 +27,32 @@
   </dependencies>
 
   <build>
+    <plugins>
+      <!-- Tomcat plugin (SEE: https://tomcat.apache.org/maven-plugin-trunk/tomcat7-maven-plugin/plugin-info.html)
+           Ensure Tomcat is running during deploy/redeploy
+      -->
+      <plugin>
+        <groupId>org.apache.tomcat.maven</groupId>
+        <!-- Tomcat 7 plugin works just fine for Tomcat 8 -->
+        <artifactId>tomcat7-maven-plugin</artifactId>
+        <version>2.2</version>
+        <configuration>
+          <!-- TODO: change this to match the host address -->
+          <url>http://localhost:8080/manager/text</url>
+
+          <!-- TODO:
+               configure a server with the id TomcatServer (or whatever, as long as it matches below) in
+               {Maven Home}/libexec/conf/settings.xml. Set up with a username and password to match the admin
+               account in {Tomcat Home}/conf/tomcat-users.xml
+          -->
+          <server>TomcatServer</server>
+
+        </configuration>
+      </plugin>
+    </plugins>
+
     <finalName>GuestBook</finalName>
+
   </build>
 
 </project>
