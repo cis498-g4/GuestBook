@@ -54,7 +54,7 @@
         <version>2.2</version>
         <configuration>
           <!-- TODO:
-               Change this to match the host address, if it doesn't already
+               Change this to match your hostname and port, if it doesn't already
           -->
           <url>http://localhost:8080/manager/text</url>
 
