@@ -1,12 +1,11 @@
-/**
- * User
- * JavaBean representing a user
- */
-
 package com.cis498.group4.models;
 
 import java.io.Serializable;
 
+/**
+ * User
+ * JavaBean representing a user
+ */
 public class User implements Serializable {
     public static final long serialVersionUID = 1L;
 

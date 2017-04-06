@@ -1,8 +1,3 @@
-/**
- * TestServlet
- * Responds with a simple HTTP message
- */
-
 package com.cis498.group4.controllers;
 
 import javax.servlet.ServletException;
@@ -13,6 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * TestServlet
+ * Responds with a simple HTTP message
+ */
 @WebServlet("/test")
 public class TestServlet extends HttpServlet {
 
