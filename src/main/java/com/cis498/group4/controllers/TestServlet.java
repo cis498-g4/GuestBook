@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 /**
  * TestServlet responds with a simple HTTP message.
  */
-@WebServlet("/test")
+@WebServlet(name = "Test", urlPatterns = "/test")
 public class TestServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

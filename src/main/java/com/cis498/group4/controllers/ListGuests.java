@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * The ListGuests class handles requests to view a list of event guests.
  */
-@WebServlet(urlPatterns = "/manager/list-guests")
+@WebServlet(name = "ListGuests", urlPatterns = "/manager/list-guests")
 public class ListGuests extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
