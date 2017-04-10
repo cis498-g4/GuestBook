@@ -45,11 +45,8 @@ public class DbConn {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
         }
-
         return connection;
-
     }
 
 }
