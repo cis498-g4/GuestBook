@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- * TestServlet responds with a simple HTTP message
+ * TestServlet responds with a simple HTTP message.
  */
 @WebServlet("/test")
 public class TestServlet extends HttpServlet {
