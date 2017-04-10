@@ -3,7 +3,11 @@ package com.cis498.group4.data;
 import com.cis498.group4.models.User;
 import com.cis498.group4.util.DbConn;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,6 +122,7 @@ public class UserDataAccess {
     public void updateUser(int id, User user) {
         // TODO: Match table and attribute names in DB
         try {
+            // Set parameters and execute SQL
             String sql = "UPDATE app_user SET user_type=?, first_name=?, last_name=?, email=?, password=? WHERE userid=?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, user.getType().name());
