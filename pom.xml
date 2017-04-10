@@ -17,6 +17,13 @@
       <scope>test</scope>
     </dependency>
 
+    <!-- MySQL Connector/J -->
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>5.1.41</version>
+    </dependency>
+
     <!-- Servlet libraries -->
     <dependency>
       <groupId>javax.servlet</groupId>
