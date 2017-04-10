@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 /**
- * The DbConn class handles the database connection to the MySQL server.
+ * The DbConn class establishes the database connection to the MySQL server.
  * Connection properties are read from the file, /src/main/java/db.properties.
  * Change the properties in this file to match your MySQL instance.
  */
