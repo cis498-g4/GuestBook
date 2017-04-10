@@ -18,7 +18,7 @@ public class UserDataAccess {
 
     private Connection connection;
 
-    public UserDataAccess(Connection connection) {
+    public UserDataAccess() {
         this.connection = DbConn.getConnection();
     }
 
