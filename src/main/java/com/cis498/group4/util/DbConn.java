@@ -22,10 +22,7 @@ public class DbConn {
      * @return connection - A connection to the MySQL instance
      */
     public static Connection getConnection() {
-        // TODO: simplify logic: if connection null, build new; only one return statement
-        if (connection != null) {
-            return connection;
-        } else {
+        if (connection == null) {
             try {
                 // Load connection properties from db.properties file
                 Properties properties = new Properties();
@@ -49,9 +46,9 @@ public class DbConn {
                 e.printStackTrace();
             }
 
-            return connection;
-
         }
+
+        return connection;
 
     }
 
