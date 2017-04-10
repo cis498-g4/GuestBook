@@ -27,15 +27,25 @@ public class EventDataAccess {
         Event event = new Event();
 
         try {
+            // Get UserDataAccess
+            UserDataAccess userData = new UserDataAccess(); // TODO: pass same connection?
+
             // Set id parameter and execute SQL statement
             String sql = "SELECT * FROM event WHERE id=?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             ResultSet results = preparedStatement.executeQuery();
 
-            // TODO: Store results in Event object
+            // Store results in Event object
             if (results.next()) {
-
+                event.setId(results.getInt("id"));
+                event.setName(results.getString("name"));
+                event.setStartDateTime(results.getTimestamp("start_date_time").toLocalDateTime());
+                event.setEndDateTime(results.getTimestamp("end_date_time").toLocalDateTime());
+                event.setPresenter(userData.getUser(results.getInt("id")));
+                event.setRegistrationCode(results.getString(""));
+                event.setOpenRegistration(results.getBoolean("open_registration"));
+                event.setCapacity(results.getInt("capacity"));
             }
 
         } catch (SQLException e) {
