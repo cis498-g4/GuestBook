@@ -4,12 +4,12 @@ import java.io.Serializable;
 
 /**
  * User
- * JavaBean representing a user
+ * JavaBean representing a user of the application (organizer or guest)
  */
 public class User implements Serializable {
     public static final long serialVersionUID = 1L;
 
-    public enum UserType {ADMIN, PRESENTER, GUEST}
+    public enum UserType {ORGANIZER, GUEST}
 
     private int id;
     private UserType type;
