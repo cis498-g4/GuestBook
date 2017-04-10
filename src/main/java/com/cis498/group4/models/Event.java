@@ -22,6 +22,18 @@ public class Event implements Serializable {
     public Event() {
     }
 
+    // TODO: Default constructor for testing. Remove for production.
+    public Event(int id, String name, LocalDateTime startDateTime, LocalDateTime endDateTime, User presenter, String registrationCode, boolean openRegistration, int capacity) {
+        this.id = id;
+        this.name = name;
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
+        this.presenter = presenter;
+        this.registrationCode = registrationCode;
+        this.openRegistration = openRegistration;
+        this.capacity = capacity;
+    }
+
     public int getId() {
         return id;
     }

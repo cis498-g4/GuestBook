@@ -20,6 +20,16 @@ public class User implements Serializable {
     public User() {
     }
 
+    // TODO: Default constructor for testing. Remove for production.
+    public User(int id, UserType type, String firstName, String lastName, String email, String password) {
+        this.id = id;
+        this.type = type;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+    }
+
     public String getFirstName() {
         return firstName;
     }
