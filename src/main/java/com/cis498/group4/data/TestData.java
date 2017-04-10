@@ -1,4 +1,8 @@
-package com.cis498.group4.models;
+package com.cis498.group4.data;
+
+import com.cis498.group4.models.Event;
+import com.cis498.group4.models.Survey;
+import com.cis498.group4.models.User;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
