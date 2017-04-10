@@ -3,8 +3,7 @@ package com.cis498.group4.models;
 import java.io.Serializable;
 
 /**
- * User
- * JavaBean representing a user of the application (organizer or guest)
+ * The User class is a JavaBean data object representing a user
  */
 public class User implements Serializable {
     public static final long serialVersionUID = 1L;

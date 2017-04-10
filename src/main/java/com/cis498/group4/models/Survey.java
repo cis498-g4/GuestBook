@@ -5,8 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * Survey
- * JavaBean representing a response to a survey
+ * The Survey class is a JavaBean data object representing a response to a survey
  */
 public class Survey implements Serializable {
     public static final long serialVersionUID = 1L;

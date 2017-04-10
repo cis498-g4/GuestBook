@@ -4,8 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * Event
- * JavaBean representing an event
+ * The Event class is a JavaBean data object representing an event
  */
 public class Event implements Serializable {
     public static final long serialVersionUID = 1L;
