@@ -4,7 +4,7 @@ Guest book and feedback system for events.
 # Project Structure
 The project follows the standard Maven directory layout for Web applications (http://bit.ly/1Mof9DC)
 
-All **Java source code** will be contained in `src/main/java/com/cis498/group4/`. Controller servlets will be placed in `com.cis498.group4.controllers` and model objects will be placed in `com.cis498.group4.models`. Utility classes (e.g. database connection utilities) go in `com.cis498.group4.utilities`.
+All **Java source code** will be contained in `src/main/java/com/cis498/group4/`. Controller servlets will be placed in `com.cis498.group4.controllers` and model objects will be placed in `com.cis498.group4.models`. Utility classes (e.g. database connection utilities) go in `com.cis498.group4.util`. Data access objects (DAO) classes, which are used to perform database operations, go in `com.cis498.group4.dao`. See http://bit.ly/2nTYlvM
 
 The web root is `src/webapp/`. All **JSP, HTML, CSS, images, Javascript, etc.** will go in this folder and its subdirectories (e.g. `/img`, `/scripts`, etc.). JSP views should go in `/views`. Partial JSP views (e.g. `_header.jsp`) should go in `/templates`.
 
