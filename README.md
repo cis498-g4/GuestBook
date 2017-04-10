@@ -29,6 +29,7 @@ The web root is `src/webapp/`. All **JSP, HTML, CSS, images, Javascript, etc.** 
 This is useful for deploying to a running Tomcat instance for development and testing.
 
 ## Requirements
+- Java (1.8)
 - Apache Maven (3.3.9)
 - Apache Tomcat (8.5)
 
@@ -65,6 +66,7 @@ This is useful for deploying to a running Tomcat instance for development and te
 This is useful for building a Web Archive (WAR) for final deployment to a Servlet container.
 
 ## Requirements
+- Java  (1.8)
 - Apache Maven (3.3.9)
 - Apache Tomcat (8.5)
 
