@@ -79,14 +79,6 @@ public class Event implements Serializable {
         this.openRegistration = openRegistration;
     }
 
-    public boolean isOpenSignIn() {
-        return openSignIn;
-    }
-
-    public void setOpenSignIn(boolean openSignIn) {
-        this.openSignIn = openSignIn;
-    }
-
     public int getCapacity() {
         return capacity;
     }
