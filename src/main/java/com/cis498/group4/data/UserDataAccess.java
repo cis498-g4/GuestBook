@@ -23,7 +23,7 @@ public class UserDataAccess {
     }
 
     /**
-     * Retrieves a single row from the users table in the database
+     * Retrieves a single row from the `app_user` table in the database
      * @param id The ID of the row to retrieve
      * @return User object with the data from the row
      */
@@ -33,6 +33,7 @@ public class UserDataAccess {
 
         try {
             // Set id parameter and execute SQL statement
+            // TODO: should we get password?
             String sql = "SELECT id, user_type, first_name, last_name, email, password FROM app_user WHERE id=?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
@@ -40,12 +41,7 @@ public class UserDataAccess {
 
             // Store results in User object
             if (results.next()) {
-                user.setId(results.getInt("id"));
-                user.setType(User.UserType.valueOf(results.getString("user_type").toUpperCase()));
-                user.setFirstName(results.getString("first_name"));
-                user.setLastName(results.getString("last_name"));
-                user.setEmail(results.getString("email"));
-                user.setPassword(results.getString("password"));    // TODO: should we get password?
+                setAttributes(user, results);
             }
 
         } catch (SQLException e) {
@@ -58,7 +54,7 @@ public class UserDataAccess {
     }
 
     /**
-     * Retrieves all rows from users table in the database
+     * Retrieves all rows from `app_user` table in the database
      * @return List of User objects
      */
     public List<User> getAllUsers() {
@@ -74,13 +70,7 @@ public class UserDataAccess {
             // Store results in list of Users
             while (results.next()) {
                 User user = new User();
-                user.setId(results.getInt("id"));
-                user.setType(User.UserType.valueOf(results.getString("user_type").toUpperCase()));
-                user.setFirstName(results.getString("first_name"));
-                user.setLastName(results.getString("last_name"));
-                user.setEmail(results.getString("email"));
-                user.setPassword(results.getString("password"));    // TODO: should we get password?
-
+                setAttributes(user, results);
                 users.add(user);
             }
 
@@ -94,7 +84,7 @@ public class UserDataAccess {
     }
 
     /**
-     * Inserts a new user into the database
+     * Inserts a new user into the `app_user` table in the database
      * @param user The User object to insert
      */
     public void insertUser(User user) {
@@ -116,9 +106,9 @@ public class UserDataAccess {
     }
 
     /**
-     * Updates the data of the user with the specified ID in the database
-     * @param id The ID of the row to update
-     * @param user The User object whose data is to be written over the row
+     * Updates the data of the user with the specified ID in the `app_user` table in the database
+     * @param id The ID of the user to update
+     * @param user The User object whose data is to be written in the row
      */
     public void updateUser(int id, User user) {
         // TODO: Match table and attribute names in DB
@@ -140,8 +130,8 @@ public class UserDataAccess {
     }
 
     /**
-     * Deletes the user with the specified ID from the table in the database
-     * @param id The ID of the row to delete
+     * Deletes the user with the specified ID from the `app_user` table in the database
+     * @param id The ID of the user to delete
      */
     public void deleteUser(int id) {
         // TODO: Match table and attribute names in DB
@@ -154,6 +144,20 @@ public class UserDataAccess {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Sets the attributes of a User object based on the result set from a SQL query
+     * @param user The user whose attributes to set
+     * @param results The results set containing the data
+     */
+    private void setAttributes(User user, ResultSet results) throws SQLException, IllegalArgumentException {
+        user.setId(results.getInt("id"));
+        user.setType(User.UserType.valueOf(results.getString("user_type").toUpperCase()));
+        user.setFirstName(results.getString("first_name"));
+        user.setLastName(results.getString("last_name"));
+        user.setEmail(results.getString("email"));
+        user.setPassword(results.getString("password"));    // TODO: should we get password?
     }
 
 }
