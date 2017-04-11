@@ -36,8 +36,8 @@ public class EventDataAccess {
         try {
             // Set id parameter and execute SQL statement
             String sql = "SELECT e.event_id, e.event_name, e.start_date_time, e.end_date_time, e.registration_code, " +
-                    "e.open_registration, e.capacity, u.user_id FROM event e INNER JOIN `user` u ON e.presenter_id = " +
-                    "u.user_id WHERE e.event_id=?";
+                    "e.open_registration, e.capacity, u.user_id, u.user_type, u.first_name, u.last_name, u.email, " +
+                    "u.password FROM event e INNER JOIN `user` u ON e.presenter_id = u.user_id WHERE e.event_id=?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             ResultSet results = preparedStatement.executeQuery();
@@ -66,8 +66,8 @@ public class EventDataAccess {
         try {
             // Execute SQL statement - no parameters, so no need to prepare
             String sql = "SELECT e.event_id, e.event_name, e.start_date_time, e.end_date_time, e.registration_code, " +
-                    "e.open_registration, e.capacity, u.user_id FROM event e LEFT JOIN `user` u ON e.presenter_id = " +
-                    "u.user_id";
+                    "e.open_registration, e.capacity, u.user_id, u.user_type, u.first_name, u.last_name, u.email, " +
+                    "u.password FROM event e LEFT JOIN `user` u ON e.presenter_id = u.user_id";
             Statement statement = connection.createStatement();
             ResultSet results = statement.executeQuery(sql);
 
