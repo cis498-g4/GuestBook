@@ -27,9 +27,6 @@ public class EventDataAccess {
         Event event = new Event();
 
         try {
-            // Get UserDataAccess
-            UserDataAccess userData = new UserDataAccess(); // TODO: pass same connection?
-
             // Set id parameter and execute SQL statement
             String sql = "SELECT * FROM event WHERE id=?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -38,12 +35,15 @@ public class EventDataAccess {
 
             // Store results in Event object
             if (results.next()) {
+                // Get UserDataAccess
+                UserDataAccess userData = new UserDataAccess(); // TODO: pass same connection?
+
                 event.setId(results.getInt("id"));
-                event.setName(results.getString("name"));
+                event.setName(results.getString("title"));
                 event.setStartDateTime(results.getTimestamp("start_date_time").toLocalDateTime());
                 event.setEndDateTime(results.getTimestamp("end_date_time").toLocalDateTime());
-                event.setPresenter(userData.getUser(results.getInt("id")));
-                event.setRegistrationCode(results.getString(""));
+                event.setPresenter(userData.getUser(results.getInt("user_id")));
+                event.setRegistrationCode(results.getString("registration_code"));
                 event.setOpenRegistration(results.getBoolean("open_registration"));
                 event.setCapacity(results.getInt("capacity"));
             }
@@ -59,7 +59,7 @@ public class EventDataAccess {
 
     public List<Event> getAllEvents() {
         // TODO: Match table and attribute names in DB
-        ArrayList<Event> events = new ArrayList<Event>();
+        List<Event> events = new ArrayList<Event>();
 
         try {
             // Execute SQL statement - no parameters, so no need to prepare
@@ -67,9 +67,22 @@ public class EventDataAccess {
             Statement statement = connection.createStatement();
             ResultSet results = statement.executeQuery(sql);
 
-            // TODO: Store results in List of Events
+            // Store results in List of Events
             while (results.next()) {
+                // Get UserDataAccess
+                UserDataAccess userData = new UserDataAccess(); // TODO: pass same connection?
 
+                Event event = new Event();
+                event.setId(results.getInt("id"));
+                event.setName(results.getString("title"));
+                event.setStartDateTime(results.getTimestamp("start_date_time").toLocalDateTime());
+                event.setEndDateTime(results.getTimestamp("end_date_time").toLocalDateTime());
+                event.setPresenter(userData.getUser(results.getInt("presenter_id")));
+                event.setRegistrationCode(results.getString("registration_code"));
+                event.setOpenRegistration(results.getBoolean("open_registration"));
+                event.setCapacity(results.getInt("capacity"));
+
+                events.add(event);
             }
 
         } catch (SQLException e) {
@@ -80,12 +93,13 @@ public class EventDataAccess {
         return events;
     }
 
-    public void insertEvent(int id) {
+    public void insertEvent(Event event) {
         // TODO: Match table and attribute names in DB
         try {
             // TODO: Set parameters and execute SQL
-            String sql = "";
+            String sql = "INSERT INTO event(id, title, start_date_time, end_date_time, presenter_id, registration_code, open_registration, capacity) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            //TODO
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
