@@ -33,7 +33,7 @@ public class UserDataAccess {
 
         try {
             // Set id parameter and execute SQL statement
-            String sql = "SELECT * FROM app_user WHERE id=?";
+            String sql = "SELECT id, user_type, first_name, last_name, email, password FROM app_user WHERE id=?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             ResultSet results = preparedStatement.executeQuery();
@@ -45,7 +45,7 @@ public class UserDataAccess {
                 user.setFirstName(results.getString("first_name"));
                 user.setLastName(results.getString("last_name"));
                 user.setEmail(results.getString("email"));
-                user.setPassword(results.getString("password"));
+                user.setPassword(results.getString("password"));    // TODO: should we get password?
             }
 
         } catch (SQLException e) {
@@ -67,7 +67,7 @@ public class UserDataAccess {
 
         try {
             // Execute SQL statement - no parameters, so no need to prepare
-            String sql = "SELECT * FROM app_user";
+            String sql = "SELECT id, user_type, first_name, last_name, email, password FROM app_user";
             Statement statement = connection.createStatement();
             ResultSet results = statement.executeQuery(sql);
 
@@ -79,7 +79,7 @@ public class UserDataAccess {
                 user.setFirstName(results.getString("first_name"));
                 user.setLastName(results.getString("last_name"));
                 user.setEmail(results.getString("email"));
-                user.setPassword(results.getString("password"));
+                user.setPassword(results.getString("password"));    // TODO: should we get password?
 
                 users.add(user);
             }
@@ -124,6 +124,7 @@ public class UserDataAccess {
         // TODO: Match table and attribute names in DB
         try {
             // Set parameters and execute SQL
+            // TODO: Condition for null password?
             String sql = "UPDATE app_user SET user_type=?, first_name=?, last_name=?, email=?, password=? WHERE userid=?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, user.getType().name());
