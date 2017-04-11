@@ -3,6 +3,7 @@ package com.cis498.group4.models;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The Survey class is a JavaBean data object representing a response to a survey
@@ -14,13 +15,13 @@ public class Survey implements Serializable {
     private User user;
     private Event event;
     private LocalDateTime submissionDateTime;
-    private List<Integer> responses;
+    private Map<String, Integer> responses;
 
     public Survey() {
     }
 
     // TODO: Default constructor for testing. Remove for production.
-    public Survey(int id, User user, Event event, LocalDateTime submissionDateTime, List<Integer> responses) {
+    public Survey(int id, User user, Event event, LocalDateTime submissionDateTime, Map<String, Integer> responses) {
         this.id = id;
         this.user = user;
         this.event = event;
@@ -60,11 +61,11 @@ public class Survey implements Serializable {
         this.submissionDateTime = submissionDateTime;
     }
 
-    public List<Integer> getResponses() {
+    public Map<String, Integer> getResponses() {
         return responses;
     }
 
-    public void setResponses(List<Integer> responses) {
+    public void setResponses(Map<String, Integer> responses) {
         this.responses = responses;
     }
 
