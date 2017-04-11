@@ -80,6 +80,7 @@ public class UserDataAccess {
                 user.setLastName(results.getString("last_name"));
                 user.setEmail(results.getString("email"));
                 user.setPassword(results.getString("password"));
+
                 users.add(user);
             }
 
