@@ -1,6 +1,7 @@
 package com.cis498.group4.data;
 
 import com.cis498.group4.models.Event;
+import com.cis498.group4.models.User;
 import com.cis498.group4.util.DbConn;
 
 import java.sql.Connection;
@@ -28,21 +29,27 @@ public class EventDataAccess {
 
         try {
             // Set id parameter and execute SQL statement
-            String sql = "SELECT * FROM event WHERE id=?";
+            String sql = "SELECT e.id AS event_id, e.title, e.start_date_time, e.end_date_time, e.registration_code, " +
+                    "e.open_registration, e.capacity, u.id AS user_id FROM event e INNER JOIN app_user u ON e.presenter_id = a.id WHERE e.id=?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             ResultSet results = preparedStatement.executeQuery();
 
             // Store results in Event object
             if (results.next()) {
-                // Get UserDataAccess
-                UserDataAccess userData = new UserDataAccess(); // TODO: pass same connection?
+                User user = new User();
+                user.setId(results.getInt("user_id"));
+                user.setType(User.UserType.valueOf(results.getString("user_type").toUpperCase()));
+                user.setFirstName(results.getString("first_name"));
+                user.setLastName(results.getString("last_name"));
+                user.setEmail(results.getString("email"));
+                user.setPassword(results.getString("password"));    // TODO: should we get password?
 
-                event.setId(results.getInt("id"));
+                event.setId(results.getInt("event_id"));
                 event.setName(results.getString("title"));
                 event.setStartDateTime(results.getTimestamp("start_date_time").toLocalDateTime());
                 event.setEndDateTime(results.getTimestamp("end_date_time").toLocalDateTime());
-                event.setPresenter(userData.getUser(results.getInt("user_id")));
+                event.setPresenter(user);
                 event.setRegistrationCode(results.getString("registration_code"));
                 event.setOpenRegistration(results.getBoolean("open_registration"));
                 event.setCapacity(results.getInt("capacity"));
@@ -69,15 +76,20 @@ public class EventDataAccess {
 
             // Store results in List of Events
             while (results.next()) {
-                // Get UserDataAccess
-                UserDataAccess userData = new UserDataAccess(); // TODO: pass same connection?
+                User user = new User();
+                user.setId(results.getInt("user_id"));
+                user.setType(User.UserType.valueOf(results.getString("user_type").toUpperCase()));
+                user.setFirstName(results.getString("first_name"));
+                user.setLastName(results.getString("last_name"));
+                user.setEmail(results.getString("email"));
+                user.setPassword(results.getString("password"));    // TODO: should we get password?
 
                 Event event = new Event();
                 event.setId(results.getInt("id"));
                 event.setName(results.getString("title"));
                 event.setStartDateTime(results.getTimestamp("start_date_time").toLocalDateTime());
                 event.setEndDateTime(results.getTimestamp("end_date_time").toLocalDateTime());
-                event.setPresenter(userData.getUser(results.getInt("presenter_id")));
+                event.setPresenter(user);
                 event.setRegistrationCode(results.getString("registration_code"));
                 event.setOpenRegistration(results.getBoolean("open_registration"));
                 event.setCapacity(results.getInt("capacity"));
