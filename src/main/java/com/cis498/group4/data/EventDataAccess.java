@@ -139,10 +139,10 @@ public class EventDataAccess {
      */
     public void deleteEvent(int id) {
         try {
-            // TODO: Set id parameter and execute SQL
-            String sql = "";
+            // Set id parameter and execute SQL
+            String sql = "DELETE FROM `event` WHERE event_id=?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-
+            preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
