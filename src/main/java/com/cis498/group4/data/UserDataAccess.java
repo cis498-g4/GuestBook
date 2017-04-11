@@ -28,13 +28,12 @@ public class UserDataAccess {
      * @return User object with the data from the row
      */
     public User getUser(int id) {
-        // TODO: Match table and attribute names in DB
         User user = new User();
 
         try {
             // Set id parameter and execute SQL statement
-            // TODO: should we get password?
-            String sql = "SELECT id, user_type, first_name, last_name, email, password FROM app_user WHERE id=?";
+            // TODO: Should we get/store password? Password hash?
+            String sql = "SELECT user_id, user_type, first_name, last_name, email, password FROM `user` WHERE user_id=?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             ResultSet results = preparedStatement.executeQuery();
@@ -58,12 +57,12 @@ public class UserDataAccess {
      * @return List of User objects
      */
     public List<User> getAllUsers() {
-        // TODO: Match table and attribute names in DB
         List<User> users = new ArrayList<User>();
 
         try {
+            // TODO: Should we get/store password? Password hash?
             // Execute SQL statement - no parameters, so no need to prepare
-            String sql = "SELECT id, user_type, first_name, last_name, email, password FROM app_user";
+            String sql = "SELECT user_id, user_type, first_name, last_name, email, password FROM `user`";
             Statement statement = connection.createStatement();
             ResultSet results = statement.executeQuery(sql);
 
@@ -88,17 +87,16 @@ public class UserDataAccess {
      * @param user The User object to insert
      */
     public void insertUser(User user) {
-        // TODO: Match table and attribute names in DB
         try {
             // Set parameters and execute SQL
-            String sql = "INSERT INTO app_user(id, user_type, first_name, last_name, email, password) VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO `user`(user_id, user_type, first_name, last_name, email, password) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, user.getId());
             preparedStatement.setString(2, user.getType().name());
             preparedStatement.setString(3, user.getFirstName());
             preparedStatement.setString(4, user.getLastName());
             preparedStatement.setString(5, user.getEmail());
-            preparedStatement.setString(6, user.getPassword());
+            preparedStatement.setString(6, user.getPassword()); // TODO: Should we get/store password? Password hash?
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -111,17 +109,16 @@ public class UserDataAccess {
      * @param user The User object whose data is to be written in the row
      */
     public void updateUser(int id, User user) {
-        // TODO: Match table and attribute names in DB
         try {
             // Set parameters and execute SQL
             // TODO: Condition for null password?
-            String sql = "UPDATE app_user SET user_type=?, first_name=?, last_name=?, email=?, password=? WHERE userid=?";
+            String sql = "UPDATE `user` SET user_type=?, first_name=?, last_name=?, email=?, password=? WHERE user_id=?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, user.getType().name());
             preparedStatement.setString(2, user.getFirstName());
             preparedStatement.setString(3, user.getLastName());
             preparedStatement.setString(4, user.getEmail());
-            preparedStatement.setString(5, user.getPassword());
+            preparedStatement.setString(5, user.getPassword()); // TODO: Should we get/store password? Password hash?
             preparedStatement.setInt(6, user.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -134,10 +131,9 @@ public class UserDataAccess {
      * @param id The ID of the user to delete
      */
     public void deleteUser(int id) {
-        // TODO: Match table and attribute names in DB
         try {
             // Set id parameter and execute SQL
-            String sql = "DELETE FROM app_user WHERE id=?";
+            String sql = "DELETE FROM `user` WHERE user_id=?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
@@ -157,7 +153,7 @@ public class UserDataAccess {
         user.setFirstName(results.getString("first_name"));
         user.setLastName(results.getString("last_name"));
         user.setEmail(results.getString("email"));
-        user.setPassword(results.getString("password"));    // TODO: should we get password?
+        user.setPassword(results.getString("password"));    // TODO: Should we get/store password? Password hash?
     }
 
 }
