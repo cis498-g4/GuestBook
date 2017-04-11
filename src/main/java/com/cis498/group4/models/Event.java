@@ -11,7 +11,6 @@ public class Event implements Serializable {
 
     private int id;
     private String name;
-    // TODO: create helper class for conversion of LocalDateTime fields to SQL D/T (http://bit.ly/2piQWax)
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
     private User presenter;
