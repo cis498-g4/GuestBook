@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,8 +35,9 @@ public class EventDataAccess {
 
         try {
             // Set id parameter and execute SQL statement
-            String sql = "SELECT e.id AS event_id, e.title, e.start_date_time, e.end_date_time, e.registration_code, " +
-                    "e.open_registration, e.capacity, u.id AS user_id FROM event e INNER JOIN app_user u ON e.presenter_id = a.id WHERE e.id=?";
+            String sql = "SELECT e.event_id, e.event_name, e.start_date_time, e.end_date_time, e.registration_code, " +
+                    "e.open_registration, e.capacity, u.user_id FROM event e INNER JOIN `user` u ON e.presenter_id = " +
+                    "u.user_id WHERE e.event_id=?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             ResultSet results = preparedStatement.executeQuery();
@@ -59,12 +61,13 @@ public class EventDataAccess {
      * @return List of User objects
      */
     public List<Event> getAllEvents() {
-        // TODO: Match table and attribute names in DB
         List<Event> events = new ArrayList<Event>();
 
         try {
             // Execute SQL statement - no parameters, so no need to prepare
-            String sql = "SELECT * FROM event";
+            String sql = "SELECT e.event_id, e.event_name, e.start_date_time, e.end_date_time, e.registration_code, " +
+                    "e.open_registration, e.capacity, u.user_id FROM event e LEFT JOIN `user` u ON e.presenter_id = " +
+                    "u.user_id";
             Statement statement = connection.createStatement();
             ResultSet results = statement.executeQuery(sql);
 
@@ -88,13 +91,18 @@ public class EventDataAccess {
      * @param event The User object to insert
      */
     public void insertEvent(Event event) {
-        // TODO: Match table and attribute names in DB
         try {
-            // TODO: Set parameters and execute SQL
-            String sql = "INSERT INTO event(id, title, start_date_time, end_date_time, presenter_id, registration_code, open_registration, capacity) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            // Set parameters and execute SQL
+            String sql = "INSERT INTO event(event_id, event_name, start_date_time, end_date_time, presenter_id, registration_code, open_registration, capacity) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            //TODO
-
+            preparedStatement.setInt(1, event.getId());
+            preparedStatement.setString(2, event.getName());
+            preparedStatement.setString(3, event.getStartDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:MM:SS")));
+            preparedStatement.setString(4, event.getEndDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:MM:SS")));
+            preparedStatement.setInt(5, event.getPresenter().getId());
+            preparedStatement.setString(6, event.getRegistrationCode());
+            preparedStatement.setBoolean(7, event.isOpenRegistration());
+            preparedStatement.setInt(8, event.getCapacity());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -107,7 +115,6 @@ public class EventDataAccess {
      * @param event The Event object whose data is to be written in the row
      */
     public void updateEvent(int id, Event event) {
-        // TODO: Match table and attribute names in DB
         try {
             // TODO: Set parameters and execute SQL
             String sql = "";
@@ -124,7 +131,6 @@ public class EventDataAccess {
      * @param id The ID of the event to delete
      */
     public void deleteEvent(int id) {
-        // TODO: Match table and attribute names in DB
         try {
             // TODO: Set id parameter and execute SQL
             String sql = "";
@@ -148,10 +154,10 @@ public class EventDataAccess {
         user.setFirstName(results.getString("first_name"));
         user.setLastName(results.getString("last_name"));
         user.setEmail(results.getString("email"));
-        user.setPassword(results.getString("password"));    // TODO: should we get password?
+        user.setPassword(results.getString("password"));    // TODO: Should we get/store password? Password hash?
 
         event.setId(results.getInt("event_id"));
-        event.setName(results.getString("title"));
+        event.setName(results.getString("event_name"));
         event.setStartDateTime(results.getTimestamp("start_date_time").toLocalDateTime());
         event.setEndDateTime(results.getTimestamp("end_date_time").toLocalDateTime());
         event.setPresenter(user);
