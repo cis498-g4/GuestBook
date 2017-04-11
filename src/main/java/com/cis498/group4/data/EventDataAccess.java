@@ -116,10 +116,17 @@ public class EventDataAccess {
      */
     public void updateEvent(int id, Event event) {
         try {
-            // TODO: Set parameters and execute SQL
-            String sql = "";
+            // Set parameters and execute SQL
+            String sql = "UPDATE event SET event_name=?, start_date_time=?, end_date_time=?, presenter_id=?, registration_code=?, open_registration=?, capacity=? WHERE event_id=?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-
+            preparedStatement.setString(1, event.getName());
+            preparedStatement.setString(2, event.getStartDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:MM:SS")));
+            preparedStatement.setString(3, event.getEndDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:MM:SS")));
+            preparedStatement.setInt(4, event.getPresenter().getId());
+            preparedStatement.setString(5, event.getRegistrationCode());
+            preparedStatement.setBoolean(6, event.isOpenRegistration());
+            preparedStatement.setInt(7, event.getCapacity());
+            preparedStatement.setInt(8, event.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
