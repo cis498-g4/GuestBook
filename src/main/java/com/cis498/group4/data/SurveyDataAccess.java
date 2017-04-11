@@ -145,7 +145,7 @@ public class SurveyDataAccess {
         String key = results.getString("question");
         Integer value = results.getInt("response");
         survey.getResponses().put(key, value);
-        
+
     }
 
 }
