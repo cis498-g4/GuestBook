@@ -2,7 +2,10 @@ package com.cis498.group4.data;
 
 import com.cis498.group4.models.User;
 import com.cis498.group4.util.DbConn;
+import com.cis498.group4.util.UserHelpers;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,8 +35,9 @@ public class UserDataAccess {
 
         try {
             // Set id parameter and execute SQL statement
-            // TODO: Should we get/store password? Password hash?
-            String sql = "SELECT user_id, user_type, first_name, last_name, email, password FROM `user` WHERE user_id=?";
+            // NOTE: passwords are stored in the DB as SHA-256 hashes
+            String sql = "SELECT `user_id`, `user_type`, `first_name`, `last_name`, `email`, `password` FROM `user` " +
+                    "WHERE `user_id` = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             ResultSet results = preparedStatement.executeQuery();
@@ -62,7 +66,7 @@ public class UserDataAccess {
         try {
             // TODO: Should we get/store password? Password hash?
             // Execute SQL statement - no parameters, so no need to prepare
-            String sql = "SELECT user_id, user_type, first_name, last_name, email, password FROM `user`";
+            String sql = "SELECT `user_id`, `user_type`, `first_name`, `last_name`, `email`, `password` FROM `user`";
             Statement statement = connection.createStatement();
             ResultSet results = statement.executeQuery(sql);
 
@@ -89,16 +93,20 @@ public class UserDataAccess {
     public void insertUser(User user) {
         try {
             // Set parameters and execute SQL
-            String sql = "INSERT INTO `user`(user_id, user_type, first_name, last_name, email, password) VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO `user`(`user_type`, `first_name`, `last_name`, `email`, `password`) " +
+                    "VALUES (?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, user.getId());
-            preparedStatement.setString(2, user.getType().name());
-            preparedStatement.setString(3, user.getFirstName());
-            preparedStatement.setString(4, user.getLastName());
-            preparedStatement.setString(5, user.getEmail());
-            preparedStatement.setString(6, user.getPassword()); // TODO: Should we get/store password? Password hash?
+            preparedStatement.setString(1, user.getType().name());
+            preparedStatement.setString(2, user.getFirstName());
+            preparedStatement.setString(3, user.getLastName());
+            preparedStatement.setString(4, user.getEmail());
+            preparedStatement.setString(5, UserHelpers.sha256(user.getPassword()));
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
     }
@@ -111,17 +119,22 @@ public class UserDataAccess {
     public void updateUser(int id, User user) {
         try {
             // Set parameters and execute SQL
-            // TODO: Condition for null password?
-            String sql = "UPDATE `user` SET user_type=?, first_name=?, last_name=?, email=?, password=? WHERE user_id=?";
+            // TODO: Condition for null (unchanged) password?
+            String sql = "UPDATE `user` SET `user_type` = ?, `first_name` = ?, `last_name` = ?, `email` = ?, " +
+                    "`password` = ? WHERE `user_id` = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, user.getType().name());
             preparedStatement.setString(2, user.getFirstName());
             preparedStatement.setString(3, user.getLastName());
             preparedStatement.setString(4, user.getEmail());
-            preparedStatement.setString(5, user.getPassword()); // TODO: Should we get/store password? Password hash?
+            preparedStatement.setString(5, UserHelpers.sha256(user.getPassword()));
             preparedStatement.setInt(6, user.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
     }
@@ -133,7 +146,7 @@ public class UserDataAccess {
     public void deleteUser(int id) {
         try {
             // Set id parameter and execute SQL
-            String sql = "DELETE FROM `user` WHERE user_id=?";
+            String sql = "DELETE FROM `user` WHERE `user_id` = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
@@ -153,7 +166,7 @@ public class UserDataAccess {
         user.setFirstName(results.getString("first_name"));
         user.setLastName(results.getString("last_name"));
         user.setEmail(results.getString("email"));
-        user.setPassword(results.getString("password"));    // TODO: Should we get/store password? Password hash?
+        user.setPassword(results.getString("password"));    // NOTE: passwords stored in DB as SHA-256 hash
     }
 
 }
