@@ -10,10 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 /**
  * The SurveyDataAccess class facilitates operations on Survey data in the database.
@@ -31,18 +29,22 @@ public class SurveyDataAccess {
 
         try {
             // Set id parameter and execute SQL statement
-            String sql = "SELECT s.survey_id, s.submission_date_time, u.user_id, u.user_type, u.first_name, " +
-                    "u.last_name, u.email, u.password, e.event_name, e.start_date_time, e.end_date_time, " +
-                    "e.registration_code, e.open_registration, e.capacity, e.event_id, sr.question_number, " +
-                    "sr.response FROM survey s INNER JOIN `user` u ON s.user_id = u.user_id INNER JOIN event e ON " +
-                    "s.event_id = e.event_id LEFT JOIN survey_response sr ON s.survey_id = sr.survey_id WHERE survey_id=?";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            String outerSql = "SELECT s.`survey_id`, u.`user_id`, ut.`user_type`, u.`first_name`, u.`last_name`, " +
+                         "u.`email`, e.`event_id`, e.`event_name`, e.`start_date_time`, e.`end_date_time`, " +
+                         "p.`user_id` AS 'presenter_id', pt.`user_type` AS 'presenter_type', p.`first_name` AS " +
+                         "'presenter_first_name', p.`last_name` AS 'presenter_last_name', p.`email` AS " +
+                         "'presenter_email', e.`registration_code`, e.`open_registration`, e.`capacity`, " +
+                         "s.`submission_date_time` FROM `survey` s INNER JOIN `user` u ON s.`user_id` = u.`user_id` " +
+                         "INNER JOIN `user_type` ut ON u.`user_type_id` = ut.`user_type_id` INNER JOIN `event` e ON " +
+                         "s.`event_id` = e.`event_id` INNER JOIN `user` p ON e.`presenter_id` = p.`user_id` " +
+                         "INNER JOIN `user_type` pt ON p.`user_type_id` = pt.`user_type_id` WHERE s.`survey_id` = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(outerSql);
             preparedStatement.setInt(1, id);
             ResultSet results = preparedStatement.executeQuery();
 
             // Store results in Survey object
-            while (results.next()) {
-
+            if (results.next()) {
+                setAttributes(survey, results);
             }
 
         } catch (SQLException e) {
@@ -59,13 +61,23 @@ public class SurveyDataAccess {
 
         try {
             // Execute SQL statement - no parameters, so no need to prepare
-            String sql = "SELECT * FROM survey";
+            String outerSql = "SELECT s.`survey_id`, u.`user_id`, ut.`user_type`, u.`first_name`, u.`last_name`, " +
+                         "u.`email`, e.`event_id`, e.`event_name`, e.`start_date_time`, e.`end_date_time`, " +
+                         "p.`user_id` AS 'presenter_id', pt.`user_type` AS 'presenter_type', p.`first_name` AS " +
+                         "'presenter_first_name', p.`last_name` AS 'presenter_last_name', p.`email` AS " +
+                         "'presenter_email', e.`registration_code`, e.`open_registration`, e.`capacity`, " +
+                         "s.`submission_date_time` FROM `survey` s INNER JOIN `user` u ON s.`user_id` = u.`user_id` " +
+                         "INNER JOIN `user_type` ut ON u.`user_type_id` = ut.`user_type_id` INNER JOIN `event` " +
+                         "e ON s.`event_id` = e.`event_id` INNER JOIN `user` p ON e.`presenter_id` = p.`user_id` " +
+                         "INNER JOIN `user_type` pt ON p.`user_type_id` = pt.`user_type_id`";
             Statement statement = connection.createStatement();
-            ResultSet results = statement.executeQuery(sql);
+            ResultSet results = statement.executeQuery(outerSql);
 
-            // TODO: Store results in List of Surveys
+            // Store results in List of Surveys
             while (results.next()) {
-
+                Survey survey = new Survey();
+                setAttributes(survey, results);
+                surveys.add(survey);
             }
 
         } catch (SQLException e) {
@@ -76,13 +88,43 @@ public class SurveyDataAccess {
         return surveys;
     }
 
-    public void insertSurvey(int id) {
+    /**
+     * Gets the ID of a survey based on its unique user, event combination
+     * @param userId The user ID of the survey
+     * @param eventId The event ID of the survey
+     * @return The id of the survey
+     */
+    public int getSurveyId(int userId, int eventId) {
+        int surveyId;
+
+        return surveyId;
+    }
+
+    public void insertSurvey(Survey survey) {
         try {
             // TODO: Set parameters and execute SQL
-            String sql = "";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            String surveySql = "INSERT INTO `survey`(`user_id`, `event_id`, `submission_date_time`) VALUES (?, ?, ?);";
+            PreparedStatement surveyPstmt = connection.prepareStatement(surveySql);
+            surveyPstmt.setInt(1, survey.getUser().getId());
+            surveyPstmt.setInt(2, survey.getEvent().getId());
+            surveyPstmt.setString(3,
+                    survey.getSubmissionDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:MM:SS")));
+            surveyPstmt.executeUpdate();
 
-            preparedStatement.executeUpdate();
+            // TODO: get survey id via unique key (user_id, event_id)
+
+
+            // TODO: Iterate over responses Map. While more responses, add to DB
+            Iterator it = survey.getResponses().entrySet().iterator();
+            while(it.hasNext()) {
+                String responseSql =
+                        "INSERT INTO `survey_response`(`survey_id`, `question`, `response`) VALUES (?, ?, ?)";
+                Map.Entry<String, Integer> response = (Map.Entry<String, Integer>)it.next();
+                PreparedStatement responsePstmt = connection.prepareStatement(responseSql);
+                responsePstmt.setInt(1, );
+            }
+
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -118,21 +160,26 @@ public class SurveyDataAccess {
      * @param results The results set containing the data
      */
     private void setAttributes(Survey survey, ResultSet results) throws SQLException, IllegalArgumentException {
-        // TODO: There are two users: the survey user and the presenter!
         User user = new User();
         user.setId(results.getInt("user_id"));
         user.setType(User.UserType.valueOf(results.getString("user_type").toUpperCase()));
         user.setFirstName(results.getString("first_name"));
         user.setLastName(results.getString("last_name"));
         user.setEmail(results.getString("email"));
-        user.setPassword(results.getString("password"));    // TODO: Should we get/store password? Password hash?
+
+        User presenter = new User();
+        user.setId(results.getInt("presenter_id"));
+        user.setType(User.UserType.valueOf(results.getString("presenter_type").toUpperCase()));
+        user.setFirstName(results.getString("presenter_first_name"));
+        user.setLastName(results.getString("presenter_last_name"));
+        user.setEmail(results.getString("presenter_email"));
 
         Event event = new Event();
         event.setId(results.getInt("event_id"));
         event.setName(results.getString("event_name"));
         event.setStartDateTime(results.getTimestamp("start_date_time").toLocalDateTime());
         event.setEndDateTime(results.getTimestamp("end_date_time").toLocalDateTime());
-        event.setPresenter(user);
+        event.setPresenter(presenter);
         event.setRegistrationCode(results.getString("registration_code"));
         event.setOpenRegistration(results.getBoolean("open_registration"));
         event.setCapacity(results.getInt("capacity"));
@@ -141,10 +188,20 @@ public class SurveyDataAccess {
         survey.setUser(user);
         survey.setEvent(event);
         survey.setSubmissionDateTime(results.getTimestamp("submission_date_time").toLocalDateTime());
+        Map<String, Integer> responses = new HashMap<String, Integer>();
 
-        String key = results.getString("question");
-        Integer value = results.getInt("response");
-        survey.getResponses().put(key, value);
+        String innerSql = "SELECT `question`, `response` FROM `survey_response` WHERE `survey_id` = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(innerSql);
+        preparedStatement.setInt(1, survey.getId());
+        ResultSet innerRs = preparedStatement.executeQuery();
+
+        while (innerRs.next()) {
+            String key = innerRs.getString("question");
+            Integer value = innerRs.getInt("response");
+            responses.put(key, value);
+        }
+
+        survey.setResponses(responses);
 
     }
 
