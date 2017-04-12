@@ -16,6 +16,7 @@ public class Event implements Serializable {
     private User presenter;
     private String registrationCode;
     private boolean openRegistration;
+    private boolean mandatorySurvey;
     private int capacity;
 
     public Event() {
@@ -95,6 +96,14 @@ public class Event implements Serializable {
 
     public void setCapacity(int capacity) {
         this.capacity = capacity;
+    }
+
+    public boolean isMandatorySurvey() {
+        return mandatorySurvey;
+    }
+
+    public void setMandatorySurvey(boolean mandatorySurvey) {
+        this.mandatorySurvey = mandatorySurvey;
     }
 
 }
