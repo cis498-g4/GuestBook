@@ -35,10 +35,11 @@ public class EventDataAccess {
 
         try {
             // Set id parameter and execute SQL statement
-            String sql = "SELECT e.`event_id`, e.`event_name`, e.`start_date_time`, e.`end_date_time`, " +
-                    "e.`registration_code`, e.`open_registration`, e.`capacity`, u.`user_id`, u.`user_type`, " +
-                    "u.`first_name`, u.`last_name`, u.`email`, u.`password` FROM `event` e INNER JOIN `user` u ON " +
-                    "e.`presenter_id` = u.`user_id` WHERE e.`event_id` = ?";
+            String sql = "SELECT e.`event_id`, e.`event_name`, e.`start_date_time`, e.`end_date_time`, u.`user_id`, " +
+                         "ut.`user_type`, u.`first_name`, u.`last_name`, u.`email`, e.`registration_code`, " +
+                         "e.`open_registration`, e.`mandatory_survey`, e.`capacity` FROM `event` e INNER JOIN `user` " +
+                         "u ON e.`presenter_id` = u.`user_id` INNER JOIN `user_type` ut ON u.`user_type_id` = " +
+                         "ut.`user_type_id` WHERE e.`event_id` = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             ResultSet results = preparedStatement.executeQuery();
@@ -66,10 +67,11 @@ public class EventDataAccess {
 
         try {
             // Execute SQL statement - no parameters, so no need to prepare
-            String sql = "SELECT e.`event_id`, e.`event_name`, e.`start_date_time`, e.`end_date_time`, " +
-                    "e.`registration_code`, e.`open_registration`, e.`capacity`, u.`user_id`, u.`user_type`, " +
-                    "u.`first_name`, u.`last_name`, u.`email`, u.`password` FROM `event` e LEFT JOIN `user` u ON " +
-                    "e.`presenter_id` = u.`user_id`";
+            String sql = "SELECT e.`event_id`, e.`event_name`, e.`start_date_time`, e.`end_date_time`, u.`user_id`, " +
+                         "ut.`user_type`, u.`first_name`, u.`last_name`, u.`email`, e.`registration_code`, " +
+                         "e.`open_registration`, e.`mandatory_survey`, e.`capacity` FROM `event` e LEFT JOIN `user` " +
+                         "u ON e.`presenter_id` = u.`user_id` INNER JOIN `user_type` ut ON u.`user_type_id` = " +
+                         "ut.`user_type_id`";
             Statement statement = connection.createStatement();
             ResultSet results = statement.executeQuery(sql);
 
@@ -96,7 +98,8 @@ public class EventDataAccess {
         try {
             // Set parameters and execute SQL
             String sql = "INSERT INTO `event`(`event_name`, `start_date_time`, `end_date_time`, `presenter_id`, " +
-                    "`registration_code`, `open_registration`, `capacity`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                         "`registration_code`, `open_registration`, `mandatory_survey`, `capacity`) " +
+                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, event.getName());
             preparedStatement.setString(2,
@@ -122,8 +125,8 @@ public class EventDataAccess {
         try {
             // Set parameters and execute SQL
             String sql = "UPDATE `event` SET `event_name` = ?, `start_date_time` = ?, `end_date_time` = ?, " +
-                    "`presenter_id` = ?, `registration_code` = ?, `open_registration` = ?, `capacity` = ? WHERE " +
-                    "`event_id` = ?";
+                         "`presenter_id` = ?, `registration_code` = ?, `open_registration` = ?, `mandatory_survey` = " +
+                         "?, `capacity` = ? WHERE `event_id` = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, event.getName());
             preparedStatement.setString(2,
@@ -169,7 +172,7 @@ public class EventDataAccess {
         user.setFirstName(results.getString("first_name"));
         user.setLastName(results.getString("last_name"));
         user.setEmail(results.getString("email"));
-        user.setPassword(results.getString("password"));    // NOTE: passwords stored in DB as SHA-256 hash
+        // NOTE: Do not retrieve password from DB, only use the data to check
 
         event.setId(results.getInt("event_id"));
         event.setName(results.getString("event_name"));
