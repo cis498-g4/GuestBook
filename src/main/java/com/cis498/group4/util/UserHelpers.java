@@ -10,11 +10,11 @@ import java.security.NoSuchAlgorithmException;
 public class UserHelpers {
 
     /**
-     * Returns a hex string SHA-256 message digest of the password
+     * Returns a hex string SHA-1 message digest of the password
      */
-    public static String sha256(String message) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+    public static String shaHash(String message) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         MessageDigest md = null;
-        md = MessageDigest.getInstance("SHA-256");
+        md = MessageDigest.getInstance("SHA-1");
         md.reset();
 
         byte[] buffer = message.getBytes("UTF-8");
