@@ -36,7 +36,7 @@ public class UserDataAccess {
         try {
             // Set id parameter and execute SQL statement
             // NOTE: passwords are stored in the DB as SHA-256 hashes
-            String sql = "SELECT u.`user_id`, ut.`user_type`, u.`first_name`, u.`last_name`, u.`email`, u.`password` " +
+            String sql = "SELECT u.`user_id`, ut.`user_type`, u.`first_name`, u.`last_name`, u.`email` " +
                          "FROM `user` u INNER JOIN `user_type` ut ON u.`user_type_id` = ut.`user_type_id` " +
                          "WHERE `user_id` = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -66,7 +66,7 @@ public class UserDataAccess {
 
         try {
             // Execute SQL statement - no parameters, so no need to prepare
-            String sql = "SELECT u.`user_id`, ut.`user_type`, u.`first_name`, u.`last_name`, u.`email`, u.`password` " +
+            String sql = "SELECT u.`user_id`, ut.`user_type`, u.`first_name`, u.`last_name`, u.`email` " +
                          "FROM `user` u INNER JOIN `user_type` ut ON u.`user_type_id` = ut.`user_type_id`";
             Statement statement = connection.createStatement();
             ResultSet results = statement.executeQuery(sql);
@@ -88,6 +88,32 @@ public class UserDataAccess {
     }
 
     /**
+     * Gets the specified user's password hash from the database
+     * @param user The user whose password to retrieve
+     * @return Hex string value of the password hash
+     */
+    public String getUserPasswordHash(User user) {
+        String hash = "";
+
+        try {
+            // Set parameters and execute SQL
+            String sql = "SELECT `password` FROM `user` WHERE `user_id` = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, user.getId());
+            ResultSet results = preparedStatement.executeQuery();
+
+            if(results.next()) {
+                hash = results.getString("password");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return hash;
+    }
+
+    /**
      * Inserts a new user into the `app_user` table in the database
      * @param user The User object to insert
      */
@@ -101,6 +127,7 @@ public class UserDataAccess {
             preparedStatement.setString(2, user.getFirstName());
             preparedStatement.setString(3, user.getLastName());
             preparedStatement.setString(4, user.getEmail());
+            // Only set password for new users
             preparedStatement.setString(5, UserHelpers.shaHash(user.getPassword()));
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -177,12 +204,12 @@ public class UserDataAccess {
      * @param results The results set containing the data
      */
     private void setAttributes(User user, ResultSet results) throws SQLException, IllegalArgumentException {
-        user.setId(results.getInt("id"));
+        user.setId(results.getInt("user_id"));
         user.setType(User.UserType.valueOf(results.getString("user_type").toUpperCase()));
         user.setFirstName(results.getString("first_name"));
         user.setLastName(results.getString("last_name"));
         user.setEmail(results.getString("email"));
-        user.setPassword(results.getString("password"));    // NOTE: passwords stored in DB as SHA-1 hash
+        // NOTE: Do not get passwords from DB with normal read operations, use getUserPassword
     }
 
 }
