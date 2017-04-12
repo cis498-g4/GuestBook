@@ -1,9 +1,6 @@
 package com.cis498.group4.models;
 
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 /**
  * The User class is a JavaBean data object representing a user
@@ -79,27 +76,6 @@ public class User implements Serializable {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    /**
-     * Returns a hex string SHA-256 message digest of the password
-     */
-    public String getPasswordEncrypted() throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        MessageDigest md = null;
-        md = MessageDigest.getInstance("SHA-256");
-        md.reset();
-
-        byte[] buffer = password.getBytes("UTF-8");
-        md.update(buffer);
-        byte[] digest = md.digest();
-
-        String hex = "";
-
-        for (int i = 0; i < digest.length; i++) {
-            hex +=  Integer.toString((digest[i] & 0xff) + 0x100, 16).substring(1);
-        }
-
-        return hex;
     }
 
 }
