@@ -36,8 +36,9 @@ public class UserDataAccess {
         try {
             // Set id parameter and execute SQL statement
             // NOTE: passwords are stored in the DB as SHA-256 hashes
-            String sql = "SELECT `user_id`, `user_type`, `first_name`, `last_name`, `email`, `password` FROM `user` " +
-                    "WHERE `user_id` = ?";
+            String sql = "SELECT u.`user_id`, ut.`user_type`, u.`first_name`, u.`last_name`, u.`email`, u.`password` " +
+                         "FROM `user` u INNER JOIN `user_type` ut ON u.`user_type_id` = ut.`user_type_id` " +
+                         "WHERE `user_id` = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             ResultSet results = preparedStatement.executeQuery();
@@ -64,9 +65,9 @@ public class UserDataAccess {
         List<User> users = new ArrayList<User>();
 
         try {
-            // TODO: Should we get/store password? Password hash?
             // Execute SQL statement - no parameters, so no need to prepare
-            String sql = "SELECT `user_id`, `user_type`, `first_name`, `last_name`, `email`, `password` FROM `user`";
+            String sql = "SELECT u.`user_id`, ut.`user_type`, u.`first_name`, u.`last_name`, u.`email`, u.`password` " +
+                         "FROM `user` u INNER JOIN `user_type` ut ON u.`user_type_id` = ut.`user_type_id`";
             Statement statement = connection.createStatement();
             ResultSet results = statement.executeQuery(sql);
 
@@ -93,14 +94,14 @@ public class UserDataAccess {
     public void insertUser(User user) {
         try {
             // Set parameters and execute SQL
-            String sql = "INSERT INTO `user`(`user_type`, `first_name`, `last_name`, `email`, `password`) " +
-                    "VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO `user`(`user_type_id`, `first_name`, `last_name`, `email`, `password`) " +
+                         "VALUES (?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, user.getType().name());
+            preparedStatement.setInt(1, user.getType().ordinal());
             preparedStatement.setString(2, user.getFirstName());
             preparedStatement.setString(3, user.getLastName());
             preparedStatement.setString(4, user.getEmail());
-            preparedStatement.setString(5, UserHelpers.sha256(user.getPassword()));
+            preparedStatement.setString(5, UserHelpers.shaHash(user.getPassword()));
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -113,22 +114,37 @@ public class UserDataAccess {
 
     /**
      * Updates the data of the user with the specified ID in the `app_user` table in the database
-     * @param id The ID of the user to update
-     * @param user The User object whose data is to be written in the row
+     * @param user The User object to update
      */
-    public void updateUser(int id, User user) {
+    public void updateUser(User user) {
         try {
             // Set parameters and execute SQL
-            // TODO: Condition for null (unchanged) password?
-            String sql = "UPDATE `user` SET `user_type` = ?, `first_name` = ?, `last_name` = ?, `email` = ?, " +
-                    "`password` = ? WHERE `user_id` = ?";
+            String sql = "UPDATE `user` SET `user_type_id` = ?, `first_name` = ?, `last_name` = ?, `email` = ?, " +
+                         "`password` = ? WHERE `user_id` = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, user.getType().name());
+            preparedStatement.setInt(1, user.getType().ordinal());
             preparedStatement.setString(2, user.getFirstName());
             preparedStatement.setString(3, user.getLastName());
             preparedStatement.setString(4, user.getEmail());
-            preparedStatement.setString(5, UserHelpers.sha256(user.getPassword()));
+            // Do not set password on update. Use updateUserPassword instead
             preparedStatement.setInt(6, user.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Updates user password by writing a new password hash to the DB
+     * @param user The user whose password is to be updated
+     * @param password The new password
+     */
+    public void updateUserPassword(User user, String password) {
+        try {
+            String sql = "UPDATE `user` SET `password` = ? WHERE `user_id` = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, UserHelpers.shaHash(password));
+            preparedStatement.setInt(2, user.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -166,7 +182,7 @@ public class UserDataAccess {
         user.setFirstName(results.getString("first_name"));
         user.setLastName(results.getString("last_name"));
         user.setEmail(results.getString("email"));
-        user.setPassword(results.getString("password"));    // NOTE: passwords stored in DB as SHA-256 hash
+        user.setPassword(results.getString("password"));    // NOTE: passwords stored in DB as SHA-1 hash
     }
 
 }
