@@ -2,7 +2,6 @@ package com.cis498.group4.models;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Map;
 
 /**
