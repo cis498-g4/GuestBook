@@ -37,7 +37,7 @@ public class UserHelpers {
      * @param user The user to evaluate
      * @return true if the user is valid
      */
-    public boolean validateUser(User user) {
+    public static boolean validateUser(User user) {
         boolean valid = false;
 
         return valid;
