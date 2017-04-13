@@ -26,7 +26,7 @@ public class UserDataAccess {
     }
 
     /**
-     * Retrieves a single row from the `app_user` table in the database
+     * Retrieves a single row from the `user` table in the database
      * @param id The ID of the row to retrieve
      * @return User object with the data from the row
      */
@@ -58,7 +58,7 @@ public class UserDataAccess {
     }
 
     /**
-     * Retrieves all rows from `app_user` table in the database
+     * Retrieves all rows from `user` table in the database
      * @return List of User objects
      */
     public List<User> getAllUsers() {
@@ -114,7 +114,7 @@ public class UserDataAccess {
     }
 
     /**
-     * Inserts a new user into the `app_user` table in the database
+     * Inserts a new user into the `user` table in the database
      * @param user The User object to insert
      */
     public void insertUser(User user) {
@@ -140,7 +140,7 @@ public class UserDataAccess {
     }
 
     /**
-     * Updates the data of the user with the specified ID in the `app_user` table in the database
+     * Updates the data of the user with the specified ID in the `user` table in the database
      * @param user The User object to update
      */
     public void updateUser(User user) {
