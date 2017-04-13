@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * The ListUsers class handles requests to view a list of users.
+ * The ListUsers servlet responds to requests to view a list of users.
  */
 @WebServlet(name = "ListUsers", urlPatterns = "/manager/list-users")
 public class ListUsers extends HttpServlet {
@@ -29,10 +29,13 @@ public class ListUsers extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String url = "/test/test-list-users.jsp";
+        String url = "/views/list-users.jsp";
 
         List<User> users = userData.getAllUsers();
         request.setAttribute("users", users);
+
+        String pageTitle = "All Users";
+        request.setAttribute("pageTitle", pageTitle);
 
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
