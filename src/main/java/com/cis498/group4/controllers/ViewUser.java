@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * The ViewUSer servlet responds with the information for the specified user.
+ * The ViewUser servlet responds with the information for the specified user.
  */
 @WebServlet(name = "ViewUser", urlPatterns = "/manager/view-user")
 public class ViewUser extends HttpServlet {
