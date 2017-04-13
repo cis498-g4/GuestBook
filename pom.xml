@@ -47,6 +47,20 @@
       <scope>provided</scope>
     </dependency>
 
+    <!-- JSP Standard Tag Library -->
+    <dependency>
+      <groupId>javax.servlet.jsp.jstl</groupId>
+      <artifactId>jstl-api</artifactId>
+      <version>1.2</version>
+    </dependency>
+
+    <!-- Apache Standard Taglib Implementation -->
+    <dependency>
+      <groupId>org.apache.taglibs</groupId>
+      <artifactId>taglibs-standard-impl</artifactId>
+      <version>1.2.5</version>
+    </dependency>
+
   </dependencies>
 
   <build>
