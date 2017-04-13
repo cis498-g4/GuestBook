@@ -1,5 +1,7 @@
 package com.cis498.group4.util;
 
+import com.cis498.group4.models.User;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -28,6 +30,17 @@ public class UserHelpers {
         }
 
         return hex;
+    }
+
+    /**
+     * Validates a user object's attributes before storing in DB
+     * @param user The user to evaluate
+     * @return true if the user is valid
+     */
+    public boolean validateUser(User user) {
+        boolean valid = false;
+
+        return valid;
     }
 
 }
