@@ -147,15 +147,15 @@ public class UserDataAccess {
     public void updateUser(User user) {
         try {
             // Set parameters and execute SQL
-            String sql = "UPDATE `user` SET `user_type_id` = ?, `first_name` = ?, `last_name` = ?, `email` = ?, " +
-                         "`password` = ? WHERE `user_id` = ?";
+            String sql = "UPDATE `user` SET `user_type_id` = ?, `first_name` = ?, `last_name` = ?, `email` = ? " +
+                         "WHERE `user_id` = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, user.getType().ordinal());
             preparedStatement.setString(2, user.getFirstName());
             preparedStatement.setString(3, user.getLastName());
             preparedStatement.setString(4, user.getEmail());
             // Do not set password on update. Use updateUserPassword instead
-            preparedStatement.setInt(6, user.getId());
+            preparedStatement.setInt(5, user.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -206,7 +206,7 @@ public class UserDataAccess {
      */
     private void setAttributes(User user, ResultSet results) throws SQLException, IllegalArgumentException {
         user.setId(results.getInt("user_id"));
-        user.setType(User.UserType.valueOf(results.getString("user_type").toUpperCase()));
+        user.setType(User.UserType.valueOf(results.getString("user_type").trim().toUpperCase()));
         user.setFirstName(results.getString("first_name"));
         user.setLastName(results.getString("last_name"));
         user.setEmail(results.getString("email"));
