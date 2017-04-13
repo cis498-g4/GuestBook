@@ -17,7 +17,8 @@ import java.io.PrintWriter;
  * The EditUser servlet responds to requests to edit a user's information.
  */
 @WebServlet(name = "EditUser", urlPatterns = "/manager/edit-user")
-public class EditUser extends HttpServlet {private static final long serialVersionUID = 1L;
+public class EditUser extends HttpServlet {
+    private static final long serialVersionUID = 1L;
 
     private UserDataAccess userData;
 
