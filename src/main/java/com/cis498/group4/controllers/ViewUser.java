@@ -30,7 +30,7 @@ public class ViewUser extends HttpServlet {
 
         String url = "/views/view-user.jsp";
 
-        User user = userData.getUser(Integer.parseInt(request.getParameter("userId")));
+        User user = userData.getUser(Integer.parseInt(request.getParameter("id")));
         request.setAttribute("user", user);
 
         String pageTitle = String.format("Info for user %s %s", user.getFirstName(), user.getLastName());

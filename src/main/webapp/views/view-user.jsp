@@ -37,7 +37,7 @@
         <c:forTokens items="edit,delete" delims="," var="action">
         <td>
             <form action="${action}-user">
-                <input type="hidden" name="userId" value="${user.id}">
+                <input type="hidden" name="id" value="${user.id}">
                 <input type="submit" value="${action}">
             </form>
         </td>
