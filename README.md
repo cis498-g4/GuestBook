@@ -20,7 +20,7 @@ The web root is `src/webapp/`. All **JSP, HTML, CSS, images, Javascript, etc.** 
 2. 
 
 ## Connecting the application to the database
-1. In the source code, locate the file `/src/main/java/db.properties`. Edit this file to configure the URL, username, and password used to connect to your MySQL instance. You should not need to change the "driver" property.
+1. In the source code, locate the file `/src/main/resources/db.properties`. Edit this file to configure the URL, username, and password used to connect to your MySQL instance. You should not need to change the "driver" property.
 2. Save the file, then build and deploy the application (See **Deploying to Tomcat server**, below)
 
 # Deploying to running Tomcat server with Apache Maven
