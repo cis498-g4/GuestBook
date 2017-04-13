@@ -29,6 +29,7 @@ public class SurveyDataAccess {
 
         try {
             // Set id parameter and execute SQL statement
+            // TODO: This is some nasty SQL - consider denormalizing survey_reponse into survey
             String outerSql = "SELECT s.`survey_id`, u.`user_id`, ut.`user_type`, u.`first_name`, u.`last_name`, " +
                          "u.`email`, e.`event_id`, e.`event_name`, e.`start_date_time`, e.`end_date_time`, " +
                          "p.`user_id` AS 'presenter_id', pt.`user_type` AS 'presenter_type', p.`first_name` AS " +
@@ -94,15 +95,18 @@ public class SurveyDataAccess {
      * @param eventId The event ID of the survey
      * @return The id of the survey
      */
-    public int getSurveyId(int userId, int eventId) {
-        int surveyId;
-
-        return surveyId;
+    public int getSurveyId(int userId, int eventId) throws SQLException {
+        String sql = "SELECT `survey_id` FROM `survey` WHERE `user_id` = ? AND `event_id` = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, userId);
+        preparedStatement.setInt(2, eventId);
+        ResultSet results = preparedStatement.executeQuery();
+        return results.getInt("survey_id");
     }
 
     public void insertSurvey(Survey survey) {
         try {
-            // TODO: Set parameters and execute SQL
+            // Set parameters and execute SQL
             String surveySql = "INSERT INTO `survey`(`user_id`, `event_id`, `submission_date_time`) VALUES (?, ?, ?);";
             PreparedStatement surveyPstmt = connection.prepareStatement(surveySql);
             surveyPstmt.setInt(1, survey.getUser().getId());
@@ -111,20 +115,20 @@ public class SurveyDataAccess {
                     survey.getSubmissionDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:MM:SS")));
             surveyPstmt.executeUpdate();
 
-            // TODO: get survey id via unique key (user_id, event_id)
+            // Get survey id via unique key (user_id, event_id)
+            int surveyId = getSurveyId(survey.getUser().getId(), survey.getEvent().getId());
 
-
-            // TODO: Iterate over responses Map. While more responses, add to DB
+            //Iterate over responses Map and add to DB
             Iterator it = survey.getResponses().entrySet().iterator();
             while(it.hasNext()) {
                 String responseSql =
                         "INSERT INTO `survey_response`(`survey_id`, `question`, `response`) VALUES (?, ?, ?)";
                 Map.Entry<String, Integer> response = (Map.Entry<String, Integer>)it.next();
                 PreparedStatement responsePstmt = connection.prepareStatement(responseSql);
-                responsePstmt.setInt(1, );
+                responsePstmt.setInt(1, surveyId);
+                responsePstmt.setString(2, response.getKey());
+                responsePstmt.setInt(3, response.getValue());
             }
-
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
