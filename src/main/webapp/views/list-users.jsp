@@ -7,6 +7,8 @@
 </head>
 <body>
 
+<div>${statusMessage}</div>
+
 <h2>${pageTitle}</h2>
 
 <table>
