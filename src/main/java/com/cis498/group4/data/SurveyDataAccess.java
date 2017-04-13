@@ -38,6 +38,7 @@ public class SurveyDataAccess {
 
         try {
             // Set id parameter and execute SQL statement
+            // TODO: Update so that question_id retrieved
             // TODO: This is some nasty SQL - consider denormalizing survey_reponse into survey
             String outerSql = "SELECT s.`survey_id`, u.`user_id`, ut.`user_type`, u.`first_name`, u.`last_name`, " +
                          "u.`email`, e.`event_id`, e.`event_name`, e.`start_date_time`, e.`end_date_time`, " +
