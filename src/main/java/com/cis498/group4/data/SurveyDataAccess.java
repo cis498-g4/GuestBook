@@ -11,7 +11,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The SurveyDataAccess class facilitates operations on Survey data in the database.
@@ -24,6 +28,11 @@ public class SurveyDataAccess {
         this.connection = DbConn.getConnection();
     }
 
+    /**
+     * Retrieves a single row from the `survey` table in the database
+     * @param id The ID of the row to retrieve
+     * @return Survey object with the data from the row
+     */
     public Survey getSurvey(int id) {
         Survey survey = new Survey();
 
@@ -57,6 +66,10 @@ public class SurveyDataAccess {
         return survey;
     }
 
+    /**
+     * Retrieves all rows from `survey` table in the database, as well as their associated responses
+     * @return List of Survey objects
+     */
     public List<Survey> getAllSurveys() {
         ArrayList<Survey> surveys = new ArrayList<Survey>();
 
@@ -104,6 +117,10 @@ public class SurveyDataAccess {
         return results.getInt("survey_id");
     }
 
+    /**
+     * Inserts a new survey with responses into the database
+     * @param survey The Survey to insert
+     */
     public void insertSurvey(Survey survey) {
         try {
             // Set parameters and execute SQL
@@ -135,27 +152,11 @@ public class SurveyDataAccess {
     }
 
     public void updateSurvey(int id, Survey survey) {
-        try {
-            // TODO: Set parameters and execute SQL
-            String sql = "";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        // There should be no need to update a survey from the application
     }
 
     public void deleteSurvey(int id) {
-        try {
-            // TODO: Set id parameter and execute SQL
-            String sql = "";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        // There should be no need to delete a survey from the application
     }
 
     /**
