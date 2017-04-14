@@ -43,12 +43,18 @@ public class DeleteUser extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        userData.deleteUser(Integer.parseInt(request.getParameter("id")));
+        int deleteStatus = userData.deleteUser(Integer.parseInt(request.getParameter("id")));
 
         String url = "/manager/list-users";
-        String statusMessage = "All we are is dust in the wind";
+        String statusMessage;
 
-        // TODO: Test success
+        if (deleteStatus == 0) {
+            statusMessage = "All we are is dust in the wind";
+        } else if (deleteStatus == 1451) {
+            statusMessage = "ERROR: Cannot delete a user who is associated with one or more events or surveys!";
+        } else {
+            statusMessage = "ERROR: Delete user operation failed!";
+        }
 
         request.setAttribute("statusMessage", statusMessage);
         RequestDispatcher view = request.getRequestDispatcher(url);

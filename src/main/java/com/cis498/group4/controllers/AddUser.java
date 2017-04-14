@@ -51,11 +51,16 @@ public class AddUser extends HttpServlet {
 
         // TODO: Validate user info before commit (http://red.ht/2nMrGNu)
         if (true) {
-            userData.insertUser(user);  // TODO: Make read/write operations return booleans or status codes?
-            statusMessage = String.format("New user %s %s was created successfully.",
-                    user.getFirstName(), user.getLastName());
+            int insertStatus = userData.insertUser(user);
+
+            if (insertStatus == 0) {
+                statusMessage = "User created successfully.";
+            } else {
+                statusMessage = "ERROR: Add user operation failed!";
+            }
+
         } else {
-            statusMessage = "Add user operation failed!";
+            statusMessage = "ERROR: Invalid data entered for new user!";
         }
 
         request.setAttribute("statusMessage", statusMessage);

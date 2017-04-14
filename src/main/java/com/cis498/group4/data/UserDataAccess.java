@@ -91,7 +91,7 @@ public class UserDataAccess {
     /**
      * Gets the specified user's password hash from the database
      * @param user The user whose password to retrieve
-     * @return Hex string value of the password hash
+     * @return Hex string value of the password hash or empty String for failure
      */
     public String getUserPasswordHash(User user) {
         String hash = "";
@@ -117,8 +117,9 @@ public class UserDataAccess {
     /**
      * Inserts a new user into the `user` table in the database
      * @param user The User object to insert
+     * @return 0 for success, SQL error code for DB failure, int < 0 for encryption failure
      */
-    public void insertUser(User user) {
+    public int insertUser(User user) {
         try {
             // Set parameters and execute SQL
             String sql = "INSERT INTO `user`(`user_type_id`, `first_name`, `last_name`, `email`, `password`) " +
@@ -131,20 +132,22 @@ public class UserDataAccess {
             // Only set password for new users
             preparedStatement.setString(5, UserHelpers.shaHash(user.getPassword()));
             preparedStatement.executeUpdate();
+            return 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            return e.getErrorCode();
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            return -1;
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            return -2;
         }
     }
 
     /**
      * Updates the data of the user with the specified ID in the `user` table in the database
      * @param user The User object to update
+     * @return 0 for success, SQL error code for failure
      */
-    public void updateUser(User user) {
+    public int updateUser(User user) {
         try {
             // Set parameters and execute SQL
             String sql = "UPDATE `user` SET `user_type_id` = ?, `first_name` = ?, `last_name` = ?, `email` = ? " +
@@ -157,8 +160,9 @@ public class UserDataAccess {
             // Do not set password on update. Use updateUserPassword instead
             preparedStatement.setInt(5, user.getId());
             preparedStatement.executeUpdate();
+            return 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            return e.getErrorCode();
         }
     }
 
@@ -166,36 +170,40 @@ public class UserDataAccess {
      * Updates user password by writing a new password hash to the DB
      * @param user The user whose password is to be updated
      * @param password The new password
+     * @return 0 for success, SQL error code for DB failure, int < 0 for encryption failure
      */
-    public void updateUserPassword(User user, String password) {
+    public int updateUserPassword(User user, String password) {
         try {
             String sql = "UPDATE `user` SET `password` = ? WHERE `user_id` = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, UserHelpers.shaHash(password));
             preparedStatement.setInt(2, user.getId());
             preparedStatement.executeUpdate();
+            return 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            return e.getErrorCode();
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            return -1;
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            return -2;
         }
     }
 
     /**
      * Deletes the user with the specified ID from the `app_user` table in the database
      * @param id The ID of the user to delete
+     * @return 0 for success, SQL error code for failure
      */
-    public void deleteUser(int id) {
+    public int deleteUser(int id) {
         try {
             // Set id parameter and execute SQL
             String sql = "DELETE FROM `user` WHERE `user_id` = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
+            return 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            return e.getErrorCode();
         }
     }
 

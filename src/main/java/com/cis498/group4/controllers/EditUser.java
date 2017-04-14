@@ -58,10 +58,16 @@ public class EditUser extends HttpServlet {
 
         // TODO: Validate user info before commit (http://red.ht/2nMrGNu)
         if (true) {
-            userData.updateUser(user);
-            statusMessage = "User information updated successfully.";
+            int updateStatus = userData.updateUser(user);
+
+            if (updateStatus == 0) {
+                statusMessage = "User information updated successfully.";
+            } else {
+                statusMessage = "ERROR: Update operation failed!";
+            }
+            
         } else {
-            statusMessage = "User update failed!";
+            statusMessage = "ERROR: Invalid data entered for user update!";
         }
 
         request.setAttribute("statusMessage", statusMessage);
