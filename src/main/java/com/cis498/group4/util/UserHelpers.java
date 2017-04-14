@@ -38,7 +38,15 @@ public class UserHelpers {
      * @return true if the user is valid
      */
     public static boolean validateUser(User user) {
-        boolean valid = false;
+        boolean valid = true;
+
+        if (user.getFirstName() == null) {
+            valid = false;
+        }
+
+        if (user.getEmail() == null) {
+            valid = false;
+        }
 
         return valid;
     }
