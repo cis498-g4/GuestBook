@@ -55,8 +55,8 @@ public class EditUser extends HttpServlet {
         String url = "/manager/list-users";
         String statusMessage;
 
-        // TODO: Validate user info before commit
-        if (UserHelpers.validateUser(user) || true /* TODO: remove this!!! */) {
+        // TODO: Validate user info before commit (http://red.ht/2nMrGNu)
+        if (true /* TODO: remove this!!! */) {
             userData.updateUser(user);
             statusMessage = "User information updated successfully.";
         } else {
