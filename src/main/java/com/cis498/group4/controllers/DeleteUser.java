@@ -43,10 +43,10 @@ public class DeleteUser extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        int deleteStatus = userData.deleteUser(Integer.parseInt(request.getParameter("id")));
-
         String url = "/manager/list-users";
         String statusMessage;
+
+        int deleteStatus = userData.deleteUser(Integer.parseInt(request.getParameter("id")));
 
         if (deleteStatus == 0) {
             statusMessage = "All we are is dust in the wind";

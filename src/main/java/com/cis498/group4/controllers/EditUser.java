@@ -44,6 +44,9 @@ public class EditUser extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        String url = "/manager/list-users";
+        String statusMessage;
+
         // Create new user with form information
         User user = new User();
         user.setId(Integer.parseInt(request.getParameter("id")));
@@ -53,9 +56,6 @@ public class EditUser extends HttpServlet {
         user.setEmail(request.getParameter("email"));
 
         // Attempt write to DB and respond to user
-        String url = "/manager/list-users";
-        String statusMessage;
-
         // TODO: Validate user info before commit (http://red.ht/2nMrGNu)
         if (true) {
             int updateStatus = userData.updateUser(user);

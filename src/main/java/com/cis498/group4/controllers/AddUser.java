@@ -37,6 +37,9 @@ public class AddUser extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        String url = "/manager/list-users";
+        String statusMessage;
+
         // Create new user with form information
         User user = new User();
         user.setType(User.UserType.valueOf(request.getParameter("type").trim()));
@@ -46,8 +49,6 @@ public class AddUser extends HttpServlet {
         user.setPassword(request.getParameter("password"));
 
         // Attempt write to DB and respond to user
-        String url = "/manager/list-users";
-        String statusMessage;
 
         // TODO: Validate user info before commit (http://red.ht/2nMrGNu)
         if (true) {
