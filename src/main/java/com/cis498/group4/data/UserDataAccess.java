@@ -89,6 +89,36 @@ public class UserDataAccess {
     }
 
     /**
+     * Retrieves all users with type "ORGANIZER"
+     * @return List of User objects
+     */
+    public List<User> getOrganizers() {
+        List<User> organizers = new ArrayList<User>();
+
+        try {
+            // Execute SQL statement - no parameters, so no need to prepare
+            String sql = "SELECT u.`user_id`, ut.`user_type`, u.`first_name`, u.`last_name`, u.`email` " +
+                    "FROM `user` u INNER JOIN `user_type` ut ON u.`user_type_id` = ut.`user_type_id` WHERE u.`user_type_id` = 0";
+            Statement statement = connection.createStatement();
+            ResultSet results = statement.executeQuery(sql);
+
+            // Store results in list of Users
+            while (results.next()) {
+                User user = new User();
+                setAttributes(user, results);
+                organizers.add(user);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+
+        return organizers;
+    }
+
+    /**
      * Gets the specified user's password hash from the database
      * @param user The user whose password to retrieve
      * @return Hex string value of the password hash or empty String for failure
