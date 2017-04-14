@@ -13,8 +13,8 @@
     <input type="email" name="email" id="email" required><br>
     <label for="type">User type:</label>
     <select name="type" id="type" selected="GUEST">
-        <option value="ORGANIZER">Organizer</option>
         <option value="GUEST">Guest</option>
+        <option value="ORGANIZER">Organizer</option>
     </select><br>
     <label for="password">Password</label>
     <input type="password" name="password" id="password" required><br>
