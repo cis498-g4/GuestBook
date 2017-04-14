@@ -104,7 +104,7 @@ public class EventDataAccess {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, event.getName());
             preparedStatement.setString(2,
-                    event.getStartDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:MM:SS")));
+                    event.getStartDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:MM:SS")));   // FIXME: Format uses same MM for month and minute
             preparedStatement.setString(3,
                     event.getEndDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:MM:SS")));
             preparedStatement.setInt(4, event.getPresenter().getId());
