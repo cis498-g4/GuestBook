@@ -34,7 +34,7 @@ public class ListUsers extends HttpServlet {
         List<User> users = userData.getAllUsers();
         request.setAttribute("users", users);
 
-        String pageTitle = "All Users";
+        String pageTitle = "Users";
         request.setAttribute("pageTitle", pageTitle);
 
         RequestDispatcher view = request.getRequestDispatcher(url);
