@@ -20,7 +20,7 @@ public class EventDataAccess {
 
     private Connection connection;
 
-    public EventDataAccess(Connection connection) {
+    public EventDataAccess() {
         this.connection = DbConn.getConnection();
     }
 
