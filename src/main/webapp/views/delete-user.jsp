@@ -1,13 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>${pageTitle}</title>
-</head>
-<body>
-
-<h2>${pageTitle}</h2>
+<jsp:include page="/templates/header.jsp"></jsp:include>
 
 <p>The following user will be <strong>permanently</strong> removed:</p>
 
@@ -30,13 +21,13 @@
     </tr>
 </table>
 
-<br>
-
 <form action="delete-user" method="post">
-    You sure 'bout that?<br>
-    <input type="hidden" name="id" value="${user.id}"><br>
-    <input type="submit" value="confirm delete">
-    <button onclick="history.go(-1)">cancel</button>
+    <p>
+        You sure 'bout that?<br>
+        <input type="hidden" name="id" value="${user.id}"><br>
+        <input type="submit" value="confirm delete">
+        <button onclick="history.go(-1)">cancel</button>
+    </p>
 </form>
 
 <hr>
