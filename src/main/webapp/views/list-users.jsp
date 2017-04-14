@@ -5,11 +5,10 @@
 
 <table>
     <tr>
-
-        <c:forTokens items="Last Name,First Name,Email Address,User Type" delims="," var="col_head">
-        <th>${col_head}</th>
-        </c:forTokens>
-
+        <th>Last Name</th>
+        <th>First Name</th>
+        <th>Email</th>
+        <th>Type</th>
     </tr>
 
     <c:forEach items="${users}" var="user">
@@ -32,6 +31,25 @@
     </c:forEach>
 
 </table>
+
+<hr>
+
+<form action="filter-user">
+    <label for="field">Filter by: </label>
+    <select name="field" id="field">
+        <option>Last Name</option>
+        <option>First Name</option>
+        <option>Email</option>
+        <option>Type</option>
+    </select>
+    <input type="text" name="value">
+    <input type="checkbox" name="exact" checked>Exact matches only
+    <input type="submit" value="submit">
+</form>
+
+<hr>
+
+<a href="add-user">+ Add new user</a>
 
 </body>
 </html>
