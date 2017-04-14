@@ -27,7 +27,7 @@ public class EventDataAccess {
     /**
      * Retrieves a single row from the `event` table in the database
      * @param id The ID of the row to retrieve
-     * @return User object with the data from the row
+     * @return Event object with the data from the row
      */
     public Event getEvent(int id) {
         // TODO: Eliminate joins for ENUMs, just get the ordinal number
@@ -60,7 +60,7 @@ public class EventDataAccess {
 
     /**
      * Retrieves all rows from `event` table in the database
-     * @return List of User objects
+     * @return Event of User objects
      */
     public List<Event> getAllEvents() {
         List<Event> events = new ArrayList<Event>();
@@ -92,9 +92,10 @@ public class EventDataAccess {
 
     /**
      * Inserts a new user into the `event` table in the database
-     * @param event The User object to insert
+     * @param event The Event object to insert
+     * @return 0 for success, SQL error code for DB failure
      */
-    public void insertEvent(Event event) {
+    public int insertEvent(Event event) {
         try {
             // Set parameters and execute SQL
             String sql = "INSERT INTO `event`(`event_name`, `start_date_time`, `end_date_time`, `presenter_id`, " +
@@ -111,8 +112,9 @@ public class EventDataAccess {
             preparedStatement.setBoolean(6, event.isOpenRegistration());
             preparedStatement.setInt(7, event.getCapacity());
             preparedStatement.executeUpdate();
+            return 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            return e.getErrorCode();
         }
     }
 
@@ -120,8 +122,9 @@ public class EventDataAccess {
      * Updates the data of the event with the specified ID in the `event` table in the database
      * @param id The ID of the event to update
      * @param event The Event object whose data is to be written in the row
+     * @return 0 for success, SQL error code for DB failure
      */
-    public void updateEvent(int id, Event event) {
+    public int updateEvent(int id, Event event) {
         try {
             // Set parameters and execute SQL
             String sql = "UPDATE `event` SET `event_name` = ?, `start_date_time` = ?, `end_date_time` = ?, " +
@@ -139,24 +142,27 @@ public class EventDataAccess {
             preparedStatement.setInt(7, event.getCapacity());
             preparedStatement.setInt(8, event.getId());
             preparedStatement.executeUpdate();
+            return 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            return e.getErrorCode();
         }
     }
 
     /**
      * Deletes the event with the specified ID from the `event` table in the database
      * @param id The ID of the event to delete
+     * @return 0 for success, SQL error code for DB failure
      */
-    public void deleteEvent(int id) {
+    public int deleteEvent(int id) {
         try {
             // Set id parameter and execute SQL
             String sql = "DELETE FROM `event` WHERE `event_id` = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
+            return 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            return e.getErrorCode();
         }
     }
 
