@@ -65,7 +65,7 @@ public class EditUser extends HttpServlet {
             } else {
                 statusMessage = "ERROR: Update operation failed!";
             }
-            
+
         } else {
             statusMessage = "ERROR: Invalid data entered for user update!";
         }
