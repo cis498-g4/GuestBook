@@ -16,7 +16,7 @@
         <td>${user.lastName}</td>
         <td>${user.firstName}</td>
         <td>${user.email}</td>
-        <td>${user.type == 'ORGANIZER' ? 'Organizer' : 'Guest'}</td>
+        <td>${user.type == "ORGANIZER" ? "Organizer" : "Guest"}</td>
 
         <c:forTokens items="view,edit,delete" delims="," var="action">
         <td>
