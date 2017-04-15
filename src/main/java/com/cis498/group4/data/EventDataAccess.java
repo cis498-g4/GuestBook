@@ -188,6 +188,7 @@ public class EventDataAccess {
         event.setPresenter(user);
         event.setRegistrationCode(results.getString("registration_code"));
         event.setOpenRegistration(results.getBoolean("open_registration"));
+        event.setMandatorySurvey(results.getBoolean("mandatory_survey"));
         event.setCapacity(results.getInt("capacity"));
     }
 
