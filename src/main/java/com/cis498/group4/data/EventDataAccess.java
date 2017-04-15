@@ -104,13 +104,14 @@ public class EventDataAccess {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, event.getName());
             preparedStatement.setString(2,
-                    event.getStartDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:MM:SS")));   // FIXME: Format uses same MM for month and minute
+                    event.getStartDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:SS")));
             preparedStatement.setString(3,
-                    event.getEndDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:MM:SS")));
+                    event.getEndDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:SS")));
             preparedStatement.setInt(4, event.getPresenter().getId());
             preparedStatement.setString(5, event.getRegistrationCode());
             preparedStatement.setBoolean(6, event.isOpenRegistration());
-            preparedStatement.setInt(7, event.getCapacity());
+            preparedStatement.setBoolean(7, event.isMandatorySurvey());
+            preparedStatement.setInt(8, event.getCapacity());
             preparedStatement.executeUpdate();
             return 0;
         } catch (SQLException e) {
