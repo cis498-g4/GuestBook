@@ -12,9 +12,13 @@
     <label for="email">Email Address:</label>
     <input type="email" name="email" id="email" value="${user.email}" required><br>
     <label for="type">User type:</label>
-    <select name="type" id="type" selected="${user.type}">
-        <option value="GUEST">Guest</option>
-        <option value="ORGANIZER">Organizer</option>
+    <select name="type" id="type">
+        <option value="GUEST" ${user.type == "GUEST" ? "selected" : ""}>
+            Guest
+        </option>
+        <option value="ORGANIZER" ${user.type == "ORGANIZER" ? "selected" : ""}>
+            Organizer
+        </option>
     </select><br>
     <input type="hidden" name="id" value="${user.id}"><br>
     <input type="submit" value="update information">
