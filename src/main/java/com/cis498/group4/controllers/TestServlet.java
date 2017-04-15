@@ -12,7 +12,7 @@ import java.util.Enumeration;
 /**
  * TestServlet responds with a simple HTTP message and the list of request parameters
  */
-@WebServlet(name = "Test", urlPatterns = "/test")
+@WebServlet(name = "Test", urlPatterns = "/manager/test")
 public class TestServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -28,7 +28,7 @@ public class TestServlet extends HttpServlet {
             String paramName = params.nextElement();
             String[] paramValues = request.getParameterValues(paramName);
 
-            out.printf("%s :", paramName);
+            out.printf("%s : ", paramName);
 
             for (int i = 0; i < paramValues.length; i++) {
                 out.printf("%s<br>\n", paramValues[i]);
