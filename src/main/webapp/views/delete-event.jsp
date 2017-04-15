@@ -7,41 +7,41 @@
 
 <table>
     <tr>
-        <th>Event Name:</th>
+        <td><strong>Event Name:</strong></td>
         <td>${event.name}</td>
     </tr>
     <tr>
-        <th>Event Start:</th>
+        <td><strong>Event Start:</strong></td>
         <td>
             ${event.startDateTime.getMonthValue()}/${event.startDateTime.getDayOfMonth()}/${event.startDateTime.getYear()}
             ${event.startDateTime.getHour()}:${event.startDateTime.getMinute() < 10 ? "0" : "&nbsp;"}${event.startDateTime.getMinute()}
         </td>
     </tr>
     <tr>
-        <th>Event End:</th>
+        <td><strong>Event End:</strong></td>
         <td>
             ${event.endDateTime.getMonthValue()}/${event.endDateTime.getDayOfMonth()}/${event.endDateTime.getYear()}
             ${event.endDateTime.getHour()}:${event.endDateTime.getMinute() < 10 ? "0" : "&nbsp;"}${event.endDateTime.getMinute()}
         </td>
     </tr>
     <tr>
-        <th>Presenter:</th>
+        <td><strong></strong></td>Presenter:</tr></table>
         <td>${event.presenter.firstName} ${event.presenter.lastName}</td>
     </tr>
     <tr>
-        <th>Registration Type:</th>
+        <td><strong>Registration Type:</strong></td>
         <td>${event.openRegistration ? "Open" : "Closed"}</td>
     </tr>
     <tr>
-        <th>Registration Code:</th>
+        <td><strong>Registration Code:</strong></td>
         <td>${event.registrationCode != null ? event.registrationCode : "<em>none</em>"}</td>
     </tr>
     <tr>
-        <th>Survey Required:</th>
+        <td><strong>Survey Required:</strong></td>
         <td>${event.mandatorySurvey ? "Yes" : "No"}</td>
     </tr>
     <tr>
-        <th>Max Capacity:</th>
+        <td><strong>Max Capacity:</strong></td>
         <td>${event.capacity > 0 ? event.capacity : "<em>none</em>"}</td>
     </tr>
 </table>

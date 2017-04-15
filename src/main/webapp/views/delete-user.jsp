@@ -7,19 +7,19 @@
 
 <table>
     <tr>
-        <th>First Name:</th>
+        <td><strong>First Name:</strong></td>
         <td>${user.firstName}</td>
     </tr>
     <tr>
-        <th>Last Name:</th>
+        <td><strong>Last Name:</strong></td>
         <td>${user.lastName}</td>
     </tr>
     <tr>
-        <th>Email Address:</th>
+        <td><strong>Email Address:</strong></td>
         <td>${user.email}</td>
     </tr>
     <tr>
-        <th>User Type:</th>
+        <td><strong>User Type:</strong></td>
         <td>${user.type == 'ORGANIZER' ? 'Organizer' : 'Guest'}</td>
     </tr>
 </table>
