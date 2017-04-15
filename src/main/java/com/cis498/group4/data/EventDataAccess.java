@@ -121,11 +121,10 @@ public class EventDataAccess {
 
     /**
      * Updates the data of the event with the specified ID in the `event` table in the database
-     * @param id The ID of the event to update
      * @param event The Event object whose data is to be written in the row
      * @return 0 for success, SQL error code for DB failure
      */
-    public int updateEvent(int id, Event event) {
+    public int updateEvent(Event event) {
         try {
             // Set parameters and execute SQL
             String sql = "UPDATE `event` SET `event_name` = ?, `start_date_time` = ?, `end_date_time` = ?, " +
@@ -134,14 +133,15 @@ public class EventDataAccess {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, event.getName());
             preparedStatement.setString(2,
-                    event.getStartDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:MM:SS")));
+                    event.getStartDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:SS")));
             preparedStatement.setString(3,
-                    event.getEndDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:MM:SS")));
+                    event.getEndDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:SS")));
             preparedStatement.setInt(4, event.getPresenter().getId());
             preparedStatement.setString(5, event.getRegistrationCode());
             preparedStatement.setBoolean(6, event.isOpenRegistration());
-            preparedStatement.setInt(7, event.getCapacity());
-            preparedStatement.setInt(8, event.getId());
+            preparedStatement.setBoolean(7, event.isMandatorySurvey());
+            preparedStatement.setInt(8, event.getCapacity());
+            preparedStatement.setInt(9, event.getId());
             preparedStatement.executeUpdate();
             return 0;
         } catch (SQLException e) {
