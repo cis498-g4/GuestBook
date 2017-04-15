@@ -84,6 +84,12 @@ public class AddEvent extends HttpServlet {
 
                 if (request.getParameter("capacity") != null && request.getParameter("capacity").length() > 0) {
                     event.setCapacity(Integer.parseInt(request.getParameter("capacity")));
+                } else {
+                    event.setCapacity(-1);
+                }
+
+                if (event.getCapacity() <= 0) {
+                    event.setCapacity(-1);
                 }
 
                 // Attempt write to DB and respond to event
