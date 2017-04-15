@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -73,9 +75,16 @@ public class AddEvent extends HttpServlet {
                 event.setPresenter(presenter);
 
                 event.setOpenRegistration(request.getParameter("open-reg") != null);
-                event.setRegistrationCode(request.getParameter("reg-code"));
+
+                if (request.getParameter("reg-code") != null && request.getParameter("reg-code").length() > 0) {
+                    event.setRegistrationCode(request.getParameter("reg-code"));
+                }
+
                 event.setMandatorySurvey(request.getParameter("survey-req") != null);
-                event.setCapacity(Integer.parseInt(request.getParameter("capacity")));
+
+                if (request.getParameter("capacity") != null && request.getParameter("capacity").length() > 0) {
+                    event.setCapacity(Integer.parseInt(request.getParameter("capacity")));
+                }
 
                 // Attempt write to DB and respond to event
                 // TODO: Validate event info before commit (http://red.ht/2nMrGNu)
@@ -84,7 +93,7 @@ public class AddEvent extends HttpServlet {
                     int insertStatus = eventData.insertEvent(event);
 
                     if (insertStatus == 0) {
-                        statusMessage = "Event created successfully.";  // FIXME: Status message shown but event not added
+                        statusMessage = "Event created successfully.";
                     } else {
                         statusMessage = "ERROR: Add event operation failed!";
                     }
