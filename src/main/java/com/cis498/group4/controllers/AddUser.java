@@ -49,7 +49,6 @@ public class AddUser extends HttpServlet {
         user.setPassword(request.getParameter("password"));
 
         // Attempt write to DB and respond to user
-
         // TODO: Validate user info before commit (http://red.ht/2nMrGNu)
         if (true) {
             int insertStatus = userData.insertUser(user);
