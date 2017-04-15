@@ -26,7 +26,7 @@
 
 <form action="delete-user" method="post">
     <p>
-        You sure 'bout that?<br>
+        This user will no longer be able to sign in or register for events. Are you sure?<br>
         <input type="hidden" name="id" value="${user.id}"><br>
         <input type="submit" value="confirm delete">
         <button onclick="history.go(-1)">cancel</button>
