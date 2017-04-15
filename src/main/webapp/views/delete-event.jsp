@@ -25,7 +25,7 @@
         </td>
     </tr>
     <tr>
-        <td><strong></strong></td>Presenter:</tr></table>
+        <td><strong>Presenter:</strong></td>
         <td>${event.presenter.firstName} ${event.presenter.lastName}</td>
     </tr>
     <tr>
