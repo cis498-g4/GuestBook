@@ -7,18 +7,42 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Enumeration;
 
 /**
- * TestServlet responds with a simple HTTP message.
+ * TestServlet responds with a simple HTTP message and the list of request parameters
  */
 @WebServlet(name = "Test", urlPatterns = "/test")
 public class TestServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
+        response.setContentType("text/html");
         out.println("<html>");
         out.println("<h2>It works!</h2>");
+        out.println("<p>");
+
+        Enumeration<String> params = request.getParameterNames();
+
+        while(params.hasMoreElements()) {
+            String paramName = params.nextElement();
+            String[] paramValues = request.getParameterValues(paramName);
+
+            out.printf("%s :", paramName);
+
+            for (int i = 0; i < paramValues.length; i++) {
+                out.printf("%s<br>\n", paramValues[i]);
+            }
+        }
+
+        out.println("</p>");
         out.println("</html>");
+
+        out.close();
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doGet(request, response);
     }
 
 }
