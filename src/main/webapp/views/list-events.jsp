@@ -23,8 +23,8 @@
                 ${event.startDateTime.getHour()}:${event.startDateTime.getMinute() < 10 ? "0" : "&nbsp;"}${event.startDateTime.getMinute()}
             </td>
             <td>
-                ${event.startDateTime.getMonthValue()}/${event.startDateTime.getDayOfMonth()}/${event.startDateTime.getYear()}
-                ${event.startDateTime.getHour()}:${event.startDateTime.getMinute() < 10 ? "0" : "&nbsp;"}${event.startDateTime.getMinute()}
+                ${event.endDateTime.getMonthValue()}/${event.endDateTime.getDayOfMonth()}/${event.endDateTime.getYear()}
+                ${event.endDateTime.getHour()}:${event.endDateTime.getMinute() < 10 ? "0" : "&nbsp;"}${event.endDateTime.getMinute()}
             </td>
             <td>${event.presenter.lastName}, ${event.presenter.firstName}</td>
             <td>${event.openRegistration ? "Open" : "Closed"}</td>
