@@ -28,9 +28,9 @@
             </td>
             <td>${event.presenter.lastName}, ${event.presenter.firstName}</td>
             <td>${event.openRegistration ? "Open" : "Closed"}</td>
-            <td>${event.registrationCode}</td>
+            <td>${event.registrationCode != null ? event.registrationCode : "<em>none</em>"}</td>
             <td>${event.mandatorySurvey ? "Yes" : "No"}</td>
-            <td>${event.capacity}</td>
+            <td>${event.capacity > 0 ? event.capacity : "<em>none</em>"}</td>
 
             <c:forTokens items="view,edit,delete" delims="," var="action">
                 <td>
