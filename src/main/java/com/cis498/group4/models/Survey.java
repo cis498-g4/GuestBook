@@ -82,7 +82,7 @@ public class Survey implements Serializable {
             sum = sum.add(new BigDecimal(it.next()));
         }
 
-        return sum.divide(BigDecimal.TEN, 2, BigDecimal.ROUND_HALF_UP);
+        return sum.divide(BigDecimal.TEN, 1, BigDecimal.ROUND_HALF_UP);
 
     }
 
