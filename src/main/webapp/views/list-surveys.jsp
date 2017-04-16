@@ -32,7 +32,7 @@
                 ${survey.submissionDateTime.getHour()}:${survey.submissionDateTime.getMinute() < 10 ? "0" : "&nbsp;"}${survey.submissionDateTime.getMinute()}
             </td>
             <td>
-                <form action="$view-survey">
+                <form action="view-survey">
                     <input type="hidden" name="id" value="${survey.id}">
                     <input type="submit" value="view">
                 </form>
