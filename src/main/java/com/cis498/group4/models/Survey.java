@@ -1,7 +1,9 @@
 package com.cis498.group4.models;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -66,6 +68,22 @@ public class Survey implements Serializable {
 
     public void setResponses(Map<String, Integer> responses) {
         this.responses = responses;
+    }
+
+    /**
+     * Calculates and returns the arithmetic mean for this Survey
+     * @return BigDecimal average with scale of 2
+     */
+    public BigDecimal responseAvg() {
+        BigDecimal sum = new BigDecimal(0);
+
+        Iterator<Integer> it = getResponses().values().iterator();
+        while (it.hasNext()) {
+            sum = sum.add(new BigDecimal(it.next()));
+        }
+
+        return sum.divide(BigDecimal.TEN, 2, BigDecimal.ROUND_HALF_UP);
+
     }
 
 }
