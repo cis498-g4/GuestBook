@@ -4,7 +4,7 @@
 <jsp:include page="/templates/header.jsp"></jsp:include>
 
 <!-- TODO only display if filter active -->
-<p>Surveys {for|by} this {event|presenter|user} are {very|somewhat} {positive|negative}</p>
+<p hidden>Surveys {for|by} this {event|presenter|user} are {very|somewhat} {positive|negative}</p>
 
 <table>
     <tr>
@@ -25,7 +25,7 @@
         <tr>
             <td>${survey.event.name}</td>
             <td>${survey.event.presenter.lastName}, ${survey.event.presenter.firstName}</td>
-            <td>${survey.event.startDateTime.getMonthValue()}/${event.startDateTime.getDayOfMonth()}/${event.startDateTime.getYear()}</td>
+            <td>${survey.event.startDateTime.getMonthValue()}/${survey.event.startDateTime.getDayOfMonth()}/${survey.event.startDateTime.getYear()}</td>
             <td>${survey.user.lastName}, ${survey.user.firstName}</td>
             <td>
                 ${survey.submissionDateTime.getMonthValue()}/${survey.submissionDateTime.getDayOfMonth()}/${survey.submissionDateTime.getYear()}
@@ -58,9 +58,9 @@
     <input type="submit" value="submit">
 </form>
 
-<a href="#">Download as CSV</a>
-
 <hr>
+
+<a href="#">Download as CSV</a>
 
 </body>
 </html>
