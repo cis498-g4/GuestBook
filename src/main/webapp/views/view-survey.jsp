@@ -79,14 +79,12 @@
 
 <p>Overall, this survey is <strong>${sentiment}</strong>, with an average rating of <strong>${average}</strong></p>
 
-<p><a href="#">Save results to CSV</a></p>
-
 <hr>
 
 <table>
     <tr>
         <td><button onclick="history.go(-1)">back</button></td>
-
+        <td><button onclick="">download CSV</button></td>
     </tr>
 </table>
 

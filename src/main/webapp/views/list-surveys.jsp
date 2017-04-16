@@ -60,7 +60,7 @@
 
 <hr>
 
-<a href="#">Download as CSV</a>
+<td><button onclick="">download CSV</button></td>
 
 </body>
 </html>
