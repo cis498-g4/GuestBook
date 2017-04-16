@@ -24,7 +24,7 @@ public class SurveyDataAccess {
 
     private Connection connection;
 
-    public SurveyDataAccess(Connection connection) {
+    public SurveyDataAccess() {
         this.connection = DbConn.getConnection();
     }
 
