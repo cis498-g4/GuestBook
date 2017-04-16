@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * The ListEvents servlet responds to requests to view a list of users.
+ * The ListEvents servlet responds to requests to view a list of events.
  */
 @WebServlet(name = "ListEvents", urlPatterns = "/manager/list-events")
 public class ListEvents extends HttpServlet {
