@@ -25,7 +25,7 @@
         <td><strong>Submission Date:</strong></td>
         <td>
             ${survey.submissionDateTime.getMonthValue()}/${survey.submissionDateTime.getDayOfMonth()}/${survey.submissionDateTime.getYear()}
-            ${survey.submissionDateTime.getHour()}:${survey.submissionDateTime.getMinute() < 10 ? "0" : "&nbsp;"}${survey.submissionDateTime.getMinute()}
+            ${survey.submissionDateTime.getHour()}:${survey.submissionDateTime.getMinute() < 10 ? "0" : ""}${survey.submissionDateTime.getMinute()}
         </td>
     </tr>
 </table>

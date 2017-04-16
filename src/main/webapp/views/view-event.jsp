@@ -12,14 +12,14 @@
         <td><strong>Event Start:</strong></td>
         <td>
             ${event.startDateTime.getMonthValue()}/${event.startDateTime.getDayOfMonth()}/${event.startDateTime.getYear()}
-            ${event.startDateTime.getHour()}:${event.startDateTime.getMinute() < 10 ? "0" : "&nbsp;"}${event.startDateTime.getMinute()}
+            ${event.startDateTime.getHour()}:${event.startDateTime.getMinute() < 10 ? "0" : ""}${event.startDateTime.getMinute()}
         </td>
     </tr>
     <tr>
         <td><strong>Event End:</strong></td>
         <td>
             ${event.endDateTime.getMonthValue()}/${event.endDateTime.getDayOfMonth()}/${event.endDateTime.getYear()}
-            ${event.endDateTime.getHour()}:${event.endDateTime.getMinute() < 10 ? "0" : "&nbsp;"}${event.endDateTime.getMinute()}
+            ${event.endDateTime.getHour()}:${event.endDateTime.getMinute() < 10 ? "0" : ""}${event.endDateTime.getMinute()}
         </td>
     </tr>
     <tr>
