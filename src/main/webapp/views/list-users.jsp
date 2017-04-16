@@ -11,6 +11,12 @@
         <th>Type</th>
     </tr>
 
+    <c:if test="${events.isEmpty()}">
+        <tr>
+            <td colspan="11" align="center">No users found</td>
+        </tr>
+    </c:if>
+
     <c:forEach items="${users}" var="user">
     <tr>
         <td>${user.lastName}</td>
