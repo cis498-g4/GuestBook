@@ -174,11 +174,11 @@ public class SurveyDataAccess {
         user.setEmail(results.getString("email"));
 
         User presenter = new User();
-        user.setId(results.getInt("presenter_id"));
-        user.setType(User.UserType.valueOf(results.getString("presenter_type").toUpperCase()));
-        user.setFirstName(results.getString("presenter_first_name"));
-        user.setLastName(results.getString("presenter_last_name"));
-        user.setEmail(results.getString("presenter_email"));
+        presenter.setId(results.getInt("presenter_id"));
+        presenter.setType(User.UserType.valueOf(results.getString("presenter_type").toUpperCase()));
+        presenter.setFirstName(results.getString("presenter_first_name"));
+        presenter.setLastName(results.getString("presenter_last_name"));
+        presenter.setEmail(results.getString("presenter_email"));
 
         Event event = new Event();
         event.setId(results.getInt("event_id"));
