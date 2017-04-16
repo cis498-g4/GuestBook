@@ -1,7 +1,5 @@
 package com.cis498.group4.util;
 
-import com.cis498.group4.models.User;
-
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
