@@ -21,6 +21,9 @@ public class UserDataAccess {
 
     private Connection connection;
 
+    private final String SELECT_ALL_ATTRIBUTES = "SELECT u.`user_id`, ut.`user_type`, u.`first_name`, u.`last_name`, " +
+            "u.`email` FROM `user` u INNER JOIN `user_type` ut ON u.`user_type_id` = ut.`user_type_id`";
+
     public UserDataAccess() {
         this.connection = DbConn.getConnection();
     }
@@ -36,9 +39,7 @@ public class UserDataAccess {
         try {
             // Set id parameter and execute SQL statement
             // NOTE: passwords are stored in the DB as SHA-256 hashes
-            String sql = "SELECT u.`user_id`, ut.`user_type`, u.`first_name`, u.`last_name`, u.`email` " +
-                         "FROM `user` u INNER JOIN `user_type` ut ON u.`user_type_id` = ut.`user_type_id` " +
-                         "WHERE `user_id` = ?";
+            String sql = SELECT_ALL_ATTRIBUTES + " WHERE `user_id` = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             ResultSet results = preparedStatement.executeQuery();
@@ -66,8 +67,7 @@ public class UserDataAccess {
 
         try {
             // Execute SQL statement - no parameters, so no need to prepare
-            String sql = "SELECT u.`user_id`, ut.`user_type`, u.`first_name`, u.`last_name`, u.`email` " +
-                         "FROM `user` u INNER JOIN `user_type` ut ON u.`user_type_id` = ut.`user_type_id`";
+            String sql = SELECT_ALL_ATTRIBUTES;
             Statement statement = connection.createStatement();
             ResultSet results = statement.executeQuery(sql);
 
@@ -96,9 +96,7 @@ public class UserDataAccess {
 
         try {
             // Execute SQL statement - no parameters, so no need to prepare
-            String sql = "SELECT u.`user_id`, ut.`user_type`, u.`first_name`, u.`last_name`, u.`email` " +
-                         "FROM `user` u INNER JOIN `user_type` ut ON u.`user_type_id` = ut.`user_type_id` " +
-                         "WHERE u.`user_type_id` = 0";
+            String sql = SELECT_ALL_ATTRIBUTES + " WHERE u.`user_type_id` = 0";
             Statement statement = connection.createStatement();
             ResultSet results = statement.executeQuery(sql);
 

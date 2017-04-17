@@ -20,6 +20,13 @@ public class EventDataAccess {
 
     private Connection connection;
 
+    private final String SELECT_ALL_ATTRIBUTES = "SELECT e.`event_id`, e.`event_name`, e.`start_date_time`, " +
+            "e.`end_date_time`, u.`user_id`, ut.`user_type`, u.`first_name`, u.`last_name`, u.`email`, " +
+            "e.`registration_code`, e.`open_registration`, e.`mandatory_survey`, e.`capacity` " +
+            "FROM `event` e " +
+            "INNER JOIN `user` u ON e.`presenter_id` = u.`user_id` " +
+            "INNER JOIN `user_type` ut ON u.`user_type_id` = ut.`user_type_id`";
+
     public EventDataAccess() {
         this.connection = DbConn.getConnection();
     }
@@ -34,13 +41,7 @@ public class EventDataAccess {
 
         try {
             // Set id parameter and execute SQL statement
-            String sql = "SELECT e.`event_id`, e.`event_name`, e.`start_date_time`, e.`end_date_time`, u.`user_id`, " +
-                         "ut.`user_type`, u.`first_name`, u.`last_name`, u.`email`, e.`registration_code`, " +
-                         "e.`open_registration`, e.`mandatory_survey`, e.`capacity` " +
-                         "FROM `event` e " +
-                         "INNER JOIN `user` u ON e.`presenter_id` = u.`user_id` " +
-                         "INNER JOIN `user_type` ut ON u.`user_type_id` = ut.`user_type_id` " +
-                         "WHERE e.`event_id` = ?";
+            String sql = SELECT_ALL_ATTRIBUTES + " WHERE e.`event_id` = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             ResultSet results = preparedStatement.executeQuery();
@@ -68,12 +69,7 @@ public class EventDataAccess {
 
         try {
             // Execute SQL statement - no parameters, so no need to prepare
-            String sql = "SELECT e.`event_id`, e.`event_name`, e.`start_date_time`, e.`end_date_time`, u.`user_id`, " +
-                         "ut.`user_type`, u.`first_name`, u.`last_name`, u.`email`, e.`registration_code`, " +
-                         "e.`open_registration`, e.`mandatory_survey`, e.`capacity` " +
-                         "FROM `event` e " +
-                         "LEFT JOIN `user` u ON e.`presenter_id` = u.`user_id` " +
-                         "INNER JOIN `user_type` ut ON u.`user_type_id` = ut.`user_type_id`";
+            String sql = SELECT_ALL_ATTRIBUTES;
             Statement statement = connection.createStatement();
             ResultSet results = statement.executeQuery(sql);
 

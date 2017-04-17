@@ -24,6 +24,21 @@ public class SurveyDataAccess {
 
     private Connection connection;
 
+    private final String SELECT_ALL_ATTRIBUTES = "SELECT s.`survey_id`, u.`user_id`, ut.`user_type`, u.`first_name`, " +
+            "u.`last_name`, u.`email`, e.`event_id`, e.`event_name`, e.`start_date_time`, e.`end_date_time`, " +
+            "p.`user_id` AS 'presenter_id', pt.`user_type` AS 'presenter_type', " +
+            "p.`first_name` AS 'presenter_first_name', p.`last_name` AS 'presenter_last_name', " +
+            "p.`email` AS 'presenter_email', e.`open_registration`, e.`registration_code`, e.`mandatory_survey`, " +
+            "e.`capacity`, s.`submission_date_time`, s.`response_01`, s.`response_02`, s.`response_03`, " +
+            "s.`response_04`, s.`response_05`, s.`response_06`, s.`response_07`, s.`response_08`, s.`response_09`, " +
+            "s.`response_10` " +
+            "FROM `survey` s " +
+            "INNER JOIN `user` u ON s.`user_id` = u.`user_id` " +
+            "INNER JOIN `user_type` ut ON u.`user_type_id` = ut.`user_type_id` " +
+            "INNER JOIN `event` e ON s.`event_id` = e.`event_id` " +
+            "INNER JOIN `user` p ON e.`presenter_id` = p.`user_id` " +
+            "INNER JOIN `user_type` pt ON p.`user_type_id` = pt.`user_type_id`";
+
     public SurveyDataAccess() {
         this.connection = DbConn.getConnection();
     }
@@ -38,21 +53,7 @@ public class SurveyDataAccess {
 
         try {
             // Set id parameter and execute SQL statement
-            String sql = "SELECT s.`survey_id`, u.`user_id`, ut.`user_type`, u.`first_name`, u.`last_name`, " +
-                         "u.`email`, e.`event_id`, e.`event_name`, e.`start_date_time`, e.`end_date_time`, " +
-                         "p.`user_id` AS 'presenter_id', pt.`user_type` AS 'presenter_type', " +
-                         "p.`first_name` AS 'presenter_first_name', p.`last_name` AS 'presenter_last_name', " +
-                         "p.`email` AS 'presenter_email', e.`open_registration`, e.`registration_code`, " +
-                         "e.`mandatory_survey`, e.`capacity`, s.`submission_date_time`, s.`response_01`, " +
-                         "s.`response_02`, s.`response_03`, s.`response_04`, s.`response_05`, s.`response_06`, " +
-                         "s.`response_07`, s.`response_08`, s.`response_09`, s.`response_10` " +
-                         "FROM `survey` s " +
-                         "INNER JOIN `user` u ON s.`user_id` = u.`user_id` " +
-                         "INNER JOIN `user_type` ut ON u.`user_type_id` = ut.`user_type_id` " +
-                         "INNER JOIN `event` e ON s.`event_id` = e.`event_id` " +
-                         "INNER JOIN `user` p ON e.`presenter_id` = p.`user_id` " +
-                         "INNER JOIN `user_type` pt ON p.`user_type_id` = pt.`user_type_id` " +
-                         "WHERE s.`survey_id` = ?";
+            String sql = SELECT_ALL_ATTRIBUTES + " WHERE s.`survey_id` = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             ResultSet results = preparedStatement.executeQuery();
@@ -80,20 +81,7 @@ public class SurveyDataAccess {
 
         try {
             // Execute SQL statement - no parameters, so no need to prepare
-            String sql = "SELECT s.`survey_id`, u.`user_id`, ut.`user_type`, u.`first_name`, u.`last_name`, " +
-                         "u.`email`, e.`event_id`, e.`event_name`, e.`start_date_time`, e.`end_date_time`, " +
-                         "p.`user_id` AS 'presenter_id', pt.`user_type` AS 'presenter_type', " +
-                         "p.`first_name` AS 'presenter_first_name', p.`last_name` AS 'presenter_last_name', " +
-                         "p.`email` AS 'presenter_email', e.`open_registration`, e.`registration_code`, " +
-                         "e.`mandatory_survey`, e.`capacity`, s.`submission_date_time`, s.`response_01`, " +
-                         "s.`response_02`, s.`response_03`, s.`response_04`, s.`response_05`, s.`response_06`, " +
-                         "s.`response_07`, s.`response_08`, s.`response_09`, s.`response_10` " +
-                         "FROM `survey` s " +
-                         "INNER JOIN `user` u ON s.`user_id` = u.`user_id` " +
-                         "INNER JOIN `user_type` ut ON u.`user_type_id` = ut.`user_type_id` " +
-                         "INNER JOIN `event` e ON s.`event_id` = e.`event_id` " +
-                         "INNER JOIN `user` p ON e.`presenter_id` = p.`user_id` " +
-                         "INNER JOIN `user_type` pt ON p.`user_type_id` = pt.`user_type_id`";
+            String sql = SELECT_ALL_ATTRIBUTES;
             Statement statement = connection.createStatement();
             ResultSet results = statement.executeQuery(sql);
 
