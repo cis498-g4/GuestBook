@@ -32,9 +32,9 @@ public class EventDataAccess {
     }
 
     /**
-     * Retrieves a single row from the `event` table in the database
+     * Retrieves a single event from the database
      * @param id The ID of the row to retrieve
-     * @return Event object with the data from the row
+     * @return Event object with the data from the database
      */
     public Event getEvent(int id) {
         Event event = new Event();
@@ -61,8 +61,8 @@ public class EventDataAccess {
     }
 
     /**
-     * Retrieves all rows from `event` table in the database
-     * @return Event of User objects
+     * Retrieves all events from the database
+     * @return List of Event objects
      */
     public List<Event> getAllEvents() {
         List<Event> events = new ArrayList<Event>();
@@ -70,6 +70,34 @@ public class EventDataAccess {
         try {
             // Execute SQL statement - no parameters, so no need to prepare
             String sql = SELECT_ALL_ATTRIBUTES;
+            Statement statement = connection.createStatement();
+            ResultSet results = statement.executeQuery(sql);
+
+            // Store results in List of Events
+            while (results.next()) {
+                Event event = new Event();
+                setAttributes(event, results);
+                events.add(event);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+        return events;
+    }
+
+    /**
+     * Retrieves all events whose end times occur in the future
+     * @return List of Event objects
+     */
+    public List<Event> getFutureEvents() {
+        List<Event> events = new ArrayList<Event>();
+
+        try {
+            // Execute SQL
+            String sql = SELECT_ALL_ATTRIBUTES + " WHERE e.`end_date_time` > CURDATE()";
             Statement statement = connection.createStatement();
             ResultSet results = statement.executeQuery(sql);
 
