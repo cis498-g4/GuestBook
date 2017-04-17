@@ -7,7 +7,9 @@ import com.cis498.group4.util.DbConn;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The AttendanceDataAccess class facilitates operations on event attendance data,
@@ -43,6 +45,9 @@ public class AttendanceDataAccess {
         List<Attendance> attendanceRecords = new ArrayList<Attendance>();
 
         try {
+            // Get attendance counts
+            Map<Integer, Integer> attendanceCounts = getAttendanceCounts();
+
             // Set parameters and execute SQL
             String sql = SELECT_ALL_ATTRIBUTES;
             Statement statement = connection.createStatement();
@@ -51,7 +56,7 @@ public class AttendanceDataAccess {
             // Store results in list
             while (results.next()) {
                 Attendance attendance = new Attendance();
-                setAttributes(attendance, results);
+                setAttributes(attendance, attendanceCounts, results);
                 attendanceRecords.add(attendance);
             }
 
@@ -73,6 +78,9 @@ public class AttendanceDataAccess {
         List<Attendance> eventAttendance = new ArrayList<Attendance>();
 
         try {
+            // Get attendance counts
+            Map<Integer, Integer> attendanceCounts = getAttendanceCounts();
+
             // Set parameters and execute SQL
             String sql = SELECT_ALL_ATTRIBUTES + " WHERE a.`event_id` = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -82,7 +90,7 @@ public class AttendanceDataAccess {
             // Store results in list
             while (results.next()) {
                 Attendance attendance = new Attendance();
-                setAttributes(attendance, results);
+                setAttributes(attendance, attendanceCounts, results);
                 eventAttendance.add(attendance);
             }
 
@@ -104,6 +112,9 @@ public class AttendanceDataAccess {
         List<Attendance> userAttendance = new ArrayList<Attendance>();
 
         try {
+            // Get attendance counts
+            Map<Integer, Integer> attendanceCounts = getAttendanceCounts();
+
             // Set parameters and execute SQL
             String sql = SELECT_ALL_ATTRIBUTES + " WHERE a.`user_id` = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -113,7 +124,7 @@ public class AttendanceDataAccess {
             // Store results in list
             while (results.next()) {
                 Attendance attendance = new Attendance();
-                setAttributes(attendance, results);
+                setAttributes(attendance, attendanceCounts, results);
                 userAttendance.add(attendance);
             }
 
@@ -124,6 +135,53 @@ public class AttendanceDataAccess {
         }
 
         return userAttendance;
+    }
+
+    /**
+     * Gets a count of the total number of users associated with an event
+     * @param eventId
+     * @return
+     */
+    private int getAttendanceCount(int eventId) {
+        try {
+            String sql = "SELECT COUNT(`event_id`) AS 'count' FROM `event_attendance` WHERE `event_id` = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, eventId);
+            ResultSet results = preparedStatement.executeQuery();
+
+            if (results.next()) {
+                return results.getInt("count");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    /**
+     * Gets an attendance count for each event id
+     */
+    public Map<Integer, Integer> getAttendanceCounts() {
+        Map<Integer, Integer> attendanceCounts = new HashMap<Integer, Integer>();
+
+        try {
+            String sql = "SELECT DISTINCT `event_id` FROM `event_attendance`";
+            Statement statement = connection.createStatement();
+            ResultSet results = statement.executeQuery(sql);
+
+            while (results.next()) {
+                Integer key = results.getInt("event_id");
+                Integer value = getAttendanceCount(key);
+                attendanceCounts.put(key, value);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return attendanceCounts;
+
     }
 
     /**
@@ -196,7 +254,8 @@ public class AttendanceDataAccess {
      * @param attendance The Attendance object whose attributes to set
      * @param results The results set containing the data
      */
-    private void setAttributes(Attendance attendance, ResultSet results) throws SQLException, IllegalArgumentException {
+    private void setAttributes(Attendance attendance, Map<Integer, Integer> attendanceCounts, ResultSet results)
+            throws SQLException, IllegalArgumentException {
         User user = new User();
         user.setId(results.getInt("user_id"));
         user.setType(User.UserType.valueOf(results.getString("user_type").toUpperCase()));
@@ -221,6 +280,8 @@ public class AttendanceDataAccess {
         event.setRegistrationCode(results.getString("registration_code"));
         event.setMandatorySurvey(results.getBoolean("mandatory_survey"));
         event.setCapacity(results.getInt("capacity"));
+
+        event.setNumRegistered(attendanceCounts.get(event.getId()));
 
         attendance.setEvent(event);
         attendance.setUser(user);

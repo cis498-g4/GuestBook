@@ -18,6 +18,7 @@ public class Event implements Serializable {
     private boolean openRegistration;
     private boolean mandatorySurvey;
     private int capacity;
+    private int numRegistered;
 
     public Event() {
     }
@@ -94,4 +95,11 @@ public class Event implements Serializable {
         this.mandatorySurvey = mandatorySurvey;
     }
 
+    public int getNumRegistered() {
+        return numRegistered;
+    }
+
+    public void setNumRegistered(int numRegistered) {
+        this.numRegistered = numRegistered;
+    }
 }
