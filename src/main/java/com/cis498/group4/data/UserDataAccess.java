@@ -145,6 +145,33 @@ public class UserDataAccess {
     }
 
     /**
+     * Checks a user password by comparing its SHA hash to a stored hash
+     * @param password The password to compare
+     * @param user The user whose password is being checked
+     * @return true if the hashes match, otherwise false
+     */
+    public boolean checkPassword(String password, User user) {
+        try {
+            String storedHash = getUserPasswordHash(user);
+            String passHash = UserHelpers.shaHash(password);
+
+            if (passHash.equals(storedHash)) {
+                return true;
+            } else {
+                return false;
+            }
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+
+    }
+
+    /**
      * Inserts a new user into the `user` table in the database
      * @param user The User object to insert
      * @return 0 for success, SQL error code for DB failure, int < 0 for encryption failure

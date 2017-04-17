@@ -53,16 +53,9 @@ public class ChangePassword extends HttpServlet {
 
         String newPassword = request.getParameter("new-password");
         String oldPassword = request.getParameter("old-password");
-        String oldPasswordHash = "";
-
-        try {
-            oldPasswordHash = UserHelpers.shaHash(oldPassword);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
 
         // Attempt write to DB and respond to user
-        if (oldPasswordHash.equals(userData.getUserPasswordHash(user))) {
+        if (userData.checkPassword(oldPassword, user)) {
             // TODO: Validate password before commit (http://red.ht/2nMrGNu)
             if (true) {
                 int updateStatus = userData.updateUserPassword(user, newPassword);
