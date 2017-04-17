@@ -30,7 +30,6 @@ public class EventDataAccess {
      * @return Event object with the data from the row
      */
     public Event getEvent(int id) {
-        // TODO: Eliminate joins for ENUMs, just get the ordinal number
         Event event = new Event();
 
         try {
