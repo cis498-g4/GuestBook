@@ -155,7 +155,7 @@ public class SurveyDataAccess {
     }
 
     /**
-     * Sets the attributes of a User object based on the result set from a SQL query
+     * Sets the attributes of a Survey object based on the result set from a SQL query
      * @param survey The Survey whose attributes to set
      * @param results The results set containing the data
      */

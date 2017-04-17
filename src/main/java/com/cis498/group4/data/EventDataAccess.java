@@ -168,7 +168,7 @@ public class EventDataAccess {
     }
 
     /**
-     * Sets the attributes of a User object based on the result set from a SQL query
+     * Sets the attributes of a Event object based on the result set from a SQL query
      * @param event The Event whose attributes to set
      * @param results The results set containing the data
      */
