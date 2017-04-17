@@ -21,15 +21,6 @@ public class Survey implements Serializable {
     public Survey() {
     }
 
-    // TODO: Default constructor for testing. Remove for production.
-    public Survey(int id, User user, Event event, LocalDateTime submissionDateTime, Map<String, Integer> responses) {
-        this.id = id;
-        this.user = user;
-        this.event = event;
-        this.submissionDateTime = submissionDateTime;
-        this.responses = responses;
-    }
-
     public int getId() {
         return id;
     }
