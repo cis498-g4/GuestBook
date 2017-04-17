@@ -126,7 +126,6 @@ public class AttendanceDataAccess {
         return userAttendance;
     }
 
-
     /**
      * Creates a new event attendance entry in the database (effectively a new registration for a user for an event).
      * Uses default attendance status of NOT_ATTENDED
