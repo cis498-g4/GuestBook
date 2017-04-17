@@ -36,7 +36,6 @@ public class UserDataAccess {
         try {
             // Set id parameter and execute SQL statement
             // NOTE: passwords are stored in the DB as SHA-256 hashes
-            // TODO: Eliminate joins for ENUMs, just get the ordinal number
             String sql = "SELECT u.`user_id`, ut.`user_type`, u.`first_name`, u.`last_name`, u.`email` " +
                          "FROM `user` u INNER JOIN `user_type` ut ON u.`user_type_id` = ut.`user_type_id` " +
                          "WHERE `user_id` = ?";
@@ -98,7 +97,8 @@ public class UserDataAccess {
         try {
             // Execute SQL statement - no parameters, so no need to prepare
             String sql = "SELECT u.`user_id`, ut.`user_type`, u.`first_name`, u.`last_name`, u.`email` " +
-                    "FROM `user` u INNER JOIN `user_type` ut ON u.`user_type_id` = ut.`user_type_id` WHERE u.`user_type_id` = 0";
+                         "FROM `user` u INNER JOIN `user_type` ut ON u.`user_type_id` = ut.`user_type_id` " +
+                         "WHERE u.`user_type_id` = 0";
             Statement statement = connection.createStatement();
             ResultSet results = statement.executeQuery(sql);
 

@@ -36,9 +36,11 @@ public class EventDataAccess {
             // Set id parameter and execute SQL statement
             String sql = "SELECT e.`event_id`, e.`event_name`, e.`start_date_time`, e.`end_date_time`, u.`user_id`, " +
                          "ut.`user_type`, u.`first_name`, u.`last_name`, u.`email`, e.`registration_code`, " +
-                         "e.`open_registration`, e.`mandatory_survey`, e.`capacity` FROM `event` e INNER JOIN `user` " +
-                         "u ON e.`presenter_id` = u.`user_id` INNER JOIN `user_type` ut ON u.`user_type_id` = " +
-                         "ut.`user_type_id` WHERE e.`event_id` = ?";
+                         "e.`open_registration`, e.`mandatory_survey`, e.`capacity` " +
+                         "FROM `event` e " +
+                         "INNER JOIN `user` u ON e.`presenter_id` = u.`user_id` " +
+                         "INNER JOIN `user_type` ut ON u.`user_type_id` = ut.`user_type_id` " +
+                         "WHERE e.`event_id` = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             ResultSet results = preparedStatement.executeQuery();
@@ -68,9 +70,10 @@ public class EventDataAccess {
             // Execute SQL statement - no parameters, so no need to prepare
             String sql = "SELECT e.`event_id`, e.`event_name`, e.`start_date_time`, e.`end_date_time`, u.`user_id`, " +
                          "ut.`user_type`, u.`first_name`, u.`last_name`, u.`email`, e.`registration_code`, " +
-                         "e.`open_registration`, e.`mandatory_survey`, e.`capacity` FROM `event` e LEFT JOIN `user` " +
-                         "u ON e.`presenter_id` = u.`user_id` INNER JOIN `user_type` ut ON u.`user_type_id` = " +
-                         "ut.`user_type_id`";
+                         "e.`open_registration`, e.`mandatory_survey`, e.`capacity` " +
+                         "FROM `event` e " +
+                         "LEFT JOIN `user` u ON e.`presenter_id` = u.`user_id` " +
+                         "INNER JOIN `user_type` ut ON u.`user_type_id` = ut.`user_type_id`";
             Statement statement = connection.createStatement();
             ResultSet results = statement.executeQuery(sql);
 
@@ -126,9 +129,11 @@ public class EventDataAccess {
     public int updateEvent(Event event) {
         try {
             // Set parameters and execute SQL
-            String sql = "UPDATE `event` SET `event_name` = ?, `start_date_time` = ?, `end_date_time` = ?, " +
-                         "`presenter_id` = ?, `registration_code` = ?, `open_registration` = ?, `mandatory_survey` = " +
-                         "?, `capacity` = ? WHERE `event_id` = ?";
+            String sql = "UPDATE `event` " +
+                         "SET `event_name` = ?, `start_date_time` = ?, `end_date_time` = ?, `presenter_id` = ?, " +
+                         "`registration_code` = ?, `open_registration` = ?, `mandatory_survey` = ?, " +
+                         "`capacity` = ? " +
+                         "WHERE `event_id` = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, event.getName());
             preparedStatement.setString(2,
