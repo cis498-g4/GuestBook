@@ -68,7 +68,7 @@ This is useful for building a Web Archive (WAR) for final deployment to a Servle
 ## Requirements
 - Java  (1.8)
 - Apache Maven (3.3.9)
-- Apache Tomcat (8.5)
+- Apache Tomcat (8.5.12) _This does not work with 8.5.13_
 
 ## Deploying
 1. Clone or download and unzip the repository to the directory of your choice (the "project root")
