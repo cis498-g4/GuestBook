@@ -29,7 +29,7 @@ public class UserDataAccess {
     }
 
     /**
-     * Retrieves a single row from the `user` table in the database
+     * Retrieves a single user from the database
      * @param id The ID of the row to retrieve
      * @return User object with the data from the row
      */
@@ -38,8 +38,7 @@ public class UserDataAccess {
 
         try {
             // Set id parameter and execute SQL statement
-            // NOTE: passwords are stored in the DB as SHA-256 hashes
-            String sql = SELECT_ALL_ATTRIBUTES + " WHERE `user_id` = ?";
+            String sql = SELECT_ALL_ATTRIBUTES + " WHERE u.`user_id` = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             ResultSet results = preparedStatement.executeQuery();
@@ -59,7 +58,37 @@ public class UserDataAccess {
     }
 
     /**
-     * Retrieves all rows from `user` table in the database
+     * Retrieves a single user by their email address.
+     * This assumes that a unique constraint has been placed on the email column.
+     * @param email The email address of the user to retrieve
+     * @return User object
+     */
+    public User getUserByEmail(String email) {
+        User user = new User();
+
+        try {
+            // Set id parameter and execute SQL statement
+            String sql = SELECT_ALL_ATTRIBUTES + " WHERE u.`email` = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, email);
+            ResultSet results = preparedStatement.executeQuery();
+
+            // Store results in User object
+            if (results.next()) {
+                setAttributes(user, results);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+
+        return user;
+    }
+
+    /**
+     * Retrieves all users in the database
      * @return List of User objects
      */
     public List<User> getAllUsers() {
