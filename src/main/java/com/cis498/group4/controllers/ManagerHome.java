@@ -17,7 +17,7 @@ import java.io.IOException;
  * The ManagerHome servlet represents the home page for the management console.
  * If the user is logged in, it displays a landing page. Otherwise, it redirects him/her to login.
  */
-@WebServlet(name = "ManagerHome", urlPatterns = "/manager/home")
+@WebServlet(name = "ManagerHome", urlPatterns = {"/manager/home", "/manager", "/manager/"})
 public class ManagerHome extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
