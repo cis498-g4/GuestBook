@@ -1,11 +1,11 @@
-INSERT INTO `guestbookdb`.`user`(`user_type_id`, `first_name`, `last_name`, `email`, `password`) VALUES (0, 'Perwaize', 'Ahmed', 'PerwaizeAhmed2013@u.northwestern.edu', '382d65224bda884212c3f86b8b85291cdbe653b9'); -- hash value of 'cis498'
+INSERT INTO `guestbookdb`.`user`(`user_type_id`, `first_name`, `last_name`, `email`, `password`) VALUES (0, 'Perwaize', 'Ahmed', 'PerwaizeAhmed2013@u.northwestern.edu', '382d65224bda884212c3f86b8b85291cdbe653b9'); -- cis498
 INSERT INTO `guestbookdb`.`user`(`user_type_id`, `first_name`, `last_name`, `email`, `password`) VALUES (0, 'Matt', 'Granum', 'MatthewGranum2017@u.northwestern.edu', '382d65224bda884212c3f86b8b85291cdbe653b9');
 INSERT INTO `guestbookdb`.`user`(`user_type_id`, `first_name`, `last_name`, `email`, `password`) VALUES (0, 'Scott', 'Langnas', 'ScottLangnas2018@u.northwestern.edu', '382d65224bda884212c3f86b8b85291cdbe653b9');
 INSERT INTO `guestbookdb`.`user`(`user_type_id`, `first_name`, `last_name`, `email`, `password`) VALUES (0, 'Mike', 'Molenda', 'm-molenda@northwestern.edu', '382d65224bda884212c3f86b8b85291cdbe653b9');
-INSERT INTO `guestbookdb`.`user`(`user_type_id`, `first_name`, `last_name`, `email`, `password`) VALUES (1, 'Albert', 'Einstein', 'albert@cis498.com', '382d65224bda884212c3f86b8b85291cdbe653b9');
-INSERT INTO `guestbookdb`.`user`(`user_type_id`, `first_name`, `last_name`, `email`, `password`) VALUES (1, 'Marie', 'Curie', 'marie@cis498.com', '382d65224bda884212c3f86b8b85291cdbe653b9');
-INSERT INTO `guestbookdb`.`user`(`user_type_id`, `first_name`, `last_name`, `email`, `password`) VALUES (1, 'Isaac', 'Newton', 'isaac@cis498.com', '382d65224bda884212c3f86b8b85291cdbe653b9');
-INSERT INTO `guestbookdb`.`user`(`user_type_id`, `first_name`, `last_name`, `email`, `password`) VALUES (1, 'Stephen', 'Hawking', 'stephen@cis498.com', '382d65224bda884212c3f86b8b85291cdbe653b9');
+INSERT INTO `guestbookdb`.`user`(`user_type_id`, `first_name`, `last_name`, `email`, `password`) VALUES (1, 'Albert', 'Einstein', 'albert@cis498.com', '6367c48dd193d56ea7b0baad25b19455e529f5ee'); -- abc123
+INSERT INTO `guestbookdb`.`user`(`user_type_id`, `first_name`, `last_name`, `email`, `password`) VALUES (1, 'Marie', 'Curie', 'marie@cis498.com', '6367c48dd193d56ea7b0baad25b19455e529f5ee');
+INSERT INTO `guestbookdb`.`user`(`user_type_id`, `first_name`, `last_name`, `email`, `password`) VALUES (1, 'Isaac', 'Newton', 'isaac@cis498.com', '6367c48dd193d56ea7b0baad25b19455e529f5ee');
+INSERT INTO `guestbookdb`.`user`(`user_type_id`, `first_name`, `last_name`, `email`, `password`) VALUES (1, 'Stephen', 'Hawking', 'stephen@cis498.com', '6367c48dd193d56ea7b0baad25b19455e529f5ee');
 
 
 INSERT INTO `guestbookdb`.`event`(`event_name`, `start_date_time`, `end_date_time`, `presenter_id`, `registration_code`, `open_registration`, `mandatory_survey`, `capacity`) VALUES ('Building Webpages', '2017-07-01 10:00:00', '2017-07-01 11:00:00', 1, 'WEBD1111', TRUE, TRUE, 100);
