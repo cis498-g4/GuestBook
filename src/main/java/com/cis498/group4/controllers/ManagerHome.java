@@ -29,7 +29,7 @@ public class ManagerHome extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession();
-        User sessionUser = SessionHelpers.getSessionUser(session);
+        User sessionUser = (User) session.getAttribute("sessionUser");
         String url;
 
         // If user logged in, direct to landing page, otherwise to login

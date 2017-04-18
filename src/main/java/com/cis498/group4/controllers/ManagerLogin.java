@@ -34,7 +34,7 @@ public class ManagerLogin extends HttpServlet {
         String pageTitle;
 
         HttpSession session = request.getSession();
-        User sessionUser = SessionHelpers.getSessionUser(session);
+        User sessionUser = (User) session.getAttribute("sessionUser");
 
         // If user logged in, direct to home, otherwise to login form
         if (sessionUser != null) {
@@ -79,7 +79,7 @@ public class ManagerLogin extends HttpServlet {
             String password = request.getParameter("password");
 
             if (userData.checkPassword(password, user)) {
-                SessionHelpers.setSessionUser(session, user);
+                session.setAttribute("sessionUser", user);
 
                 url = "/manager/home";
                 String userType = user.getType() == User.UserType.ORGANIZER ? "Event Organizer" : "Guest";

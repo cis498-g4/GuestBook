@@ -9,22 +9,4 @@ import javax.servlet.http.HttpSession;
  */
 public class SessionHelpers {
 
-    /**
-     * Retrieves the user info stored in the current session
-     * @param session The current session
-     * @return The user stored in the session
-     */
-    public static User getSessionUser(HttpSession session) {
-        return (User) session.getAttribute("sessionUser");
-    }
-
-    /**
-     * Stores the specified user in the session
-     * @param session The current session
-     * @param user The user to store
-     */
-    public static void setSessionUser(HttpSession session, User user) {
-        session.setAttribute("sessionUser", user);
-    }
-
 }
