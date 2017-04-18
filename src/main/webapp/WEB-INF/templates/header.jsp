@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<jsp:include page="nav-organizer.jsp"></jsp:include>
+<jsp:include page="nav.jsp"></jsp:include>
 
 <div>${statusMessage}</div>
 
