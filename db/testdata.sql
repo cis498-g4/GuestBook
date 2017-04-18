@@ -12,6 +12,7 @@ INSERT INTO `guestbookdb`.`event`(`event_name`, `start_date_time`, `end_date_tim
 INSERT INTO `guestbookdb`.`event`(`event_name`, `start_date_time`, `end_date_time`, `presenter_id`, `registration_code`, `open_registration`, `mandatory_survey`, `capacity`) VALUES ('Web App Hosting', '2017-07-02 10:00:00', '2017-07-02 11:00:00', 2, 'WEBD2222', TRUE, FALSE, 75);
 INSERT INTO `guestbookdb`.`event`(`event_name`, `start_date_time`, `end_date_time`, `presenter_id`, `registration_code`, `open_registration`, `mandatory_survey`, `capacity`) VALUES ('MySQL Databases', '2017-07-01 13:00:00', '2017-07-01 14:00:00', 3, 'DATA3333', FALSE, FALSE, 25);
 INSERT INTO `guestbookdb`.`event`(`event_name`, `start_date_time`, `end_date_time`, `presenter_id`, `registration_code`, `open_registration`, `mandatory_survey`, `capacity`) VALUES ('Coding in Java', '2017-07-02 13:00:00', '2017-07-02 14:00:00', 4, 'JAVA4444', FALSE, FALSE, 20);
+INSERT INTO `guestbookdb`.`event`(`event_name`, `start_date_time`, `end_date_time`, `presenter_id`, `registration_code`, `open_registration`, `mandatory_survey`, `capacity`) VALUES ('Ancient History', '2016-01-01 13:00:00', '2016-01-01 14:00:00', 4, 'HIST5555', FALSE, FALSE, 100);
 
 
 INSERT INTO `guestbookdb`.`event_attendance`(`user_id`, `event_id`, `attendance_status_id`) VALUES (5, 1, 2);
