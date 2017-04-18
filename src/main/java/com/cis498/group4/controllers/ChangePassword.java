@@ -46,7 +46,7 @@ public class ChangePassword extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String url = "/manager/view-user";
+        String url;
         String statusMessage;
         String error;
         String pageTitle;
@@ -61,22 +61,16 @@ public class ChangePassword extends HttpServlet {
         // Old password incorrect? Try again!
         if (!userData.checkPassword(oldPassword, user)) {
             url = String.format("/WEB-INF/views/change-password.jsp?id=%s", user.getId());
+            pageTitle = String.format("Change password for %s %s", user.getFirstName(), user.getLastName());
             statusMessage = "ERROR: Old password entered incorrectly!";
             error = "oldpass";
-            request.setAttribute("error", error);
-            request.setAttribute("user", user);
-            pageTitle = String.format("Change password for %s %s", user.getFirstName(), user.getLastName());
-            request.setAttribute("pageTitle", pageTitle);
 
         // New passwords don't match? Try again!
         } else if (!newPassword.equals(repeatPassword)) {
             url = String.format("/WEB-INF/views/change-password.jsp?id=%s", user.getId());
+            pageTitle = String.format("Change password for %s %s", user.getFirstName(), user.getLastName());
             statusMessage = "ERROR: New password fields do not match!";
             error = "match";
-            request.setAttribute("error", error);
-            request.setAttribute("user", user);
-            pageTitle = String.format("Change password for %s %s", user.getFirstName(), user.getLastName());
-            request.setAttribute("pageTitle", pageTitle);
 
         // Attempt write to DB and respond to user
         } else {
@@ -85,17 +79,32 @@ public class ChangePassword extends HttpServlet {
                 int updateStatus = userData.updateUserPassword(user, newPassword);
 
                 if (updateStatus == 0) {
+                    url = "/manager/view-user";
+                    pageTitle = String.format("Info for user %s %s", user.getFirstName(), user.getLastName());
                     statusMessage = "Password updated successfully.";
+                    error = "";
+
                 } else {
+                    url = String.format("/WEB-INF/views/change-password.jsp?id=%s", user.getId());
+                    pageTitle = String.format("Change password for %s %s", user.getFirstName(), user.getLastName());
                     statusMessage = "ERROR: Password update failed!";
+                    error = "db";
+
                 }
 
             } else {
+                url = String.format("/WEB-INF/views/change-password.jsp?id=%s", user.getId());
+                pageTitle = String.format("Change password for %s %s", user.getFirstName(), user.getLastName());
                 statusMessage = "ERROR: Invalid data entered for user password!";
+                error = "invalid";
+
             }
         }
 
         request.setAttribute("statusMessage", statusMessage);
+        request.setAttribute("user", user);
+        request.setAttribute("pageTitle", pageTitle);
+        request.setAttribute("error", error);
 
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
