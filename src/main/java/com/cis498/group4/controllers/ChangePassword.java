@@ -64,6 +64,7 @@ public class ChangePassword extends HttpServlet {
             pageTitle = String.format("Change password for %s %s", user.getFirstName(), user.getLastName());
             statusMessage = "ERROR: Old password entered incorrectly!";
             error = "oldpass";
+            request.setAttribute("error", error);
 
         // New passwords don't match? Try again!
         } else if (!newPassword.equals(repeatPassword)) {
@@ -71,6 +72,7 @@ public class ChangePassword extends HttpServlet {
             pageTitle = String.format("Change password for %s %s", user.getFirstName(), user.getLastName());
             statusMessage = "ERROR: New password fields do not match!";
             error = "match";
+            request.setAttribute("error", error);
 
         // Attempt write to DB and respond to user
         } else {
@@ -82,13 +84,13 @@ public class ChangePassword extends HttpServlet {
                     url = "/manager/view-user";
                     pageTitle = String.format("Info for user %s %s", user.getFirstName(), user.getLastName());
                     statusMessage = "Password updated successfully.";
-                    error = "";
 
                 } else {
                     url = String.format("/WEB-INF/views/change-password.jsp?id=%s", user.getId());
                     pageTitle = String.format("Change password for %s %s", user.getFirstName(), user.getLastName());
                     statusMessage = "ERROR: Password update failed!";
                     error = "db";
+                    request.setAttribute("error", error);
 
                 }
 
@@ -97,14 +99,14 @@ public class ChangePassword extends HttpServlet {
                 pageTitle = String.format("Change password for %s %s", user.getFirstName(), user.getLastName());
                 statusMessage = "ERROR: Invalid data entered for user password!";
                 error = "invalid";
+                request.setAttribute("error", error);
 
             }
         }
 
+        request.setAttribute("pageTitle", pageTitle);
         request.setAttribute("statusMessage", statusMessage);
         request.setAttribute("user", user);
-        request.setAttribute("pageTitle", pageTitle);
-        request.setAttribute("error", error);
 
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
