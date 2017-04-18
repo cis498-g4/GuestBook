@@ -11,7 +11,7 @@
         <th>Type</th>
     </tr>
 
-    <c:if test="${events.isEmpty()}">
+    <c:if test="${users.isEmpty()}">
         <tr>
             <td colspan="11" align="center">No users found</td>
         </tr>
