@@ -6,12 +6,20 @@
 <!-- TODO: HTML / JS form validation -->
 <form action="change-password" method="post">
     <label for="old-password">Old Password:</label>
-    <input type="password" name="old-password" id="old-password" required><br>
-    <hr>
+    <input type="password" name="old-password" id="old-password" required>
+    <c:if test="${error.equals('oldpass')}">
+        Please enter the user's current password
+    </c:if>
+    <br>
+    <br>
     <label for="new-password">New Password:</label>
     <input type="password" name="new-password" id="new-password" required><br>
-    <label for="repeat-new-password">Repeat New Password:</label>
-    <input type="password" name="repeat-new-password" id="repeat-new-password" required><br>
+    <label for="repeat-password">Repeat New Password:</label>
+    <input type="password" name="repeat-password" id="repeat-password" required>
+    <c:if test="${error.equals('match')}">
+        Password fields must match
+    </c:if>
+    <br>
     <input type="hidden" name="id" value="${user.id}"><br>
     <input type="submit" value="change password">
 </form>

@@ -44,18 +44,40 @@ public class ChangePassword extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String url = String.format("/manager/view-user?id=%s", request.getParameter("id"));
+        String url = "/manager/view-user";
         String statusMessage;
+        String error;
+        String pageTitle;
 
         // Create new user with id from form information
-        User user = new User();
-        user.setId(Integer.parseInt(request.getParameter("id")));
+        User user = userData.getUser(Integer.parseInt(request.getParameter("id")));
 
-        String newPassword = request.getParameter("new-password");
         String oldPassword = request.getParameter("old-password");
+        String newPassword = request.getParameter("new-password");
+        String repeatPassword = request.getParameter("repeat-password");
+
+        // Old password incorrect? Try again!
+        if (!userData.checkPassword(oldPassword, user)) {
+            url = String.format("/WEB-INF/views/change-password.jsp?id=%s", user.getId());
+            statusMessage = "ERROR: Old password entered incorrectly!";
+            error = "oldpass";
+            request.setAttribute("error", error);
+            request.setAttribute("user", user);
+            pageTitle = String.format("Change password for %s %s", user.getFirstName(), user.getLastName());
+            request.setAttribute("pageTitle", pageTitle);
+
+        // New passwords don't match? Try again!
+        } else if (!newPassword.equals(repeatPassword)) {
+            url = String.format("/WEB-INF/views/change-password.jsp?id=%s", user.getId());
+            statusMessage = "ERROR: New password fields do not match!";
+            error = "match";
+            request.setAttribute("error", error);
+            request.setAttribute("user", user);
+            pageTitle = String.format("Change password for %s %s", user.getFirstName(), user.getLastName());
+            request.setAttribute("pageTitle", pageTitle);
 
         // Attempt write to DB and respond to user
-        if (userData.checkPassword(oldPassword, user)) {
+        } else {
             // TODO: Validate password before commit (http://red.ht/2nMrGNu)
             if (true) {
                 int updateStatus = userData.updateUserPassword(user, newPassword);
@@ -69,9 +91,6 @@ public class ChangePassword extends HttpServlet {
             } else {
                 statusMessage = "ERROR: Invalid data entered for user password!";
             }
-        } else {
-            url = String.format("/manager/view-user?id=%s", request.getParameter("id"));
-            statusMessage = "ERROR: Old password entered incorrectly!";
         }
 
         request.setAttribute("statusMessage", statusMessage);
