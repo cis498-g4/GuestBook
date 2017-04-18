@@ -47,9 +47,9 @@ public class ChangePassword extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String url;
+        String pageTitle;
         String statusMessage;
         String error;
-        String pageTitle;
 
         // Create new user with id from form information
         User user = userData.getUser(Integer.parseInt(request.getParameter("id")));
