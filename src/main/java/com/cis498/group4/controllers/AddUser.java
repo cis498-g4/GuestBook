@@ -14,7 +14,7 @@ import java.io.IOException;
 /**
  * The AddUser servlet responds to requests to add a new user.
  */
-@WebServlet(name = "AddUser", urlPatterns="/manager/add-user")
+@WebServlet(name = "AddUser", urlPatterns = "/manager/add-user")
 public class AddUser extends HttpServlet {
     private static final long serialVersionUID = 1L;
 

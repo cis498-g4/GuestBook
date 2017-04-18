@@ -16,7 +16,7 @@ import java.security.NoSuchAlgorithmException;
 /**
  * The ChangePassword servlet responds to requests to change a user password.
  */
-@WebServlet(name = "ChangePassword", urlPatterns="/manager/change-password")
+@WebServlet(name = "ChangePassword", urlPatterns = "/manager/change-password")
 public class ChangePassword extends HttpServlet {
     private static final long serialVersionUID = 1L;
 

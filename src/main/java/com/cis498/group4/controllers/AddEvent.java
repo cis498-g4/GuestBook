@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * The AddEvent servlet responds to requests to add a new event.
  */
-@WebServlet(name = "AddEvent", urlPatterns="/manager/add-event")
+@WebServlet(name = "AddEvent", urlPatterns = "/manager/add-event")
 public class AddEvent extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
