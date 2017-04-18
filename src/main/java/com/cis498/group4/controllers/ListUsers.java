@@ -2,6 +2,7 @@ package com.cis498.group4.controllers;
 
 import com.cis498.group4.data.UserDataAccess;
 import com.cis498.group4.models.User;
+import com.cis498.group4.util.SessionHelpers;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -29,6 +31,13 @@ public class ListUsers extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        // Restrict access by non-Organizers
+        if (!SessionHelpers.checkOrganizer(request.getSession())) {
+            response.sendError(
+                    HttpServletResponse.SC_FORBIDDEN, "You do not have permission to access this resource");
+            return;
+        }
 
         String url = "/WEB-INF/views/list-users.jsp";
 

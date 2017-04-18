@@ -4,6 +4,7 @@ import com.cis498.group4.data.SurveyDataAccess;
 import com.cis498.group4.data.UserDataAccess;
 import com.cis498.group4.models.Survey;
 import com.cis498.group4.models.User;
+import com.cis498.group4.util.SessionHelpers;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -30,6 +31,13 @@ public class ListSurveys extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        // Restrict access by non-Organizers
+        if (!SessionHelpers.checkOrganizer(request.getSession())) {
+            response.sendError(
+                    HttpServletResponse.SC_FORBIDDEN, "You do not have permission to access this resource");
+            return;
+        }
 
         String url = "/WEB-INF/views/list-surveys.jsp";
 

@@ -2,6 +2,7 @@ package com.cis498.group4.controllers;
 
 import com.cis498.group4.data.UserDataAccess;
 import com.cis498.group4.models.User;
+import com.cis498.group4.util.SessionHelpers;
 import com.cis498.group4.util.UserHelpers;
 
 import javax.servlet.RequestDispatcher;
@@ -30,6 +31,13 @@ public class ChangePassword extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        // Restrict access if not logged in
+        if (!SessionHelpers.checkLogin(request.getSession())) {
+            response.sendError(
+                    HttpServletResponse.SC_FORBIDDEN, "You must login to access this resource");
+            return;
+        }
+
         String url = "/WEB-INF/views/change-password.jsp";
 
         User user = userData.getUser(Integer.parseInt(request.getParameter("id")));
@@ -45,6 +53,13 @@ public class ChangePassword extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        // Restrict access if not logged in
+        if (!SessionHelpers.checkLogin(request.getSession())) {
+            response.sendError(
+                    HttpServletResponse.SC_FORBIDDEN, "You must login to access this resource");
+            return;
+        }
 
         String url;
         String pageTitle;
