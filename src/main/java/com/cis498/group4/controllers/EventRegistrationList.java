@@ -25,13 +25,11 @@ public class EventRegistrationList extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     private EventDataAccess eventData;
-    private UserDataAccess userData;
     private AttendanceDataAccess attendanceData;
 
     public EventRegistrationList() {
         super();
         eventData = new EventDataAccess();
-        userData = new UserDataAccess();
         attendanceData = new AttendanceDataAccess();
     }
 
