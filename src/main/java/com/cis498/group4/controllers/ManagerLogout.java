@@ -36,6 +36,7 @@ public class ManagerLogout extends HttpServlet {
         String statusMessage = "Successfully logged out";
 
         request.setAttribute("pageTitle", pageTitle);
+        request.setAttribute("statusMessage", statusMessage);
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 
