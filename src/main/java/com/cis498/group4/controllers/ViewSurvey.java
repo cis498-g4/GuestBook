@@ -28,7 +28,7 @@ public class ViewSurvey extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String url = "/views/view-survey.jsp";
+        String url = "/WEB-INF/views/view-survey.jsp";
 
         Survey survey = surveyData.getSurvey(Integer.parseInt(request.getParameter("id")));
         request.setAttribute("survey", survey);

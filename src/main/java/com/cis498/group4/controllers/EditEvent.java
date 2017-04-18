@@ -33,7 +33,7 @@ public class EditEvent extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String url = "/views/edit-event.jsp";
+        String url = "/WEB-INF/views/edit-event.jsp";
 
         Event event = eventData.getEvent(Integer.parseInt(request.getParameter("id")));
         request.setAttribute("event", event);

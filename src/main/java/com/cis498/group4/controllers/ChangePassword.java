@@ -29,7 +29,7 @@ public class ChangePassword extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String url = "/views/change-password.jsp";
+        String url = "/WEB-INF/views/change-password.jsp";
 
         User user = userData.getUser(Integer.parseInt(request.getParameter("id")));
         request.setAttribute("user", user);

@@ -1,9 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<jsp:include page="/templates/header.jsp"></jsp:include>
-
-<p>The following user will be <strong>permanently</strong> removed:</p>
+<jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
 <table>
     <tr>
@@ -24,20 +22,23 @@
     </tr>
 </table>
 
-<form action="delete-user" method="post">
-    <p>
-        This user will no longer be able to sign in or register for events. Are you sure?<br>
-        <input type="hidden" name="id" value="${user.id}"><br>
-        <input type="submit" value="confirm delete">
-        <button onclick="history.go(-1)">cancel</button>
-    </p>
-</form>
-
 <hr>
 
-<button onclick="history.go(-1)">back</button>
+<table>
+    <tr>
+        <td><button onclick="history.go(-1)">back</button></td>
+
+        <c:forTokens items="edit,delete" delims="," var="action">
+        <td>
+            <form action="${action}-user">
+                <input type="hidden" name="id" value="${user.id}">
+                <input type="submit" value="${action}">
+            </form>
+        </td>
+        </c:forTokens>
+
+    </tr>
+</table>
 
 </body>
 </html>
-
-

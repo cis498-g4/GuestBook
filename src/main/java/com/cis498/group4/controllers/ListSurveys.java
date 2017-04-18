@@ -30,7 +30,7 @@ public class ListSurveys extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String url = "/views/list-surveys.jsp";
+        String url = "/WEB-INF/views/list-surveys.jsp";
 
         List<Survey> surveys = surveyData.getAllSurveys();
         request.setAttribute("surveys", surveys);

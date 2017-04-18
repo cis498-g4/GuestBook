@@ -36,7 +36,7 @@ public class EventRegistrationList extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String url = "/views/event-reg-list.jsp";
+        String url = "/WEB-INF/views/event-reg-list.jsp";
         String pageTitle = "Upcoming Events";
 
         List<Event> futureEvents = eventData.getFutureEvents();

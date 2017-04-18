@@ -29,7 +29,7 @@ public class DeleteEvent extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String url = "/views/delete-event.jsp";
+        String url = "/WEB-INF/views/delete-event.jsp";
 
         Event event = eventData.getEvent(Integer.parseInt(request.getParameter("id")));
         request.setAttribute("event", event);

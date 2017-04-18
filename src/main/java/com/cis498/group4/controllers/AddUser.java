@@ -27,7 +27,7 @@ public class AddUser extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String url = "/views/add-user.jsp";
+        String url = "/WEB-INF/views/add-user.jsp";
         String pageTitle = "Add new user";
         request.setAttribute("pageTitle", pageTitle);
         RequestDispatcher view = request.getRequestDispatcher(url);

@@ -29,7 +29,7 @@ public class EditUser extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String url = "/views/edit-user.jsp";
+        String url = "/WEB-INF/views/edit-user.jsp";
 
         User user = userData.getUser(Integer.parseInt(request.getParameter("id")));
         request.setAttribute("user", user);

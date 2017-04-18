@@ -28,7 +28,7 @@ public class DeleteUser extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String url = "/views/delete-user.jsp";
+        String url = "/WEB-INF/views/delete-user.jsp";
 
         User user = userData.getUser(Integer.parseInt(request.getParameter("id")));
         request.setAttribute("user", user);

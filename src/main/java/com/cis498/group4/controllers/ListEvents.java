@@ -30,7 +30,7 @@ public class ListEvents extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String url = "/views/list-events.jsp";
+        String url = "/WEB-INF/views/list-events.jsp";
 
         List<Event> events = eventData.getAllEvents();
         request.setAttribute("events", events);

@@ -33,7 +33,7 @@ public class AddEvent extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String url = "/views/add-event.jsp";
+        String url = "/WEB-INF/views/add-event.jsp";
         String pageTitle = "Add new event";
 
         List<User> organizers = userData.getOrganizers();

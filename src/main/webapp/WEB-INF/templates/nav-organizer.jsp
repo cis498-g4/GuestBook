@@ -1,5 +1,5 @@
 <nav>
-    <a href="#"><img src="${pageContext.request.contextPath}/img/guestbook.png" width="128"></a>
+    <a href="home"><img src="${pageContext.request.contextPath}/img/guestbook.png" width="128"></a>
     <a href="list-users">Manage Users</a> |
     <a href="list-events">Manage Events</a> |
     <a href="list-surveys">View Surveys</a> |

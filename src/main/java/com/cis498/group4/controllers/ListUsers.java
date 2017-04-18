@@ -29,7 +29,7 @@ public class ListUsers extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String url = "/views/list-users.jsp";
+        String url = "/WEB-INF/views/list-users.jsp";
 
         List<User> users = userData.getAllUsers();
         request.setAttribute("users", users);

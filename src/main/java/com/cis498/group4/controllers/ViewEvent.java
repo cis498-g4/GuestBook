@@ -27,7 +27,7 @@ public class ViewEvent extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String url = "/views/view-event.jsp";
+        String url = "/WEB-INF/views/view-event.jsp";
 
         Event event = eventData.getEvent(Integer.parseInt(request.getParameter("id")));
         request.setAttribute("event", event);
