@@ -66,7 +66,7 @@ public class ManagerLogin extends HttpServlet {
         // Get user by email. If not found, incorrect email, try again
         User user = userData.getUserByEmail(request.getParameter("email"));
 
-        if (user == null) {
+        if (user.getEmail() == null) {
             url = "/WEB-INF/views/manager-login.jsp";
             pageTitle = "Retry login";
             statusMessage = "ERROR: Incorrect email address!";

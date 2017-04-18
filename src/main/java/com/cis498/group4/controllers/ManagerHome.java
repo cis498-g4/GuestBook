@@ -43,7 +43,7 @@ public class ManagerHome extends HttpServlet {
             RequestDispatcher view = request.getRequestDispatcher(url);
             view.forward(request, response);
         } else {
-            url = "/manager/login";
+            url = request.getContextPath() + "/manager/login";
             response.sendRedirect(url);
         }
 
