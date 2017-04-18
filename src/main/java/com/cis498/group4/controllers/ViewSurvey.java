@@ -26,6 +26,7 @@ public class ViewSurvey extends HttpServlet {
         surveyData = new SurveyDataAccess();
     }
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String url = "/WEB-INF/views/view-survey.jsp";
@@ -65,7 +66,9 @@ public class ViewSurvey extends HttpServlet {
 
     }
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
     }
+
 }

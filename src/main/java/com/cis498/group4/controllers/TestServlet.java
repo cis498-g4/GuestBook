@@ -15,6 +15,7 @@ import java.util.Enumeration;
 @WebServlet(name = "Test", urlPatterns = "/manager/test")
 public class TestServlet extends HttpServlet {
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
         response.setContentType("text/html");
@@ -41,6 +42,7 @@ public class TestServlet extends HttpServlet {
         out.close();
     }
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
     }

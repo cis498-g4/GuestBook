@@ -34,6 +34,7 @@ public class EventRegistrationList extends HttpServlet {
         attendanceData = new AttendanceDataAccess();
     }
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String url = "/WEB-INF/views/event-reg-list.jsp";
@@ -58,6 +59,7 @@ public class EventRegistrationList extends HttpServlet {
 
     }
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
     }

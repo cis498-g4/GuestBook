@@ -26,6 +26,7 @@ public class DeleteUser extends HttpServlet {
         userData = new UserDataAccess();
     }
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String url = "/WEB-INF/views/delete-user.jsp";
@@ -41,6 +42,7 @@ public class DeleteUser extends HttpServlet {
 
     }
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String url = "/manager/list-users";
@@ -61,4 +63,5 @@ public class DeleteUser extends HttpServlet {
         view.forward(request, response);
 
     }
+
 }

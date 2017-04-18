@@ -27,6 +27,7 @@ public class DeleteEvent extends HttpServlet {
         eventData = new EventDataAccess();
     }
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String url = "/WEB-INF/views/delete-event.jsp";
@@ -42,6 +43,7 @@ public class DeleteEvent extends HttpServlet {
 
     }
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String url = "/manager/list-events";
@@ -72,4 +74,5 @@ public class DeleteEvent extends HttpServlet {
         view.forward(request, response);
 
     }
+
 }

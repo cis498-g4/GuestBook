@@ -27,6 +27,7 @@ public class ChangePassword extends HttpServlet {
         userData = new UserDataAccess();
     }
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String url = "/WEB-INF/views/change-password.jsp";
@@ -42,6 +43,7 @@ public class ChangePassword extends HttpServlet {
 
     }
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String url = "/manager/view-user";

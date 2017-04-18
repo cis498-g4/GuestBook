@@ -31,6 +31,7 @@ public class AddEvent extends HttpServlet {
         userData = new UserDataAccess();
     }
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String url = "/WEB-INF/views/add-event.jsp";
@@ -45,6 +46,7 @@ public class AddEvent extends HttpServlet {
 
     }
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String url = "/manager/list-events";
