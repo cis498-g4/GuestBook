@@ -179,15 +179,15 @@ public class EventDataAccess {
 
     /**
      * Deletes the event with the specified ID from the `event` table in the database
-     * @param id The ID of the event to delete
+     * @param event The event to delete
      * @return 0 for success, SQL error code for DB failure
      */
-    public int deleteEvent(int id) {
+    public int deleteEvent(Event event) {
         try {
             // Set id parameter and execute SQL
             String sql = "DELETE FROM `event` WHERE `event_id` = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(1, event.getId());
             preparedStatement.executeUpdate();
             return 0;
         } catch (SQLException e) {

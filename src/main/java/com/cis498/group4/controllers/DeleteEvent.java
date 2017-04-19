@@ -70,7 +70,7 @@ public class DeleteEvent extends HttpServlet {
 
         if (EventHelpers.startsInFuture(event)) {
 
-            int deleteStatus = eventData.deleteEvent(id);
+            int deleteStatus = eventData.deleteEvent(event);
 
             // Check status code returned by delete operation
             if (deleteStatus == 0) {
