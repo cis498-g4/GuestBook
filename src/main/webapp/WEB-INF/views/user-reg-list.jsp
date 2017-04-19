@@ -25,8 +25,8 @@
             <td>${attendance.user.email}</td>
             <td>
                 <form action="deregister">
-                    <input type="hidden" name="id" value="${user.id}">
-                    <input type="hidden" name="id" value="${event.id}">
+                    <input type="hidden" name="userId" value="${attendance.user.id}">
+                    <input type="hidden" name="eventId" value="${event.id}">
                     <input type="submit" value="deregister">
                 </form>
             </td>
