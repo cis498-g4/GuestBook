@@ -3,6 +3,7 @@ package com.cis498.group4.controllers;
 import com.cis498.group4.data.SurveyDataAccess;
 import com.cis498.group4.models.Survey;
 import com.cis498.group4.util.SessionHelpers;
+import com.cis498.group4.util.SurveyHelpers;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -43,7 +44,7 @@ public class ViewSurvey extends HttpServlet {
         request.setAttribute("survey", survey);
 
         // Respond with some basic statistics
-        BigDecimal average = survey.responseAvg();
+        BigDecimal average = SurveyHelpers.responseAverage(survey);
         String sentiment ="";
 
         if (average.doubleValue() < 2.5) {

@@ -61,21 +61,4 @@ public class Survey implements Serializable {
         this.responses = responses;
     }
 
-    // TODO: Move this to SurveyHelpers method
-    /**
-     * Calculates and returns the arithmetic mean for this Survey
-     * @return BigDecimal average with scale of 2
-     */
-    public BigDecimal responseAvg() {
-        BigDecimal sum = new BigDecimal(0);
-
-        Iterator<Integer> it = getResponses().values().iterator();
-        while (it.hasNext()) {
-            sum = sum.add(new BigDecimal(it.next()));
-        }
-
-        return sum.divide(BigDecimal.TEN, 1, BigDecimal.ROUND_HALF_UP);
-
-    }
-
 }
