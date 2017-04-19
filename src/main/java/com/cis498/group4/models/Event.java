@@ -102,4 +102,5 @@ public class Event implements Serializable {
     public void setNumRegistered(int numRegistered) {
         this.numRegistered = numRegistered;
     }
+
 }
