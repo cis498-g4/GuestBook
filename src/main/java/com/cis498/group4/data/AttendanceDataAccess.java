@@ -170,7 +170,7 @@ public class AttendanceDataAccess {
 
     /**
      * Gets a count of the total number of users associated with an event
-     * @param eventId
+     * @param eventId The ID of the event whose attendance count to get
      * @return
      */
     private int getAttendanceCount(int eventId) {
@@ -259,20 +259,19 @@ public class AttendanceDataAccess {
 
     /**
      * Updates an attendance status code for a given user and event
-     * @param userId The ID of the user whose status is to be changed
-     * @param eventId The ID of the event for which status change is being performed
+     * @param attendance The record whose status needs to be changed
      * @param status The ordinal status code to set
      * @return
      */
-    public int updateStatus(int userId, int eventId, int status) {
+    public int updateStatus(Attendance attendance, int status) {
         try {
             // Set parameters and execute SQL
             String sql = "UPDATE `event_attendance` SET `attendance_status_id` = ? " +
                          "WHERE `user_id` = ? AND event_id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, status);
-            preparedStatement.setInt(2, userId);
-            preparedStatement.setInt(3, eventId);
+            preparedStatement.setInt(2, attendance.getUser().getId());
+            preparedStatement.setInt(3, attendance.getEvent().getId());
             return 0;
         } catch (SQLException e) {
             return e.getErrorCode();
