@@ -38,6 +38,37 @@ public class AttendanceDataAccess {
     }
 
     /**
+     * Retrieves a single attendance record, by user and event
+     * @param userId The user ID of the record to find
+     * @param eventId The event ID of the record to find
+     * @return Attendance record
+     */
+    public Attendance getAttendance(int userId, int eventId) {
+        Attendance attendance = new Attendance();
+
+        try {
+            // Get attendance count
+            Map<Integer, Integer> attendanceCount = new HashMap<Integer, Integer>();
+            attendanceCount.put(eventId, getAttendanceCount(eventId));
+
+            String sql = SELECT_ALL_ATTRIBUTES + " WHERE a.`user_id` = ? AND a.`event_id` = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(2, eventId);
+            ResultSet results = preparedStatement.executeQuery();
+
+            if (results.next()) {
+                setAttributes(attendance, attendanceCount, results);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return attendance;
+    }
+
+    /**
      * Retrieves all attendance records
      * @return list of attendance records
      */
@@ -209,17 +240,16 @@ public class AttendanceDataAccess {
 
     /**
      * Removes the specified attendance entry from the database (effectively deregistering a user from an event)
-     * @param userId The ID of the user to deregister
-     * @param eventId The ID of the event from which to deregister
+     * @param attendance The attendance record to remove
      * @return 0 for success, SQL error code for failure
      */
-    public int deregister(int userId, int eventId) {
+    public int deregister(Attendance attendance) {
         try {
             // Set parameters and execute SQL
             String sql = "DELETE FROM `event_attendance` WHERE `user_id` = ? AND event_id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, userId);
-            preparedStatement.setInt(2, eventId);
+            preparedStatement.setInt(1, attendance.getUser().getId());
+            preparedStatement.setInt(2, attendance.getEvent().getId());
             preparedStatement.executeUpdate();
             return 0;
         } catch (SQLException e) {
