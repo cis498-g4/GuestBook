@@ -61,6 +61,7 @@ public class Survey implements Serializable {
         this.responses = responses;
     }
 
+    // TODO: Move this to SurveyHelpers method
     /**
      * Calculates and returns the arithmetic mean for this Survey
      * @return BigDecimal average with scale of 2
