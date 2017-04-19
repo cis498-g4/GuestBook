@@ -275,15 +275,15 @@ public class UserDataAccess {
 
     /**
      * Deletes the user with the specified ID from the `app_user` table in the database
-     * @param id The ID of the user to delete
+     * @param user The user to delete
      * @return 0 for success, SQL error code for failure
      */
-    public int deleteUser(int id) {
+    public int deleteUser(User user) {
         try {
             // Set id parameter and execute SQL
             String sql = "DELETE FROM `user` WHERE `user_id` = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(1, user.getId());
             preparedStatement.executeUpdate();
             return 0;
         } catch (SQLException e) {

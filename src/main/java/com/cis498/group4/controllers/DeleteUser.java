@@ -63,7 +63,9 @@ public class DeleteUser extends HttpServlet {
         String url = "/manager/list-users";
         String statusMessage;
 
-        int deleteStatus = userData.deleteUser(Integer.parseInt(request.getParameter("id")));
+        User user = userData.getUser(Integer.parseInt(request.getParameter("id")));
+
+        int deleteStatus = userData.deleteUser(user);
 
         if (deleteStatus == 0) {
             statusMessage = "All we are is dust in the wind";
