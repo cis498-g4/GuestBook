@@ -68,10 +68,11 @@ public class DeleteEvent extends HttpServlet {
 
         Event event = eventData.getEvent(id);
 
-        if (event.getStartDateTime().isAfter(LocalDateTime.now())) {
+        if (EventHelpers.startsInFuture(event)) {
 
             int deleteStatus = eventData.deleteEvent(id);
 
+            // Check status code returned by delete operation
             if (deleteStatus == 0) {
                 statusMessage = "Event has been removed";
             } else if (deleteStatus == 1451) {
@@ -81,7 +82,7 @@ public class DeleteEvent extends HttpServlet {
             }
 
         } else {
-            statusMessage = "ERROR: Cannot delete an event that has already occurred!";
+            statusMessage = "ERROR: Cannot delete an event that has already started!";
         }
 
         request.setAttribute("statusMessage", statusMessage);
