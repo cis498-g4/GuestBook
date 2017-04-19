@@ -102,15 +102,15 @@ public class SurveyDataAccess {
 
     /**
      * Gets the ID of a survey based on its unique user, event combination
-     * @param userId The user ID of the survey
-     * @param eventId The event ID of the survey
+     * @param user The user of the survey
+     * @param event The event for the survey
      * @return The id of the survey
      */
-    public int getSurveyId(int userId, int eventId) throws SQLException {
+    public int getSurveyId(User user, Event event) throws SQLException {
         String sql = "SELECT `survey_id` FROM `survey` WHERE `user_id` = ? AND `event_id` = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setInt(1, userId);
-        preparedStatement.setInt(2, eventId);
+        preparedStatement.setInt(1, user.getId());
+        preparedStatement.setInt(2, event.getId());
         ResultSet results = preparedStatement.executeQuery();
         return results.getInt("survey_id");
     }
@@ -146,12 +146,20 @@ public class SurveyDataAccess {
         }
     }
 
-    public void updateSurvey(int id, Survey survey) {
-        // There should be no need to update a survey from the application
+    /**
+     * There should not be any need to update a survey from the application. This method can be deleted for production
+     * @param survey
+     */
+    public void updateSurvey(Survey survey) {
+        // TODO: Remove for production
     }
 
-    public void deleteSurvey(int id) {
-        // There should be no need to delete a survey from the application
+    /**
+     * There should not be any need to delete a survey from the application. This method can be deleted for production.
+     * @param survey
+     */
+    public void deleteSurvey(Survey survey) {
+        // TODO: Remove for production
     }
 
     /**
