@@ -2,6 +2,7 @@ package com.cis498.group4.controllers;
 
 import com.cis498.group4.models.Event;
 import com.cis498.group4.models.User;
+import com.cis498.group4.util.EventHelpers;
 import com.cis498.group4.util.SessionHelpers;
 
 import javax.servlet.RequestDispatcher;
@@ -13,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Enumeration;
 
 /**
@@ -40,8 +43,6 @@ public class ShowKiosk extends HttpServlet {
 
         String url = "/WEB-INF/views/kiosk-signin.jsp";
 
-        // TODO: Set session expiration time to number of seconds between event end time and now (or never?)
-
         // If there is a logged in organizer, redirect to event selection, otherwise to error message
         if (session.getAttribute("sessionUser") != null) {
             User sessionUser = (User) session.getAttribute("sessionUser");
@@ -64,6 +65,9 @@ public class ShowKiosk extends HttpServlet {
         // Render form for sign-in
         Event event = (Event) session.getAttribute("event");
 
+        // Set session expiration time to number of seconds between event end time and now
+        session.setMaxInactiveInterval(EventHelpers.secondsToEnd(event));
+
         String pageTitle = String.format("Welcome to %s", event.getName());
         request.setAttribute("pageTitle", pageTitle);
 
@@ -77,7 +81,8 @@ public class ShowKiosk extends HttpServlet {
 
         // TODO: Verify email
 
-        // TODO: Verify event status (e.g. not already ended)
+
+        // TODO: Verify event status (e.g. not already ended, not full)
 
         // TODO: Verify registration status
 

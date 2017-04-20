@@ -3,6 +3,7 @@ package com.cis498.group4.util;
 import com.cis498.group4.models.Event;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 /**
  * The EventHelpers class contains methods to assist with Event data (verification, etc)
@@ -61,6 +62,21 @@ public class EventHelpers {
         }
 
         return false;
+    }
+
+    /**
+     * Calculates the number of seconds until the event's end
+     * @param event
+     * @return Number of seconds until event end, or INT_MAX
+     */
+    public static int secondsToEnd(Event event) {
+        long seconds = LocalDateTime.now().until(event.getEndDateTime(), ChronoUnit.SECONDS);
+
+        if (seconds < Integer.MAX_VALUE) {
+            return (int) seconds;
+        } else {
+            return Integer.MAX_VALUE;
+        }
     }
 
 }
