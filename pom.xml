@@ -88,6 +88,16 @@
 
         </configuration>
       </plugin>
+
+      <!-- Javadoc plugin (SEE: https://maven.apache.org/plugins/maven-javadoc-plugin/usage.html) -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.10.4</version>
+        <configuration>
+        </configuration>
+      </plugin>
+
     </plugins>
 
     <resources>
