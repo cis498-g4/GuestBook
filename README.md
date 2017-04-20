@@ -1,6 +1,16 @@
 # GuestBook
 Guest book and feedback system for events.
 
+# Overview
+
+This application is a web-based guestbook. Organizers of an event launch the app in “kiosk mode” on computers set up at the entrance to an event. Event attendees track their attendance at the event by logging in to the kiosk with their email on their way in.
+
+This system can also be used to facilitate feedback. Attendees could be asked to log in to the system again following the event to fill out a short survey, which would be recorded for the presenters to review later.
+
+# Usage
+
+//TODO 
+
 # Project Structure
 The project follows the standard Maven directory layout for Web applications (http://bit.ly/1Mof9DC)
 
@@ -9,6 +19,8 @@ All **Java source code** will be contained in `src/main/java/com/cis498/group4/`
 The web root is `src/webapp/`. All **JSP, HTML, CSS, images, Javascript, etc.** will go in this folder and its subdirectories (e.g. `/img`, `/scripts`, etc.). JSP views should go in `/views`. Partial JSP views (e.g. `_header.jsp`) should go in `/templates`.
 
 # MySQL database setup
+
+//TODO
 
 **IMPORTANT:** The database connection properties _must_ be configured before building and deploying the application.
 
