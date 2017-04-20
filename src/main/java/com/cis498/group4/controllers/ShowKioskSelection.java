@@ -79,10 +79,11 @@ public class ShowKioskSelection extends HttpServlet {
 
         String url = "/kiosk";
 
-        // Invalidate organizer session and store event data in session
+        // Invalidate organizer session and store event data in new session
         HttpSession session = request.getSession();
         session.invalidate();
 
+        session = request.getSession(true);
         Event event = eventData.getEvent(Integer.parseInt(request.getParameter("eventId")));
         session.setAttribute("event", event);
 
