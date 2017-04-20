@@ -28,6 +28,13 @@ public class UpdatePassword extends HttpServlet {
         userData = new UserDataAccess();
     }
 
+    /**
+     * Render form where user must supply old password and type the new password twice to change
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -51,6 +58,14 @@ public class UpdatePassword extends HttpServlet {
 
     }
 
+    /**
+     * Verify old password and matching new password fields, update the user password in the database,
+     * and respond with confirmation.
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

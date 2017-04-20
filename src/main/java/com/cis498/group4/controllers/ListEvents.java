@@ -27,11 +27,19 @@ public class ListEvents extends HttpServlet {
         eventData = new EventDataAccess();
     }
 
+    /**
+     * Render a list of events, with buttons to view, edit, or delete each
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         // Restrict access by non-Organizers
         // TODO: how to handle Guests? Separate servlet?
+        // TODO: how to handle filters? Re-call the servlet and pass a filter parameter?
         if (!SessionHelpers.checkOrganizer(request.getSession())) {
             response.sendError(
                     HttpServletResponse.SC_FORBIDDEN, "You do not have permission to access this resource");

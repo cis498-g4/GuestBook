@@ -32,6 +32,13 @@ public class UpdateEvent extends HttpServlet {
         userData = new UserDataAccess();
     }
 
+    /**
+     * Render form to collect new Event information. Existing information should pre-populate the fields
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -58,6 +65,13 @@ public class UpdateEvent extends HttpServlet {
 
     }
 
+    /**
+     * Build new Event with posted information and submit it for the database. Respond with confirmation message.
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

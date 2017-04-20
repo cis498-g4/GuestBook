@@ -18,7 +18,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
- * Created by mpm624 on 4/18/17.
+ * The ListUserRegsForEvent servlet responds to requests to view all users registered for a specified event
  */
 @WebServlet(name = "ListUserRegsForEvent", urlPatterns = "/manager/view-reg")
 public class ListUserRegsForEvent extends HttpServlet {
@@ -33,6 +33,13 @@ public class ListUserRegsForEvent extends HttpServlet {
         eventData = new EventDataAccess();
     }
 
+    /**
+     * Render a list of users with registrations for the specified event
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Restrict access by non-Organizers
@@ -50,7 +57,7 @@ public class ListUserRegsForEvent extends HttpServlet {
         List<Attendance> attendanceList = attendanceData.getEventAttendance(event);
         request.setAttribute("attendanceList", attendanceList);
 
-        // Calculate # of spots remainin
+        // Calculate # of spots remaining
         if (event.getCapacity() > 0) {
             int remain;
 

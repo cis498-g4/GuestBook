@@ -28,6 +28,13 @@ public class RemoveEvent extends HttpServlet {
         eventData = new EventDataAccess();
     }
 
+    /**
+     * Render a confirmation message with the details of the Event to be deleted
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -51,6 +58,13 @@ public class RemoveEvent extends HttpServlet {
 
     }
 
+    /**
+     * Receive deletion confirmation, process the deletion in the database, and respond with a confirmation message
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

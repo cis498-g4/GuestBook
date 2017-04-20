@@ -29,6 +29,13 @@ public class ListSurveys extends HttpServlet {
         surveyData = new SurveyDataAccess();
     }
 
+    /**
+     * Render a list of completed surveys, with a button to view the details for each
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

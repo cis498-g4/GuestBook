@@ -28,6 +28,13 @@ public class ShowSurveyInfo extends HttpServlet {
         surveyData = new SurveyDataAccess();
     }
 
+    /**
+     * Render view that shows survey info, responses, and aggregated data (average, sentiment)
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

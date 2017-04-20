@@ -32,6 +32,14 @@ public class AddEvent extends HttpServlet {
         userData = new UserDataAccess();
     }
 
+    /**
+     * Render a form to collect the necessary data for a new event:
+     * name, start/end datetimes, presenter, open registration / survey mandatory flags, registration code, and capacity
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -45,6 +53,7 @@ public class AddEvent extends HttpServlet {
         String url = "/WEB-INF/views/add-event.jsp";
         String pageTitle = "Add new event";
 
+        // Provide a list of event organizers for a select menu, so their names don't need to be entered manually
         List<User> organizers = userData.getOrganizers();
         request.setAttribute("organizers", organizers);
 
@@ -54,6 +63,13 @@ public class AddEvent extends HttpServlet {
 
     }
 
+    /**
+     * Create a new Event from posted data, write to database, and send confirmation to user
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

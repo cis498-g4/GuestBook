@@ -28,6 +28,13 @@ public class UpdateUser extends HttpServlet {
         userData = new UserDataAccess();
     }
 
+    /**
+     * Render form to collect new User information. Existing information should pre-populate the fields
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -51,6 +58,13 @@ public class UpdateUser extends HttpServlet {
 
     }
 
+    /**
+     * Build new User with posted information and submit it for the database. Respond with confirmation message.
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

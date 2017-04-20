@@ -31,6 +31,14 @@ public class ListEventRegistrations extends HttpServlet {
         attendanceData = new AttendanceDataAccess();
     }
 
+    /**
+     * Render a list of events occurring in the future, with buttons to view users registered for that event, or to
+     * register additional users for that event
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

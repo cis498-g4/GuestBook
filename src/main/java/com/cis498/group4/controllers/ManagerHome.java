@@ -25,6 +25,13 @@ public class ManagerHome extends HttpServlet {
         super();
     }
 
+    /**
+     * Check login status, and render either the landing page or login page
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

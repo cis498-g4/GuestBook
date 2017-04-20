@@ -27,6 +27,13 @@ public class ShowUserInfo extends HttpServlet {
         userData = new UserDataAccess();
     }
 
+    /**
+     * Render view that shows all info about a user
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

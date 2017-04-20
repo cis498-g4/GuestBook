@@ -23,6 +23,13 @@ public class ManagerLogout extends HttpServlet {
         super();
     }
 
+    /**
+     * Invalidate session and redirect to login screen
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

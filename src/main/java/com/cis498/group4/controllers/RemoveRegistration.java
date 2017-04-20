@@ -31,6 +31,13 @@ public class RemoveRegistration extends HttpServlet {
         attendanceData = new AttendanceDataAccess();
     }
 
+    /**
+     * Render a confirmation message for the registration record to be removed (cancelled)
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -56,7 +63,7 @@ public class RemoveRegistration extends HttpServlet {
         request.setAttribute("event", event);
         request.setAttribute("eventDate", eventDate);
 
-        String pageTitle = String.format("RemoveRegistration %s %s from %s (%s)?",
+        String pageTitle = String.format("Remove user %s %s registration from %s (%s)?",
                 user.getFirstName(), user.getLastName(), event.getName(), eventDate);
         request.setAttribute("pageTitle", pageTitle);
 
@@ -65,6 +72,13 @@ public class RemoveRegistration extends HttpServlet {
 
     }
 
+    /**
+     * Receive deletion confirmation, process the deletion in the database, and respond with a confirmation message
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

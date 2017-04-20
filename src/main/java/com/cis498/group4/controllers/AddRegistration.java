@@ -35,6 +35,13 @@ public class AddRegistration extends HttpServlet {
         userData = new UserDataAccess();
     }
 
+    /**
+     * Render a form to collect the user info to register them for an event
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -60,6 +67,13 @@ public class AddRegistration extends HttpServlet {
 
     }
 
+    /**
+     * Create a new registration (attendance) record from posted data, write to database, and send confirmation to user
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

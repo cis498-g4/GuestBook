@@ -26,6 +26,13 @@ public class AddUser extends HttpServlet {
         userData = new UserDataAccess();
     }
 
+    /**
+     * Render a form to collect the necessary data for a new user: first/last name, email, and password
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -44,6 +51,13 @@ public class AddUser extends HttpServlet {
 
     }
 
+    /**
+     * Create a new User from posted data, write to database, and send confirmation to user
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

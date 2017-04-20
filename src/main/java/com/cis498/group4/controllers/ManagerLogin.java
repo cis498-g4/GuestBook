@@ -27,6 +27,13 @@ public class ManagerLogin extends HttpServlet {
         userData = new UserDataAccess();
     }
 
+    /**
+     * Render a form to login (or landing page if user already logged in)
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -53,6 +60,13 @@ public class ManagerLogin extends HttpServlet {
 
     }
 
+    /**
+     * Authenticate user credentials, direct to landing page if valid, redirect to form if invalid
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
