@@ -80,14 +80,23 @@ public class ShowKiosk extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        // TODO: Verify email
+        // TODO: Case: Event Status OK, Email OK, Registration Status OK, Survey NOT REQUIRED
+
+        // TODO: Case: Event Status OK, Email OK, Registration Status OK, Event Status OK, Survey REQUIRED
+
+        // TODO: Case: Event NOT FULL, Email OK, Registration Status NULL, OPEN registration
+
+        // TODO: Case: Event FULL, Email OK, Registration Status NULL, OPEN registration
+
+        // TODO: Case: Event Status OK, Email OK, Registration Status NULL, CLOSED registration
+
+        // TODO: Case: Event Status OK, Email OK, Registration Status SIGNED_IN or ATTENDED
+
+        // TODO: Case: Event Status OK, Email NULL
+
+        // TODO: Case: Event end time in PAST
 
 
-        // TODO: Verify event status (e.g. not already ended, not full)
-
-        // TODO: Verify registration status
-
-        // TODO: Sign user in, and/or respond with message
 
     }
 }
