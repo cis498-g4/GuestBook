@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <nav>
-    <a href="home"><img src="${pageContext.request.contextPath}/img/guestbook.png" width="128"></a>
+    <a href="home"><img src="${pageContext.request.contextPath}/img/guestbook.png" width="128"></a> <!-- TODO home should point at kiosk in kiosk mode (use urlPattern in servlet) -->
     <c:if test="${sessionUser.type == 'ORGANIZER'}">
         <a href="list-users">Users</a> |
         <a href="list-events">Events</a> |
