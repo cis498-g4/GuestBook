@@ -3,6 +3,8 @@
 
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
+<p>Presented by ${event.presenter.firstName} ${event.presenter.lastName}</p>
+
 <!-- TODO: HTML / JS form validation -->
 <form action="kiosk" method="post">
     <p>Please sign in with your email address:</p>

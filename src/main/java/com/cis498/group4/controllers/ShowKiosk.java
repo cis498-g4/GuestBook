@@ -64,6 +64,7 @@ public class ShowKiosk extends HttpServlet {
 
         // Render form for sign-in
         Event event = (Event) session.getAttribute("event");
+        request.setAttribute("event", event);
 
         // Set session expiration time to number of seconds between event end time and now
         session.setMaxInactiveInterval(EventHelpers.secondsToEnd(event));
