@@ -1,5 +1,6 @@
 package com.cis498.group4.util;
 
+import com.cis498.group4.data.EventDataAccess;
 import com.cis498.group4.models.Event;
 
 import java.time.LocalDateTime;
@@ -21,19 +22,6 @@ public class EventHelpers {
         // TODO
 
         return overlap;
-    }
-
-    /**
-     * Checks whether an event is at capacity
-     * @param event
-     * @return
-     */
-    public static boolean isFull(Event event) {
-        boolean atCapacity = false;
-
-        // TODO
-
-        return atCapacity;
     }
 
     /**
