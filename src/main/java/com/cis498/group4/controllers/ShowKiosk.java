@@ -25,7 +25,7 @@ import java.util.Enumeration;
 /**
  * The ShowKiosk servlet responds to requests to show the sign-in kiosk for an event
  */
-@WebServlet(name = "ShowKiosk", urlPatterns = "/kiosk")
+@WebServlet(name = "ShowKiosk", urlPatterns = {"/kiosk", "/home"})
 public class ShowKiosk extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -115,10 +115,10 @@ public class ShowKiosk extends HttpServlet {
                 break;
             // Case 1: Success: User exists and is pre-registered, Survey required
             case KioskHelpers.SUCCESS_NEED_SURVEY:
-                attendanceData.updateStatus(attendance, Attendance.AttendanceStatus.SIGNED_IN.ordinal());
+                attendanceData.updateStatus(attendance, Attendance.AttendanceStatus.SIGNED_IN.ordinal()); // TODO: Changing status doesn't work!!!!
                 pageTitle = "Sign-in Success!";
                 message1 = String.format("You have been signed in to %s.", event.getName());
-                message2 = "<strong>PLEASE NOTE:<strong> " +
+                message2 = "<strong>PLEASE NOTE:</strong> " +
                            "Your attendance status will not be counted until you complete the post-event survey!";
                 break;
             // Case 2: Success: User exists and is not pre-registered, but registration is open, Survey NOT required
@@ -133,7 +133,7 @@ public class ShowKiosk extends HttpServlet {
                 attendanceData.register(user, event, Attendance.AttendanceStatus.SIGNED_IN.ordinal());
                 pageTitle = "Sign-in Success!";
                 message1 = String.format("You have been signed in to %s.", event.getName());
-                message2 = "<strong>PLEASE NOTE:<strong> " +
+                message2 = "<strong>PLEASE NOTE:</strong> " +
                            "Your attendance status will not be counted until you complete the post-event survey!";
                 break;
             // Case 4: Action needed: User email not found. Try again or create new

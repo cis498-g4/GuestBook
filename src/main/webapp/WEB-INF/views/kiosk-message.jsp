@@ -3,7 +3,7 @@
 
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
-<% response.setHeader("Refresh", "5;url=/kiosk"); %>
+<% response.setHeader("Refresh", "10;url=" + request.getServletContext().getContextPath() + "/kiosk"); %>
 
 <c:if test="${status == 1}">
     <h2>Don't forget to complete the survey!</h2>
@@ -15,7 +15,7 @@
     ${message2}
 </p>
 
-<a href="/kiosk">Return to Sign-in</a>
+<a href="${pageContext.request.contextPath}/kiosk">Return to Sign-in</a>
 
 <c:if test="${status == 4}">
     <a href="/add-user-kiosk">Create new user</a>

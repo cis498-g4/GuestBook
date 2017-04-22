@@ -3,7 +3,7 @@
 
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
-<% response.setHeader("Refresh", "30;url=/kiosk"); %>
+<% response.setHeader("Refresh", "60;url=" + request.getServletContext().getContextPath() + "/kiosk"); %>
 
 <!-- TODO: HTML / JS form validation -->
 <form action="/manager/add-user-kiosk" method="post">
