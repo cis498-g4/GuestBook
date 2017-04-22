@@ -37,20 +37,21 @@ public class KioskHelpers {
             return USER_NOT_FOUND;
         }
 
-        if (attendance.getStatus() == null) {
+        if (attendance.getStatus() != Attendance.AttendanceStatus.NOT_ATTENDED) {
+            if (attendance.getStatus() == Attendance.AttendanceStatus.ATTENDED ||
+                    attendance.getStatus() == Attendance.AttendanceStatus.SIGNED_IN) {
+                return ALREADY_SIGNED_IN;
+            }
+
             if (!event.isOpenRegistration()) {
                 return CLOSED_REGISTRATION;
             }
 
-            if (AttendanceHelpers.isFull(attendance)) {
+            if (AttendanceHelpers.isFull(event)) {
                 return EVENT_FULL;
             }
 
             return NEED_REGISTRATION;
-        }
-
-        if (attendance.getStatus() != Attendance.AttendanceStatus.NOT_ATTENDED) {
-            return ALREADY_SIGNED_IN;
         }
 
         if (event.isMandatorySurvey()) {
