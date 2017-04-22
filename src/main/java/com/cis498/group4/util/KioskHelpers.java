@@ -42,7 +42,7 @@ public class KioskHelpers {
                 return CLOSED_REGISTRATION;
             }
 
-            if (EventHelpers.isFull()) {
+            if (EventHelpers.isFull(event)) {
                 return EVENT_FULL;
             }
 
@@ -54,7 +54,7 @@ public class KioskHelpers {
         }
 
         if (event.isMandatorySurvey()) {
-            return SUCCESS_NEED_SURVEY
+            return SUCCESS_NEED_SURVEY;
         }
 
         return SUCCESS_COMPLETE;
