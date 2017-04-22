@@ -17,5 +17,9 @@
 
 <a href="/kiosk">Return to Sign-in</a>
 
+<c:if test="${status == 4}">
+    <a href="/add-user-kiosk">Create new user</a>
+</c:if>
+
 </body>
 </html>
