@@ -100,34 +100,63 @@ public class ShowKiosk extends HttpServlet {
 
         status = KioskHelpers.signInStatus(event, user, attendance);
 
-        // TODO: Test - remove this
-        PrintWriter out = response.getWriter();
-        out.println(status);
+        switch (status) {
+            // Case 0: Success: User exists and is pre-registered, Survey NOT required
+            case KioskHelpers.SUCCESS_COMPLETE:
+                attendanceData.updateStatus(attendance, Attendance.AttendanceStatus.ATTENDED.ordinal());
+                url = "WEB-INF/views/kiosk-success.jsp";
+                break;
+            // Case 1: Success: User exists and is pre-registered, Survey required
+            case KioskHelpers.SUCCESS_NEED_SURVEY:
+                attendanceData.updateStatus(attendance, Attendance.AttendanceStatus.SIGNED_IN.ordinal());
+                url = "WEB-INF/views/kiosk-success.jsp";
+                break;
+            // Case 2: Success: User exists and is not pre-registered, but registration is open, Survey NOT required
+            case KioskHelpers.SUCCESS_OPEN_REGISTRATION:
+                attendanceData.register(user, event, Attendance.AttendanceStatus.ATTENDED.ordinal());  // TODO: How to error check? should this be in the data access methods?
+                url = "WEB-INF/views/kiosk-success.jsp";
+                break;
+            // Case 3: Success: User exists and is not pre-registered, but registration is open, Survey required
+            case KioskHelpers.SUCCESS_OPEN_REG_NEED_SURVEY:
+                attendanceData.register(user, event, Attendance.AttendanceStatus.SIGNED_IN.ordinal());
+                url = "WEB-INF/views/kiosk-success.jsp";
+                break;
+            // Case 4: Action needed: User email not found. Try again or create new
+            case KioskHelpers.ACTION_USER_NOT_FOUND:
+                url = "/WEB-INF/views/kiosk-user-not-found.jsp";
+                request.setAttribute("email", request.getParameter("email"));
+                break;
+            // Case 5: Failure: User already signed in
+            case KioskHelpers.FAIL_ALREADY_SIGNED_IN:
+                url = "/WEB-INF/views/kiosk-fail.jsp";
+                break;
+            // Case 6: Failure: User is not registered and event is full. No new registrations allowed.
+            case KioskHelpers.FAIL_EVENT_FULL:
+                url = "/WEB-INF/views/kiosk-fail.jsp";
+                break;
+            // Case 7: Failure: User is not registered and the event does not have open registration.
+            case KioskHelpers.FAIL_CLOSED_REGISTRATION:
+                url = "/WEB-INF/views/kiosk-fail.jsp";
+                break;
+            // Case 8: Failure: Event has ended. Users may no longer sign in
+            case KioskHelpers.FAIL_EVENT_ENDED:
+                url = "/WEB-INF/views/kiosk-fail.jsp";
+                break;
+            // Default: Fail closed with generic error message
+            default:
+                url = "WEB-INF/views/kiosk-fail.jsp";
+                break;
+        }
 
+        if (status != KioskHelpers.ACTION_USER_NOT_FOUND) {
+            request.setAttribute("user", user);
+        }
 
+        request.setAttribute("status", status);
 
-
-        // TODO: Case: Event Status OK, Email OK, Registration Status OK, Survey NOT REQUIRED
-        url = "WEB-INF/views/kiosk-success.jsp";
-
-
-        // TODO: Case: Event Status OK, Email OK, Registration Status OK, Event Status OK, Survey REQUIRED
-        url = "WEB-INF/views/kiosk-success.jsp";
-
-
-        // TODO: Case: Event NOT FULL, Email OK, Registration Status NULL, OPEN registration
-
-        // TODO: Case: Event FULL, Email OK, Registration Status NULL, OPEN registration
-
-        // TODO: Case: Event Status OK, Email OK, Registration Status NULL, CLOSED registration
-
-        // TODO: Case: Event Status OK, Email OK, Registration Status SIGNED_IN or ATTENDED
-
-        // TODO: Case: Event Status OK, Email NULL
-
-        // TODO: Case: Event end time in PAST
-
-
+        RequestDispatcher view = request.getRequestDispatcher(url);
+        view.forward(request, response);
 
     }
+
 }
