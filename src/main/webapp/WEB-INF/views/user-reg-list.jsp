@@ -3,7 +3,7 @@
 
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
-<c:if test="${remain != null}">
+<c:if test="${remain > 0}">
     <p><strong>${remain} seats remaining</strong></p>
 </c:if>
 
