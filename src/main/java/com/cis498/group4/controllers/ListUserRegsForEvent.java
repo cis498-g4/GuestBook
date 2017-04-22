@@ -5,6 +5,7 @@ import com.cis498.group4.data.EventDataAccess;
 import com.cis498.group4.data.UserDataAccess;
 import com.cis498.group4.models.Attendance;
 import com.cis498.group4.models.Event;
+import com.cis498.group4.util.AttendanceHelpers;
 import com.cis498.group4.util.SessionHelpers;
 
 import javax.servlet.RequestDispatcher;
@@ -58,17 +59,8 @@ public class ListUserRegsForEvent extends HttpServlet {
         request.setAttribute("attendanceList", attendanceList);
 
         // Calculate # of spots remaining
-        if (event.getCapacity() > 0) {
-            int remain;
-
-            if (!attendanceList.isEmpty()) {
-                remain = event.getCapacity() - attendanceList.get(0).getEvent().getNumRegistered();
-            } else {
-                remain = event.getCapacity();
-            }
-
-            request.setAttribute("remain", remain);
-        }
+        int remain = AttendanceHelpers.calculateSpotsRemaining(attendanceList.get(0));
+        request.setAttribute("remain", remain);
 
         String pageTitle = String.format("Users registered for %s (%s)",
                 event.getName(), event.getStartDateTime().format(DateTimeFormatter.ofPattern("M/d/YY")));
