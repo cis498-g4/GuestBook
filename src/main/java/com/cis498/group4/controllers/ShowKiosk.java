@@ -115,7 +115,7 @@ public class ShowKiosk extends HttpServlet {
                 break;
             // Case 1: Success: User exists and is pre-registered, Survey required
             case KioskHelpers.SUCCESS_NEED_SURVEY:
-                attendanceData.updateStatus(attendance, Attendance.AttendanceStatus.SIGNED_IN.ordinal()); // TODO: Changing status doesn't work!!!!
+                attendanceData.updateStatus(attendance, Attendance.AttendanceStatus.SIGNED_IN.ordinal()); // TODO: Changing status doesn't work!!!! Use int?
                 pageTitle = "Sign-in Success!";
                 message1 = String.format("You have been signed in to %s.", event.getName());
                 message2 = "<strong>PLEASE NOTE:</strong> " +
