@@ -89,10 +89,15 @@ public class ShowKiosk extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String url;
+        String url = "WEB-INF/views/kiosk-message.jsp";
         int status;
+        String pageTitle;
+        String message1;
+        String message2;
 
         HttpSession session = request.getSession();
+
+        String email = request.getParameter("email");
 
         Event event = (Event) session.getAttribute("event");
         User user = userData.getUserByEmail(request.getParameter("email"));
@@ -103,48 +108,72 @@ public class ShowKiosk extends HttpServlet {
         switch (status) {
             // Case 0: Success: User exists and is pre-registered, Survey NOT required
             case KioskHelpers.SUCCESS_COMPLETE:
-                attendanceData.updateStatus(attendance, Attendance.AttendanceStatus.ATTENDED.ordinal());
-                url = "WEB-INF/views/kiosk-success.jsp";
+                attendanceData.updateStatus(attendance, Attendance.AttendanceStatus.ATTENDED.ordinal()); // TODO: How to error check? should this be in the data access methods?
+                pageTitle = "Sign-in Success!";
+                message1 = String.format("You have been signed in to %s.", event.getName());
+                message2 = "No further action is required on your part. Enjoy the event!";
                 break;
             // Case 1: Success: User exists and is pre-registered, Survey required
             case KioskHelpers.SUCCESS_NEED_SURVEY:
                 attendanceData.updateStatus(attendance, Attendance.AttendanceStatus.SIGNED_IN.ordinal());
-                url = "WEB-INF/views/kiosk-success.jsp";
+                pageTitle = "Sign-in Success!";
+                message1 = String.format("You have been signed in to %s.", event.getName());
+                message2 = "<strong>PLEASE NOTE:<strong> " +
+                           "Your attendance status will not be counted until you complete the post-event survey!";
                 break;
             // Case 2: Success: User exists and is not pre-registered, but registration is open, Survey NOT required
             case KioskHelpers.SUCCESS_OPEN_REGISTRATION:
-                attendanceData.register(user, event, Attendance.AttendanceStatus.ATTENDED.ordinal());  // TODO: How to error check? should this be in the data access methods?
-                url = "WEB-INF/views/kiosk-success.jsp";
+                attendanceData.register(user, event, Attendance.AttendanceStatus.ATTENDED.ordinal());
+                pageTitle = "Sign-in Success!";
+                message1 = String.format("You have been signed in to %s.", event.getName());
+                message2 = "No further action is required on your part. Enjoy the event!";
                 break;
             // Case 3: Success: User exists and is not pre-registered, but registration is open, Survey required
             case KioskHelpers.SUCCESS_OPEN_REG_NEED_SURVEY:
                 attendanceData.register(user, event, Attendance.AttendanceStatus.SIGNED_IN.ordinal());
-                url = "WEB-INF/views/kiosk-success.jsp";
+                pageTitle = "Sign-in Success!";
+                message1 = String.format("You have been signed in to %s.", event.getName());
+                message2 = "<strong>PLEASE NOTE:<strong> " +
+                           "Your attendance status will not be counted until you complete the post-event survey!";
                 break;
             // Case 4: Action needed: User email not found. Try again or create new
             case KioskHelpers.ACTION_USER_NOT_FOUND:
-                url = "/WEB-INF/views/kiosk-user-not-found.jsp";
-                request.setAttribute("email", request.getParameter("email"));
+                url = "/WEB-INF/views/kiosk-action-user.jsp";
+                request.setAttribute("email", email);
+                pageTitle = "User Not Found";
+                message1 = String.format("No user with the email address %s was found.", email);
+                message2 = "You may try again, or create a new user.";
                 break;
             // Case 5: Failure: User already signed in
             case KioskHelpers.FAIL_ALREADY_SIGNED_IN:
-                url = "/WEB-INF/views/kiosk-fail.jsp";
+                pageTitle = "Already Signed In";
+                message1 = String.format("The user with email address, %s, has already signed in to this event!", email);
+                message2 = "No further action is required on your part.";
                 break;
             // Case 6: Failure: User is not registered and event is full. No new registrations allowed.
             case KioskHelpers.FAIL_EVENT_FULL:
-                url = "/WEB-INF/views/kiosk-fail.jsp";
+                pageTitle = "Sign-in Failure: Event is Full";
+                message1 = String.format("The registration for %s is at capacity. No new registrations are allowed",
+                                         event.getName());
+                message2 = "We apologize for any inconvenience. Thank you for your interest in the event.";
                 break;
             // Case 7: Failure: User is not registered and the event does not have open registration.
             case KioskHelpers.FAIL_CLOSED_REGISTRATION:
-                url = "/WEB-INF/views/kiosk-fail.jsp";
+                pageTitle = "Sign-in Failure: Not Registered";
+                message1 = String.format("You must be pre-registered to sign-in for %s", event.getName());
+                message2 = "Please contact an event organizer for assistance.";
                 break;
             // Case 8: Failure: Event has ended. Users may no longer sign in
             case KioskHelpers.FAIL_EVENT_ENDED:
-                url = "/WEB-INF/views/kiosk-fail.jsp";
+                pageTitle = "Sign-in Failure: Event Ended";
+                message1 = String.format("The event %s occurs in the past.", event.getName());;
+                message2 = "Thank you for your interest. We hope to see you in the future.";
                 break;
             // Default: Fail closed with generic error message
             default:
-                url = "WEB-INF/views/kiosk-fail.jsp";
+                pageTitle = "Sign-in Failure";
+                message1 = "There was a problem signing in.";
+                message2 = "Please try again or contact an event organizer for assistance.";
                 break;
         }
 
@@ -152,7 +181,10 @@ public class ShowKiosk extends HttpServlet {
             request.setAttribute("user", user);
         }
 
+        request.setAttribute("pageTitle", pageTitle);
         request.setAttribute("status", status);
+        request.setAttribute("message1", message1);
+        request.setAttribute("message2", message2);
 
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
