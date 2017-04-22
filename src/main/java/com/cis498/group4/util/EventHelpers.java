@@ -28,12 +28,26 @@ public class EventHelpers {
      * @param event
      * @return
      */
-    public static boolean isAtCapacity(Event event) {
+    public static boolean isFull(Event event) {
         boolean atCapacity = false;
 
         // TODO
 
         return atCapacity;
+    }
+
+    /**
+     * Checks whether an event's start time is in the future
+     * @param event
+     * @return True if the event's start time is after now
+     */
+    public static boolean startsInFuture(Event event) {
+
+        if (event.getStartDateTime().isAfter(LocalDateTime.now())) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -51,13 +65,27 @@ public class EventHelpers {
     }
 
     /**
-     * Checks whether an event's start time is in the future
+     * Checks whether an event's start time is in the past
      * @param event
-     * @return True if the event's start time is after now
+     * @return True if the event's start time is before now
      */
-    public static boolean startsInFuture(Event event) {
+    public static boolean startedInPast(Event event) {
 
-        if (event.getStartDateTime().isAfter(LocalDateTime.now())) {
+        if (event.getStartDateTime().isBefore(LocalDateTime.now())) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks whether an event's end time is in the past
+     * @param event
+     * @return True if the event's end time is before now
+     */
+    public static boolean endedInPast(Event event) {
+
+        if (event.getEndDateTime().isBefore(LocalDateTime.now())) {
             return true;
         }
 
