@@ -13,12 +13,13 @@ public class KioskHelpers {
 
     public static final int SUCCESS_COMPLETE = 0;
     public static final int SUCCESS_NEED_SURVEY = 1;
-    public static final int ALREADY_SIGNED_IN = 2;
-    public static final int USER_NOT_FOUND = 3;
-    public static final int NEED_REGISTRATION = 4;
-    public static final int EVENT_FULL = 5;
-    public static final int CLOSED_REGISTRATION = 6;
-    public static final int EVENT_ENDED = 7;
+    public static final int SUCCESS_OPEN_REGISTRATION = 2;
+    public static final int SUCCESS_OPEN_REG_NEED_SURVEY = 3;
+    public static final int ACTION_USER_NOT_FOUND = 4;
+    public static final int FAIL_ALREADY_SIGNED_IN = 5;
+    public static final int FAIL_EVENT_FULL = 6;
+    public static final int FAIL_CLOSED_REGISTRATION = 7;
+    public static final int FAIL_EVENT_ENDED = 8;
 
     /**
      * Checks sign-in status conditions and returns a status code
@@ -30,28 +31,33 @@ public class KioskHelpers {
     public static int signInStatus(Event event, User user, Attendance attendance) {
 
         if (EventHelpers.endedInPast(event)) {
-            return EVENT_ENDED;
+            return FAIL_EVENT_ENDED;
         }
 
         if (user.getEmail() == null) {
-            return USER_NOT_FOUND;
+            return ACTION_USER_NOT_FOUND;
         }
 
         if (attendance.getStatus() != Attendance.AttendanceStatus.NOT_ATTENDED) {
             if (attendance.getStatus() == Attendance.AttendanceStatus.ATTENDED ||
                     attendance.getStatus() == Attendance.AttendanceStatus.SIGNED_IN) {
-                return ALREADY_SIGNED_IN;
+                return FAIL_ALREADY_SIGNED_IN;
             }
 
             if (!event.isOpenRegistration()) {
-                return CLOSED_REGISTRATION;
+                return FAIL_CLOSED_REGISTRATION;
             }
 
             if (AttendanceHelpers.isFull(event)) {
-                return EVENT_FULL;
+                return FAIL_EVENT_FULL;
             }
 
-            return NEED_REGISTRATION;
+            // User is not pre-registered, but registration is open
+            if (event.isMandatorySurvey()) {
+                return SUCCESS_OPEN_REG_NEED_SURVEY;
+            }
+
+            return SUCCESS_OPEN_REGISTRATION;
         }
 
         if (event.isMandatorySurvey()) {
