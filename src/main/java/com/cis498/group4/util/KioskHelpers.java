@@ -42,7 +42,7 @@ public class KioskHelpers {
                 return CLOSED_REGISTRATION;
             }
 
-            if (EventHelpers.isFull(event)) {
+            if (AttendanceHelpers.isFull(attendance)) {
                 return EVENT_FULL;
             }
 
