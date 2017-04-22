@@ -239,6 +239,30 @@ public class AttendanceDataAccess {
     }
 
     /**
+     * Creates a new event attendance entry in the database with supplied attendance status.
+     * For simultaneous registration and sign-in of user.
+     * @param user The user to register
+     * @param event The event for which to register
+     * @param status The status code for the new registration
+     * @return 0 for success, SQL error code for failure
+     */
+    public int register(User user, Event event, int status) {
+        try {
+            // Set parameters and execute SQL
+            String sql = "INSERT INTO `event_attendance`(`user_id`, `event_id`, `attendance_status_id`) " +
+                    "VALUES (?, ?, ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, user.getId());
+            preparedStatement.setInt(2, event.getId());
+            preparedStatement.setInt(3, status);
+            preparedStatement.executeUpdate();
+            return 0;
+        } catch (SQLException e) {
+            return e.getErrorCode();
+        }
+    }
+
+    /**
      * Removes the specified attendance entry from the database (effectively deregistering a user from an event)
      * @param attendance The attendance record to remove
      * @return 0 for success, SQL error code for failure
@@ -276,6 +300,21 @@ public class AttendanceDataAccess {
         } catch (SQLException e) {
             return e.getErrorCode();
         }
+    }
+
+    /**
+     * Updates an attendance status code for a given user and event
+     * @param event The event for the update
+     * @param user The user for the update
+     * @param status The ordinal status code to set
+     * @return
+     */
+    public int updateStatus(Event event, User user, int status) {
+        Attendance attendance = new Attendance();
+        attendance.setEvent(event);
+        attendance.setUser(user);
+
+        return updateStatus(attendance, status);
     }
 
     /**
