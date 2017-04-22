@@ -1,8 +1,12 @@
 package com.cis498.group4.controllers;
 
+import com.cis498.group4.data.AttendanceDataAccess;
+import com.cis498.group4.data.UserDataAccess;
+import com.cis498.group4.models.Attendance;
 import com.cis498.group4.models.Event;
 import com.cis498.group4.models.User;
 import com.cis498.group4.util.EventHelpers;
+import com.cis498.group4.util.KioskHelpers;
 import com.cis498.group4.util.SessionHelpers;
 
 import javax.servlet.RequestDispatcher;
@@ -25,8 +29,13 @@ import java.util.Enumeration;
 public class ShowKiosk extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
+    private AttendanceDataAccess attendanceData;
+    private UserDataAccess userData;
+
     public ShowKiosk() {
         super();
+        attendanceData = new AttendanceDataAccess();
+        userData = new UserDataAccess();
     }
 
     /**
@@ -80,9 +89,24 @@ public class ShowKiosk extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        String url;
+        int statusCode;
+
+        HttpSession session = request.getSession();
+
+        Event event = (Event) session.getAttribute("event");
+        User user = userData.getUserByEmail(request.getParameter("email"));
+        Attendance attendance = attendanceData.getAttendance(user.getId(), event.getId());
+
+        statusCode = KioskHelpers.signInStatus(event, user, attendance);
+
         // TODO: Case: Event Status OK, Email OK, Registration Status OK, Survey NOT REQUIRED
+        url = "WEB-INF/views/kiosk-success.jsp";
+
 
         // TODO: Case: Event Status OK, Email OK, Registration Status OK, Event Status OK, Survey REQUIRED
+        url = "WEB-INF/views/kiosk-success.jsp";
+
 
         // TODO: Case: Event NOT FULL, Email OK, Registration Status NULL, OPEN registration
 
