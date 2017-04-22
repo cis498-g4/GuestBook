@@ -90,7 +90,7 @@ public class ShowKiosk extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String url;
-        int statusCode;
+        int status;
 
         HttpSession session = request.getSession();
 
@@ -98,7 +98,14 @@ public class ShowKiosk extends HttpServlet {
         User user = userData.getUserByEmail(request.getParameter("email"));
         Attendance attendance = attendanceData.getAttendance(user.getId(), event.getId());
 
-        statusCode = KioskHelpers.signInStatus(event, user, attendance);
+        status = KioskHelpers.signInStatus(event, user, attendance);
+
+        // TODO: Test - remove this
+        PrintWriter out = response.getWriter();
+        out.println(status);
+
+
+
 
         // TODO: Case: Event Status OK, Email OK, Registration Status OK, Survey NOT REQUIRED
         url = "WEB-INF/views/kiosk-success.jsp";
