@@ -138,7 +138,7 @@ public class ShowKiosk extends HttpServlet {
                 break;
             // Case 4: Action needed: User email not found. Try again or create new
             case KioskHelpers.ACTION_USER_NOT_FOUND:
-                url = "/WEB-INF/views/kiosk-action-user.jsp";
+                url = "/WEB-INF/views/kiosk-add-user.jsp";
                 request.setAttribute("email", email);
                 pageTitle = "User Not Found";
                 message1 = String.format("No user with the email address %s was found.", email);
