@@ -115,7 +115,7 @@ public class ShowKiosk extends HttpServlet {
                 break;
             // Case 1: Success: User exists and is pre-registered, Survey required
             case KioskHelpers.SUCCESS_NEED_SURVEY:
-                attendanceData.updateStatus(attendance, Attendance.AttendanceStatus.SIGNED_IN.ordinal()); // TODO: Changing status doesn't work!!!! Use int?
+                attendanceData.updateStatus(attendance, Attendance.AttendanceStatus.SIGNED_IN.ordinal());
                 pageTitle = "Sign-in Success!";
                 message1 = String.format("You have been signed in to %s.", event.getName());
                 message2 = "<strong>PLEASE NOTE:</strong> " +
@@ -125,14 +125,14 @@ public class ShowKiosk extends HttpServlet {
             case KioskHelpers.SUCCESS_OPEN_REGISTRATION:
                 attendanceData.register(user, event, Attendance.AttendanceStatus.ATTENDED.ordinal());
                 pageTitle = "Sign-in Success!";
-                message1 = String.format("You have been signed in to %s.", event.getName());
+                message1 = String.format("You have been registered and signed in to %s.", event.getName());
                 message2 = "No further action is required on your part. Enjoy the event!";
                 break;
             // Case 3: Success: User exists and is not pre-registered, but registration is open, Survey required
             case KioskHelpers.SUCCESS_OPEN_REG_NEED_SURVEY:
                 attendanceData.register(user, event, Attendance.AttendanceStatus.SIGNED_IN.ordinal());
                 pageTitle = "Sign-in Success!";
-                message1 = String.format("You have been signed in to %s.", event.getName());
+                message1 = String.format("You have been registered and signed in to %s.", event.getName());
                 message2 = "<strong>PLEASE NOTE:</strong> " +
                            "Your attendance status will not be counted until you complete the post-event survey!";
                 break;
