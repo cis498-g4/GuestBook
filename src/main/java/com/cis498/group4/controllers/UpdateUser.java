@@ -96,7 +96,7 @@ public class UpdateUser extends HttpServlet {
         } else {
             statusMessage = "ERROR: Update operation failed!";
         }
-        
+
         request.setAttribute("statusMessage", statusMessage);
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
