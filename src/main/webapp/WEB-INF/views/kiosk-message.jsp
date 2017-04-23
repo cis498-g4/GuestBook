@@ -5,8 +5,12 @@
 
 <% response.setHeader("Refresh", "10;url=" + request.getServletContext().getContextPath() + "/kiosk"); %>
 
+<c:if test="${status <= 3}">
+    <img src="${pageContext.request.contextPath}/img/cool_cat.png" width="100">
+</c:if>
+
 <c:if test="${status == 1}">
-    <h2>Don't forget to complete the survey!</h2>
+    <h3>Don't forget to complete the survey!</h3>
 </c:if>
 
 <p>
