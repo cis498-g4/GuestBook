@@ -296,6 +296,7 @@ public class AttendanceDataAccess {
             preparedStatement.setInt(1, status);
             preparedStatement.setInt(2, attendance.getUser().getId());
             preparedStatement.setInt(3, attendance.getEvent().getId());
+            preparedStatement.executeUpdate();
             return 0;
         } catch (SQLException e) {
             return e.getErrorCode();
