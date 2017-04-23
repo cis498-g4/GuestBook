@@ -80,18 +80,14 @@ public class AddUser extends HttpServlet {
         user.setPassword(request.getParameter("password"));
 
         // Attempt write to DB and respond to user
-        // TODO: Validate user info before commit (http://red.ht/2nMrGNu)
-        if (true) {
-            int insertStatus = userData.insertUser(user);
+        int insertStatus = userData.insertUser(user);
 
-            if (insertStatus == 0) {
-                statusMessage = "User created successfully.";
-            } else {
-                statusMessage = "ERROR: Add user operation failed!";
-            }
-
-        } else {
+        if (insertStatus == 0) {
+            statusMessage = "User created successfully.";
+        } else if (insertStatus == -1) {
             statusMessage = "ERROR: Invalid data entered for new user!";
+        } else {
+            statusMessage = "ERROR: Add user operation failed!";
         }
 
         request.setAttribute("statusMessage", statusMessage);

@@ -124,27 +124,22 @@ public class AddEvent extends HttpServlet {
                 }
 
                 // Attempt write to DB and respond to event
-                // TODO: Validate event info before commit (http://red.ht/2nMrGNu)
-                if (true) {
+                int insertStatus = eventData.insertEvent(event);
 
-                    int insertStatus = eventData.insertEvent(event);
-
-                    if (insertStatus == 0) {
-                        statusMessage = "Event created successfully.";
-                    } else {
-                        statusMessage = "ERROR: Add event operation failed!";
-                    }
-
-                } else {
+                if (insertStatus == 0) {
+                    statusMessage = "Event created successfully.";
+                } else if (insertStatus == -1) {
                     statusMessage = "ERROR: Invalid data entered for new event!";
+                } else {
+                    statusMessage = "ERROR: Add event operation failed!";
                 }
 
             } else {
-                statusMessage = "ERROR: Event end time occurs before event start time!";
+                statusMessage = "ERROR: Event end time occurs before event start time!";    // TODO move these into insert status check
             }
 
         } else {
-            statusMessage = "ERROR: Start time occurs in the past!";
+            statusMessage = "ERROR: Start time occurs in the past!";    // TODO move these into insert status check
         }
 
         request.setAttribute("statusMessage", statusMessage);

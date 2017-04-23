@@ -127,27 +127,22 @@ public class UpdateEvent extends HttpServlet {
                 }
 
                 // Attempt write to DB and respond to event
-                // TODO: Validate event info before commit (http://red.ht/2nMrGNu)
-                if (true) {
+                int updateStatus = eventData.updateEvent(event);
 
-                    int updateStatus = eventData.updateEvent(event);
-
-                    if (updateStatus == 0) {
-                        statusMessage = "Event updated successfully.";
-                    } else {
-                        statusMessage = "ERROR: Add event operation failed!";
-                    }
-
-                } else {
+                if (updateStatus == 0) {
+                    statusMessage = "Event updated successfully.";
+                } else if (updateStatus == -1) {
                     statusMessage = "ERROR: Invalid data entered for new event!";
+                } else {
+                    statusMessage = "ERROR: Add event operation failed!";
                 }
 
             } else {
-                statusMessage = "ERROR: Event end time occurs before event start time!";
+                statusMessage = "ERROR: Event end time occurs before event start time!";    // TODO move these into insert status check
             }
 
         } else {
-            statusMessage = "ERROR: Start time occurs in the past!";
+            statusMessage = "ERROR: Start time occurs in the past!";    // TODO move these into insert status check
         }
 
         request.setAttribute("statusMessage", statusMessage);

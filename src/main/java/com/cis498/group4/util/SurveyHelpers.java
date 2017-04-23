@@ -11,6 +11,17 @@ import java.util.Iterator;
 public class SurveyHelpers {
 
     /**
+     * Validates a survey record (e.g. survey does not already exist).
+     * Use before writing to database.
+     * @param survey
+     * @return
+     */
+    public static boolean validate(Survey survey) {
+        //TODO
+        return true;
+    }
+
+    /**
      * Calculates and returns the arithmetic mean for this Survey
      * @return BigDecimal average with scale of 2
      */

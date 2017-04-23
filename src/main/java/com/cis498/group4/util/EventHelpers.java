@@ -12,6 +12,17 @@ import java.time.temporal.ChronoUnit;
 public class EventHelpers {
 
     /**
+     * Validates an event record (e.g. no events are scheduled at the same time).
+     * Use before writing to database.
+     * @param event
+     * @return
+     */
+    public static boolean validate(Event event) {
+        //TODO
+        return true;
+    }
+
+    /**
      * Checks whether the event overlaps with an existing event with the same presenter
      * @param event
      * @return

@@ -3,6 +3,7 @@ package com.cis498.group4.util;
 import com.cis498.group4.data.AttendanceDataAccess;
 import com.cis498.group4.models.Attendance;
 import com.cis498.group4.models.Event;
+import com.cis498.group4.models.User;
 
 import java.util.List;
 
@@ -10,6 +11,41 @@ import java.util.List;
  * The AttendanceHelpers class contains methods to aid with manipulating Attendance data
  */
 public class AttendanceHelpers {
+
+    /**
+     * Validates an attendance record (e.g. no event registrations overlap for that user, capacity not full).
+     * Use before writing to database.
+     * @param attendance
+     * @return
+     */
+    public static boolean validate(Attendance attendance) {
+        //TODO
+        return true;
+    }
+
+    /**
+     * Validates an attendance record (e.g. no event registrations overlap for that user).
+     * Use before writing to database.
+     * @param user
+     * @param event
+     * @return
+     */
+    public static boolean validate(User user, Event event) {
+        //TODO
+        return true;
+    }
+
+    /**
+     * Validates an attendance status update (e.g. cannot downgrade an attendance from ATTENDED to SIGNED_IN)
+     * Use before writing to database.
+     * @param attendance
+     * @param status
+     * @return
+     */
+    public static boolean validateStatus(Attendance attendance, int status) {
+        //TODO
+        return true;
+    }
 
     /**
      * Calculates the number of spots remaining at an event by subtracting the event capacity from the number registered

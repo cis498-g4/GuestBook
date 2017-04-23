@@ -4,6 +4,7 @@ import com.cis498.group4.models.Event;
 import com.cis498.group4.models.Survey;
 import com.cis498.group4.models.User;
 import com.cis498.group4.util.DbConn;
+import com.cis498.group4.util.SurveyHelpers;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -117,9 +118,14 @@ public class SurveyDataAccess {
 
     /**
      * Inserts a new survey with responses into the database
-     * @param survey The Survey to insert
+     * @param survey The Survey to insert.
+     * @return 0 for success, -1 for invalid data, SQL error code for database failure
      */
-    public void insertSurvey(Survey survey) {
+    public int insertSurvey(Survey survey) {
+        if (!SurveyHelpers.validate(survey)) {
+            return -1;
+        }
+
         try {
             // Set parameters and execute SQL
             String sql = "INSERT INTO `survey`(`user_id`, `event_id`, `submission_date_time`, `response_01`, " +
@@ -140,9 +146,9 @@ public class SurveyDataAccess {
             }
 
             surveyPstmt.executeUpdate();
-
+            return 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            return e.getErrorCode();
         }
     }
 

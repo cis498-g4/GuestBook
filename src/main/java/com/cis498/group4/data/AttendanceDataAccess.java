@@ -3,6 +3,7 @@ package com.cis498.group4.data;
 import com.cis498.group4.models.Attendance;
 import com.cis498.group4.models.Event;
 import com.cis498.group4.models.User;
+import com.cis498.group4.util.AttendanceHelpers;
 import com.cis498.group4.util.DbConn;
 
 import java.sql.*;
@@ -220,9 +221,13 @@ public class AttendanceDataAccess {
      * Uses default attendance status of NOT_ATTENDED
      * @param user The user to register
      * @param event The event for which to register
-     * @return 0 for success, SQL error code for failure
+     * @return 0 for success, -1 for invalid data, SQL error code for database failure
      */
     public int register(User user, Event event) {
+        if (!AttendanceHelpers.validate(user, event)) {
+            return -1;
+        }
+
         try {
             // Set parameters and execute SQL
             String sql = "INSERT INTO `event_attendance`(`user_id`, `event_id`, `attendance_status_id`) " +
@@ -244,9 +249,13 @@ public class AttendanceDataAccess {
      * @param user The user to register
      * @param event The event for which to register
      * @param status The status code for the new registration
-     * @return 0 for success, SQL error code for failure
+     * @return 0 for success, -1 for invalid data, SQL error code for database failure
      */
     public int register(User user, Event event, int status) {
+        if (!AttendanceHelpers.validate(user, event)) {
+            return -1;
+        }
+
         try {
             // Set parameters and execute SQL
             String sql = "INSERT INTO `event_attendance`(`user_id`, `event_id`, `attendance_status_id`) " +
@@ -265,7 +274,7 @@ public class AttendanceDataAccess {
     /**
      * Removes the specified attendance entry from the database (effectively deregistering a user from an event)
      * @param attendance The attendance record to remove
-     * @return 0 for success, SQL error code for failure
+     * @return 0 for success, -1 for invalid data, SQL error code for database failure
      */
     public int deregister(Attendance attendance) {
         try {
@@ -285,9 +294,13 @@ public class AttendanceDataAccess {
      * Updates an attendance status code for a given user and event
      * @param attendance The record whose status needs to be changed
      * @param status The ordinal status code to set
-     * @return
+     * @return 0 for success, -1 for invalid data, SQL error code for database failure
      */
     public int updateStatus(Attendance attendance, int status) {
+        if (!AttendanceHelpers.validateStatus(attendance, status)) {
+            return -1;
+        }
+
         try {
             // Set parameters and execute SQL
             String sql = "UPDATE `event_attendance` SET `attendance_status_id` = ? " +
@@ -308,7 +321,7 @@ public class AttendanceDataAccess {
      * @param event The event for the update
      * @param user The user for the update
      * @param status The ordinal status code to set
-     * @return
+     * @return 0 for success, -1 for invalid data, SQL error code for database failure
      */
     public int updateStatus(Event event, User user, int status) {
         Attendance attendance = new Attendance();

@@ -3,6 +3,7 @@ package com.cis498.group4.data;
 import com.cis498.group4.models.Event;
 import com.cis498.group4.models.User;
 import com.cis498.group4.util.DbConn;
+import com.cis498.group4.util.EventHelpers;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -119,9 +120,13 @@ public class EventDataAccess {
     /**
      * Inserts a new user into the `event` table in the database
      * @param event The Event object to insert
-     * @return 0 for success, SQL error code for DB failure
+     * @return 0 for success, -1 for invalid data, SQL error code for database failure
      */
     public int insertEvent(Event event) {
+        if (!EventHelpers.validate(event)) {
+            return -1;
+        }
+
         try {
             // Set parameters and execute SQL
             String sql = "INSERT INTO `event`(`event_name`, `start_date_time`, `end_date_time`, `presenter_id`, " +
@@ -148,9 +153,13 @@ public class EventDataAccess {
     /**
      * Updates the data of the event with the specified ID in the `event` table in the database
      * @param event The Event object whose data is to be written in the row
-     * @return 0 for success, SQL error code for DB failure
+     * @return 0 for success, -1 for invalid data, SQL error code for database failure
      */
     public int updateEvent(Event event) {
+        if (!EventHelpers.validate(event)) {
+            return -1;
+        }
+
         try {
             // Set parameters and execute SQL
             String sql = "UPDATE `event` " +

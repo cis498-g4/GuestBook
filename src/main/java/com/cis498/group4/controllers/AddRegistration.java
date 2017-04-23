@@ -92,7 +92,6 @@ public class AddRegistration extends HttpServlet {
 
         String url = String.format("/manager/view-reg?id=%d", event.getId());
 
-        //TODO Validate before insert - check capacity
         if (user.getEmail() != null) {
             int insertStatus = attendanceData.register(user, event);
 
@@ -103,7 +102,7 @@ public class AddRegistration extends HttpServlet {
             }
 
         }  else {
-            statusMessage = "ERROR: User not found!!";
+            statusMessage = "ERROR: User not found!!";  // TODO move this into insert status check
         }
 
         request.setAttribute("statusMessage", statusMessage);

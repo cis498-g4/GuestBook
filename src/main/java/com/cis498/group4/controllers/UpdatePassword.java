@@ -106,32 +106,30 @@ public class UpdatePassword extends HttpServlet {
 
         // Attempt write to DB and respond to user
         } else {
-            // TODO: Validate password before commit (http://red.ht/2nMrGNu)
-            if (true) {
-                int updateStatus = userData.updateUserPassword(user, newPassword);
 
-                if (updateStatus == 0) {
-                    url = "/manager/view-user";
-                    pageTitle = String.format("Info for user %s %s", user.getFirstName(), user.getLastName());
-                    statusMessage = "Password updated successfully.";
+            int updateStatus = userData.updateUserPassword(user, newPassword);
 
-                } else {
-                    url = String.format("/WEB-INF/views/change-password.jsp?id=%s", user.getId());
-                    pageTitle = String.format("Change password for %s %s", user.getFirstName(), user.getLastName());
-                    statusMessage = "ERROR: Password update failed!";
-                    error = "db";
-                    request.setAttribute("error", error);
+            if (updateStatus == 0) {
+                url = "/manager/view-user";
+                pageTitle = String.format("Info for user %s %s", user.getFirstName(), user.getLastName());
+                statusMessage = "Password updated successfully.";
 
-                }
-
-            } else {
+            } else if (updateStatus == -1) {
                 url = String.format("/WEB-INF/views/change-password.jsp?id=%s", user.getId());
                 pageTitle = String.format("Change password for %s %s", user.getFirstName(), user.getLastName());
                 statusMessage = "ERROR: Invalid data entered for user password!";
                 error = "invalid";
                 request.setAttribute("error", error);
 
+            } else {
+                url = String.format("/WEB-INF/views/change-password.jsp?id=%s", user.getId());
+                pageTitle = String.format("Change password for %s %s", user.getFirstName(), user.getLastName());
+                statusMessage = "ERROR: Password update failed!";
+                error = "db";
+                request.setAttribute("error", error);
+
             }
+            
         }
 
         request.setAttribute("pageTitle", pageTitle);

@@ -87,20 +87,16 @@ public class UpdateUser extends HttpServlet {
         user.setEmail(request.getParameter("email"));
 
         // Attempt write to DB and respond to user
-        // TODO: Validate user info before commit (http://red.ht/2nMrGNu)
-        if (true) {
-            int updateStatus = userData.updateUser(user);
+        int updateStatus = userData.updateUser(user);
 
-            if (updateStatus == 0) {
-                statusMessage = "User information updated successfully.";
-            } else {
-                statusMessage = "ERROR: Update operation failed!";
-            }
-
-        } else {
+        if (updateStatus == 0) {
+            statusMessage = "User information updated successfully.";
+        } else if (updateStatus == -1) {
             statusMessage = "ERROR: Invalid data entered for user update!";
+        } else {
+            statusMessage = "ERROR: Update operation failed!";
         }
-
+        
         request.setAttribute("statusMessage", statusMessage);
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);

@@ -201,9 +201,13 @@ public class UserDataAccess {
     /**
      * Inserts a new user into the `user` table in the database
      * @param user The User object to insert
-     * @return 0 for success, SQL error code for DB failure, int < 0 for encryption failure
+     * @return 0 for success, -1 for invalid data, -2 or -3 for encryption error, SQL error code for database failure
      */
     public int insertUser(User user) {
+        if (!UserHelpers.validate(user)) {
+            return -1;
+        }
+
         try {
             // Set parameters and execute SQL
             String sql = "INSERT INTO `user`(`user_type_id`, `first_name`, `last_name`, `email`, `password`) " +
@@ -220,18 +224,22 @@ public class UserDataAccess {
         } catch (SQLException e) {
             return e.getErrorCode();
         } catch (NoSuchAlgorithmException e) {
-            return -1;
-        } catch (UnsupportedEncodingException e) {
             return -2;
+        } catch (UnsupportedEncodingException e) {
+            return -3;
         }
     }
 
     /**
      * Updates the data of the user with the specified ID in the `user` table in the database
      * @param user The User object to update
-     * @return 0 for success, SQL error code for failure
+     * @return 0 for success, -1 for invalid data, SQL error code for database failure
      */
     public int updateUser(User user) {
+        if (!UserHelpers.validate(user)) {
+            return -1;
+        }
+
         try {
             // Set parameters and execute SQL
             String sql = "UPDATE `user` SET `user_type_id` = ?, `first_name` = ?, `last_name` = ?, `email` = ? " +
@@ -254,9 +262,13 @@ public class UserDataAccess {
      * Updates user password by writing a new password hash to the DB
      * @param user The user whose password is to be updated
      * @param password The new password
-     * @return 0 for success, SQL error code for DB failure, int < 0 for encryption failure
+     * @return 0 for success, -1 for invalid data, -2 or -3 for encryption error, SQL error code for database failure
      */
     public int updateUserPassword(User user, String password) {
+        if (!UserHelpers.validatePassword(password)) {
+            return -1;
+        }
+
         try {
             String sql = "UPDATE `user` SET `password` = ? WHERE `user_id` = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -274,7 +286,7 @@ public class UserDataAccess {
     }
 
     /**
-     * Deletes the user with the specified ID from the `app_user` table in the database
+     * Deletes the user with the specified ID from the database
      * @param user The user to delete
      * @return 0 for success, SQL error code for failure
      */
