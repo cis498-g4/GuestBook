@@ -158,7 +158,7 @@ public class ShowSurveyForm extends HttpServlet {
         } else if (insertStatus == -1) {
             statusMessage = "ERROR: Invalid data submitted for survey!";
         } else {
-            statusMessage = "ERROR: There was a problem submitting your survey.";
+            statusMessage = String.format("ERROR: There was a problem submitting your survey (%d)", insertStatus);
         }
 
         request.setAttribute("statusMessage", statusMessage);
