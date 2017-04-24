@@ -40,6 +40,7 @@ public class ListPendingSurveysGuest extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         // Restrict access by non-Guests
         if (!SessionHelpers.checkGuest(request.getSession())) {
             response.sendError(
