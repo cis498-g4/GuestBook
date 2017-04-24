@@ -33,46 +33,12 @@
 <hr>
 
 <table>
-    <tr>
-        <td><strong>Question 1 goes here: </strong></td>
-        <td>${survey.responses.get("response_01")}</td>
-    </tr>
-    <tr>
-        <td><strong>Question 2 goes here: </strong></td>
-        <td>${survey.responses.get("response_02")}</td>
-    </tr>
-    <tr>
-        <td><strong>Question 3 goes here: </strong></td>
-        <td>${survey.responses.get("response_03")}</td>
-    </tr>
-    <tr>
-        <td><strong>Question 4 goes here: </strong></td>
-        <td>${survey.responses.get("response_04")}</td>
-    </tr>
-    <tr>
-        <td><strong>Question 5 goes here: </strong></td>
-        <td>${survey.responses.get("response_05")}</td>
-    </tr>
-    <tr>
-        <td><strong>Question 6 goes here: </strong></td>
-        <td>${survey.responses.get("response_06")}</td>
-    </tr>
-    <tr>
-        <td><strong>Question 7 goes here: </strong></td>
-        <td>${survey.responses.get("response_07")}</td>
-    </tr>
-    <tr>
-        <td><strong>Question 8 goes here: </strong></td>
-        <td>${survey.responses.get("response_08")}</td>
-    </tr>
-    <tr>
-        <td><strong>Question 9 goes here: </strong></td>
-        <td>${survey.responses.get("response_09")}</td>
-    </tr>
-    <tr>
-        <td><strong>Question 10 goes here: </strong></td>
-        <td>${survey.responses.get("response_10")}</td>
-    </tr>
+    <c:forEach items="${surveyResponses}" var="response">
+        <tr>
+            <td>${response.key}</td>
+            <td><strong>${response.value}</strong></td>
+        </tr>
+    </c:forEach>
 </table>
 
 <hr>

@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The ShowSurveyInfo servlet responds with the information for the specified survey, including responses.
@@ -50,30 +52,18 @@ public class ShowSurveyInfo extends HttpServlet {
         Survey survey = surveyData.getSurvey(Integer.parseInt(request.getParameter("id")));
         request.setAttribute("survey", survey);
 
+        // Set questions and responses
+        Map<String, Integer> surveyResponses = SurveyHelpers.getQuestionsResponses(survey);
+        request.setAttribute("surveyResponses", surveyResponses);
+
         // Respond with some basic statistics
         BigDecimal average = SurveyHelpers.responseAverage(survey);
-        String sentiment ="";
-
-        if (average.doubleValue() < 2.5) {
-            sentiment = "very negative";
-        }
-
-        if (average.doubleValue() >= 2.5 && average.doubleValue() < 5.0) {
-            sentiment = "somewhat negative";
-        }
-
-        if (average.doubleValue() >= 5.0 && average.doubleValue() < 7.5) {
-            sentiment = "somewhat positive";
-        }
-
-        if (average.doubleValue() >= 7.5) {
-            sentiment = "very positive";
-        }
+        String sentiment = SurveyHelpers.responseSentiment(average.doubleValue());
 
         request.setAttribute("average", average);
         request.setAttribute("sentiment", sentiment);
 
-        String pageTitle = String.format("Survey for \"%s\" by %s %s", survey.getEvent().getName(),
+        String pageTitle = String.format("Survey for %s, by %s %s", survey.getEvent().getName(),
                 survey.getUser().getFirstName(), survey.getUser().getLastName());
         request.setAttribute("pageTitle", pageTitle);
 
