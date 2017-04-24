@@ -1,8 +1,11 @@
 package com.cis498.group4.controllers;
 
+import com.cis498.group4.data.AttendanceDataAccess;
 import com.cis498.group4.data.EventDataAccess;
 import com.cis498.group4.data.SurveyDataAccess;
+import com.cis498.group4.models.Attendance;
 import com.cis498.group4.models.Event;
+import com.cis498.group4.models.Survey;
 import com.cis498.group4.models.User;
 import com.cis498.group4.util.SessionHelpers;
 import com.cis498.group4.util.SurveyHelpers;
@@ -15,7 +18,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by mpm624 on 4/24/17.
@@ -25,12 +31,12 @@ public class ShowSurveyForm extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     private SurveyDataAccess surveyData;
-    private EventDataAccess eventData;
+    private AttendanceDataAccess attendanceData;
 
     public ShowSurveyForm() {
         super();
         surveyData = new SurveyDataAccess();
-        eventData = new EventDataAccess();
+        attendanceData = new AttendanceDataAccess();
     }
 
     /**
@@ -55,7 +61,17 @@ public class ShowSurveyForm extends HttpServlet {
 
         String url = "/WEB-INF/views/survey.jsp";
 
-        Event event = eventData.getEvent(Integer.parseInt(request.getParameter("eventId")));
+        Attendance attendance = attendanceData.getAttendance(
+                user.getId(), Integer.parseInt(request.getParameter("eventId")));
+
+        // Restrict access to surveys if the guest did not sign in to the event
+        if (attendance.getStatus() == null || attendance.getStatus() == Attendance.AttendanceStatus.NOT_ATTENDED) {
+            response.sendError(
+                    HttpServletResponse.SC_FORBIDDEN, "You do not have permission to access this resource");
+            return;
+        }
+
+        Event event = attendance.getEvent();
         request.setAttribute("event", event);
 
         request.setAttribute("questions", SurveyHelpers.QUESTIONS);
@@ -90,7 +106,60 @@ public class ShowSurveyForm extends HttpServlet {
             return;
         }
 
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("sessionUser");
 
+        String url = "/manager/list-surveys-guest";
+        String statusMessage;
+
+        Attendance attendance = attendanceData.getAttendance(user.getId(), Integer.parseInt(request.getParameter("eventId")));
+
+        // Restrict access to surveys if the guest did not sign in to the event
+        if (attendance.getStatus() == null || attendance.getStatus() == Attendance.AttendanceStatus.NOT_ATTENDED) {
+            response.sendError(
+                    HttpServletResponse.SC_FORBIDDEN, "You do not have permission to access this resource");
+            return;
+        }
+
+        // Build survey object
+        Survey survey = new Survey();
+
+        survey.setUser(user);
+        survey.setEvent(attendance.getEvent());
+        survey.setSubmissionDateTime(LocalDateTime.now());
+
+        Map<String, Integer> responses = new HashMap<String, Integer>();
+
+        for(int i = 1; i <= 10; i++) {
+            String responseLabel = String.format("response_%02d", i);
+            responses.put(responseLabel, Integer.valueOf(request.getParameter(responseLabel)));
+        }
+
+        survey.setResponses(responses);
+
+        // Write survey to DB and respond to user
+        int insertStatus = surveyData.insertSurvey(survey);
+
+        if (insertStatus == 0) {
+            statusMessage = "Thank you for submitting your survey!";
+
+            // Update status if needed
+            if (attendance.getStatus() == Attendance.AttendanceStatus.SIGNED_IN) {
+                attendanceData.updateStatus(attendance, Attendance.AttendanceStatus.ATTENDED.ordinal());
+            }
+
+        } else if (insertStatus == 1062) {
+            statusMessage = "ERROR: Survey already submitted for this event!";
+        } else if (insertStatus == -1) {
+            statusMessage = "ERROR: Invalid data submitted for survey!";
+        } else {
+            statusMessage = "ERROR: There was a problem submitting your survey.";
+        }
+
+        request.setAttribute("statusMessage", statusMessage);
+
+        RequestDispatcher view = request.getRequestDispatcher(url);
+        view.forward(request, response);
 
     }
 
