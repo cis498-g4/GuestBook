@@ -13,7 +13,7 @@
 
     <c:if test="${events.isEmpty()}">
         <tr>
-            <td colspan="5" align="center">No events found</td>
+            <td colspan="5" align="center">No pending surveys found</td>
         </tr>
     </c:if>
 
