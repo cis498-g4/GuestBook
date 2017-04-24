@@ -145,7 +145,7 @@ public class SurveyDataAccess {
             surveyPstmt.setInt(1, survey.getUser().getId());
             surveyPstmt.setInt(2, survey.getEvent().getId());
             surveyPstmt.setString(3,
-                    survey.getSubmissionDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:SS")));
+                    survey.getSubmissionDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
             Map<String, Integer> responses = survey.getResponses();
 
