@@ -11,7 +11,7 @@
     </c:if>
     <c:if test="${sessionUser.type == 'GUEST'}">
         <a href="events-guest">My Events</a> |
-        <a href="surveys-guest">My Surveys</a> |
+        <a href="list-surveys-guest">My Surveys</a> |
         <a href="account-info">My Account</a> |
         <a href="logout">Logout</a>
     </c:if>
