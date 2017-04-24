@@ -32,7 +32,8 @@ public class SurveyHelpers {
      * @return
      */
     public static boolean validate(Survey survey) {
-        //TODO
+        // TODO User attended event
+        // TODO Survey does not already exist
         return true;
     }
 
