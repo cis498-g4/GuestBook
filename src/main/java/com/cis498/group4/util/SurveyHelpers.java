@@ -25,6 +25,19 @@ public class SurveyHelpers {
             "How likely are you to recommend the event to a friend or colleague?"
     };
 
+    public static final String[] RESPONSE_TYPES = {
+            "satisfied",
+            "satisfied",
+            "relevant",
+            "satisfied",
+            "satisfied",
+            "likely",
+            "satisfied",
+            "satisfied",
+            "well",
+            "likely"
+    };
+
     /**
      * Validates a survey record (e.g. survey does not already exist).
      * Use before writing to database.
