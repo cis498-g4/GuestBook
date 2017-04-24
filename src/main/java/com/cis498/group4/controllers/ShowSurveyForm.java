@@ -64,6 +64,9 @@ public class ShowSurveyForm extends HttpServlet {
         Attendance attendance = attendanceData.getAttendance(
                 user.getId(), Integer.parseInt(request.getParameter("eventId")));
 
+        Event event = attendance.getEvent();
+        request.setAttribute("event", event);
+
         // Restrict access to surveys if the guest did not sign in to the event
         if (attendance.getStatus() == null || attendance.getStatus() == Attendance.AttendanceStatus.NOT_ATTENDED) {
             response.sendError(
@@ -71,8 +74,10 @@ public class ShowSurveyForm extends HttpServlet {
             return;
         }
 
-        Event event = attendance.getEvent();
-        request.setAttribute("event", event);
+        // Restrict if survey already exists
+        if (surveyData.getSurveyId(user, event) > 0) {
+            request.setAttribute("surveyTaken", true);
+        }
 
         request.setAttribute("questions", SurveyHelpers.QUESTIONS);
         request.setAttribute("responseTypes", SurveyHelpers.RESPONSE_TYPES);

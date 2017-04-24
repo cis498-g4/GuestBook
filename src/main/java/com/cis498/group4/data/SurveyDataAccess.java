@@ -105,15 +105,24 @@ public class SurveyDataAccess {
      * Gets the ID of a survey based on its unique user, event combination
      * @param user The user of the survey
      * @param event The event for the survey
-     * @return The id of the survey
+     * @return The id of the survey, or 0 if not found, or -1 if exception occurs
      */
-    public int getSurveyId(User user, Event event) throws SQLException {
-        String sql = "SELECT `survey_id` FROM `survey` WHERE `user_id` = ? AND `event_id` = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setInt(1, user.getId());
-        preparedStatement.setInt(2, event.getId());
-        ResultSet results = preparedStatement.executeQuery();
-        return results.getInt("survey_id");
+    public int getSurveyId(User user, Event event){
+        try {
+            String sql = "SELECT `survey_id` FROM `survey` WHERE `user_id` = ? AND `event_id` = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, user.getId());
+            preparedStatement.setInt(2, event.getId());
+            ResultSet results = preparedStatement.executeQuery();
+
+            if (results.next()) {
+                return results.getInt("survey_id");
+            } else {
+                return 0;
+            }
+        } catch (SQLException e) {
+            return -1;
+        }
     }
 
     /**

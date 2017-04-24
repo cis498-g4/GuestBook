@@ -3,39 +3,45 @@
 
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
-<p>
-    Please provide a response on the scale of 1 to 10 for each question below, where 10 represents the most positive response.
-    <br>You must respond to every question in order for your survey to be counted.
-</p>
+<c:if test="${surveyTaken}">
+    <p>You have already submitted this survey. Thank you for your response!</p>
+</c:if>
 
-<!-- TODO: HTML / JS form validation -->
-<form action="take-survey" method="post">
+<c:if test="${!surveyTaken}">
+    <p>
+        Please provide a response on the scale of 1 to 10 for each question below, where 10 represents the most positive response.
+        <br>You must respond to every question in order for your survey to be counted.
+    </p>
 
-
-    <c:forEach begin="0" end="9" varStatus="outer">
-        <p><strong>${questions[outer.index]}</strong></p>
-        <table>
-            <tr>
-                <td>Not ${responseTypes[outer.index]}</td>
-                <c:forEach begin="1" end="10" varStatus="inner">
-                    <td><input type="radio" name="${responses[outer.index]}" value="${inner.index}" required></td>
-                </c:forEach>
-                <td>Very ${responseTypes[outer.index]}</td>
-            </tr>
-            <tr>
-                <td></td>
-                <c:forEach begin="1" end="10" varStatus="num">
-                    <td>${num.index}</td>
-                </c:forEach>
-                <td></td>
-            </tr>
-        </table>
-    </c:forEach>
+    <!-- TODO: HTML / JS form validation -->
+    <form action="take-survey" method="post">
 
 
-    <input type="hidden" name="eventId" value="${event.id}">
-    <input type="submit" value="submit survey">
-</form>
+        <c:forEach begin="0" end="9" varStatus="outer">
+            <p><strong>${questions[outer.index]}</strong></p>
+            <table>
+                <tr>
+                    <td>Not ${responseTypes[outer.index]}</td>
+                    <c:forEach begin="1" end="10" varStatus="inner">
+                        <td><input type="radio" name="${responses[outer.index]}" value="${inner.index}" required></td>
+                    </c:forEach>
+                    <td>Very ${responseTypes[outer.index]}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <c:forEach begin="1" end="10" varStatus="num">
+                        <td>${num.index}</td>
+                    </c:forEach>
+                    <td></td>
+                </tr>
+            </table>
+        </c:forEach>
+
+
+        <input type="hidden" name="eventId" value="${event.id}">
+        <input type="submit" value="submit survey">
+    </form>
+</c:if>
 
 <hr>
 
