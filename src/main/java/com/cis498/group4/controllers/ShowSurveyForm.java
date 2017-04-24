@@ -131,7 +131,8 @@ public class ShowSurveyForm extends HttpServlet {
 
         survey.setUser(user);
         survey.setEvent(attendance.getEvent());
-        survey.setSubmissionDateTime(LocalDateTime.now());
+        LocalDateTime submissionDateTime = LocalDateTime.now();
+        survey.setSubmissionDateTime(submissionDateTime);
 
         Map<String, Integer> responses = new HashMap<String, Integer>();
 
