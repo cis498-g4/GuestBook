@@ -170,6 +170,42 @@ public class AttendanceDataAccess {
     }
 
     /**
+     * Gets a list of attendances where the user has not completed a survey
+     * @param user The user whose attendances to retrieve
+     * @return List of attendance records for the user where there is no associated survey
+     */
+    public List<Attendance> getPendingSurveys(User user) {
+        List<Attendance> pendingSurveys = new ArrayList<Attendance>();
+
+        try {
+            // Get attendance counts
+            Map<Integer, Integer> attendanceCounts = getAttendanceCounts();
+
+            // Set parameters and execute SQL
+            String sql = SELECT_ALL_ATTRIBUTES +
+                         "LEFT JOIN `survey` s ON a.`user_id` = s.`user_id` AND a.`event_id` = s.`event_id` " +
+                         "WHERE a.`user_id` = ? AND s.`survey_id` IS NULL AND e.`end_date_time` <= CURDATE()";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, user.getId());
+            ResultSet results = preparedStatement.executeQuery();
+
+            // Store results in list
+            while (results.next()) {
+                Attendance attendance = new Attendance();
+                setAttributes(attendance, attendanceCounts, results);
+                pendingSurveys.add(attendance);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+
+        return pendingSurveys;
+    }
+
+    /**
      * Gets a count of the total number of users associated with an event
      * @param eventId The ID of the event whose attendance count to get
      * @return
