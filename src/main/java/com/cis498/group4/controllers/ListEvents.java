@@ -38,7 +38,6 @@ public class ListEvents extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         // Restrict access by non-Organizers
-        // TODO: how to handle Guests? Separate servlet?
         // TODO: how to handle filters? Re-call the servlet and pass a filter parameter?
         if (!SessionHelpers.checkOrganizer(request.getSession())) {
             response.sendError(
