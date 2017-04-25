@@ -92,6 +92,20 @@ public class EventHelpers {
     }
 
     /**
+     * Checks whther the event is currently in progress, based on its scheduled start and end times
+     * @param event
+     * @return
+     */
+    public static boolean isInProgress(Event event) {
+
+        if (startedInPast(event) && endsInFuture(event)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Calculates the number of seconds until the event's end
      * @param event
      * @return Number of seconds until event end, or INT_MAX
