@@ -108,7 +108,7 @@ public class RemoveRegistration extends HttpServlet {
                 if (deregStatus == 0) {
                     statusMessage = "Registration has been removed";
                 } else {
-                    statusMessage = "ERROR: Delete event operation failed!";
+                    statusMessage = "ERROR: Remove registration operation failed!";
                 }
 
             } else {
