@@ -10,8 +10,9 @@
         <a href="logout">Logout</a>
     </c:if>
     <c:if test="${sessionUser.type == 'GUEST'}">
-        <a href="events-guest">My Events</a> |
+        <a href="list-events-guest">My Events</a> |
         <a href="list-surveys-guest">My Surveys</a> |
+        <a href="event-reg-guest">Event Registration</a> |
         <a href="account-info">My Account</a> |
         <a href="logout">Logout</a>
     </c:if>
