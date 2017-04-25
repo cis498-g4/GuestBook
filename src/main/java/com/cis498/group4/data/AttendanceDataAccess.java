@@ -136,6 +136,40 @@ public class AttendanceDataAccess {
     }
 
     /**
+     * Retrieves a list of events a user is associated with
+     * @param user The user whose attendance to retrieve
+     * @return list of attendance records for the user
+     */
+    public List<Attendance> getUserAttendance(User user) {
+        List<Attendance> userAttendance = new ArrayList<Attendance>();
+
+        try {
+            // Get attendance counts
+            Map<Integer, Integer> attendanceCounts = getAttendanceCounts();
+
+            // Set parameters and execute SQL
+            String sql = SELECT_ALL_ATTRIBUTES + " WHERE a.`user_id` = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, user.getId());
+            ResultSet results = preparedStatement.executeQuery();
+
+            // Store results in list
+            while (results.next()) {
+                Attendance attendance = new Attendance();
+                setAttributes(attendance, attendanceCounts, results);
+                userAttendance.add(attendance);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+
+        return userAttendance;
+    }
+
+    /**
      * Retrieves a list of events a user has attended
      * @param user The user whose attendance to retrieve
      * @return list of attendance records for the user
