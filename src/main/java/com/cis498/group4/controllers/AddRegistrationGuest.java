@@ -69,7 +69,7 @@ public class AddRegistrationGuest extends HttpServlet {
         }
 
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
+        User user = (User) session.getAttribute("sessionUser");
 
         String url = "/manager/list-registrations-guest";
         String statusMessage;
@@ -77,11 +77,11 @@ public class AddRegistrationGuest extends HttpServlet {
         Event event = eventData.getEventByRegistrationCode(request.getParameter("reg-code"));
         request.setAttribute("event", event);
 
-        Attendance attendance = attendanceData.getAttendance(user.getId(), event.getId());  //FIXME: Null Pointer
+        Attendance attendance = attendanceData.getAttendance(user.getId(), event.getId());
 
         // TOD move these checks into a helper method that returns a code
         if (event.isOpenRegistration()) {
-            if (!AttendanceHelpers.isFull(attendance.getEvent())) {
+            if (!AttendanceHelpers.isFull(attendance.getEvent())) {     //FIXME: Null Pointer
                 if (!AttendanceHelpers.isOverlapping(attendance)) {
 
                     int insertStatus = attendanceData.register(user, event);
