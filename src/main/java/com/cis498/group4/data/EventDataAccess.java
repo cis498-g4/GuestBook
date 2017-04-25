@@ -118,6 +118,33 @@ public class EventDataAccess {
     }
 
     /**
+     * Retrieves an event by its unique registration code
+     * @param registrationCode
+     * @return Event matching the registration code
+     */
+    public Event getEventByRegistrationCode(String registrationCode) {
+        Event event = new Event();
+
+        try {
+            // Set registration code parameter and execute SQL statement
+            String sql = SELECT_ALL_ATTRIBUTES + " WHERE e.`registration_code` = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, registrationCode);
+            ResultSet results = preparedStatement.executeQuery();
+
+            // Store results in Event object
+            if (results.next()) {
+                setAttributes(event, results);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return event;
+    }
+
+    /**
      * Inserts a new user into the `event` table in the database
      * @param event The Event object to insert
      * @return 0 for success, -1 for invalid data, SQL error code for database failure
