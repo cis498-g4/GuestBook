@@ -56,12 +56,14 @@ public class RemoveRegistration extends HttpServlet {
         Attendance attendance = attendanceData.getAttendance(userId, eventId);
         User user = attendance.getUser();
         Event event = attendance.getEvent();
-        String eventDate = event.getStartDateTime().format(DateTimeFormatter.ofPattern("MM/dd/YY"));
-
         request.setAttribute("attendance", attendance);
         request.setAttribute("user", user);
         request.setAttribute("event", event);
+
+        String eventDate = event.getStartDateTime().format(DateTimeFormatter.ofPattern("MM/dd/YY"));
         request.setAttribute("eventDate", eventDate);
+        String eventLongDate = event.getStartDateTime().format(DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy"));
+        request.setAttribute("eventLongDate", eventLongDate);
 
         String pageTitle = String.format("Remove user %s %s registration from %s (%s)?",
                 user.getFirstName(), user.getLastName(), event.getName(), eventDate);
