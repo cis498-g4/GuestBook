@@ -209,7 +209,7 @@ public class AttendanceDataAccess {
      * @param user The user whose attendance to retrieve
      * @return list of attendance records for the user
      */
-    public List<Attendance> getFutureRegistration(User user) {
+    public List<Attendance> getFutureRegistrations(User user) {
         List<Attendance> futureRegistration = new ArrayList<Attendance>();
 
         try {
