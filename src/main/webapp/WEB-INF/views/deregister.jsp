@@ -4,7 +4,9 @@
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
 <p>This will <strong>remove</strong> the registration for ${user.firstName} ${user.lastName} from the event ${event.name} on ${eventDate}.</p>
-<p>After removing the registration, there will be ${event.capacity - event.numRegistered + 1} open seats at this event.</p>
+<c:if test="${event.capacity > 0}">
+    <p>After removing the registration, there will be ${event.capacity - event.numRegistered + 1} open seats at this event.</p>
+</c:if>
 
 <form action="deregister" method="post">
     <p>
