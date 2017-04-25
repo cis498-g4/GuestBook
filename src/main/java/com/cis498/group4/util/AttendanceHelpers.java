@@ -109,4 +109,40 @@ public class AttendanceHelpers {
         return (attendanceList.size() >= event.getCapacity());
     }
 
+    /**
+     * Returns more specific attendance status string, based on whether the event is in the past or future
+     * @param attendance
+     * @return
+     */
+    public static String temporalStatus(Attendance attendance) {
+        if(attendance.getStatus() == Attendance.AttendanceStatus.NOT_ATTENDED) {
+            if (EventHelpers.startsInFuture(attendance.getEvent())) {
+                return "upcoming";
+            } else if (EventHelpers.isInProgress(attendance.getEvent())) {
+                return "current";
+            } else {
+                return "missed";
+            }
+        }
+
+        if (attendance.getStatus() == Attendance.AttendanceStatus.SIGNED_IN) {
+            if (EventHelpers.endsInFuture(attendance.getEvent())) {
+                return "signed-in";
+            }
+
+            return "survey-pending";
+        }
+
+        if (attendance.getStatus() == Attendance.AttendanceStatus.ATTENDED) {
+            if (EventHelpers.endsInFuture(attendance.getEvent())) {
+                return "in-attendance";
+            }
+
+            return "attended";
+        }
+
+        return "unknown";
+
+    }
+
 }
