@@ -41,10 +41,10 @@ public class RemoveRegistration extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        // Restrict access if not logged in
-        if (!SessionHelpers.checkLogin(request.getSession())) {
+        // Restrict access by non-Organizers
+        if (!SessionHelpers.checkOrganizer(request.getSession())) {
             response.sendError(
-                    HttpServletResponse.SC_FORBIDDEN, "You must login to access this resource");
+                    HttpServletResponse.SC_FORBIDDEN, "You do not have permission to access this resource");
             return;
         }
 
@@ -82,10 +82,10 @@ public class RemoveRegistration extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        // Restrict access if not logged in
-        if (!SessionHelpers.checkLogin(request.getSession())) {
+        // Restrict access by non-Organizers
+        if (!SessionHelpers.checkOrganizer(request.getSession())) {
             response.sendError(
-                    HttpServletResponse.SC_FORBIDDEN, "You must login to access this resource");
+                    HttpServletResponse.SC_FORBIDDEN, "You do not have permission to access this resource");
             return;
         }
 
