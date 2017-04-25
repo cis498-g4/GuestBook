@@ -31,7 +31,7 @@ public class ListEventsGuest extends HttpServlet {
     }
 
     /**
-     * Render a list of events, with buttons to deregister from each
+     * Render a list of events, with buttons to view details for each
      * @param request
      * @param response
      * @throws ServletException

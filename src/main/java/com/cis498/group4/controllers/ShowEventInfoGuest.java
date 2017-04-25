@@ -32,7 +32,8 @@ public class ShowEventInfoGuest extends HttpServlet {
     }
 
     /**
-     * Render page to display all data about an event, with buttons to edit and delete
+     * Render page to display all data about an event associated with a user,
+     * with buttons to take surveys or deregister (if applicable)
      * @param request
      * @param response
      * @throws ServletException
