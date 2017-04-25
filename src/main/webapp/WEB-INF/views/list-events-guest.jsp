@@ -34,7 +34,7 @@
             </td>
             <td>
                 <form action="show-event-guest">
-                    <input type="hidden" name="id" value="${attendance.event.id}">
+                    <input type="hidden" name="eventId" value="${attendance.event.id}">
                     <input type="submit" value="view details">
                 </form>
             </td>
