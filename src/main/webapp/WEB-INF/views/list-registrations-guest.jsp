@@ -61,7 +61,8 @@
 
 <h4>Register for another event</h4>
 
-<form action="list-registrations-guest" method="post">
+<!-- TODO need separate AddRegistrationGuest -->
+<form action="add-registration-guest" method="post">
     <label for="reg-code">If you have the registration code for a new event, enter it here: </label>
     <input type="text" name="reg-code" id="reg-code" required>
     <input type="submit" value="register">
