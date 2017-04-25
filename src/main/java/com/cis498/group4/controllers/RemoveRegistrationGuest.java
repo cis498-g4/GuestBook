@@ -56,7 +56,6 @@ public class RemoveRegistrationGuest extends HttpServlet {
 
         Attendance attendance = attendanceData.getAttendance(
                 user.getId(), Integer.parseInt(request.getParameter("eventId")));
-        request.setAttribute("attendance", attendance);
 
         Event event = attendance.getEvent();
         request.setAttribute("event", event);
@@ -109,38 +108,39 @@ public class RemoveRegistrationGuest extends HttpServlet {
             return;
         }
 
-        //TODO
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("sessionUser");
 
-//        int userId = Integer.parseInt(request.getParameter("userId"));
-//        int eventId = Integer.parseInt(request.getParameter("eventId"));
-//
-//        Attendance attendance = attendanceData.getAttendance(userId, eventId);
-//
-//        String url = String.format("/manager/view-reg?id=%d", eventId);
-//        String statusMessage;
-//
-//        if (attendance.getStatus() == Attendance.AttendanceStatus.NOT_ATTENDED) {
-//            if (EventHelpers.endsInFuture(attendance.getEvent())) {
-//
-//                int deregStatus = attendanceData.deregister(attendance);
-//
-//                // Check status code returned by deregister operation
-//                if (deregStatus == 0) {
-//                    statusMessage = "Registration has been removed";
-//                } else {
-//                    statusMessage = "ERROR: Delete event operation failed!";
-//                }
-//
-//            } else {
-//                statusMessage = "ERROR: You cannot de-register a guest from an event that has already taken place!";
-//            }
-//        } else {
-//            statusMessage = "ERROR: You cannot deregister a guest if they have already signed in!";
-//        }
-//
-//        request.setAttribute("statusMessage", statusMessage);
-//        RequestDispatcher view = request.getRequestDispatcher(url);
-//        view.forward(request, response);
+        Attendance attendance = attendanceData.getAttendance(
+                user.getId(), Integer.parseInt(request.getParameter("eventId")));
+
+        String url = "/manager/list-registrations-guest";
+
+        String statusMessage;
+
+        if (attendance.getStatus() == Attendance.AttendanceStatus.NOT_ATTENDED) {
+            if (EventHelpers.endsInFuture(attendance.getEvent())) {
+
+                int deregStatus = attendanceData.deregister(attendance);
+
+                // Check status code returned by deregister operation
+                if (deregStatus == 0) {
+                    statusMessage = String.format("Your registration from %s has been removed",
+                            attendance.getEvent().getName());
+                } else {
+                    statusMessage = "ERROR: Remove registration operation failed!";
+                }
+
+            } else {
+                statusMessage = "ERROR: You cannot de-register from an event that has already taken place!";
+            }
+        } else {
+            statusMessage = "ERROR: You cannot deregister once you have signed in!";
+        }
+
+        request.setAttribute("statusMessage", statusMessage);
+        RequestDispatcher view = request.getRequestDispatcher(url);
+        view.forward(request, response);
 
     }
 
