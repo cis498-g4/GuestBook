@@ -31,7 +31,8 @@ public class AttendanceHelpers {
      * @return
      */
     public static boolean validate(User user, Event event) {
-        //TODO
+        //TODO no registrations overlap
+        //TODO event is not full
         return true;
     }
 
@@ -76,6 +77,19 @@ public class AttendanceHelpers {
         AttendanceDataAccess attendanceData = new AttendanceDataAccess();
         List<Attendance> attendanceList = attendanceData.getEventAttendance(event);
         return event.getCapacity() - attendanceList.size();
+    }
+
+    /**
+     * Checks whether the registration overlaps with an existing registration
+     * @param attendance
+     * @return
+     */
+    public static boolean isOverlapping(Attendance attendance) {
+        boolean overlap = false;
+
+        // TODO
+
+        return overlap;
     }
 
     /**
