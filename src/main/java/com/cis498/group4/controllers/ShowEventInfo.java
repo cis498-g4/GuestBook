@@ -48,7 +48,7 @@ public class ShowEventInfo extends HttpServlet {
         Event event = eventData.getEvent(Integer.parseInt(request.getParameter("id")));
         request.setAttribute("event", event);
 
-        String pageTitle = String.format("Info for event \"%s\"", event.getName());
+        String pageTitle = String.format("Info for event, %s", event.getName());
         request.setAttribute("pageTitle", pageTitle);
 
         RequestDispatcher view = request.getRequestDispatcher(url);
