@@ -140,15 +140,16 @@ public class AttendanceDataAccess {
      * @param user The user whose attendance to retrieve
      * @return list of attendance records for the user
      */
-    public List<Attendance> getUserAttendance(User user) {
-        List<Attendance> userAttendance = new ArrayList<Attendance>();
+    public List<Attendance> getPastAttendance(User user) {
+        List<Attendance> pastAttendance = new ArrayList<Attendance>();
 
         try {
             // Get attendance counts
             Map<Integer, Integer> attendanceCounts = getAttendanceCounts();
 
             // Set parameters and execute SQL
-            String sql = SELECT_ALL_ATTRIBUTES + " WHERE a.`user_id` = ?";
+            String sql = SELECT_ALL_ATTRIBUTES +
+                         " WHERE a.`user_id` = ? AND (e.`end_date_time` < CURDATE() OR a.`attendance_status_id` > 0)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, user.getId());
             ResultSet results = preparedStatement.executeQuery();
@@ -157,7 +158,7 @@ public class AttendanceDataAccess {
             while (results.next()) {
                 Attendance attendance = new Attendance();
                 setAttributes(attendance, attendanceCounts, results);
-                userAttendance.add(attendance);
+                pastAttendance.add(attendance);
             }
 
         } catch (SQLException e) {
@@ -166,7 +167,42 @@ public class AttendanceDataAccess {
             e.printStackTrace();
         }
 
-        return userAttendance;
+        return pastAttendance;
+    }
+
+    /**
+     * Retrieves a list of events a user is registered for in the future
+     * @param user The user whose attendance to retrieve
+     * @return list of attendance records for the user
+     */
+    public List<Attendance> getFutureRegistration(User user) {
+        List<Attendance> futureRegistration = new ArrayList<Attendance>();
+
+        try {
+            // Get attendance counts
+            Map<Integer, Integer> attendanceCounts = getAttendanceCounts();
+
+            // Set parameters and execute SQL
+            String sql = SELECT_ALL_ATTRIBUTES +
+                         " WHERE a.`user_id` = ? AND e.`end_date_time` > CURDATE() AND a.`attendance_status_id` = 0";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, user.getId());
+            ResultSet results = preparedStatement.executeQuery();
+
+            // Store results in list
+            while (results.next()) {
+                Attendance attendance = new Attendance();
+                setAttributes(attendance, attendanceCounts, results);
+                futureRegistration.add(attendance);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+
+        return futureRegistration;
     }
 
     /**
