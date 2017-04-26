@@ -21,6 +21,7 @@ public class TestServlet extends HttpServlet {
         response.setContentType("text/html");
         out.println("<html>");
         out.println("<h2>It works!</h2>");
+        out.println("<h3>Parameters</h3>");
         out.println("<p>");
 
         Enumeration<String> params = request.getParameterNames();
@@ -34,6 +35,19 @@ public class TestServlet extends HttpServlet {
             for (int i = 0; i < paramValues.length; i++) {
                 out.printf("%s<br>\n", paramValues[i]);
             }
+        }
+
+        out.println("</p>");
+        out.println("<h3>Headers</h3>");
+        out.println("<p>");
+
+        Enumeration<String> headers = request.getHeaderNames();
+
+        while(headers.hasMoreElements()) {
+            String headerName = headers.nextElement();
+            String headerValue = request.getHeader(headerName);
+
+            out.printf("%s : %s", headerName, headerValue);
         }
 
         out.println("</p>");
