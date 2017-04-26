@@ -186,6 +186,7 @@ public class ShowKiosk extends HttpServlet {
         request.setAttribute("message2", message2);
 
         RequestDispatcher view = request.getRequestDispatcher(url);
+        response.setHeader("Refresh", "10;url=" + request.getContextPath() + "/kiosk");
         view.forward(request, response);
 
     }
