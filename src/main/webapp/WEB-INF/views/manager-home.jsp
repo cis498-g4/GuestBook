@@ -19,7 +19,7 @@
         <li><a href="list-events-guest">My Events</a></li>
         <li><a href="list-surveys-guest">My Surveys</a></li>
         <li><a href="event-reg-guest">Event Registration</a></li>
-        <li><a href="account-info">My Account</a></li>
+        <li><a href="show-user-info-guest">My Account</a></li>
         <li><a href="logout">Logout</a></li>
     </ul>
 </c:if>

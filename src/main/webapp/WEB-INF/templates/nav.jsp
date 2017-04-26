@@ -13,7 +13,7 @@
         <a href="list-events-guest">My Events</a> |
         <a href="list-surveys-guest">My Surveys</a> |
         <a href="list-registrations-guest">Event Registration</a> |
-        <a href="account-info">My Account</a> |
+        <a href="show-user-info-guest">My Account</a> |
         <a href="logout">Logout</a>
     </c:if>
 </nav>
