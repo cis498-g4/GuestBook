@@ -22,7 +22,7 @@
 <a href="${pageContext.request.contextPath}/kiosk">Return to Sign-in</a>
 
 <c:if test="${status == 4}">
-    <a href="${pageContext.request.contextPath}/manager/add-new-user?ref=kiosk">Create new user</a>
+    <a href="${pageContext.request.contextPath}/manager/add-new-user-account?ref=kiosk">Create new user</a>
 </c:if>
 
 </body>
