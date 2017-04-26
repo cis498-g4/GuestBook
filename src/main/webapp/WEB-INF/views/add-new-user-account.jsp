@@ -3,10 +3,8 @@
 
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
-<% response.setHeader("Refresh", "60;url=" + request.getServletContext().getContextPath() + "/kiosk"); %>
-
 <!-- TODO: HTML / JS form validation -->
-<form action="/manager/add-user-kiosk" method="post">
+<form action="add-new-user-account" method="post">
     <label for="first-name">First Name:</label>
     <input type="text" name="first-name" id="first-name" required><br>
     <label for="last-name">Last Name:</label>
@@ -17,9 +15,17 @@
     <label for="password">Password</label>
     <input type="password" name="password" id="password" required><br>
     <label for="pwd-conf">Retype Password</label>
-    <input type="password" name="pwd-conf" id="pwd-conf" required><br>
+    <input type="password" name="pwd-conf" id="pwd-conf" required>
+    <c:if test="${error.equals('match')}">
+        Password fields must match
+    </c:if>
+    <br>
     <input type="submit" value="create user">
 </form>
+
+<hr>
+
+<a href="login">Back to login</a>
 
 </body>
 </html>

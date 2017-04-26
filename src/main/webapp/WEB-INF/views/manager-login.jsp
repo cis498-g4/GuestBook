@@ -15,7 +15,7 @@
 <c:if test="${error.equals('email')}">
 <p>
     Incorrect email address<br>
-    <a href="add-new-user">Need to create a new account?</a>
+    <a href="add-new-user-account">Need to create a new account?</a>
 </p>
 </c:if>
 <c:if test="${error.equals('password')}">
