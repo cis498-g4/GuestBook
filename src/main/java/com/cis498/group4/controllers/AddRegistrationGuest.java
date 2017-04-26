@@ -75,14 +75,14 @@ public class AddRegistrationGuest extends HttpServlet {
         String statusMessage;
 
         Event event = eventData.getEventByRegistrationCode(request.getParameter("reg-code"));
+        event.setNumRegistered(attendanceData.getAttendanceCount(event.getId()));
         request.setAttribute("event", event);
 
-        Attendance attendance = attendanceData.getAttendance(user.getId(), event.getId());
 
-        // TOD move these checks into a helper method that returns a code
+        // TODO: move these checks into a helper method that returns a status code
         if (event.isOpenRegistration()) {
-            if (!AttendanceHelpers.isFull(attendance.getEvent())) {     //FIXME: Null Pointer
-                if (!AttendanceHelpers.isOverlapping(attendance)) {
+            if (!AttendanceHelpers.isFull(event)) {
+                if (!AttendanceHelpers.isOverlapping(user, event)) {
 
                     int insertStatus = attendanceData.register(user, event);
 
