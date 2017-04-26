@@ -25,7 +25,7 @@ import java.util.Enumeration;
 /**
  * The ShowKiosk servlet responds to requests to show the sign-in kiosk for an event
  */
-@WebServlet(name = "ShowKiosk", urlPatterns = {"/kiosk", "/home"})
+@WebServlet(name = "ShowKiosk", urlPatterns = {"/kiosk", "/home", "/kiosk/home", "/"})
 public class ShowKiosk extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -67,7 +67,7 @@ public class ShowKiosk extends HttpServlet {
 
         // If no session event, redirect to error message
         if (session.getAttribute("event") == null) {
-            response.sendRedirect("/WEB-INF/views/bad-session.jsp");
+            response.sendRedirect("/WEB-INF/views/kiosk-bad-session.jsp");
             return;
         }
 
