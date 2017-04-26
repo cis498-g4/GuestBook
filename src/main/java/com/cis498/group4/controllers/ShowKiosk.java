@@ -25,7 +25,7 @@ import java.util.Enumeration;
 /**
  * The ShowKiosk servlet responds to requests to show the sign-in kiosk for an event
  */
-@WebServlet(name = "ShowKiosk", urlPatterns = {"/kiosk", "/home", "/kiosk/home", "/"})
+@WebServlet(name = "ShowKiosk", urlPatterns = {"/kiosk", "/home", "/kiosk/home"})
 public class ShowKiosk extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
