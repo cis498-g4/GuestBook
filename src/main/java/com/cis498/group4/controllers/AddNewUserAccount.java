@@ -41,6 +41,7 @@ public class AddNewUserAccount extends HttpServlet {
         String url = "/WEB-INF/views/add-new-user-account.jsp";
         String pageTitle = "Create new user account";
         request.setAttribute("pageTitle", pageTitle);
+        request.setAttribute("back", request.getContextPath() + "/manager/");
 
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
