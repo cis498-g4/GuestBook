@@ -47,7 +47,7 @@ public class TestServlet extends HttpServlet {
             String headerName = headers.nextElement();
             String headerValue = request.getHeader(headerName);
 
-            out.printf("%s : %s", headerName, headerValue);
+            out.printf("%s : %s<br>", headerName, headerValue);
         }
 
         out.println("</p>");
