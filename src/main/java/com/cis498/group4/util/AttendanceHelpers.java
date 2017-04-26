@@ -118,9 +118,9 @@ public class AttendanceHelpers {
         }
 
         AttendanceDataAccess attendanceData = new AttendanceDataAccess();
-        List<Attendance> attendanceList = attendanceData.getEventAttendance(event);
+        int attendanceCount = attendanceData.getAttendanceCount(event.getId());
 
-        return (attendanceList.size() >= event.getCapacity());
+        return (attendanceCount >= event.getCapacity());
     }
 
     /**
