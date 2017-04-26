@@ -51,6 +51,7 @@ public class TestServlet extends HttpServlet {
         }
 
         out.println("</p>");
+        out.println("<a href=\"http://localhost:8080/GuestBook/manager/test\">Link back to this page</a>");
         out.println("</html>");
 
         out.close();
