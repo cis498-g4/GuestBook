@@ -89,6 +89,7 @@ public class AttendanceHelpers {
         boolean overlap = false;
 
         // TODO lookup attendance record for user, event. If exists true, otherwise false
+        // TODO Is it better to simply have the DBMS enforce this?
 
         return overlap;
     }

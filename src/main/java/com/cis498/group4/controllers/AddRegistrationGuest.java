@@ -84,20 +84,18 @@ public class AddRegistrationGuest extends HttpServlet {
         if (event.getName() != null) {
             if (event.isOpenRegistration()) {
                 if (!AttendanceHelpers.isFull(event)) {
-                    if (!AttendanceHelpers.isOverlapping(user, event)) {
 
-                        int insertStatus = attendanceData.register(user, event);
+                    int insertStatus = attendanceData.register(user, event);
 
-                        if (insertStatus == 0) {
-                            statusMessage = String.format("Successfully registered for %s!", event.getName());
-                        } else {
-                            statusMessage = String.format(
-                                    "ERROR: There was a problem processing your registration %d", insertStatus);
-                        }
-
-                    } else {
+                    if (insertStatus == 0) {
+                        statusMessage = String.format("Successfully registered for %s!", event.getName());
+                    } else if (insertStatus == 1062) {
                         statusMessage = "ERROR: This registration overlaps with another one of your events!";
+                    } else {
+                        statusMessage = String.format(
+                                "ERROR: There was a problem processing your registration %d", insertStatus);
                     }
+
                 } else {
                     statusMessage = String.format("ERROR: The event %s is at capacity.", event.getName());
                 }
