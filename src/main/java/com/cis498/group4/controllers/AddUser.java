@@ -71,6 +71,8 @@ public class AddUser extends HttpServlet {
         String url = "/manager/list-users";
         String statusMessage;
 
+        // TODO validate new user
+
         // Create new user with form information
         User user = new User();
         user.setType(User.UserType.valueOf(request.getParameter("type").trim()));
