@@ -280,7 +280,7 @@ public class AttendanceDataAccess {
      * @param eventId The ID of the event whose attendance count to get
      * @return
      */
-    private int getAttendanceCount(int eventId) {
+    public int getAttendanceCount(int eventId) {
         try {
             String sql = "SELECT COUNT(`event_id`) AS 'count' FROM `event_attendance` WHERE `event_id` = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
