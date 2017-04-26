@@ -81,13 +81,14 @@ public class AttendanceHelpers {
 
     /**
      * Checks whether the registration overlaps with an existing registration
-     * @param attendance
+     * @param user
+     * @param event
      * @return
      */
-    public static boolean isOverlapping(Attendance attendance) {
+    public static boolean isOverlapping(User user, Event event) {
         boolean overlap = false;
 
-        // TODO
+        // TODO lookup attendance record for user, event. If exists true, otherwise false
 
         return overlap;
     }
