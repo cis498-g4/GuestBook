@@ -74,34 +74,39 @@ public class AddRegistrationGuest extends HttpServlet {
         String url = "/manager/list-registrations-guest";
         String statusMessage;
 
-        Event event = eventData.getEventByRegistrationCode(request.getParameter("reg-code"));
+        String registrationCode = request.getParameter("reg-code");
+        Event event = eventData.getEventByRegistrationCode(registrationCode);
         event.setNumRegistered(attendanceData.getAttendanceCount(event.getId()));
         request.setAttribute("event", event);
 
 
         // TODO: move these checks into a helper method that returns a status code
-        if (event.isOpenRegistration()) {
-            if (!AttendanceHelpers.isFull(event)) {
-                if (!AttendanceHelpers.isOverlapping(user, event)) {
+        if (event.getName() != null) {
+            if (event.isOpenRegistration()) {
+                if (!AttendanceHelpers.isFull(event)) {
+                    if (!AttendanceHelpers.isOverlapping(user, event)) {
 
-                    int insertStatus = attendanceData.register(user, event);
+                        int insertStatus = attendanceData.register(user, event);
 
-                    if (insertStatus == 0) {
-                        statusMessage = String.format("Successfully registered for %s!", event.getName());
+                        if (insertStatus == 0) {
+                            statusMessage = String.format("Successfully registered for %s!", event.getName());
+                        } else {
+                            statusMessage = String.format(
+                                    "ERROR: There was a problem processing your registration %d", insertStatus);
+                        }
+
                     } else {
-                        statusMessage = String.format(
-                                "ERROR: There was a problem processing your registration %d", insertStatus);
+                        statusMessage = "ERROR: This registration overlaps with another one of your events!";
                     }
-
                 } else {
-                    statusMessage = "ERROR: This registration overlaps with another one of your events!";
+                    statusMessage = String.format("ERROR: The event %s is at capacity.", event.getName());
                 }
             } else {
-                statusMessage = String.format("ERROR: The event %s is at capacity.", event.getName());
+                statusMessage = String.format("ERROR: %s does not have open registration. " +
+                        "Please contact an event organizer to register.", event.getName());
             }
         } else {
-            statusMessage = String.format("ERROR: %s does not have open registration. " +
-                                          "Please contact an event organizer to register.", event.getName());
+            statusMessage = String.format("ERROR: No event was found with the registration code %s", registrationCode);
         }
 
         request.setAttribute("statusMessage", statusMessage);
