@@ -61,13 +61,13 @@ public class ShowKiosk extends HttpServlet {
                 return;
             }
 
-            response.sendRedirect("/WEB-INF/views/bad-session.jsp");
+            response.sendRedirect("index.jsp");
             return;
         }
 
         // If no session event, redirect to error message
         if (session.getAttribute("event") == null) {
-            response.sendRedirect("/WEB-INF/views/kiosk-bad-session.jsp");
+            response.sendRedirect("index.jsp");
             return;
         }
 
