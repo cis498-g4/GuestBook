@@ -25,7 +25,7 @@
 
 <hr>
 
-<a href="login">Back to login</a>
+<a href="home">Back to sign-in</a>
 
 </body>
 </html>
