@@ -8,8 +8,9 @@
   <name>GuestBook Maven Webapp</name>
   <url>http://maven.apache.org</url>
 
-  <!-- JUnit testing -->
   <dependencies>
+    <!-- JUnit testing -->
+    <!-- https://mvnrepository.com/artifact/junit/junit -->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -18,6 +19,7 @@
     </dependency>
 
     <!-- MySQL Connector/J -->
+    <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
@@ -25,6 +27,7 @@
     </dependency>
 
     <!-- Servlet libraries -->
+    <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
@@ -33,6 +36,7 @@
     </dependency>
 
     <!-- JSP libraries -->
+    <!-- https://mvnrepository.com/artifact/javax.servlet.jsp/javax.servlet.jsp-api -->
     <dependency>
       <groupId>javax.servlet.jsp</groupId>
       <artifactId>javax.servlet.jsp-api</artifactId>
@@ -40,6 +44,7 @@
     </dependency>
 
     <!-- JSP Expression Language -->
+    <!-- https://mvnrepository.com/artifact/javax.el/javax.el-api -->
     <dependency>
       <groupId>javax.el</groupId>
       <artifactId>javax.el-api</artifactId>
@@ -48,6 +53,7 @@
     </dependency>
 
     <!-- JSP Standard Tag Library -->
+    <!-- https://mvnrepository.com/artifact/javax.servlet.jsp.jstl/jstl-api -->
     <dependency>
       <groupId>javax.servlet.jsp.jstl</groupId>
       <artifactId>jstl-api</artifactId>
@@ -55,11 +61,22 @@
     </dependency>
 
     <!-- Apache Standard Taglib Implementation -->
+    <!-- https://mvnrepository.com/artifact/org.apache.taglibs/taglibs-standard-impl -->
     <dependency>
       <groupId>org.apache.taglibs</groupId>
       <artifactId>taglibs-standard-impl</artifactId>
       <version>1.2.5</version>
     </dependency>
+
+    <!-- JSP DisplayTag Library for table sorting -->
+    <!-- https://mvnrepository.com/artifact/displaytag/displaytag -->
+    <!-- Disabled - using jQuery DataTables instead
+    <dependency>
+      <groupId>displaytag</groupId>
+      <artifactId>displaytag</artifactId>
+      <version>1.2</version>
+    </dependency>
+    -->
 
   </dependencies>
 
