@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<!DOCTYPE html>
+<html lang="en">
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
 <p>Select an event below to launch the kiosk for that event. This will log you out of your management session and start kiosk mode.</p>
