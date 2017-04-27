@@ -96,7 +96,7 @@ public class RemoveRegistration extends HttpServlet {
 
         Attendance attendance = attendanceData.getAttendance(userId, eventId);
 
-        String url = String.format("/manager/view-reg?id=%d", eventId);
+        String url = String.format("/manager/list-user-regs-for-event?id=%d", eventId);
         String statusMessage;
 
         if (attendance.getStatus() == Attendance.AttendanceStatus.NOT_ATTENDED) {

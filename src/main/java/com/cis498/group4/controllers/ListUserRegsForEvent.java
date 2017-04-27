@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * The ListUserRegsForEvent servlet responds to requests to view all users registered for a specified event
  */
-@WebServlet(name = "ListUserRegsForEvent", urlPatterns = "/manager/view-reg")
+@WebServlet(name = "ListUserRegsForEvent", urlPatterns = "/manager/list-user-regs-for-event")
 public class ListUserRegsForEvent extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -50,7 +50,7 @@ public class ListUserRegsForEvent extends HttpServlet {
             return;
         }
 
-        String url = "/WEB-INF/views/user-reg-list.jsp";
+        String url = "/WEB-INF/views/list-user-regs-for-event.jsp";
 
         Event event = eventData.getEvent(Integer.parseInt(request.getParameter("id")));
         request.setAttribute("event", event);

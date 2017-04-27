@@ -90,7 +90,7 @@ public class AddRegistration extends HttpServlet {
         Event event = eventData.getEvent(Integer.parseInt(request.getParameter("eventId")));
         request.setAttribute("event", event);
 
-        String url = String.format("/manager/view-reg?id=%d", event.getId());
+        String url = String.format("/manager/list-user-regs-for-event?id=%d", event.getId());
 
         if (user.getEmail() != null) {
             int insertStatus = attendanceData.register(user, event);

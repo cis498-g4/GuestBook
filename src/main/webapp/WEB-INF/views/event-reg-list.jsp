@@ -30,7 +30,7 @@
                 ${event.numRegistered} / ${event.capacity > 0 ? event.capacity : "&#8734;"}
             </td>
             <td>
-                <form action="view-reg">
+                <form action="list-user-regs-for-event">
                     <input type="hidden" name="id" value="${event.id}">
                     <input type="submit" value="view registrations">
                 </form>
