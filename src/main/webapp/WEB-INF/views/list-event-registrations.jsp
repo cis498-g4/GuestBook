@@ -4,46 +4,52 @@
 <html lang="en">
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
-<table>
-    <tr>
-        <th>Event Name</th>
-        <th>Date</th>
-        <th>Presenter</th>
-        <th>Registration Type</th>
-        <th>Registration Code</th>
-        <th>Registered</th>
-    </tr>
-
-    <c:if test="${events.isEmpty()}">
+<table class="table table-responsive">
+    <thead>
         <tr>
-            <td colspan="11" align="center">No events found</td>
+            <th>Event Name</th>
+            <th>Date</th>
+            <th>Presenter</th>
+            <th>Registration Type</th>
+            <th>Registration Code</th>
+            <th>Registered</th>
+            <th></th>
+            <th></th>
         </tr>
-    </c:if>
+    </thead>
 
-    <c:forEach items="${events}" var="event">
-        <tr>
-            <td>${event.name}</td>
-            <td>${event.startDateTime.getMonthValue()}/${event.startDateTime.getDayOfMonth()}/${event.startDateTime.getYear()}</td>
-            <td>${event.presenter.lastName}, ${event.presenter.firstName}</td>
-            <td>${event.openRegistration ? "Open" : "Closed"}</td>
-            <td>${event.registrationCode != null ? event.registrationCode : "<em>none</em>"}</td>
-            <td>
-                ${event.numRegistered} / ${event.capacity > 0 ? event.capacity : "&#8734;"}
-            </td>
-            <td>
-                <form action="list-user-regs-for-event">
-                    <input type="hidden" name="id" value="${event.id}">
-                    <input type="submit" value="view registrations">
-                </form>
-            </td>
-            <td>
-                <form action="add-registration">
-                    <input type="hidden" name="id" value="${event.id}">
-                    <input type="submit" value="register users">
-                </form>
-            </td>
-        </tr>
-    </c:forEach>
+    <tbody>
+        <c:if test="${events.isEmpty()}">
+            <tr>
+                <td colspan="8" align="center">No events found</td>
+            </tr>
+        </c:if>
+
+        <c:forEach items="${events}" var="event">
+            <tr>
+                <td>${event.name}</td>
+                <td>${event.startDateTime.getMonthValue()}/${event.startDateTime.getDayOfMonth()}/${event.startDateTime.getYear()}</td>
+                <td>${event.presenter.lastName}, ${event.presenter.firstName}</td>
+                <td>${event.openRegistration ? "Open" : "Closed"}</td>
+                <td>${event.registrationCode != null ? event.registrationCode : "<em>none</em>"}</td>
+                <td>
+                        ${event.numRegistered} / ${event.capacity > 0 ? event.capacity : "&#8734;"}
+                </td>
+                <td>
+                    <form action="list-user-regs-for-event">
+                        <input type="hidden" name="id" value="${event.id}">
+                        <input type="submit" value="view registrations">
+                    </form>
+                </td>
+                <td>
+                    <form action="add-registration">
+                        <input type="hidden" name="id" value="${event.id}">
+                        <input type="submit" value="register users">
+                    </form>
+                </td>
+            </tr>
+        </c:forEach>
+    </tbody>
 
 </table>
 

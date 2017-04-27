@@ -8,31 +8,36 @@
     <p><strong>${remain} seats remaining</strong></p>
 </c:if>
 
-<table>
-    <tr>
-        <th>User Name</th>
-        <th>User Email</th>
-    </tr>
-
-    <c:if test="${attendanceList.isEmpty()}">
+<table class="table table-responsive">
+    <thead>
         <tr>
-            <td colspan="4" align="center">No registrations found</td>
+            <th>User Name</th>
+            <th>User Email</th>
+            <th></th>
         </tr>
-    </c:if>
+    </thead>
 
-    <c:forEach items="${attendanceList}" var="attendance">
-        <tr>
-            <td>${attendance.user.lastName}, ${attendance.user.firstName}</td>
-            <td>${attendance.user.email}</td>
-            <td>
-                <form action="remove-registration">
-                    <input type="hidden" name="userId" value="${attendance.user.id}">
-                    <input type="hidden" name="eventId" value="${event.id}">
-                    <input type="submit" value="remove registration">
-                </form>
-            </td>
-        </tr>
-    </c:forEach>
+    <tbody>
+        <c:if test="${attendanceList.isEmpty()}">
+            <tr>
+                <td colspan="4" align="center">No registrations found</td>
+            </tr>
+        </c:if>
+
+        <c:forEach items="${attendanceList}" var="attendance">
+            <tr>
+                <td>${attendance.user.lastName}, ${attendance.user.firstName}</td>
+                <td>${attendance.user.email}</td>
+                <td>
+                    <form action="remove-registration">
+                        <input type="hidden" name="userId" value="${attendance.user.id}">
+                        <input type="hidden" name="eventId" value="${event.id}">
+                        <input type="submit" value="remove registration">
+                    </form>
+                </td>
+            </tr>
+        </c:forEach>
+    </tbody>
 
 </table>
 

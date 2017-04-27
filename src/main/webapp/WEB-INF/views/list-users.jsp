@@ -4,47 +4,54 @@
 <html lang="en">
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
-<table>
-    <tr>
-        <th>Last Name</th>
-        <th>First Name</th>
-        <th>Email</th>
-        <th>Type</th>
-    </tr>
-
-    <c:if test="${users.isEmpty()}">
+<table class="table table-responsive">
+    <thead>
         <tr>
-            <td colspan="11" align="center">No users found</td>
+            <th>Last Name</th>
+            <th>First Name</th>
+            <th>Email</th>
+            <th>Type</th>
+            <th></th>
+            <th></th>
+            <th></th>
         </tr>
-    </c:if>
+    </thead>
 
-    <c:forEach items="${users}" var="user">
-        <tr>
-            <td>${user.lastName}</td>
-            <td>${user.firstName}</td>
-            <td>${user.email}</td>
-            <td>${user.type == "ORGANIZER" ? "Organizer" : "Guest"}</td>
+    <tbody>
+        <c:if test="${users.isEmpty()}">
+            <tr>
+                <td colspan="7" align="center">No users found</td>
+            </tr>
+        </c:if>
 
-            <td>
-                <form action="show-user-info">
-                    <input type="hidden" name="id" value="${user.id}">
-                    <input type="submit" value="info">
-                </form>
-            </td>
-            <td>
-                <form action="update-user">
-                    <input type="hidden" name="id" value="${user.id}">
-                    <input type="submit" value="update">
-                </form>
-            </td>
-            <td>
-                <form action="remove-user">
-                    <input type="hidden" name="id" value="${user.id}">
-                    <input type="submit" value="remove">
-                </form>
-            </td>
-        </tr>
-    </c:forEach>
+        <c:forEach items="${users}" var="user">
+            <tr>
+                <td>${user.lastName}</td>
+                <td>${user.firstName}</td>
+                <td>${user.email}</td>
+                <td>${user.type == "ORGANIZER" ? "Organizer" : "Guest"}</td>
+
+                <td>
+                    <form action="show-user-info">
+                        <input type="hidden" name="id" value="${user.id}">
+                        <input type="submit" value="info">
+                    </form>
+                </td>
+                <td>
+                    <form action="update-user">
+                        <input type="hidden" name="id" value="${user.id}">
+                        <input type="submit" value="update">
+                    </form>
+                </td>
+                <td>
+                    <form action="remove-user">
+                        <input type="hidden" name="id" value="${user.id}">
+                        <input type="submit" value="remove">
+                    </form>
+                </td>
+            </tr>
+        </c:forEach>
+    </tbody>
 
 </table>
 

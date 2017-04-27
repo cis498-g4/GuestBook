@@ -4,34 +4,39 @@
 <html lang="en">
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
-<table>
-    <tr>
-        <th>Event Name</th>
-        <th>Date</th>
-        <th>Presenter</th>
-        <th>Survey Required</th>
-    </tr>
-
-    <c:if test="${events.isEmpty()}">
+<table class="table table-responsive">
+    <thead>
         <tr>
-            <td colspan="5" align="center">No pending surveys found</td>
+            <th>Event Name</th>
+            <th>Date</th>
+            <th>Presenter</th>
+            <th>Survey Required</th>
+            <th></th>
         </tr>
-    </c:if>
+    </thead>
 
-    <c:forEach items="${events}" var="event">
-        <tr>
-            <td>${event.name}</td>
-            <td>${event.startDateTime.getMonthValue()}/${event.startDateTime.getDayOfMonth()}/${event.startDateTime.getYear()}</td>
-            <td>${event.presenter.lastName}, ${event.presenter.firstName}</td>
-            <td>${event.mandatorySurvey ? "<strong>Yes</strong>" : "No"}</td>
-            <td>
-                <form action="take-survey">
-                    <input type="hidden" name="eventId" value="${event.id}">
-                    <input type="submit" value="take survey">
-                </form>
-            </td>
-        </tr>
-    </c:forEach>
+    <tbody>
+        <c:if test="${events.isEmpty()}">
+            <tr>
+                <td colspan="5" align="center">No pending surveys found</td>
+            </tr>
+        </c:if>
+
+        <c:forEach items="${events}" var="event">
+            <tr>
+                <td>${event.name}</td>
+                <td>${event.startDateTime.getMonthValue()}/${event.startDateTime.getDayOfMonth()}/${event.startDateTime.getYear()}</td>
+                <td>${event.presenter.lastName}, ${event.presenter.firstName}</td>
+                <td>${event.mandatorySurvey ? "<strong>Yes</strong>" : "No"}</td>
+                <td>
+                    <form action="take-survey">
+                        <input type="hidden" name="eventId" value="${event.id}">
+                        <input type="submit" value="take survey">
+                    </form>
+                </td>
+            </tr>
+        </c:forEach>
+    </tbody>
 
 </table>
 

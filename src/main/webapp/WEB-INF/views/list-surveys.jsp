@@ -7,39 +7,44 @@
 <!-- TODO only display if filter active -->
 <p hidden>Surveys {for|by} this {event|presenter|user} are {very|somewhat} {positive|negative}</p>
 
-<table>
-    <tr>
-        <th>Event</th>
-        <th>Presenter</th>
-        <th>Event Date</th>
-        <th>Reviewer</th>
-        <th>Submission Date</th>
-    </tr>
-
-    <c:if test="${surveys.isEmpty()}">
+<table class="table table-responsive">
+    <thead>
         <tr>
-            <td colspan="11" align="center">No surveys found</td>
+            <th>Event</th>
+            <th>Presenter</th>
+            <th>Event Date</th>
+            <th>Reviewer</th>
+            <th>Submission Date</th>
+            <th></th>
         </tr>
-    </c:if>
+    </thead>
 
-    <c:forEach items="${surveys}" var="survey">
-        <tr>
-            <td>${survey.event.name}</td>
-            <td>${survey.event.presenter.lastName}, ${survey.event.presenter.firstName}</td>
-            <td>${survey.event.startDateTime.getMonthValue()}/${survey.event.startDateTime.getDayOfMonth()}/${survey.event.startDateTime.getYear()}</td>
-            <td>${survey.user.lastName}, ${survey.user.firstName}</td>
-            <td>
-                ${survey.submissionDateTime.getMonthValue()}/${survey.submissionDateTime.getDayOfMonth()}/${survey.submissionDateTime.getYear()}
-                ${survey.submissionDateTime.getHour()}:${survey.submissionDateTime.getMinute() < 10 ? "0" : ""}${survey.submissionDateTime.getMinute()}
-            </td>
-            <td>
-                <form action="show-survey-info">
-                    <input type="hidden" name="id" value="${survey.id}">
-                    <input type="submit" value="view results">
-                </form>
-            </td>
-        </tr>
-    </c:forEach>
+    <tbody>
+        <c:if test="${surveys.isEmpty()}">
+            <tr>
+                <td colspan="6" align="center">No surveys found</td>
+            </tr>
+        </c:if>
+
+        <c:forEach items="${surveys}" var="survey">
+            <tr>
+                <td>${survey.event.name}</td>
+                <td>${survey.event.presenter.lastName}, ${survey.event.presenter.firstName}</td>
+                <td>${survey.event.startDateTime.getMonthValue()}/${survey.event.startDateTime.getDayOfMonth()}/${survey.event.startDateTime.getYear()}</td>
+                <td>${survey.user.lastName}, ${survey.user.firstName}</td>
+                <td>
+                    ${survey.submissionDateTime.getMonthValue()}/${survey.submissionDateTime.getDayOfMonth()}/${survey.submissionDateTime.getYear()}
+                    ${survey.submissionDateTime.getHour()}:${survey.submissionDateTime.getMinute() < 10 ? "0" : ""}${survey.submissionDateTime.getMinute()}
+                </td>
+                <td>
+                    <form action="show-survey-info">
+                        <input type="hidden" name="id" value="${survey.id}">
+                        <input type="submit" value="view results">
+                    </form>
+                </td>
+            </tr>
+        </c:forEach>
+    </tbody>
 
 </table>
 
