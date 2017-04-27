@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * The UpdateEvent servlet responds to requests to edit an event's information.
  */
-@WebServlet(name = "UpdateEvent", urlPatterns = "/manager/edit-event")
+@WebServlet(name = "UpdateEvent", urlPatterns = "/manager/update-event")
 public class UpdateEvent extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -49,7 +49,7 @@ public class UpdateEvent extends HttpServlet {
             return;
         }
 
-        String url = "/WEB-INF/views/edit-event.jsp";
+        String url = "/WEB-INF/views/update-event.jsp";
 
         Event event = eventData.getEvent(Integer.parseInt(request.getParameter("id")));
         request.setAttribute("event", event);

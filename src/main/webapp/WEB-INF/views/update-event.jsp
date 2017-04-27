@@ -4,7 +4,7 @@
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
 <!-- TODO: HTML / JS form validation -->
-<form action="edit-event" method="post">
+<form action="update-event" method="post">
     <label for="name">Event Name:</label>
     <input type="text" name="name" id="name" value="${event.name}" required><br>
     <label for="start-date">Start date:</label>

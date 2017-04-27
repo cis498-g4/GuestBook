@@ -45,7 +45,7 @@
                 </form>
             </td>
             <td>
-                <form action="edit-event">
+                <form action="update-event">
                     <input type="hidden" name="id" value="${event.id}">
                     <input type="submit" value="update">
                 </form>
