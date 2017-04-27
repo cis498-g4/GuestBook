@@ -38,13 +38,13 @@
                 <td>
                     <form action="list-user-regs-for-event">
                         <input type="hidden" name="id" value="${event.id}">
-                        <input type="submit" class="btn btn-default btn-sm btn-block" value="view registrations">
+                        <input type="submit" class="btn btn-link btn-block" value="view registrations">
                     </form>
                 </td>
                 <td>
                     <form action="add-registration">
                         <input type="hidden" name="id" value="${event.id}">
-                        <input type="submit" class="btn btn-default btn-sm btn-block" value="register users">
+                        <input type="submit" class="btn btn-link btn-block" value="register users">
                     </form>
                 </td>
             </tr>

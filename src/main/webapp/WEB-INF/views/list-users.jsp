@@ -34,19 +34,19 @@
                 <td>
                     <form action="show-user-info">
                         <input type="hidden" name="id" value="${user.id}">
-                        <input type="submit" class="btn btn-default btn-sm btn-block" class="btn btn-default btn-sm btn-block" value="info">
+                        <input type="submit" class="btn btn-link btn-block" value="show info">
                     </form>
                 </td>
                 <td>
                     <form action="update-user">
                         <input type="hidden" name="id" value="${user.id}">
-                        <input type="submit" class="btn btn-default btn-sm btn-block" class="btn btn-default btn-sm btn-block" value="update">
+                        <input type="submit" class="btn btn-link btn-block" value="update">
                     </form>
                 </td>
                 <td>
                     <form action="remove-user">
                         <input type="hidden" name="id" value="${user.id}">
-                        <input type="submit" class="btn btn-danger btn-sm btn-block" value="remove">
+                        <input type="submit" class="btn btn-link btn-block" value="remove">
                     </form>
                 </td>
             </tr>

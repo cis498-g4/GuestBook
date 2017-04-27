@@ -31,7 +31,7 @@
                 <td>
                     <form action="take-survey">
                         <input type="hidden" name="eventId" value="${event.id}">
-                        <input type="submit" class="btn btn-default btn-sm btn-block" value="take survey">
+                        <input type="submit" class="btn btn-link btn-block" value="take survey">
                     </form>
                 </td>
             </tr>

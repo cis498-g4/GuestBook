@@ -39,7 +39,7 @@
                 <td>
                     <form action="show-survey-info">
                         <input type="hidden" name="id" value="${survey.id}">
-                        <input type="submit" class="btn btn-default btn-sm btn-block" value="view results">
+                        <input type="submit" class="btn btn-link btn-block" value="view results">
                     </form>
                 </td>
             </tr>

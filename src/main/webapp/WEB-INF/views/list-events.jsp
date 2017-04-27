@@ -11,7 +11,7 @@
             <th>Start</th>
             <th>End</th>
             <th>Presenter</th>
-            <th>Registration Type</th>
+            <th>Reg. Type</th>
             <th>Registration Code</th>
             <th>Survey Required</th>
             <th>Max Capacity</th>
@@ -42,19 +42,19 @@
                 <td>
                     <form action="show-event-info">
                         <input type="hidden" name="id" value="${event.id}">
-                        <input type="submit" class="btn btn-default btn-sm btn-block" value="info">
+                        <input type="submit" class="btn btn-link btn-block" value="info">
                     </form>
                 </td>
                 <td>
                     <form action="update-event">
                         <input type="hidden" name="id" value="${event.id}">
-                        <input type="submit" class="btn btn-default btn-sm btn-block" value="update">
+                        <input type="submit" class="btn btn-link btn-block" value="update">
                     </form>
                 </td>
                 <td>
                     <form action="remove-event">
                         <input type="hidden" name="id" value="${event.id}">
-                        <input type="submit" class="btn btn-danger btn-sm btn-block" value="remove">
+                        <input type="submit" class="btn btn-link btn-block" value="remove">
                     </form>
                 </td>
 

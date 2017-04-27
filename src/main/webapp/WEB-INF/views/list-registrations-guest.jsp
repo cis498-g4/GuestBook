@@ -40,7 +40,7 @@
                 <td>
                     <form action="remove-registration-guest">
                         <input type="hidden" name="eventId" value="${registration.event.id}">
-                        <input type="submit" class="btn btn-danger btn-sm btn-block" value="remove registration">
+                        <input type="submit" class="btn btn-link btn-block" value="remove registration">
                     </form>
                 </td>
             </tr>

@@ -32,7 +32,7 @@
                     <form action="remove-registration">
                         <input type="hidden" name="userId" value="${attendance.user.id}">
                         <input type="hidden" name="eventId" value="${event.id}">
-                        <input type="submit" class="btn btn-danger btn-sm btn-block" value="remove registration">
+                        <input type="submit" class="btn btn-link btn-block" value="remove registration">
                     </form>
                 </td>
             </tr>
