@@ -9,7 +9,7 @@
     <label for="old-password">Old Password:</label>
     <input type="password" name="old-password" id="old-password" required>
     <c:if test="${error.equals('oldpass')}">
-        Please enter the user's current password
+        <span class="label label-warning">Please enter the user's current password</span>
     </c:if>
     <br>
     <br>
@@ -18,7 +18,7 @@
     <label for="repeat-password">Repeat New Password:</label>
     <input type="password" name="repeat-password" id="repeat-password" required>
     <c:if test="${error.equals('match')}">
-        Password fields must match
+        <span class="label label-warning">Password fields must match</span>
     </c:if>
     <br>
     <input type="hidden" name="id" value="${user.id}"><br>
