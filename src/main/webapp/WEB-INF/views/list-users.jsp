@@ -34,19 +34,19 @@
                 <td>
                     <form action="show-user-info">
                         <input type="hidden" name="id" value="${user.id}">
-                        <input type="submit" value="info">
+                        <input type="submit" class="btn btn-default btn-sm btn-block" value="info">
                     </form>
                 </td>
                 <td>
                     <form action="update-user">
                         <input type="hidden" name="id" value="${user.id}">
-                        <input type="submit" value="update">
+                        <input type="submit" class="btn btn-default btn-sm btn-block" value="update">
                     </form>
                 </td>
                 <td>
                     <form action="remove-user">
                         <input type="hidden" name="id" value="${user.id}">
-                        <input type="submit" value="remove">
+                        <input type="submit" class="btn btn-danger btn-sm btn-block" value="remove">
                     </form>
                 </td>
             </tr>
@@ -67,12 +67,14 @@
     </select>
     <input type="text" name="value">
     <input type="checkbox" name="exact" checked>Exact matches only
-    <input type="submit" value="submit">
+    <input type="submit" class="btn btn-default btn-sm" value="submit">
 </form>
 
 <hr>
 
-<a href="add-user">+ Add new user</a>
+<a class="btn btn-success" href="add-user">+ Add new user</a>
+
+<br>
 
 <jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
 </html>
