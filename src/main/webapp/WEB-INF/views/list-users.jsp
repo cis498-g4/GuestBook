@@ -18,22 +18,31 @@
     </c:if>
 
     <c:forEach items="${users}" var="user">
-    <tr>
-        <td>${user.lastName}</td>
-        <td>${user.firstName}</td>
-        <td>${user.email}</td>
-        <td>${user.type == "ORGANIZER" ? "Organizer" : "Guest"}</td>
+        <tr>
+            <td>${user.lastName}</td>
+            <td>${user.firstName}</td>
+            <td>${user.email}</td>
+            <td>${user.type == "ORGANIZER" ? "Organizer" : "Guest"}</td>
 
-        <c:forTokens items="view,edit,delete" delims="," var="action">
-        <td>
-            <form action="${action}-user">
-                <input type="hidden" name="id" value="${user.id}">
-                <input type="submit" value="${action}">
-            </form>
-        </td>
-        </c:forTokens>
-
-    </tr>
+            <td>
+                <form action="show-user-info">
+                    <input type="hidden" name="id" value="${user.id}">
+                    <input type="submit" value="info">
+                </form>
+            </td>
+            <td>
+                <form action="edit-user">
+                    <input type="hidden" name="id" value="${user.id}">
+                    <input type="submit" value="update">
+                </form>
+            </td>
+            <td>
+                <form action="delete-user">
+                    <input type="hidden" name="id" value="${user.id}">
+                    <input type="submit" value="remove">
+                </form>
+            </td>
+        </tr>
     </c:forEach>
 
 </table>

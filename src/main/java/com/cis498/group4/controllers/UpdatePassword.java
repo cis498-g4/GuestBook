@@ -110,7 +110,7 @@ public class UpdatePassword extends HttpServlet {
             int updateStatus = userData.updateUserPassword(user, newPassword);
 
             if (updateStatus == 0) {
-                url = "/manager/view-user";
+                url = "/manager/show-user-info";
                 pageTitle = String.format("Info for user %s %s", user.getFirstName(), user.getLastName());
                 statusMessage = "Password updated successfully.";
 

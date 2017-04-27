@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * The ShowUserInfo servlet responds with the information for the specified user.
  */
-@WebServlet(name = "ShowUserInfo", urlPatterns = "/manager/view-user")
+@WebServlet(name = "ShowUserInfo", urlPatterns = "/manager/show-user-info")
 public class ShowUserInfo extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -44,7 +44,7 @@ public class ShowUserInfo extends HttpServlet {
             return;
         }
 
-        String url = "/WEB-INF/views/view-user.jsp";
+        String url = "/WEB-INF/views/show-user-info.jsp";
 
         User user = userData.getUser(Integer.parseInt(request.getParameter("id")));
         request.setAttribute("user", user);
