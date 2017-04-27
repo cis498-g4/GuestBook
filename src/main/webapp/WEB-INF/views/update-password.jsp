@@ -4,7 +4,7 @@
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
 <!-- TODO: HTML / JS form validation -->
-<form action="change-password" method="post">
+<form action="update-password" method="post">
     <label for="old-password">Old Password:</label>
     <input type="password" name="old-password" id="old-password" required>
     <c:if test="${error.equals('oldpass')}">

@@ -22,13 +22,11 @@
 
     <br>
 
-    <table>
-        <tr>
-            <td><input type="submit" value="update information"></td>
-            <td><a href="update-password-guest">change password</a></td>
-        </tr>
-    </table>
+    <input type="submit" value="update information">
+
 </form>
+
+<a href="update-password-guest">Click here to change your password</a>
 
 <hr>
 
