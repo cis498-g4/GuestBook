@@ -16,7 +16,7 @@ import java.io.IOException;
 /**
  * The RemoveUser servlet responds to requests to delete a user.
  */
-@WebServlet(name = "RemoveUser", urlPatterns = "/manager/delete-user")
+@WebServlet(name = "RemoveUser", urlPatterns = "/manager/remove-user")
 public class RemoveUser extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -44,12 +44,12 @@ public class RemoveUser extends HttpServlet {
             return;
         }
 
-        String url = "/WEB-INF/views/delete-user.jsp";
+        String url = "/WEB-INF/views/remove-user.jsp";
 
         User user = userData.getUser(Integer.parseInt(request.getParameter("id")));
         request.setAttribute("user", user);
 
-        String pageTitle = String.format("Delete user %s %s?", user.getFirstName(), user.getLastName());
+        String pageTitle = String.format("Remove user %s %s?", user.getFirstName(), user.getLastName());
         request.setAttribute("pageTitle", pageTitle);
 
         RequestDispatcher view = request.getRequestDispatcher(url);
@@ -84,9 +84,9 @@ public class RemoveUser extends HttpServlet {
         if (deleteStatus == 0) {
             statusMessage = "All we are is dust in the wind";
         } else if (deleteStatus == 1451) {
-            statusMessage = "ERROR: Cannot delete a user who is associated with one or more events or surveys!";
+            statusMessage = "ERROR: Cannot remove a user who is associated with one or more events or surveys!";
         } else {
-            statusMessage = "ERROR: Delete user operation failed!";
+            statusMessage = "ERROR: Remove user operation failed!";
         }
 
         request.setAttribute("statusMessage", statusMessage);

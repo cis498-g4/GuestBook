@@ -37,7 +37,7 @@
                 </form>
             </td>
             <td>
-                <form action="delete-user">
+                <form action="remove-user">
                     <input type="hidden" name="id" value="${user.id}">
                     <input type="submit" value="remove">
                 </form>
