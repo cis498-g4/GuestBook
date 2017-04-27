@@ -11,7 +11,6 @@
                     <li><a href="list-surveys">Surveys</a></li>
                     <li><a href="list-event-registrations">Registration</a></li>
                     <li><a href="start-kiosk">Sign-In Kiosk</a></li>
-                    <li><a href="logout">Logout ${sessionUser.firstName} ${sessionUser.lastName}</a></li>
                 </ul>
             </c:if>
             <c:if test="${sessionUser.type == 'GUEST'}">
@@ -20,6 +19,10 @@
                     <li><a href="list-surveys-guest">My Surveys</a></li>
                     <li><a href="list-registrations-guest">Event Registration</a></li>
                     <li><a href="show-user-info-guest">My Account</a></li>
+                </ul>
+            </c:if>
+            <c:if test="${sessionUser != null}">
+                <ul class="nav navbar-nav navbar-right">
                     <li><a href="logout">Logout ${sessionUser.firstName} ${sessionUser.lastName}</a></li>
                 </ul>
             </c:if>
