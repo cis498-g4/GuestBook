@@ -71,6 +71,7 @@ public class AddRegistrationGuest extends HttpServlet {
 
         String url = "/manager/list-registrations-guest";
         String statusMessage;
+        String statusType;
 
         String registrationCode = request.getParameter("reg-code");
         Event event = eventData.getEventByRegistrationCode(registrationCode);
@@ -87,25 +88,32 @@ public class AddRegistrationGuest extends HttpServlet {
 
                     if (insertStatus == 0) {
                         statusMessage = String.format("Successfully registered for %s!", event.getName());
+                        statusType = "success";
                     } else if (insertStatus == 1062) {
-                        statusMessage = "ERROR: This registration overlaps with another one of your events!";
+                        statusMessage = "<strong>Error!</strong> This registration overlaps with another one of your events!";
+                        statusType = "danger";
                     } else {
                         statusMessage = String.format(
-                                "ERROR: There was a problem processing your registration %d", insertStatus);
+                                "<strong>Error!</strong> There was a problem processing your registration %d", insertStatus);
+                        statusType = "danger";
                     }
 
                 } else {
-                    statusMessage = String.format("ERROR: The event %s is at capacity.", event.getName());
+                    statusMessage = String.format("<strong>Error!</strong> The event %s is at capacity.", event.getName());
+                    statusType = "danger";
                 }
             } else {
-                statusMessage = String.format("ERROR: %s does not have open registration. " +
+                statusMessage = String.format("<strong>Error!</strong> %s does not have open registration. " +
                         "Please contact an event organizer to register.", event.getName());
+                statusType = "danger";
             }
         } else {
-            statusMessage = String.format("ERROR: No event was found with the registration code %s", registrationCode);
+            statusMessage = String.format("<strong>Error!</strong> No event was found with the registration code %s", registrationCode);
+            statusType = "danger";
         }
 
         request.setAttribute("statusMessage", statusMessage);
+        request.setAttribute("statusType", statusType);
 
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);

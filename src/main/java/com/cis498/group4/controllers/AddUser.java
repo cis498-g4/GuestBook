@@ -70,6 +70,7 @@ public class AddUser extends HttpServlet {
 
         String url = "/manager/list-users";
         String statusMessage;
+        String statusType;
 
         // TODO validate new user
 
@@ -86,13 +87,17 @@ public class AddUser extends HttpServlet {
 
         if (insertStatus == 0) {
             statusMessage = "User created successfully.";
+            statusType = "success";
         } else if (insertStatus == -1) {
-            statusMessage = "ERROR: Invalid data entered for new user!";
+            statusMessage = "<strong>Error!</strong> Invalid data entered for new user!";
+            statusType = "danger";
         } else {
-            statusMessage = "ERROR: Add user operation failed!";
+            statusMessage = "<strong>Error!</strong> Add user operation failed!";
+            statusType = "danger";
         }
 
         request.setAttribute("statusMessage", statusMessage);
+        request.setAttribute("statusType", statusType);
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 

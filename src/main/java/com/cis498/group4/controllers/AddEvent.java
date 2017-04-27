@@ -82,6 +82,7 @@ public class AddEvent extends HttpServlet {
 
         String url = "/manager/list-events";
         String statusMessage;
+        String statusType;
 
         // Create new event with form information
 
@@ -128,21 +129,27 @@ public class AddEvent extends HttpServlet {
 
                 if (insertStatus == 0) {
                     statusMessage = "Event created successfully.";
+                    statusType = "success";
                 } else if (insertStatus == -1) {
-                    statusMessage = "ERROR: Invalid data entered for new event!";
+                    statusMessage = "<strong>Error!</strong> Invalid data entered for new event!";
+                    statusType = "danger";
                 } else {
-                    statusMessage = "ERROR: Add event operation failed!";
+                    statusMessage = "<strong>Error!</strong> Add event operation failed!";
+                    statusType = "danger";
                 }
 
             } else {
-                statusMessage = "ERROR: Event end time occurs before event start time!";    // TODO move these into insert status check
+                statusMessage = "<strong>Error!</strong> Event end time occurs before event start time!";    // TODO move these into insert status check
+                statusType = "danger";
             }
 
         } else {
-            statusMessage = "ERROR: Start time occurs in the past!";    // TODO move these into insert status check
+            statusMessage = "<strong>Error!</strong> Start time occurs in the past!";    // TODO move these into insert status check
+            statusType = "danger";
         }
 
         request.setAttribute("statusMessage", statusMessage);
+        request.setAttribute("statusType", statusType);
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 

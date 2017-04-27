@@ -77,6 +77,7 @@ public class UpdateUser extends HttpServlet {
 
         String url = "/manager/list-users";
         String statusMessage;
+        String statusType;
 
         // Create new user with form information
         User user = new User();
@@ -91,13 +92,17 @@ public class UpdateUser extends HttpServlet {
 
         if (updateStatus == 0) {
             statusMessage = "User information updated successfully.";
+            statusType = "success";
         } else if (updateStatus == -1) {
-            statusMessage = "ERROR: Invalid data entered for user update!";
+            statusMessage = "<strong>Error!</strong> Invalid data entered for user update!";
+            statusType = "danger";
         } else {
-            statusMessage = "ERROR: Update operation failed!";
+            statusMessage = "<strong>Error!</strong> Update operation failed!";
+            statusType = "danger";
         }
 
         request.setAttribute("statusMessage", statusMessage);
+        request.setAttribute("statusType", statusType);
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 

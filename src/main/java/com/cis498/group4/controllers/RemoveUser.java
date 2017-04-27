@@ -76,6 +76,7 @@ public class RemoveUser extends HttpServlet {
 
         String url = "/manager/list-users";
         String statusMessage;
+        String statusType;
 
         User user = userData.getUser(Integer.parseInt(request.getParameter("id")));
 
@@ -83,13 +84,17 @@ public class RemoveUser extends HttpServlet {
 
         if (deleteStatus == 0) {
             statusMessage = "All we are is dust in the wind";
+            statusType = "success";
         } else if (deleteStatus == 1451) {
-            statusMessage = "ERROR: Cannot remove a user who is associated with one or more events or surveys!";
+            statusMessage = "<strong>Error!</strong> Cannot remove a user who is associated with one or more events or surveys!";
+            statusType = "danger";
         } else {
-            statusMessage = "ERROR: Remove user operation failed!";
+            statusMessage = "<strong>Error!</strong> Remove user operation failed!";
+            statusType = "danger";
         }
 
         request.setAttribute("statusMessage", statusMessage);
+        request.setAttribute("statusType", statusType);
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 

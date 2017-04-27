@@ -98,6 +98,7 @@ public class RemoveRegistration extends HttpServlet {
 
         String url = String.format("/manager/list-user-regs-for-event?id=%d", eventId);
         String statusMessage;
+        String statusType;
 
         if (attendance.getStatus() == Attendance.AttendanceStatus.NOT_ATTENDED) {
             if (EventHelpers.endsInFuture(attendance.getEvent())) {
@@ -107,18 +108,23 @@ public class RemoveRegistration extends HttpServlet {
                 // Check status code returned by remove registration operation
                 if (deregStatus == 0) {
                     statusMessage = "Registration has been removed";
+                    statusType = "success";
                 } else {
-                    statusMessage = "ERROR: Remove registration operation failed!";
+                    statusMessage = "<strong>Error!</strong> Remove registration operation failed!";
+                    statusType = "danger";
                 }
 
             } else {
-                statusMessage = "ERROR: You cannot remove a guest's registration from an event that has already taken place!";
+                statusMessage = "<strong>Error!</strong> You cannot remove a guest's registration from an event that has already taken place!";
+                statusType = "danger";
             }
         } else {
-            statusMessage = "ERROR: You cannot remove a guest's registration if they have already signed in!";
+            statusMessage = "<strong>Error!</strong> You cannot remove a guest's registration if they have already signed in!";
+            statusType = "danger";
         }
 
         request.setAttribute("statusMessage", statusMessage);
+        request.setAttribute("statusType", statusType);
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 

@@ -73,6 +73,7 @@ public class ManagerLogin extends HttpServlet {
         String url;
         String pageTitle;
         String statusMessage;
+        String statusType;
         String error;
 
         HttpSession session = request.getSession();
@@ -83,9 +84,11 @@ public class ManagerLogin extends HttpServlet {
         if (user.getEmail() == null) {
             url = "/WEB-INF/views/manager-login.jsp";
             pageTitle = "Retry Management Console Login";
-            statusMessage = "ERROR: Incorrect email address!";
+            statusMessage = "<strong>Error!</strong> Incorrect email address!";
+            statusType = "danger";
             error = "email";
             request.setAttribute("statusMessage", statusMessage);
+            request.setAttribute("statusType", statusType);
             request.setAttribute("error", error);
 
         } else {
@@ -102,9 +105,11 @@ public class ManagerLogin extends HttpServlet {
             } else {
                 url = "/WEB-INF/views/manager-login.jsp";
                 pageTitle = "Retry Management Console Login";
-                statusMessage = "ERROR: Incorrect password!";
+                statusMessage = "<strong>Error!</strong> Incorrect password!";
+                statusType = "danger";
                 error = "password";
                 request.setAttribute("statusMessage", statusMessage);
+                request.setAttribute("statusType", statusType);
                 request.setAttribute("error", error);
 
             }

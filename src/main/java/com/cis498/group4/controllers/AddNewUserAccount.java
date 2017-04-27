@@ -62,6 +62,7 @@ public class AddNewUserAccount extends HttpServlet {
         String pageTitle = "Management Console Login";
 
         String statusMessage;
+        String statusType;
 
         // If passwords do not match, try again
         String password = request.getParameter("password");
@@ -70,7 +71,8 @@ public class AddNewUserAccount extends HttpServlet {
         if (!password.equals(repeatPassword)) {
             url = "/WEB-INF/views/add-new-user-account.jsp";
             pageTitle = "Create new user account";
-            statusMessage = "ERROR: Password fields do not match!";
+            statusMessage = "<strong>Error!</strong> Password fields do not match!";
+            statusType = "danger";
             String error = "match";
             request.setAttribute("error", error);
 
@@ -89,16 +91,20 @@ public class AddNewUserAccount extends HttpServlet {
 
             if (insertStatus == 0) {
                 statusMessage = "User account created successfully. Please sign in.";
+                statusType = "success";
             } else if (insertStatus == -1) {
-                statusMessage = "ERROR: Invalid data entered for new user!";
+                statusMessage = "<strong>Error!</strong> Invalid data entered for new user!";
+                statusType = "danger";
                 url = "/WEB-INF/views/add-new-user-account.jsp";
                 pageTitle = "Create new user account";
             } else if (insertStatus == 1062) {
-                statusMessage = "ERROR: A user with that email address already exists!";
+                statusMessage = "<strong>Error!</strong> A user with that email address already exists!";
+                statusType = "danger";
                 url = "/WEB-INF/views/add-new-user-account.jsp";
                 pageTitle = "Create new user account";
             } else {
-                statusMessage = "ERROR: Add user operation failed!";
+                statusMessage = "<strong>Error!</strong> Add user operation failed!";
+                statusType = "danger";
                 url = "/WEB-INF/views/add-new-user-account.jsp";
                 pageTitle = "Create new user account";
             }
@@ -107,6 +113,7 @@ public class AddNewUserAccount extends HttpServlet {
 
         request.setAttribute("pageTitle", pageTitle);
         request.setAttribute("statusMessage", statusMessage);
+        request.setAttribute("statusType", statusType);
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 

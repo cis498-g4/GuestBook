@@ -62,6 +62,7 @@ public class AddNewUserAccountKiosk extends HttpServlet {
         String url = "/WEB-INF/views/kiosk-message.jsp";
         String pageTitle;
         String statusMessage;
+        String statusType;
 
         // If passwords do not match, try again
         String password = request.getParameter("password");
@@ -70,7 +71,8 @@ public class AddNewUserAccountKiosk extends HttpServlet {
         if (!password.equals(repeatPassword)) {
             url = "/WEB-INF/views/add-new-user-account.jsp";    // Render same view as console new user
             pageTitle = "Create new user account";
-            statusMessage = "ERROR: New password fields do not match!";
+            statusMessage = "<strong>Error!</strong> New password fields do not match!";
+            statusType = "danger";
             String error = "match";
             request.setAttribute("error", error);
 
@@ -90,20 +92,24 @@ public class AddNewUserAccountKiosk extends HttpServlet {
             if (insertStatus == 0) {
                 pageTitle = "Created new user";
                 statusMessage = "User account created successfully!";
+                statusType = "success";
                 // Respond using kiosk message page
                 request.setAttribute("message1",
                         String.format("A new user account was created for the email address %s", user.getEmail()));
                 request.setAttribute("message2","Please sign in with your new credentials.");
             } else if (insertStatus == -1) {
-                statusMessage = "ERROR: Invalid data entered for new user!";
+                statusMessage = "<strong>Error!</strong> Invalid data entered for new user!";
+                statusType = "danger";
                 url = "/WEB-INF/views/add-new-user-account.jsp";
                 pageTitle = "Create new user account";
             } else if (insertStatus == 1062) {
-                statusMessage = "ERROR: A user with that email address already exists!";
+                statusMessage = "<strong>Error!</strong> A user with that email address already exists!";
+                statusType = "danger";
                 url = "/WEB-INF/views/add-new-user-account.jsp";
                 pageTitle = "Create new user account";
             } else {
-                statusMessage = "ERROR: Add user operation failed!";
+                statusMessage = "<strong>Error!</strong> Add user operation failed!";
+                statusType = "danger";
                 url = "/WEB-INF/views/add-new-user-account.jsp";
                 pageTitle = "Create new user account";
             }
@@ -112,6 +118,7 @@ public class AddNewUserAccountKiosk extends HttpServlet {
 
         request.setAttribute("pageTitle", pageTitle);
         request.setAttribute("statusMessage", statusMessage);
+        request.setAttribute("statusType", statusType);
         RequestDispatcher view = request.getRequestDispatcher(url);
         response.setHeader("Refresh", "60;url=" + request.getContextPath() + "/kiosk");
         view.forward(request, response);

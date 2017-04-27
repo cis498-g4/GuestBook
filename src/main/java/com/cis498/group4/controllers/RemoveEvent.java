@@ -77,6 +77,7 @@ public class RemoveEvent extends HttpServlet {
 
         String url = "/manager/list-events";
         String statusMessage;
+        String statusType;
 
         int id = Integer.parseInt(request.getParameter("id"));
 
@@ -89,17 +90,22 @@ public class RemoveEvent extends HttpServlet {
             // Check status code returned by delete operation
             if (deleteStatus == 0) {
                 statusMessage = "Event has been removed";
+                statusType = "success";
             } else if (deleteStatus == 1451) {
-                statusMessage = "ERROR: Cannot remove a event that is associated with surveys or registrations!";
+                statusMessage = "<strong>Error!</strong> Cannot remove a event that is associated with surveys or registrations!";
+                statusType = "danger";
             } else {
-                statusMessage = "ERROR: Remove event operation failed!";
+                statusMessage = "<strong>Error!</strong> Remove event operation failed!";
+                statusType = "danger";
             }
 
         } else {
-            statusMessage = "ERROR: Cannot remove an event that has already started!";
+            statusMessage = "<strong>Error!</strong> Cannot remove an event that has already started!";
+            statusType = "danger";
         }
 
         request.setAttribute("statusMessage", statusMessage);
+        request.setAttribute("statusType", statusType);
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 

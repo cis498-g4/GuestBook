@@ -80,6 +80,7 @@ public class UpdatePasswordGuest extends HttpServlet {
         String url;
         String pageTitle;
         String statusMessage;
+        String statusType;
         String error;
 
         String oldPassword = request.getParameter("old-password");
@@ -90,14 +91,16 @@ public class UpdatePasswordGuest extends HttpServlet {
         if (!userData.checkPassword(oldPassword, user)) {
             url = "/WEB-INF/views/update-password-guest.jsp";
             pageTitle = "Update password";
-            statusMessage = "ERROR: Old password entered incorrectly!";
+            statusMessage = "<strong>Error!</strong> Old password entered incorrectly!";
+            statusType = "danger";
             error = "oldpass";
 
         // New passwords don't match? Try again!
         } else if (!newPassword.equals(repeatPassword)) {
             url = "/WEB-INF/views/update-password-guest.jsp";
             pageTitle = "Update password";
-            statusMessage = "ERROR: New password fields do not match!";
+            statusMessage = "<strong>Error!</strong> New password fields do not match!";
+            statusType = "danger";
             error = "match";
 
         // Attempt write to DB and respond to user
@@ -109,18 +112,21 @@ public class UpdatePasswordGuest extends HttpServlet {
                 url = "/WEB-INF/views/show-user-info-guest.jsp";
                 pageTitle = "Account Information";
                 statusMessage = "Password updated successfully.";
+                statusType = "success";
                 error = "";
 
             } else if (updateStatus == -1) {
                 url = "/WEB-INF/views/update-password-guest.jsp";
                 pageTitle = "Update password";
-                statusMessage = "ERROR: Invalid data entered for user password!";
+                statusMessage = "<strong>Error!</strong> Invalid data entered for user password!";
+                statusType = "danger";
                 error = "invalid";
 
             } else {
                 url = "/WEB-INF/views/update-password-guest.jsp";
                 pageTitle = "Update password";
-                statusMessage = "ERROR: Password update failed!";
+                statusMessage = "<strong>Error!</strong> Password update failed!";
+                statusType = "danger";
                 error = "db";
 
             }
@@ -130,6 +136,7 @@ public class UpdatePasswordGuest extends HttpServlet {
         request.setAttribute("error", error);
         request.setAttribute("pageTitle", pageTitle);
         request.setAttribute("statusMessage", statusMessage);
+        request.setAttribute("statusType", statusType);
         request.setAttribute("user", user);
 
         RequestDispatcher view = request.getRequestDispatcher(url);

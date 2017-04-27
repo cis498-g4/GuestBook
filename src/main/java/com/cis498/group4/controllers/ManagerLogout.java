@@ -41,9 +41,11 @@ public class ManagerLogout extends HttpServlet {
         String url = "/WEB-INF/views/manager-login.jsp";
         String pageTitle = "Management Console Login";
         String statusMessage = "Successfully logged out";
+        String statusType = "success";
 
         request.setAttribute("pageTitle", pageTitle);
         request.setAttribute("statusMessage", statusMessage);
+        request.setAttribute("statusType", statusType);
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 

@@ -116,6 +116,7 @@ public class ShowSurveyForm extends HttpServlet {
 
         String url = "/manager/list-surveys-guest";
         String statusMessage;
+        String statusType;
 
         Attendance attendance = attendanceData.getAttendance(user.getId(), Integer.parseInt(request.getParameter("eventId")));
 
@@ -148,6 +149,7 @@ public class ShowSurveyForm extends HttpServlet {
 
         if (insertStatus == 0) {
             statusMessage = "Thank you for submitting your survey!";
+            statusType = "success";
 
             // Update status if needed
             if (attendance.getStatus() == Attendance.AttendanceStatus.SIGNED_IN) {
@@ -155,15 +157,19 @@ public class ShowSurveyForm extends HttpServlet {
             }
 
         } else if (insertStatus == 1062) {
-            statusMessage = "ERROR: Survey already submitted for this event!";
+            statusMessage = "<strong>Error!</strong> Survey already submitted for this event!";
+            statusType = "danger";
         } else if (insertStatus == -1) {
-            statusMessage = "ERROR: Invalid data submitted for survey!";
+            statusMessage = "<strong>Error!</strong> Invalid data submitted for survey!";
+            statusType = "danger";
         } else {
-            statusMessage = String.format("ERROR: There was a problem submitting your survey (%d)",
+            statusMessage = String.format("<strong>Error!</strong> There was a problem submitting your survey (%d)",
                     insertStatus, submissionDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            statusType = "danger";
         }
 
         request.setAttribute("statusMessage", statusMessage);
+        request.setAttribute("statusType", statusType);
 
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);

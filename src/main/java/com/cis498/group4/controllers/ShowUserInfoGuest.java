@@ -77,6 +77,7 @@ public class ShowUserInfoGuest extends HttpServlet {
         String url = "/WEB-INF/views/show-user-info-guest.jsp";
         String pageTitle = "Account Information";
         String statusMessage;
+        String statusType;
 
         // Update user with form information
         user.setFirstName(request.getParameter("first-name"));
@@ -88,18 +89,22 @@ public class ShowUserInfoGuest extends HttpServlet {
 
         if (updateStatus == 0) {
             statusMessage = "User information updated successfully.";
+            statusType = "success";
 
             // Update session user information as well
             session.setAttribute("sessionUser", user);
 
         } else if (updateStatus == -1) {
-            statusMessage = "ERROR: Invalid data entered for user update!";
+            statusMessage = "<strong>Error!</strong> Invalid data entered for user update!";
+            statusType = "danger";
         } else {
-            statusMessage = "ERROR: Update operation failed!";
+            statusMessage = "<strong>Error!</strong> Update operation failed!";
+            statusType = "danger";
         }
 
         request.setAttribute("pageTitle", pageTitle);
         request.setAttribute("statusMessage", statusMessage);
+        request.setAttribute("statusType", statusType);
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 

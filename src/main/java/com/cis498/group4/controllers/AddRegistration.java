@@ -84,6 +84,7 @@ public class AddRegistration extends HttpServlet {
         }
 
         String statusMessage;
+        String statusType;
 
         User user = userData.getUserByEmail(request.getParameter("email"));
         Event event = eventData.getEvent(Integer.parseInt(request.getParameter("eventId")));
@@ -96,16 +97,19 @@ public class AddRegistration extends HttpServlet {
 
             if (insertStatus == 0) {
                 statusMessage = "Registration was successful!";
+                statusType = "success";
             } else {
-                statusMessage = "ERROR: Registration failed!";
+                statusMessage = "<strong>Error!</strong> Registration failed!";
+                statusType = "danger";
             }
 
         }  else {
-            statusMessage = "ERROR: User not found!!";  // TODO move this into insert status check
+            statusMessage = "<strong>Error!</strong> User not found!!";  // TODO move this into insert status check
+            statusType = "danger";
         }
 
         request.setAttribute("statusMessage", statusMessage);
-
+        request.setAttribute("statusType", statusType);
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 
