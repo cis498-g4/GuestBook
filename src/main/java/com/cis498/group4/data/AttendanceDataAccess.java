@@ -382,7 +382,7 @@ public class AttendanceDataAccess {
      * @param attendance The attendance record to remove
      * @return 0 for success, -1 for invalid data, SQL error code for database failure
      */
-    public int deregister(Attendance attendance) {
+    public int deleteAttendance(Attendance attendance) {
         try {
             // Set parameters and execute SQL
             String sql = "DELETE FROM `event_attendance` WHERE `user_id` = ? AND event_id = ?";

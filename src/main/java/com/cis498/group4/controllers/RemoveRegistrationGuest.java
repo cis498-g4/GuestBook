@@ -121,7 +121,7 @@ public class RemoveRegistrationGuest extends HttpServlet {
         if (attendance.getStatus() == Attendance.AttendanceStatus.NOT_ATTENDED) {
             if (EventHelpers.endsInFuture(attendance.getEvent())) {
 
-                int deregStatus = attendanceData.deregister(attendance);
+                int deregStatus = attendanceData.deleteAttendance(attendance);
 
                 // Check status code returned by remove registration operation
                 if (deregStatus == 0) {
