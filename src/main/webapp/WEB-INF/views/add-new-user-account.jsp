@@ -27,5 +27,5 @@
 
 <a href="${back}">Back to sign-in</a>
 
-</body>
+<jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
 </html>

@@ -23,5 +23,5 @@
     <a href="kiosk/add-new-user-account">Create new user</a>
 </c:if>
 
-</body>
+<jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
 </html>

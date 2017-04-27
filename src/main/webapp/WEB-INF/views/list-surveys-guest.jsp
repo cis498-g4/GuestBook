@@ -49,6 +49,5 @@
     <input type="submit" value="submit">
 </form>
 
-
-</body>
+<jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
 </html>

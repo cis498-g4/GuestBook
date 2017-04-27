@@ -66,5 +66,5 @@
 
 <a href="add-user">+ Add new user</a>
 
-</body>
+<jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
 </html>

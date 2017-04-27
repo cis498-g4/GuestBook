@@ -13,6 +13,5 @@
     <input type="submit" value="sign in">
 </form>
 
-</body>
+<jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
 </html>
-

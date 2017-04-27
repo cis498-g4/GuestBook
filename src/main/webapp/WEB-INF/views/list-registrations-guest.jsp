@@ -68,5 +68,5 @@
     <p>If you do not have a registration code, please contact an event organizer to assist you with registration.</p>
 </form>
 
-</body>
+<jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
 </html>

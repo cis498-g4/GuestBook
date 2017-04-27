@@ -85,5 +85,5 @@
 
 <a href="add-event">+ Add new event</a>
 
-</body>
+<jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
 </html>
