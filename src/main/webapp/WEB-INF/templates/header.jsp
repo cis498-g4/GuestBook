@@ -17,6 +17,8 @@
 
 <jsp:include page="nav.jsp"></jsp:include>
 
+<div class="container">
+
 <div>${statusMessage}</div>
 
-<h2>${pageTitle}</h2>
+<h3>${pageTitle}</h3>
