@@ -19,7 +19,7 @@ import java.util.Map;
 /**
  * The ShowSurveyInfo servlet responds with the information for the specified survey, including responses.
  */
-@WebServlet(name = "ShowSurveyInfo", urlPatterns = "/manager/view-survey")
+@WebServlet(name = "ShowSurveyInfo", urlPatterns = "/manager/show-survey-info")
 public class ShowSurveyInfo extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -47,7 +47,7 @@ public class ShowSurveyInfo extends HttpServlet {
             return;
         }
 
-        String url = "/WEB-INF/views/view-survey.jsp";
+        String url = "/WEB-INF/views/show-survey-info.jsp";
 
         Survey survey = surveyData.getSurvey(Integer.parseInt(request.getParameter("id")));
         request.setAttribute("survey", survey);
