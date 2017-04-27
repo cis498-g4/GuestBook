@@ -24,10 +24,10 @@
             <td>${attendance.user.lastName}, ${attendance.user.firstName}</td>
             <td>${attendance.user.email}</td>
             <td>
-                <form action="deregister">
+                <form action="remove-registration">
                     <input type="hidden" name="userId" value="${attendance.user.id}">
                     <input type="hidden" name="eventId" value="${event.id}">
-                    <input type="submit" value="deregister">
+                    <input type="submit" value="remove registration">
                 </form>
             </td>
         </tr>

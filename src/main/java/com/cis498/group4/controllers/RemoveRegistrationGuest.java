@@ -83,7 +83,7 @@ public class RemoveRegistrationGuest extends HttpServlet {
 
         request.setAttribute("warningMessage", warningMessage);
 
-        String pageTitle = String.format("Remove your registration from %s (%s)?", event.getName(), eventDate);
+        String pageTitle = String.format("Remove your registration from %s on %s?", event.getName(), eventDate);
         request.setAttribute("pageTitle", pageTitle);
 
         RequestDispatcher view = request.getRequestDispatcher(url);
@@ -123,7 +123,7 @@ public class RemoveRegistrationGuest extends HttpServlet {
 
                 int deregStatus = attendanceData.deregister(attendance);
 
-                // Check status code returned by deregister operation
+                // Check status code returned by remove registration operation
                 if (deregStatus == 0) {
                     statusMessage = String.format("Your registration from %s has been removed",
                             attendance.getEvent().getName());
@@ -132,10 +132,10 @@ public class RemoveRegistrationGuest extends HttpServlet {
                 }
 
             } else {
-                statusMessage = "ERROR: You cannot de-register from an event that has already taken place!";
+                statusMessage = "ERROR: You cannot remove your registration from an event that has already taken place!";
             }
         } else {
-            statusMessage = "ERROR: You cannot deregister once you have signed in!";
+            statusMessage = "ERROR: You cannot remove your registration once you have signed in!";
         }
 
         request.setAttribute("statusMessage", statusMessage);

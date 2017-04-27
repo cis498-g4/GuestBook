@@ -20,7 +20,7 @@ import java.time.format.DateTimeFormatter;
  * The RemoveRegistration servlet responds to requests to remove a user registration from an event.
  * This is accomplished by deleting an Event Attendance record from the DB.
  */
-@WebServlet(name = "RemoveRegistration", urlPatterns = "/manager/deregister")
+@WebServlet(name = "RemoveRegistration", urlPatterns = "/manager/remove-registration")
 public class RemoveRegistration extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -48,7 +48,7 @@ public class RemoveRegistration extends HttpServlet {
             return;
         }
 
-        String url = "/WEB-INF/views/deregister.jsp";
+        String url = "/WEB-INF/views/remove-registration.jsp";
 
         int userId = Integer.parseInt(request.getParameter("userId"));
         int eventId = Integer.parseInt(request.getParameter("eventId"));
@@ -65,7 +65,7 @@ public class RemoveRegistration extends HttpServlet {
         String eventLongDate = event.getStartDateTime().format(DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy"));
         request.setAttribute("eventLongDate", eventLongDate);
 
-        String pageTitle = String.format("Remove user %s %s registration from %s (%s)?",
+        String pageTitle = String.format("Remove user %s %s from %s on %s?",
                 user.getFirstName(), user.getLastName(), event.getName(), eventDate);
         request.setAttribute("pageTitle", pageTitle);
 
@@ -104,7 +104,7 @@ public class RemoveRegistration extends HttpServlet {
 
                 int deregStatus = attendanceData.deregister(attendance);
 
-                // Check status code returned by deregister operation
+                // Check status code returned by remove registration operation
                 if (deregStatus == 0) {
                     statusMessage = "Registration has been removed";
                 } else {
@@ -112,10 +112,10 @@ public class RemoveRegistration extends HttpServlet {
                 }
 
             } else {
-                statusMessage = "ERROR: You cannot de-register a guest from an event that has already taken place!";
+                statusMessage = "ERROR: You cannot remove a guest's registration from an event that has already taken place!";
             }
         } else {
-            statusMessage = "ERROR: You cannot deregister a guest if they have already signed in!";
+            statusMessage = "ERROR: You cannot remove a guest's registration if they have already signed in!";
         }
 
         request.setAttribute("statusMessage", statusMessage);

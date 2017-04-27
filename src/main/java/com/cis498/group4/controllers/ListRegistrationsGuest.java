@@ -33,7 +33,7 @@ public class ListRegistrationsGuest extends HttpServlet {
     }
 
     /**
-     * Render a list of the user's events occurring in the future, with buttons to deregister for each event,
+     * Render a list of the user's events occurring in the future, with buttons to remove registration for each event,
      * and a form field to register for additional events
      * @param request
      * @param response

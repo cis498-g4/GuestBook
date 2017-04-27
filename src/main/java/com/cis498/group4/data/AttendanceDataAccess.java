@@ -378,7 +378,7 @@ public class AttendanceDataAccess {
     }
 
     /**
-     * Removes the specified attendance entry from the database (effectively deregistering a user from an event)
+     * Removes the specified attendance entry from the database (effectively de-registering a user from an event)
      * @param attendance The attendance record to remove
      * @return 0 for success, -1 for invalid data, SQL error code for database failure
      */

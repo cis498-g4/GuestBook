@@ -37,7 +37,7 @@
         You are registered to attend this event on ${eventLongDate}.
         <form action="remove-registration-guest">
             <input type="hidden" name="eventId" value="${event.id}">
-            <input type="submit" value="deregister?">
+            <input type="submit" value="remove registration">
         </form>
     </p>
 </c:if>

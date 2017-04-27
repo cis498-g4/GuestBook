@@ -8,7 +8,7 @@
     <p>After removing the registration, there will be ${event.capacity - event.numRegistered + 1} open seats at this event.</p>
 </c:if>
 
-<form action="deregister" method="post">
+<form action="remove-registration" method="post">
     <p>
         Are you sure?<br>
         <input type="hidden" name="userId" value="${user.id}"><br>
