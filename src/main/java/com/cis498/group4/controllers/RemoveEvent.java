@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 /**
  * The RemoveEvent servlet responds to requests to delete a event.
  */
-@WebServlet(name = "RemoveEvent", urlPatterns = "/manager/delete-event")
+@WebServlet(name = "RemoveEvent", urlPatterns = "/manager/remove-event")
 public class RemoveEvent extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -45,7 +45,7 @@ public class RemoveEvent extends HttpServlet {
             return;
         }
 
-        String url = "/WEB-INF/views/delete-event.jsp";
+        String url = "/WEB-INF/views/remove-event.jsp";
 
         Event event = eventData.getEvent(Integer.parseInt(request.getParameter("id")));
         request.setAttribute("event", event);

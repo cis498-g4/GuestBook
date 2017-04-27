@@ -52,13 +52,13 @@
         <td>
             <form action="update-event">
                 <input type="hidden" name="id" value="${event.id}">
-                <input type="submit" value="update">
+                <input type="submit" value="update information">
             </form>
         </td>
         <td>
-            <form action="delete-event">
+            <form action="remove-event">
                 <input type="hidden" name="id" value="${event.id}">
-                <input type="submit" value="delete">
+                <input type="submit" value="remove event">
             </form>
         </td>
 

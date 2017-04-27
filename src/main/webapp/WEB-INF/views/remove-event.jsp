@@ -3,7 +3,7 @@
 
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
-<p>The following event will be <strong>permanently</strong> removed:</p>
+<p>The following event will be <strong>permanently</strong> deleted from the database:</p>
 
 <table>
     <tr>
@@ -46,13 +46,16 @@
     </tr>
 </table>
 
-<form action="delete-event" method="post">
-    <p>
-        This effectively cancels the event. Are you sure?<br>
-        <input type="hidden" name="id" value="${event.id}"><br>
-        <input type="submit" value="confirm delete">
-        <button onclick="history.go(-1)">cancel</button>
-    </p>
+<p>This effectively cancels the event. Are you sure?</p>
+
+<form action="remove-event" method="post">
+    <input type="hidden" name="id" value="${event.id}"><br>
+    <table>
+        <tr>
+            <td><input type="submit" value="confirm delete"></td>
+            <td><button onclick="history.go(-1)">cancel</button></td>
+        </tr>
+    </table>
 </form>
 
 <hr>
