@@ -27,4 +27,4 @@
     </div>
 </c:if>
 
-<h3>${pageTitle}</h3>
+<h2>${pageTitle}</h2>
