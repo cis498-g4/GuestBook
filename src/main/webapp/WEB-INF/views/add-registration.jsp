@@ -6,7 +6,7 @@
 <p>Register a user for ${event.name} by entering their email address below.</p>
 
 <!-- TODO: HTML / JS form validation -->
-<form action="event-reg" method="post">
+<form action="add-registration" method="post">
     <label for="email">Email:</label>
     <input type="email" name="email" id="email" required><br>
     <input type="hidden" name="eventId" value="${event.id}">

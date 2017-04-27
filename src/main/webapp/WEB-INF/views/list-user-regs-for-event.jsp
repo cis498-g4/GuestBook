@@ -59,7 +59,7 @@
     <tr>
         <td><button onclick="history.go(-1)">back</button></td>
         <td>
-            <form action="event-reg">
+            <form action="add-registration">
                 <input type="hidden" name="id" value="${event.id}">
                 <input type="submit" value="register new users">
             </form>

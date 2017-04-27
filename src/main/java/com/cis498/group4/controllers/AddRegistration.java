@@ -20,7 +20,7 @@ import java.time.format.DateTimeFormatter;
 /**
  * The AddRegistration servlet responds to requests to register users for an event.
  */
-@WebServlet(name = "AddRegistration", urlPatterns = "/manager/event-reg")
+@WebServlet(name = "AddRegistration", urlPatterns = "/manager/add-registration")
 public class AddRegistration extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -52,7 +52,7 @@ public class AddRegistration extends HttpServlet {
             return;
         }
 
-        String url = "/WEB-INF/views/event-reg.jsp";
+        String url = "/WEB-INF/views/add-registration.jsp";
 
         Event event = eventData.getEvent(Integer.parseInt(request.getParameter("id")));
         String eventDate = event.getStartDateTime().format(DateTimeFormatter.ofPattern("MM/dd/YYYY"));
