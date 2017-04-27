@@ -4,7 +4,7 @@
 <html lang="en">
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
-<table class="table table-responsive">
+<table class="table table-responsive" id="users-list">
     <thead>
         <tr>
             <th>Last Name</th>
@@ -57,24 +57,17 @@
 
 <hr>
 
-<form action="filter-user">
-    <label for="field">Filter by: </label>
-    <select name="field" id="field">
-        <option>Last Name</option>
-        <option>First Name</option>
-        <option>Email</option>
-        <option>Type</option>
-    </select>
-    <input type="text" name="value">
-    <input type="checkbox" name="exact" checked>Exact matches only
-    <input type="submit" class="btn btn-default btn-sm" value="submit">
-</form>
-
-<hr>
-
 <a class="btn btn-success" href="add-user">+ Add new user</a>
 
 <br>
 
-<jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
+</div><!--container-->
+
+<script>
+    $(document).ready(function(){
+        $('#users-list').dataTable();
+    });
+</script>
+
+</body>
 </html>
