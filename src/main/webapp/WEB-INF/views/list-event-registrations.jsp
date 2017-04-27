@@ -38,13 +38,13 @@
                 <td>
                     <form action="list-user-regs-for-event">
                         <input type="hidden" name="id" value="${event.id}">
-                        <input type="submit" value="view registrations">
+                        <input type="submit" class="btn btn-default btn-sm btn-block" value="view registrations">
                     </form>
                 </td>
                 <td>
                     <form action="add-registration">
                         <input type="hidden" name="id" value="${event.id}">
-                        <input type="submit" value="register users">
+                        <input type="submit" class="btn btn-default btn-sm btn-block" value="register users">
                     </form>
                 </td>
             </tr>
@@ -64,7 +64,7 @@
     </select>
     <input type="text" name="value">
     <input type="checkbox" name="exact" checked>Exact matches only
-    <input type="submit" value="submit">
+    <input type="submit" class="btn btn-default btn-sm" value="submit">
 </form>
 
 <jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>

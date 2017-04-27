@@ -32,7 +32,7 @@
                     <form action="remove-registration">
                         <input type="hidden" name="userId" value="${attendance.user.id}">
                         <input type="hidden" name="eventId" value="${event.id}">
-                        <input type="submit" value="remove registration">
+                        <input type="submit" class="btn btn-danger btn-sm btn-block" value="remove registration">
                     </form>
                 </td>
             </tr>
@@ -56,18 +56,18 @@
     </select>
     <input type="text" name="value">
     <input type="checkbox" name="exact" checked>Exact matches only
-    <input type="submit" value="submit">
+    <input type="submit" class="btn btn-default btn-sm" value="submit">
 </form>
 
 <hr>
 
 <table>
     <tr>
-        <td><button onclick="history.go(-1)">back</button></td>
+        <td><button class="btn btn-default btn-sm btn-block" onclick="history.go(-1)">back</button></td>
         <td>
             <form action="add-registration">
                 <input type="hidden" name="id" value="${event.id}">
-                <input type="submit" value="register new users">
+                <input type="submit" class="btn btn-success btn-sm btn-block" value="register new users">
             </form>
         </td>
     </tr>

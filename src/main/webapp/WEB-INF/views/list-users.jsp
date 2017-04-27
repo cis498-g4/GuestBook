@@ -34,13 +34,13 @@
                 <td>
                     <form action="show-user-info">
                         <input type="hidden" name="id" value="${user.id}">
-                        <input type="submit" class="btn btn-default btn-sm btn-block" value="info">
+                        <input type="submit" class="btn btn-default btn-sm btn-block" class="btn btn-default btn-sm btn-block" value="info">
                     </form>
                 </td>
                 <td>
                     <form action="update-user">
                         <input type="hidden" name="id" value="${user.id}">
-                        <input type="submit" class="btn btn-default btn-sm btn-block" value="update">
+                        <input type="submit" class="btn btn-default btn-sm btn-block" class="btn btn-default btn-sm btn-block" value="update">
                     </form>
                 </td>
                 <td>

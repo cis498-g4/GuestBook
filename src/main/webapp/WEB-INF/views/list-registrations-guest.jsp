@@ -40,7 +40,7 @@
                 <td>
                     <form action="remove-registration-guest">
                         <input type="hidden" name="eventId" value="${registration.event.id}">
-                        <input type="submit" value="remove registration">
+                        <input type="submit" class="btn btn-danger btn-sm btn-block" value="remove registration">
                     </form>
                 </td>
             </tr>
@@ -60,7 +60,7 @@
     </select>
     <input type="text" name="value">
     <input type="checkbox" name="exact" checked>Exact matches only
-    <input type="submit" value="submit">
+    <input type="submit" class="btn btn-default btn-sm btn-block" value="submit">
 </form>
 
 <hr>
@@ -70,7 +70,7 @@
 <form action="add-registration-guest" method="post">
     <label for="reg-code">If you have the registration code for a new event, enter it here: </label>
     <input type="text" name="reg-code" id="reg-code" required>
-    <input type="submit" value="register">
+    <input type="submit" class="btn btn-success btn-sm" value="register">
     <p>If you do not have a registration code, please contact an event organizer to assist you with registration.</p>
 </form>
 

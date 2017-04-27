@@ -31,7 +31,7 @@
                 <td>
                     <form action="take-survey">
                         <input type="hidden" name="eventId" value="${event.id}">
-                        <input type="submit" value="take survey">
+                        <input type="submit" class="btn btn-default btn-sm btn-block" value="take survey">
                     </form>
                 </td>
             </tr>
@@ -52,7 +52,7 @@
     </select>
     <input type="text" name="value">
     <input type="checkbox" name="exact" checked>Exact matches only
-    <input type="submit" value="submit">
+    <input type="submit" class="btn btn-default btn-sm" value="submit">
 </form>
 
 <jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>

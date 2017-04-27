@@ -38,7 +38,7 @@
                 <td>
                     <form action="show-event-guest">
                         <input type="hidden" name="eventId" value="${attendance.event.id}">
-                        <input type="submit" value="view details">
+                        <input type="submit" class="btn btn-default btn-sm btn-block" value="view details">
                     </form>
                 </td>
             </tr>
@@ -59,7 +59,7 @@
     </select>
     <input type="text" name="value">
     <input type="checkbox" name="exact" checked>Exact matches only
-    <input type="submit" value="submit">
+    <input type="submit" class="btn btn-default btn-sm" value="submit">
 </form>
 
 <hr>

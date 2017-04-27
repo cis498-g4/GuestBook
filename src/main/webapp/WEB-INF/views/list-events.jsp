@@ -31,14 +31,8 @@
         <c:forEach items="${events}" var="event">
             <tr>
                 <td>${event.name}</td>
-                <td>
-                        ${event.startDateTime.getMonthValue()}/${event.startDateTime.getDayOfMonth()}/${event.startDateTime.getYear()}
-                        ${event.startDateTime.getHour()}:${event.startDateTime.getMinute() < 10 ? "0" : ""}${event.startDateTime.getMinute()}
-                </td>
-                <td>
-                        ${event.endDateTime.getMonthValue()}/${event.endDateTime.getDayOfMonth()}/${event.endDateTime.getYear()}
-                        ${event.endDateTime.getHour()}:${event.endDateTime.getMinute() < 10 ? "0" : ""}${event.endDateTime.getMinute()}
-                </td>
+                <td>${event.startDateTime.getMonthValue()}/${event.startDateTime.getDayOfMonth()}/${event.startDateTime.getYear()} ${event.startDateTime.getHour()}:${event.startDateTime.getMinute() < 10 ? "0" : ""}${event.startDateTime.getMinute()}</td>
+                <td>${event.endDateTime.getMonthValue()}/${event.endDateTime.getDayOfMonth()}/${event.endDateTime.getYear()} ${event.endDateTime.getHour()}:${event.endDateTime.getMinute() < 10 ? "0" : ""}${event.endDateTime.getMinute()}</td>
                 <td>${event.presenter.lastName}, ${event.presenter.firstName}</td>
                 <td>${event.openRegistration ? "Open" : "Closed"}</td>
                 <td>${event.registrationCode != null ? event.registrationCode : "<em>none</em>"}</td>
@@ -48,19 +42,19 @@
                 <td>
                     <form action="show-event-info">
                         <input type="hidden" name="id" value="${event.id}">
-                        <input type="submit" value="info">
+                        <input type="submit" class="btn btn-default btn-sm btn-block" value="info">
                     </form>
                 </td>
                 <td>
                     <form action="update-event">
                         <input type="hidden" name="id" value="${event.id}">
-                        <input type="submit" value="update">
+                        <input type="submit" class="btn btn-default btn-sm btn-block" value="update">
                     </form>
                 </td>
                 <td>
                     <form action="remove-event">
                         <input type="hidden" name="id" value="${event.id}">
-                        <input type="submit" value="remove">
+                        <input type="submit" class="btn btn-danger btn-sm btn-block" value="remove">
                     </form>
                 </td>
 
@@ -86,12 +80,12 @@
     </select>
     <input type="text" name="value">
     <input type="checkbox" name="exact" checked>Exact matches only
-    <input type="submit" value="submit">
+    <input type="submit" class="btn btn-default btn-sm" value="submit">
 </form>
 
 <hr>
 
-<a href="add-event">+ Add new event</a>
+<a class="btn btn-success" href="add-event">+ Add new event</a>
 
 <jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
 </html>
