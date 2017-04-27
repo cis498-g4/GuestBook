@@ -46,7 +46,7 @@ public class ShowKioskSelection extends HttpServlet {
             return;
         }
 
-        String url = "/WEB-INF/views/select-kiosk.jsp";
+        String url = "/WEB-INF/views/start-kiosk.jsp";
         String pageTitle = "Kiosk Event Selection";
 
         // Provide a list of Events that end in the future for the selection dropdown
