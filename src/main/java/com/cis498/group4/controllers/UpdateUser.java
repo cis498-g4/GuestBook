@@ -17,7 +17,7 @@ import java.io.PrintWriter;
 /**
  * The UpdateUser servlet responds to requests to edit a user's information.
  */
-@WebServlet(name = "UpdateUser", urlPatterns = "/manager/edit-user")
+@WebServlet(name = "UpdateUser", urlPatterns = "/manager/update-user")
 public class UpdateUser extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -45,7 +45,7 @@ public class UpdateUser extends HttpServlet {
             return;
         }
 
-        String url = "/WEB-INF/views/edit-user.jsp";
+        String url = "/WEB-INF/views/update-user.jsp";
 
         User user = userData.getUser(Integer.parseInt(request.getParameter("id")));
         request.setAttribute("user", user);

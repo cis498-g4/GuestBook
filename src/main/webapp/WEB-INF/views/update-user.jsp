@@ -4,7 +4,7 @@
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
 <!-- TODO: HTML / JS form validation -->
-<form action="edit-user" method="post">
+<form action="update-user" method="post">
     <label for="first-name">First Name:</label>
     <input type="text" name="first-name" id="first-name" value="${user.firstName}" required><br>
     <label for="last-name">Last Name:</label>

@@ -31,7 +31,7 @@
                 </form>
             </td>
             <td>
-                <form action="edit-user">
+                <form action="update-user">
                     <input type="hidden" name="id" value="${user.id}">
                     <input type="submit" value="update">
                 </form>
