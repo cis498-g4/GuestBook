@@ -3,7 +3,6 @@ package com.cis498.group4.controllers;
 import com.cis498.group4.data.AttendanceDataAccess;
 import com.cis498.group4.data.EventDataAccess;
 import com.cis498.group4.data.UserDataAccess;
-import com.cis498.group4.models.Attendance;
 import com.cis498.group4.models.Event;
 import com.cis498.group4.models.User;
 import com.cis498.group4.util.SessionHelpers;
@@ -93,7 +92,7 @@ public class AddRegistration extends HttpServlet {
         String url = String.format("/manager/list-user-regs-for-event?id=%d", event.getId());
 
         if (user.getEmail() != null) {
-            int insertStatus = attendanceData.register(user, event);
+            int insertStatus = attendanceData.insertAttendance(user, event);
 
             if (insertStatus == 0) {
                 statusMessage = "Registration was successful!";

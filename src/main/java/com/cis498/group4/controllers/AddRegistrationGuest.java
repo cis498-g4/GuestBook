@@ -3,7 +3,6 @@ package com.cis498.group4.controllers;
 import com.cis498.group4.data.AttendanceDataAccess;
 import com.cis498.group4.data.EventDataAccess;
 import com.cis498.group4.data.UserDataAccess;
-import com.cis498.group4.models.Attendance;
 import com.cis498.group4.models.Event;
 import com.cis498.group4.models.User;
 import com.cis498.group4.util.AttendanceHelpers;
@@ -17,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.time.format.DateTimeFormatter;
 
 /**
  * The AddRegistration servlet responds to requests to register users for an event.
@@ -85,7 +83,7 @@ public class AddRegistrationGuest extends HttpServlet {
             if (event.isOpenRegistration()) {
                 if (!AttendanceHelpers.isFull(event)) {
 
-                    int insertStatus = attendanceData.register(user, event);
+                    int insertStatus = attendanceData.insertAttendance(user, event);
 
                     if (insertStatus == 0) {
                         statusMessage = String.format("Successfully registered for %s!", event.getName());

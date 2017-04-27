@@ -17,10 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.Enumeration;
 
 /**
  * The ShowKiosk servlet responds to requests to show the sign-in kiosk for an event
@@ -123,14 +119,14 @@ public class ShowKiosk extends HttpServlet {
                 break;
             // Case 2: Success: User exists and is not pre-registered, but registration is open, Survey NOT required
             case KioskHelpers.SUCCESS_OPEN_REGISTRATION:
-                attendanceData.register(user, event, Attendance.AttendanceStatus.ATTENDED.ordinal());
+                attendanceData.insertAttendance(user, event, Attendance.AttendanceStatus.ATTENDED.ordinal());
                 pageTitle = "Sign-in Success!";
                 message1 = String.format("You have been registered and signed in to %s.", event.getName());
                 message2 = "No further action is required on your part. Enjoy the event!";
                 break;
             // Case 3: Success: User exists and is not pre-registered, but registration is open, Survey required
             case KioskHelpers.SUCCESS_OPEN_REG_NEED_SURVEY:
-                attendanceData.register(user, event, Attendance.AttendanceStatus.SIGNED_IN.ordinal());
+                attendanceData.insertAttendance(user, event, Attendance.AttendanceStatus.SIGNED_IN.ordinal());
                 pageTitle = "Sign-in Success!";
                 message1 = String.format("You have been registered and signed in to %s.", event.getName());
                 message2 = "<strong>PLEASE NOTE:</strong> " +

@@ -329,7 +329,7 @@ public class AttendanceDataAccess {
      * @param event The event for which to register
      * @return 0 for success, -1 for invalid data, SQL error code for database failure
      */
-    public int register(User user, Event event) {
+    public int insertAttendance(User user, Event event) {
         if (!AttendanceHelpers.validate(user, event)) {
             return -1;
         }
@@ -357,7 +357,7 @@ public class AttendanceDataAccess {
      * @param status The status code for the new registration
      * @return 0 for success, -1 for invalid data, SQL error code for database failure
      */
-    public int register(User user, Event event, int status) {
+    public int insertAttendance(User user, Event event, int status) {
         if (!AttendanceHelpers.validate(user, event)) {
             return -1;
         }
