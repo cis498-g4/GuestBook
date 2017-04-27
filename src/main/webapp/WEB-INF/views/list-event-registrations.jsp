@@ -10,7 +10,7 @@
             <th>Event Name</th>
             <th>Date</th>
             <th>Presenter</th>
-            <th>Registration Type</th>
+            <th>Reg. Type</th>
             <th>Registration Code</th>
             <th>Registered</th>
             <th></th>
