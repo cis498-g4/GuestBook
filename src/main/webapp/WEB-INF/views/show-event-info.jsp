@@ -49,15 +49,18 @@
 <table>
     <tr>
         <td><button onclick="history.go(-1)">back</button></td>
-
-        <c:forTokens items="edit,delete" delims="," var="action">
-            <td>
-                <form action="${action}-event">
-                    <input type="hidden" name="id" value="${event.id}">
-                    <input type="submit" value="${action}">
-                </form>
-            </td>
-        </c:forTokens>
+        <td>
+            <form action="edit-event">
+                <input type="hidden" name="id" value="${event.id}">
+                <input type="submit" value="update">
+            </form>
+        </td>
+        <td>
+            <form action="delete-event">
+                <input type="hidden" name="id" value="${event.id}">
+                <input type="submit" value="delete">
+            </form>
+        </td>
 
     </tr>
 </table>

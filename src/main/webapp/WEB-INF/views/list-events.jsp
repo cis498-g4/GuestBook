@@ -38,14 +38,24 @@
             <td>${event.mandatorySurvey ? "Yes" : "No"}</td>
             <td>${event.capacity > 0 ? event.capacity : "<em>none</em>"}</td>
 
-            <c:forTokens items="view,edit,delete" delims="," var="action">
-                <td>
-                    <form action="${action}-event">
-                        <input type="hidden" name="id" value="${event.id}">
-                        <input type="submit" value="${action}">
-                    </form>
-                </td>
-            </c:forTokens>
+            <td>
+                <form action="show-event-info">
+                    <input type="hidden" name="id" value="${event.id}">
+                    <input type="submit" value="info">
+                </form>
+            </td>
+            <td>
+                <form action="edit-event">
+                    <input type="hidden" name="id" value="${event.id}">
+                    <input type="submit" value="update">
+                </form>
+            </td>
+            <td>
+                <form action="delete-event">
+                    <input type="hidden" name="id" value="${event.id}">
+                    <input type="submit" value="delete">
+                </form>
+            </td>
 
         </tr>
     </c:forEach>

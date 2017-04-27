@@ -15,7 +15,7 @@ import java.io.IOException;
 /**
  * The ShowEventInfo servlet responds with the information for the specified event.
  */
-@WebServlet(name = "ShowEventInfo", urlPatterns = "/manager/view-event")
+@WebServlet(name = "ShowEventInfo", urlPatterns = "/manager/show-event-info")
 public class ShowEventInfo extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -43,7 +43,7 @@ public class ShowEventInfo extends HttpServlet {
             return;
         }
 
-        String url = "/WEB-INF/views/view-event.jsp";
+        String url = "/WEB-INF/views/show-event-info.jsp";
 
         Event event = eventData.getEvent(Integer.parseInt(request.getParameter("id")));
         request.setAttribute("event", event);
