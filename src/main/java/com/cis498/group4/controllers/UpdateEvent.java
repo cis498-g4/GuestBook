@@ -57,7 +57,7 @@ public class UpdateEvent extends HttpServlet {
         List<User> organizers = userData.getOrganizers();
         request.setAttribute("organizers", organizers);
 
-        String pageTitle = String.format("Edit info for event \"%s\"", event.getName());
+        String pageTitle = String.format("Edit info for event %s", event.getName());
         request.setAttribute("pageTitle", pageTitle);
 
         RequestDispatcher view = request.getRequestDispatcher(url);
