@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * The ListEventRegistrations servlet lists upcoming events for registration.
  */
-@WebServlet(name = "ListEventRegistrations", urlPatterns = "/manager/event-reg-list")
+@WebServlet(name = "ListEventRegistrations", urlPatterns = "/manager/list-event-registrations")
 public class ListEventRegistrations extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -49,7 +49,7 @@ public class ListEventRegistrations extends HttpServlet {
             return;
         }
 
-        String url = "/WEB-INF/views/event-reg-list.jsp";
+        String url = "/WEB-INF/views/list-event-registrations.jsp";
         String pageTitle = "Upcoming Events";
 
         List<Event> futureEvents = eventData.getFutureEvents();

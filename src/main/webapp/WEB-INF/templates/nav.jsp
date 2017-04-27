@@ -5,7 +5,7 @@
         <a href="list-users">Users</a> |
         <a href="list-events">Events</a> |
         <a href="list-surveys">Surveys</a> |
-        <a href="event-reg-list">Registration</a> |
+        <a href="list-event-registrations">Registration</a> |
         <a href="start-kiosk">Sign-In Kiosk</a> |
         <a href="logout">Logout</a>
     </c:if>
