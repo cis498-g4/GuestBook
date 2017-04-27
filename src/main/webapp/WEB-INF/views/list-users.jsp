@@ -64,8 +64,12 @@
 </div><!--container-->
 
 <script>
-    $(document).ready(function(){
-        $('#users-list').dataTable();
+    $(document).ready(function() {
+        $('#users-list').dataTable({
+            dom: 'ilfrtBp',
+            columnDefs: [{orderable: false, targets: [4, 5, 6]}],
+            buttons: ['csv', 'pdf', 'print']
+        });
     });
 </script>
 
