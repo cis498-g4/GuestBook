@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,6 +20,11 @@
 
 <div class="container">
 
-<div>${statusMessage}</div>
+<c:if test="${statusMessage.length() > 0}">
+    <div class="alert alert-${statusType != null ? statusType : 'info'} alert-dismissable}">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        ${statusMessage}
+    </div>
+</c:if>
 
 <h3>${pageTitle}</h3>
