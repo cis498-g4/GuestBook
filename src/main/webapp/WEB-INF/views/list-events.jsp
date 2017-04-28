@@ -4,7 +4,7 @@
 <html lang="en">
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
-<table class="table table-responsive">
+<table class="table table-responsive" id="events-list">
     <thead>
         <tr>
             <th>Event Name</th>
@@ -64,28 +64,35 @@
 
 </table>
 
-<hr>
+</div><!--container-->
 
-<form action="filter-event">
-    <label for="field">Filter by: </label>
-    <select name="field" id="field">
-        <option>Event Name</option>
-        <option>Start Date/Time</option>
-        <option>End Date/Time</option>
-        <option>Presenter Last Name</option>
-        <option>Registration Type</option>
-        <option>Registration Code</option>
-        <option>Survey Required</option>
-        <option>Max Capacity</option>
-    </select>
-    <input type="text" name="value">
-    <input type="checkbox" name="exact" checked>Exact matches only
-    <input type="submit" class="btn btn-default btn-sm" value="submit">
-</form>
+<script>
 
-<hr>
+    $(document).ready(function() {
+        var table = $('#events-list').DataTable( {
+            dom: '<"row"<"col-md-12"i>>' +
+            '<"row"<"col-md-6"l><"col-md-6"f>>' +
+            '<"row"<"col-md-12"rt>>' +
+            '<"spacer">' +
+            '<"row"<"col-md-6"B><"col-md-6"p>>',
+            columnDefs: [ { orderable: false, targets: [4, 5, 6] } ],
+            buttons: [
+                { extend: 'csv', text: 'Download CSV', className: 'btn-primary' },
+                { extend: 'print', className: 'btn-primary'},
+                {
+                    text: '+ Add new event',
+                    className: 'btn-success',
+                    action: function ( e, dt, node, conf ) {
+                        window.location.href = 'add-event';
+                    }
+                }
+            ]
+        } );
 
-<a class="btn btn-success" href="add-event">+ Add new event</a>
+    } );
 
-<jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
+</script>
+
+</body>
 </html>
+
