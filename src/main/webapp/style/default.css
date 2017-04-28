@@ -1,0 +1,19 @@
+/* Bootstrap overrides */
+
+.btn {
+      background-image: none;
+      text-shadow: none;
+      box-shadow: none;
+      -webkit-box-shadow: none;
+}
+
+/* DataTables overrides */
+
+.dataTables_info {
+    padding-bottom: 8px;
+    font-weight: bold;
+}
+
+
+.spacer { height: 20px; }
+
