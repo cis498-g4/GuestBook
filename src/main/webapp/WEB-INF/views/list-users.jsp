@@ -55,22 +55,33 @@
 
 </table>
 
-<hr>
-
-<a class="btn btn-success" href="add-user">+ Add new user</a>
-
-<br>
-
 </div><!--container-->
 
 <script>
+
     $(document).ready(function() {
-        $('#users-list').dataTable({
-            dom: 'ilfrtBp',
-            columnDefs: [{orderable: false, targets: [4, 5, 6]}],
-            buttons: ['csv', 'pdf', 'print']
-        });
-    });
+        var table = $('#users-list').DataTable( {
+            dom: '<"row"<"col-md-12"i>>' +
+            '<"row"<"col-md-6"l><"col-md-6"f>>' +
+            '<"row"<"col-md-12"rt>>' +
+            '<"spacer">' +
+            '<"row"<"col-md-6"B><"col-md-6"p>>',
+            columnDefs: [ { orderable: false, targets: [4, 5, 6] } ],
+            buttons: [
+                { extend: 'csv', text: 'Download CSV', className: 'btn-primary' },
+                { extend: 'print', className: 'btn-primary'},
+                {
+                    text: '+ Add new user',
+                    className: 'btn-success',
+                    action: function ( e, dt, node, conf ) {
+                        window.location.href = 'add-new-user';
+                    }
+                }
+            ]
+        } );
+
+    } );
+
 </script>
 
 </body>
