@@ -74,7 +74,7 @@
                     text: '+ Add new user',
                     className: 'btn-success',
                     action: function ( e, dt, node, conf ) {
-                        window.location.href = 'add-new-user';
+                        window.location.href = 'add-user';
                     }
                 }
             ]
