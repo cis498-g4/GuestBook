@@ -64,7 +64,7 @@
             '<"row"<"col-md-12"rt>>' +
             '<"spacer">' +
             '<"row"<"col-md-6"B><"col-md-6"p>>',
-            columnDefs: [ { orderable: false, targets: [4, 5, 6] } ],
+            columnDefs: [ { orderable: false, targets: [6, 7] } ],
             buttons: [
                 { extend: 'csv', text: 'Download CSV', className: 'btn-primary' },
                 { extend: 'print', className: 'btn-primary'},
