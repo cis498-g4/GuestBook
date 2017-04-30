@@ -52,10 +52,6 @@ public class ShowSurveyInfo extends HttpServlet {
         Survey survey = surveyData.getSurvey(Integer.parseInt(request.getParameter("id")));
         request.setAttribute("survey", survey);
 
-        // Set questions and responses
-        Map<String, Integer> surveyResponses = SurveyHelpers.getQuestionsResponses(survey);
-        request.setAttribute("surveyResponses", surveyResponses);
-
         // Respond with some basic statistics
         BigDecimal average = SurveyHelpers.responseAverage(survey);
         String sentiment = SurveyHelpers.responseSentiment(average.doubleValue());
@@ -63,7 +59,7 @@ public class ShowSurveyInfo extends HttpServlet {
         request.setAttribute("average", average);
         request.setAttribute("sentiment", sentiment);
 
-        String pageTitle = String.format("Survey for %s, by %s %s", survey.getEvent().getName(),
+        String pageTitle = String.format("Survey for %s by %s %s", survey.getEvent().getName(),
                 survey.getUser().getFirstName(), survey.getUser().getLastName());
         request.setAttribute("pageTitle", pageTitle);
 
