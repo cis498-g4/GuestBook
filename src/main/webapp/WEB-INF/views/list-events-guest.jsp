@@ -61,14 +61,7 @@
             columnDefs: [ { orderable: false, targets: [4] } ],
             buttons: [
                 { extend: 'csv', text: 'Download CSV', className: 'btn-primary' },
-                { extend: 'print', className: 'btn-primary'},
-                {
-                    text: '+ Add new event',
-                    className: 'btn-success',
-                    action: function ( e, dt, node, conf ) {
-                        window.location.href = 'add-event';
-                    }
-                }
+                { extend: 'print', className: 'btn-primary'}
             ]
         } );
 
