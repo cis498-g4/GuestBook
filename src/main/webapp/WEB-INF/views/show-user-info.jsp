@@ -26,27 +26,6 @@
     </tbody>
 </table>
 
-
-<hr>
-
-<table>
-    <tr>
-        <td><button onclick="history.go(-1)">back</button></td>
-        <td>
-            <form action="update-user">
-                <input type="hidden" name="id" value="${user.id}">
-                <input type="submit" value="update information">
-            </form>
-        </td>
-        <td>
-            <form action="remove-user">
-                <input type="hidden" name="id" value="${user.id}">
-                <input type="submit" value="remove user">
-            </form>
-        </td>
-    </tr>
-</table>
-
 </div><!--container-->
 
 <script>
