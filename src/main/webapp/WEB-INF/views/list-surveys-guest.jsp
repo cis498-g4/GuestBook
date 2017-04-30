@@ -4,7 +4,7 @@
 <html lang="en">
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
-<table class="table table-responsive">
+<table class="table table-responsive" id="guest-surveys-list">
     <thead>
         <tr>
             <th>Event Name</th>
@@ -40,20 +40,22 @@
 
 </table>
 
-<hr>
+</div><!--container-->
 
-<form action="filter-surveys-user">
-    <label for="field">Filter by: </label>
-    <select name="field" id="field">
-        <option>Event Name</option>
-        <option>Presenter Last Name</option>
-        <option>Event Date</option>
-        <option>Survey Required</option>
-    </select>
-    <input type="text" name="value">
-    <input type="checkbox" name="exact" checked>Exact matches only
-    <input type="submit" class="btn btn-default btn-sm" value="submit">
-</form>
+<script>
 
-<jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
+    $(document).ready(function() {
+        var table = $('#guest-surveys-list').DataTable( {
+            dom: '<"row"<"col-md-12"i>>' +
+            '<"row"<"col-md-6"l><"col-md-6"f>>' +
+            '<"row"<"col-md-12"rt>>' +
+            '<"spacer">' +
+            '<"row"<"col-md-12"p>>',
+            columnDefs: [ { orderable: false, targets: [4] } ]
+        });
+    });
+
+</script>
+
+</body>
 </html>
