@@ -25,7 +25,7 @@
 }
 
 /* Remove lines from info view tables */
-.info-list tr.odd td, .info-list tr.even td {
+.info-list tbody tr td, .info-list tr.odd td, .info-list tr.even td {
     border-top: none;
 }
 
