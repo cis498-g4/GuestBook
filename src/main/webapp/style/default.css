@@ -17,6 +17,13 @@
     height: 20px;
 }
 
+/* 1.0em tall hr for DataTables DOM */
+.dt_hr_20 {
+    height: 1.0em;
+    border-top: 1px solid #ddd;
+
+}
+
 /* Remove lines from info view tables */
 .info-list tr.odd td, .info-list tr.even td {
     border-top: none;
