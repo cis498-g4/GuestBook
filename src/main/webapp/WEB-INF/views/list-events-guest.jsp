@@ -63,9 +63,8 @@
                 { extend: 'csv', text: 'Download CSV', className: 'btn-primary' },
                 { extend: 'print', className: 'btn-primary'}
             ]
-        } );
-
-    } );
+        });
+    });
 
 </script>
 

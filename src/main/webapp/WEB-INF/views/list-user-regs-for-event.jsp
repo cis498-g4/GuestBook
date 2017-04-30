@@ -67,12 +67,10 @@
                 }
             ]
         });
-
     });
 
     // redirect extend function
-    $.extend(
-        {
+    $.extend( {
             redirect: function(url, args) {
                 var form = $('<form></form>');
                 form.attr('method', 'get');
@@ -88,8 +86,7 @@
 
                 $(form).appendTo('body').submit();
             }
-        }
-    );
+    });
 
 </script>
 
