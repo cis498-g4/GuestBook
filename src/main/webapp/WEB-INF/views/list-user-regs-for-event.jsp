@@ -5,10 +5,10 @@
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
 <c:if test="${remain >= 0}">
-    <p><strong>${remain} seats remaining</strong></p>
+    <h4>${remain} seats remaining</h4>
 </c:if>
 
-<table class="table table-responsive">
+<table class="table table-responsive" id="user-regs-list">
     <thead>
         <tr>
             <th>User Name</th>
@@ -41,37 +41,57 @@
 
 </table>
 
-<br>
+<form
 
+</div><!--container-->
 
-<br>
+<script>
 
-<hr>
+    $(document).ready(function() {
+        var table = $('#user-regs-list').DataTable( {
+            dom: '<"row"<"col-md-12"i>>' +
+            '<"row"<"col-md-6"l><"col-md-6"f>>' +
+            '<"row"<"col-md-12"rt>>' +
+            '<"spacer">' +
+            '<"row"<"col-md-6"B><"col-md-6"p>>',
+            columnDefs: [ { orderable: false, targets: [2] } ],
+            buttons: [
+                { extend: 'csv', text: 'Download CSV', className: 'btn-primary' },
+                { extend: 'print', className: 'btn-primary'},
+                {
+                    text: 'Register new users',
+                    className: 'btn-success',
+                    action: function ( e, dt, node, conf ) {
+                        $.redirect('add-registration', { id: ${event.id} })
+                    }
+                }
+            ]
+        });
 
-<form action="filter-reg">
-    <label for="field">Filter by: </label>
-    <select name="field" id="field">
-        <option>User Name</option>
-        <option>User email</option>
-    </select>
-    <input type="text" name="value">
-    <input type="checkbox" name="exact" checked>Exact matches only
-    <input type="submit" class="btn btn-default btn-sm" value="submit">
-</form>
+    });
 
-<hr>
+    // redirect extend function
+    $.extend(
+        {
+            redirect: function(url, args) {
+                var form = $('<form></form>');
+                form.attr('method', 'get');
+                form.attr('action', url);
 
-<table>
-    <tr>
-        <td><button class="btn btn-default btn-sm btn-block" onclick="history.go(-1)">back</button></td>
-        <td>
-            <form action="add-registration">
-                <input type="hidden" name="id" value="${event.id}">
-                <input type="submit" class="btn btn-success btn-sm btn-block" value="register new users">
-            </form>
-        </td>
-    </tr>
-</table>
+                $.each(args, function(key, value) {
+                    var field = $('<input></input>');
+                    field.attr('type', 'hidden');
+                    field.attr('name', key);
+                    field.attr('value', value);
+                    form.append(field);
+                });
 
-<jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
+                $(form).appendTo('body').submit();
+            }
+        }
+    );
+
+</script>
+
+</body>
 </html>
