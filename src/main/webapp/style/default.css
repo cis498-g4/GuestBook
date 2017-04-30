@@ -1,5 +1,4 @@
-/* Bootstrap overrides */
-
+/* Rmove shading from Bootstrap buttons */
 .btn {
       background-image: none;
       text-shadow: none;
@@ -7,18 +6,18 @@
       -webkit-box-shadow: none;
 }
 
-/* DataTables overrides */
-
+/* Override DataTables info element styles */
 .dataTables_info {
     padding-bottom: 8px;
     font-weight: bold;
 }
 
-
+/* 20px spacer for DataTables DOM */
 .spacer {
     height: 20px;
 }
 
+/* Remove lines from info view tables */
 .info-list tr.odd td, .info-list tr.even td {
     border-top: none;
 }
