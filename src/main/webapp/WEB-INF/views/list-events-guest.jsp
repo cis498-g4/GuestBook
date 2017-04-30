@@ -53,11 +53,11 @@
 
     $(document).ready(function() {
         var table = $('#guest-events-list').DataTable( {
-            dom: '<"row"<"col-md-12"i>>' +
-            '<"row"<"col-md-6"l><"col-md-6"f>>' +
-            '<"row"<"col-md-12"rt>>' +
+            dom: '<"row"<"col-sm-12"i>>' +
+            '<"row"<"col-sm-6"l><"col-sm-6"f>>' +
+            '<"row"<"col-sm-12"rt>>' +
             '<"spacer">' +
-            '<"row"<"col-md-6"B><"col-md-6"p>>',
+            '<"row"<"col-sm-6"B><"col-sm-6"p>>',
             columnDefs: [ { orderable: false, targets: [4] } ],
             buttons: [
                 { extend: 'csv', text: 'Download CSV', className: 'btn-primary' },
