@@ -4,7 +4,7 @@
 <html lang="en">
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
-<table class="table table-responsive">
+<table class="table table-responsive" id="guest-registrations-list">
     <thead>
         <tr>
             <th>Event Name</th>
@@ -12,7 +12,7 @@
             <th>Presenter</th>
             <th>Registration Type</th>
             <th>Registration Code</th>
-            <th># Registered</th>
+            <th>Guests Registered</th>
             <th></th>
         </tr>
     </thead>
@@ -51,28 +51,35 @@
 
 <hr>
 
-<form action="filter-reg">
-    <label for="field">Filter by: </label>
-    <select name="field" id="field">
-        <option>Event Name</option>
-        <option>Presenter Last Name</option>
-        <option>Event Date</option>
-    </select>
-    <input type="text" name="value">
-    <input type="checkbox" name="exact" checked>Exact matches only
-    <input type="submit" class="btn btn-default btn-sm btn-block" value="submit">
-</form>
-
-<hr>
-
 <h4>Register for a new event</h4>
 
 <form action="add-registration-guest" method="post">
     <label for="reg-code">If you have the registration code for a new event, enter it here: </label>
     <input type="text" name="reg-code" id="reg-code" required>
-    <input type="submit" class="btn btn-success btn-sm" value="register">
+    <input type="submit" class="btn btn-success" value="register">
     <p>If you do not have a registration code, please contact an event organizer to assist you with registration.</p>
 </form>
 
-<jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
+</div><!--container-->
+
+<script>
+
+    $(document).ready(function() {
+        var table = $('#guest-registrations-list').DataTable( {
+            dom: '<"row"<"col-md-12"i>>' +
+            '<"row"<"col-md-6"l><"col-md-6"f>>' +
+            '<"row"<"col-md-12"rt>>' +
+            '<"spacer">' +
+            '<"row"<"col-md-6"B><"col-md-6"p>>',
+            columnDefs: [ { orderable: false, targets: [6] } ],
+            buttons: [
+                { extend: 'csv', text: 'Download CSV', className: 'btn-primary' },
+                { extend: 'print', className: 'btn-primary'}
+            ]
+        });
+    });
+
+</script>
+
+</body>
 </html>
