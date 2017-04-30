@@ -41,8 +41,6 @@
 
 </table>
 
-<form
-
 </div><!--container-->
 
 <script>
