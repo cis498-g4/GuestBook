@@ -15,5 +15,11 @@
 }
 
 
-.spacer { height: 20px; }
+.spacer {
+    height: 20px;
+}
+
+.info-list tr.odd td, .info-list tr.even td {
+    border-top: none;
+}
 
