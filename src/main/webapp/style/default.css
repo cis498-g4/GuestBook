@@ -13,7 +13,7 @@
 }
 
 /* 20px spacer for DataTables DOM */
-.spacer {
+.dt_spacer_20 {
     height: 20px;
 }
 

@@ -69,7 +69,7 @@
             dom: '<"row"<"col-sm-12"i>>' +
             '<"row"<"col-sm-6"l><"col-sm-6"f>>' +
             '<"row"<"col-sm-12"rt>>' +
-            '<"spacer">' +
+            '<"dt_spacer_20">' +
             '<"row"<"col-sm-6"B><"col-sm-6"p>>',
             columnDefs: [ { orderable: false, targets: [6] } ],
             buttons: [
