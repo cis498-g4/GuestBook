@@ -36,6 +36,10 @@
 
 <hr>
 
+<p>Overall, this survey is <strong>${sentiment}</strong>, with an average rating of <strong>${average}</strong></p>
+
+<hr>
+
 <table class="table table-condensed table-striped info-list" id="survey-results">
     <thead hidden></thead>
     <tbody>
@@ -115,19 +119,6 @@
         </tr>
 
     </tbody>
-</table>
-
-<hr>
-
-<p>Overall, this survey is <strong>${sentiment}</strong>, with an average rating of <strong>${average}</strong></p>
-
-<hr>
-
-<table>
-    <tr>
-        <td><button onclick="history.go(-1)">back</button></td>
-        <td><button onclick="">download CSV</button></td>
-    </tr>
 </table>
 
 </div><!--container-->
