@@ -86,8 +86,6 @@ public class AddEvent extends HttpServlet {
         String statusType;
 
         // Create new event with form information
-
-        // TODO: input format must be YYYY-MM-DDTHH:MM - eventually use jQuery for this (http://bit.ly/2ozo93R)
         String startInput = request.getParameter("start-dt");
         LocalDateTime startDt = LocalDateTime.parse(startInput, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
