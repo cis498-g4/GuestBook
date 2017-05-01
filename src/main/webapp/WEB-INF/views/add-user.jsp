@@ -38,14 +38,14 @@
     </div>
 
     <div class="form-group">
-        <label class="control-label col-sm-2" for="password">Password</label>
+        <label class="control-label col-sm-2" for="password">Password:</label>
         <div class="col-sm-4">
             <input type="password" class="form-control" name="password" id="password" required>
         </div>
     </div>
 
     <div class="form-group">
-        <label class="control-label col-sm-2" for="pwd-conf">Retype Password</label>
+        <label class="control-label col-sm-2" for="pwd-conf">Retype Password:</label>
         <div class="col-sm-4">
             <input type="password" class="form-control" name="pwd-conf" id="pwd-conf" required>
         </div>
