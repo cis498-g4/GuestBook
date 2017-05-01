@@ -32,18 +32,10 @@
         <div class="col-sm-5">
             <select class="form-control" name="pres-id" id="pres-id">
 
-
-                <option value="1">Perwaize Ahmed</option>
-
-                <option value="2">Matt Granum</option>
-
-                <option value="3">Scott Langnas</option>
-
-                <option value="4">Mike Molenda</option>
-
-                <option value="52">A A</option>
-
-
+                <c:forEach items="${organizers}" var="organizer">
+                    <option value="${organizer.id}">${organizer.firstName} ${organizer.lastName}</option>
+                </c:forEach>
+                
             </select>
         </div>
     </div>
@@ -51,7 +43,7 @@
     <div class="form-group">
         <label class="control-label col-sm-2" for="capacity">Event capacity:</label>
         <div class="col-sm-2">
-            <input type="number" min="0" class="form-control" name="capacity" id="capacity">
+            <input type="number" min="0" max="10000" class="form-control" name="capacity" id="capacity">
         </div>
     </div>
 
@@ -92,16 +84,25 @@
     $(function () {
         $('#start-dt').datetimepicker({
             format: 'YYYY-MM-DD HH:mm:ss',
-            minDate: new Date(),
+            minDate: new Date()
         });
-    });
 
-    $(function () {
         $('#end-dt').datetimepicker({
             format: 'YYYY-MM-DD HH:mm:ss',
-            minDate: new Date(),
+            useCurrent: false
         });
+
+        // end-dt should always be after start-dt
+        $('#start-dt').on('dp.change', function (e) {
+            $('#end-dt').data('DateTimePicker').minDate(e.date);
+        });
+
+        $('#end-dt').on('dp.change', function (e) {
+            $('#start-dt').data('DateTimePicker').maxDate(e.date);
+        });
+
     });
+
 </script>
 
 </body>
