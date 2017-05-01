@@ -1,9 +1,21 @@
-/* Rmove shading from Bootstrap buttons */
+/* Remove shading from Bootstrap buttons */
 .btn {
-      background-image: none;
-      text-shadow: none;
-      box-shadow: none;
-      -webkit-box-shadow: none;
+    background-image: none;
+    text-shadow: none;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+/* Remove shading from Bootstrap alerts */
+.alert {
+    background-image: none;
+    text-shadow: none;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 16px;
+    padding-right: 16px;
 }
 
 /* Override DataTables info element styles */
