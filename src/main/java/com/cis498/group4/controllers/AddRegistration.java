@@ -54,8 +54,8 @@ public class AddRegistration extends HttpServlet {
         String url = "/WEB-INF/views/add-registration.jsp";
 
         Event event = eventData.getEvent(Integer.parseInt(request.getParameter("id")));
-        String eventDate = event.getStartDateTime().format(DateTimeFormatter.ofPattern("MM/dd/YYYY"));
-        String pageTitle = String.format("Registration for %s (%s)", event.getName(), eventDate);
+        String eventDate = event.getStartDateTime().format(DateTimeFormatter.ofPattern("M/d/YY"));
+        String pageTitle = String.format("Registration for %s %s", event.getName(), eventDate);
 
         request.setAttribute("event", event);
         request.setAttribute("eventDate", eventDate);
