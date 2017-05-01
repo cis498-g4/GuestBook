@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -87,11 +88,11 @@ public class AddEvent extends HttpServlet {
         // Create new event with form information
 
         // TODO: input format must be YYYY-MM-DDTHH:MM - eventually use jQuery for this (http://bit.ly/2ozo93R)
-        String startInput = request.getParameter("start-date") + "T" + request.getParameter("start-time");
-        LocalDateTime startDt = LocalDateTime.parse(startInput);
+        String startInput = request.getParameter("start-dt");
+        LocalDateTime startDt = LocalDateTime.parse(startInput, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-        String endInput = request.getParameter("end-date") + "T" + request.getParameter("end-time");
-        LocalDateTime endDt = LocalDateTime.parse(endInput);
+        String endInput = request.getParameter("end-dt");
+        LocalDateTime endDt = LocalDateTime.parse(endInput, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
         if (startDt.isAfter(LocalDateTime.now())) {
             if (startDt.isBefore(endDt)) {

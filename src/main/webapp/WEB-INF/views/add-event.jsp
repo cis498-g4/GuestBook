@@ -5,37 +5,104 @@
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
 <!-- TODO: HTML / JS form validation -->
-<form action="add-event" method="post">
-    <label for="name">Event Name:</label>
-    <input type="text" name="name" id="name" required><br>
-    <label for="start-date">Start date:</label>
-    <input type="text" name="start-date" id="start-date" required><br>
-    <label for="start-time">Start time:</label>
-    <input type="text" name="start-time" id="start-time" required><br>
-    <label for="end-date">End date:</label>
-    <input type="text" name="end-date" id="end-date" required><br>
-    <label for="end-time">End time:</label>
-    <input type="text" name="end-time" id="end-time" required><br>
-    <label for="pres-id">Presenter:</label>
-    <select name="pres-id" id="pres-id">
+<form class="form-horizontal" action="add-event" method="post">
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="name">Event Name:</label>
+        <div class="col-sm-5">
+            <input type="text" class="form-control" name="name" id="name" required>
+        </div>
+    </div>
 
-        <c:forEach items="${organizers}" var="organizer">
-        <option value="${organizer.id}">${organizer.firstName} ${organizer.lastName}</option>
-        </c:forEach>
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="start-dt">Start date/time:</label>
+        <div class="col-sm-2">
+            <input type="text" class="form-control" name="start-dt" id="start-dt" required>
+        </div>
+    </div>
 
-    </select><br>
-    <label for="capacity">Event capacity:</label>
-    <input type="text" name="capacity" id="capacity"><br>
-    <input type="checkbox" name="open-reg" id="open-reg">Allow open registration<br>
-    <label for="reg-code">Registration code (optional):</label>
-    <input type="text" name="reg-code" id="reg-code"><br>
-    <input type="checkbox" name="survey-req" id="survey-req">Require survey completion to record attendance<br>
-    <input type="submit" value="create event">
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="end-dt">End date/time:</label>
+        <div class="col-sm-2">
+            <input type="text" class="form-control" name="end-dt" id="end-dt" required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="pres-id">Presenter:</label>
+        <div class="col-sm-5">
+            <select class="form-control" name="pres-id" id="pres-id">
+
+
+                <option value="1">Perwaize Ahmed</option>
+
+                <option value="2">Matt Granum</option>
+
+                <option value="3">Scott Langnas</option>
+
+                <option value="4">Mike Molenda</option>
+
+                <option value="52">A A</option>
+
+
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="capacity">Event capacity:</label>
+        <div class="col-sm-2">
+            <input type="number" min="0" class="form-control" name="capacity" id="capacity">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <input type="checkbox" name="open-reg" id="open-reg"> Allow open registration
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="reg-code">Registration code:</label>
+        <div class="col-sm-2">
+            <input type="text" class="form-control" name="reg-code" id="reg-code" maxlength="8">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <input type="checkbox" name="survey-req" id="survey-req"> Require survey completion to record attendance
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <input type="submit" value="Create Event" class="btn btn-success">
+        </div>
+    </div>
+
 </form>
 
 <hr>
 
-<button onclick="history.go(-1)">back</button>
+<button onclick="list-events" class="btn btn-primary">Back</button>
 
-<jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
+</div><!--container-->
+
+<script type="text/javascript">
+    $(function () {
+        $('#start-dt').datetimepicker({
+            format: 'YYYY-MM-DD HH:mm:ss',
+            minDate: new Date(),
+        });
+    });
+
+    $(function () {
+        $('#end-dt').datetimepicker({
+            format: 'YYYY-MM-DD HH:mm:ss',
+            minDate: new Date(),
+        });
+    });
+</script>
+
+</body>
 </html>
