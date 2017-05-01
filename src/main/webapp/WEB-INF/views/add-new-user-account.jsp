@@ -5,28 +5,57 @@
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
 <!-- TODO: HTML / JS form validation -->
-<form action="add-new-user-account" method="post">
-    <label for="first-name">First Name:</label>
-    <input type="text" name="first-name" id="first-name" required><br>
-    <label for="last-name">Last Name:</label>
-    <input type="text" name="last-name" id="last-name" required><br>
-    <label for="email">Email Address:</label>
-    <input type="email" name="email" id="email" required><br>
-    <input type="hidden" name="type" value="GUEST">
-    <label for="password">Password</label>
-    <input type="password" name="password" id="password" required><br>
-    <label for="pwd-conf">Retype Password</label>
-    <input type="password" name="pwd-conf" id="pwd-conf" required>
-    <c:if test="${error.equals('match')}">
-        Password fields must match
-    </c:if>
-    <br>
-    <input type="submit" value="create user">
+<form class="form-horizontal" action="add-new-user-account" method="post">
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="first-name">First Name:</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" name="first-name" id="first-name" required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="last-name">Last Name:</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" name="last-name" id="last-name" required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="email">Email Address:</label>
+        <div class="col-sm-4">
+            <input type="email" class="form-control" name="email" id="email" required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="password">Password:</label>
+        <div class="col-sm-4">
+            <input type="password" class="form-control" name="password" id="password" required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="pwd-conf">Retype Password:</label>
+        <div class="col-sm-4">
+            <input type="password" class="form-control" name="pwd-conf" id="pwd-conf" required>
+        </div>
+        <c:if test="${error.equals('match')}">
+            <span class="label label-warning">Password fields must match</span>
+        </c:if>
+    </div>
+
+    <div class="form-group">
+        <input type="hidden" name="type" value="GUEST">
+        <div class="col-sm-offset-2 col-sm-10">
+            <input type="submit" value="Create User" class="btn btn-success">
+        </div>
+    </div>
+
 </form>
 
 <hr>
 
-<a href="${back}">Back to sign-in</a>
+<a class="btn btn-primary" href="${back}">Back to sign-in</a>
 
 <jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
 </html>
