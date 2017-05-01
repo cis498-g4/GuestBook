@@ -62,7 +62,7 @@ public class ListUserRegsForEvent extends HttpServlet {
         int remain = AttendanceHelpers.calculateSpotsRemaining(attendanceList.get(0));
         request.setAttribute("remain", remain);
 
-        String pageTitle = String.format("Users registered for %s (%s)",
+        String pageTitle = String.format("Users registered for %s %s",
                 event.getName(), event.getStartDateTime().format(DateTimeFormatter.ofPattern("M/d/YY")));
         request.setAttribute("pageTitle", pageTitle);
 
