@@ -4,66 +4,77 @@
 <html lang="en">
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
-<p>The following event will be <strong>permanently</strong> deleted from the database:</p>
+<h4>The following event will be <strong>permanently</strong> deleted from the database:</h4>
 
-<table>
+<table class="table table-condensed info-list" id="event-info">
+    <thead hidden></thead>
+    <tbody>
     <tr>
-        <td><strong>Event Name:</strong></td>
+        <td class="col-xs-3"><strong>Event Name:</strong></td>
         <td>${event.name}</td>
     </tr>
     <tr>
-        <td><strong>Event Start:</strong></td>
+        <td class="col-xs-3"><strong>Event Start:</strong></td>
         <td>
             ${event.startDateTime.getMonthValue()}/${event.startDateTime.getDayOfMonth()}/${event.startDateTime.getYear()}
-            ${event.startDateTime.getHour()}:${event.startDateTime.getMinute() < 10 ? "0" : "&nbsp;"}${event.startDateTime.getMinute()}
+            ${event.startDateTime.getHour()}:${event.startDateTime.getMinute() < 10 ? "0" : ""}${event.startDateTime.getMinute()}
         </td>
     </tr>
     <tr>
-        <td><strong>Event End:</strong></td>
+        <td class="col-xs-3"><strong>Event End:</strong></td>
         <td>
             ${event.endDateTime.getMonthValue()}/${event.endDateTime.getDayOfMonth()}/${event.endDateTime.getYear()}
-            ${event.endDateTime.getHour()}:${event.endDateTime.getMinute() < 10 ? "0" : "&nbsp;"}${event.endDateTime.getMinute()}
+            ${event.endDateTime.getHour()}:${event.endDateTime.getMinute() < 10 ? "0" : ""}${event.endDateTime.getMinute()}
         </td>
     </tr>
     <tr>
-        <td><strong>Presenter:</strong></td>
+        <td class="col-xs-3"><strong>Presenter:</strong></td>
         <td>${event.presenter.firstName} ${event.presenter.lastName}</td>
     </tr>
     <tr>
-        <td><strong>Registration Type:</strong></td>
+        <td class="col-xs-3"><strong>Registration Type:</strong></td>
         <td>${event.openRegistration ? "Open" : "Closed"}</td>
     </tr>
     <tr>
-        <td><strong>Registration Code:</strong></td>
+        <td class="col-xs-3"><strong>Registration Code:</strong></td>
         <td>${event.registrationCode != null ? event.registrationCode : "<em>none</em>"}</td>
     </tr>
     <tr>
-        <td><strong>Survey Required:</strong></td>
+        <td class="col-xs-3"><strong>Survey Required:</strong></td>
         <td>${event.mandatorySurvey ? "Yes" : "No"}</td>
     </tr>
     <tr>
-        <td><strong>Max Capacity:</strong></td>
+        <td class="col-xs-3"><strong>Max Capacity:</strong></td>
         <td>${event.capacity > 0 ? event.capacity : "<em>none</em>"}</td>
     </tr>
+    </tbody>
 </table>
 
-<p>This effectively cancels the event. Are you sure?</p>
-
-<form action="remove-event" method="post">
-    <input type="hidden" name="id" value="${event.id}"><br>
-    <table>
-        <tr>
-            <td><input type="submit" value="confirm delete"></td>
-            <td><button onclick="history.go(-1)">cancel</button></td>
-        </tr>
-    </table>
+<form class="form form-vertical" action="remove-event" method="post">
+    <div class="form-group">
+        <label>This effectively cancels the event. Are you sure?</label>
+        <input type="hidden" name="id" value="${event.id}">
+    </div>
+    <div class="form-group">
+        <button class="btn btn-primary col" onclick="history.go(-1)">Cancel</button>
+        <input type="submit" class="btn btn-danger col" value="Confirm Delete">
+    </div>
 </form>
 
-<hr>
+</div><!--container-->
 
-<button onclick="history.go(-1)">back</button>
+<script>
 
-<jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
+    $(document).ready(function() {
+        var table = $('#event-info').DataTable( {
+            dom: '<"row"<"col-sm-12"rt>>' +
+            '<"dt_spacer_20">',
+            columnDefs: [ { orderable: false, targets: [0,1] } ]
+        });
+    });
+
+
+</script>
+
+</body>
 </html>
-
-
