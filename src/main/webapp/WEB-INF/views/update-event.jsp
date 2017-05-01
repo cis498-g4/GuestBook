@@ -5,41 +5,119 @@
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
 <!-- TODO: HTML / JS form validation -->
-<form action="update-event" method="post">
-    <label for="name">Event Name:</label>
-    <input type="text" name="name" id="name" value="${event.name}" required><br>
-    <label for="start-date">Start date:</label>
-    <input type="text" name="start-date" id="start-date" value="${event.startDateTime.getYear()}-${event.startDateTime.getMonthValue() < 10 ? "0" : ""}${event.startDateTime.getMonthValue()}-${event.startDateTime.getDayOfMonth() < 10 ? "0" : ""}${event.startDateTime.getDayOfMonth()}" required><br>
-    <label for="start-time">Start time:</label>
-    <input type="text" name="start-time" id="start-time" value="${event.startDateTime.getHour() < 10 ? "0" : ""}${event.startDateTime.getHour()}:${event.startDateTime.getMinute() < 10 ? "0" : ""}${event.startDateTime.getMinute()}" required><br>
-    <label for="end-date">End date:</label>
-    <input type="text" name="end-date" id="end-date" value="${event.endDateTime.getYear()}-${event.endDateTime.getMonthValue() < 10 ? "0" : ""}${event.endDateTime.getMonthValue()}-${event.endDateTime.getDayOfMonth() < 10 ? "0" : ""}${event.endDateTime.getDayOfMonth()}" required><br>
-    <label for="end-time">End time:</label>
-    <input type="text" name="end-time" id="end-time" value="${event.endDateTime.getHour() < 10 ? "0" : ""}${event.endDateTime.getHour()}:${event.endDateTime.getMinute() < 10 ? "0" : ""}${event.endDateTime.getMinute()}" required><br>
-    <label for="pres-id">Presenter:</label>
-    <select name="pres-id" id="pres-id">
+<form class="form-horizontal" action="update-event" method="post">
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="name">Event Name:</label>
+        <div class="col-sm-5">
+            <input type="text" class="form-control" name="name" id="name" value="${event.name}" required>
+        </div>
+    </div>
 
-        <c:forEach items="${organizers}" var="organizer">
-            <option value="${organizer.id}" ${event.presenter.id == organizer.id ? "selected" : ""}>
-                    ${organizer.firstName} ${organizer.lastName}
-            </option>
-        </c:forEach>
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="start-dt">Start date/time:</label>
+        <div class="col-sm-2">
+            <input type="text" class="form-control" name="start-dt" id="start-dt" required>
+        </div>
+    </div>
 
-    </select><br>
-    <label for="capacity">Event capacity:</label>
-    <input type="text" name="capacity" id="capacity" value="${event.capacity > 0 ? event.capacity : ""}"><br>
-    <input type="checkbox" name="open-reg" id="open-reg" ${event.openRegistration ? "checked" : ""}>Allow open registration<br>
-    <label for="reg-code">Registration code (optional):</label>
-    <input type="text" name="reg-code" id="reg-code" value="${event.registrationCode != null ? event.registrationCode : ""}"><br>
-    <input type="checkbox" name="survey-req" id="survey-req" ${event.mandatorySurvey ? "checked" : ""}>Require survey completion to record attendance<br>
-    <input type="hidden" name="id" value="${event.id}"><br>
-    <input type="submit" value="update event">
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="end-dt">End date/time:</label>
+        <div class="col-sm-2">
+            <input type="text" class="form-control" name="end-dt" id="end-dt" required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="pres-id">Presenter:</label>
+        <div class="col-sm-5">
+            <select class="form-control" name="pres-id" id="pres-id">
+
+                <c:forEach items="${organizers}" var="organizer">
+                    <option value="${organizer.id}" ${event.presenter.id == organizer.id ? "selected" : ""}>
+                            ${organizer.firstName} ${organizer.lastName}
+                    </option>
+                </c:forEach>
+
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="capacity">Event capacity:</label>
+        <div class="col-sm-2">
+            <input type="number" min="0" max="10000" class="form-control" name="capacity" id="capacity" value="${event.capacity > 0 ? event.capacity : ''}">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <input type="checkbox" name="open-reg" id="open-reg" ${event.openRegistration ? "checked" : ""}> Allow open registration
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="reg-code">Registration code:</label>
+        <div class="col-sm-2">
+            <input type="text" class="form-control" name="reg-code" id="reg-code" maxlength="8" value="${event.registrationCode != null ? event.registrationCode : ''}">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <input type="checkbox" name="survey-req" id="survey-req" ${event.mandatorySurvey ? "checked" : ""}> Require survey completion to record attendance
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <input type="hidden" name="id" value="${event.id}">
+            <input type="submit" value="Update Event Information" class="btn btn-success">
+        </div>
+    </div>
+
 </form>
 
 <hr>
 
-<button onclick="history.go(-1)">back</button>
+<button onclick="history.go(-1)" class="btn btn-primary">Back</button>
 
-<jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
+</div><!--container-->
+
+<script type="text/javascript">
+    $(function () {
+        var startDt = new Date('${startDt}');
+        var endDt = new Date('${endDt}');
+        var minDate = new Date();
+
+        if (startDt.getTime() < minDate) {
+            minDate = startDt;
+        }
+
+        $('#start-dt').datetimepicker({
+            format: 'YYYY-MM-DD HH:mm:ss',
+            minDate: minDate,
+            defaultDate: startDt
+        });
+
+        $('#end-dt').datetimepicker({
+            format: 'YYYY-MM-DD HH:mm:ss',
+            useCurrent: false,
+            defaultDate: endDt
+
+        });
+
+        // end-dt should always be after start-dt
+        $('#start-dt').on('dp.change', function (e) {
+            $('#end-dt').data('DateTimePicker').minDate(e.date);
+        });
+
+        $('#end-dt').on('dp.change', function (e) {
+            $('#start-dt').data('DateTimePicker').maxDate(e.date);
+        });
+
+    });
+
+</script>
+
+</body>
 </html>
-

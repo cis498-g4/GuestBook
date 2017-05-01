@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -49,10 +50,17 @@ public class UpdateEvent extends HttpServlet {
             return;
         }
 
+        // TODO: If event ended in the past, block edit
+
         String url = "/WEB-INF/views/update-event.jsp";
 
         Event event = eventData.getEvent(Integer.parseInt(request.getParameter("id")));
         request.setAttribute("event", event);
+
+        String startDt = event.getStartDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        String endDt = event.getEndDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        request.setAttribute("startDt", startDt);
+        request.setAttribute("endDt", endDt);
 
         List<User> organizers = userData.getOrganizers();
         request.setAttribute("organizers", organizers);
@@ -87,13 +95,11 @@ public class UpdateEvent extends HttpServlet {
         String statusType;
 
         // Create new event with form information
+        String startInput = request.getParameter("start-dt");
+        LocalDateTime startDt = LocalDateTime.parse(startInput, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-        // TODO: input format must be YYYY-MM-DDTHH:MM - eventually use jQuery for this (http://bit.ly/2ozo93R)
-        String startInput = request.getParameter("start-date") + "T" + request.getParameter("start-time");
-        LocalDateTime startDt = LocalDateTime.parse(startInput);
-
-        String endInput = request.getParameter("end-date") + "T" + request.getParameter("end-time");
-        LocalDateTime endDt = LocalDateTime.parse(endInput);
+        String endInput = request.getParameter("end-dt");
+        LocalDateTime endDt = LocalDateTime.parse(endInput, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
         if (startDt.isAfter(LocalDateTime.now())) {
             if (startDt.isBefore(endDt)) {
@@ -137,7 +143,7 @@ public class UpdateEvent extends HttpServlet {
                     statusMessage = "<strong>Error!</strong> Invalid data entered for new event!";
                     statusType = "danger";
                 } else {
-                    statusMessage = "<strong>Error!</strong> Add event operation failed!";
+                    statusMessage = "<strong>Error!</strong> Update event operation failed!";
                     statusType = "danger";
                 }
 
