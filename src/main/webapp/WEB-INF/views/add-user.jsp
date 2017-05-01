@@ -30,8 +30,8 @@
     <div class="form-group">
         <label class="control-label col-sm-2" for="type">User type:</label>
         <div class="col-sm-2">
-            <select class="form-control" name="type" id="type" selected="GUEST">
-                <option value="GUEST">Guest</option>
+            <select class="form-control" name="type" id="type">
+                <option value="GUEST" selected>Guest</option>
                 <option value="ORGANIZER">Organizer</option>
             </select>
         </div>
