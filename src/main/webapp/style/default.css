@@ -29,6 +29,21 @@
     height: 20px;
 }
 
+/* 1.0em spacer */
+.spacer_1em {
+    height: 1.0em;
+}
+
+/* 1.5em spacer */
+.spacer_1_5em {
+    height: 1.5em;
+}
+
+/* 2.0em spacer */
+.spacer_2em {
+    height: 2.0em;
+}
+
 /* 1.0em tall hr */
 .hr_1em {
     height: 1.0em;
