@@ -35,7 +35,7 @@
                 <c:forEach items="${organizers}" var="organizer">
                     <option value="${organizer.id}">${organizer.firstName} ${organizer.lastName}</option>
                 </c:forEach>
-                
+        
             </select>
         </div>
     </div>
