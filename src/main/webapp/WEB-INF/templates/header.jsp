@@ -32,4 +32,4 @@
     </div>
 </c:if>
 
-<h2>${pageTitle}</h2>
+<h2 class="text-center">${pageTitle}</h2>
