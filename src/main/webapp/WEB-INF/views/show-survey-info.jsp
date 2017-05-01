@@ -128,8 +128,8 @@
     $(document).ready(function() {
         var table = $('#survey-results').DataTable( {
             dom: '<"row"<"col-sm-12"rt>>' +
-            '<"dt_spacer_20">' +
-            '<"dt_hr_20">' +
+            '<"spacer_20">' +
+            '<"hr_1em">' +
             '<"row"<"col-sm-12"B>>',
             paging: false,
             order: [],

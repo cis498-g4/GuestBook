@@ -47,7 +47,7 @@
     $(document).ready(function() {
         var table = $('#user-info').DataTable( {
             dom: '<"row"<"col-sm-12"rt>>' +
-            '<"dt_spacer_20">',
+            '<"spacer_20">',
             columnDefs: [ { orderable: false, targets: [0,1] } ]
         });
     });

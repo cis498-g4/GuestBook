@@ -33,8 +33,8 @@
     $(document).ready(function() {
         var table = $('#user-info').DataTable( {
             dom: '<"row"<"col-sm-12"rt>>' +
-            '<"dt_spacer_20">' +
-            '<"dt_hr_20">' +
+            '<"spacer_20">' +
+            '<"hr_1em">' +
             '<"row"<"col-sm-12"B>>',
             columnDefs: [ { orderable: false, targets: [0,1] } ],
             buttons: [

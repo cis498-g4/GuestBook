@@ -24,16 +24,15 @@
     font-weight: bold;
 }
 
-/* 20px spacer for DataTables DOM */
-.dt_spacer_20 {
+/* 20px spacer */
+.spacer_20 {
     height: 20px;
 }
 
-/* 1.0em tall hr for DataTables DOM */
-.dt_hr_20 {
+/* 1.0em tall hr */
+.hr_1em {
     height: 1.0em;
     border-top: 1px solid #ddd;
-
 }
 
 /* Remove lines from info view tables */

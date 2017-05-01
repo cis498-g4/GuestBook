@@ -49,7 +49,7 @@
             dom: '<"row"<"col-sm-12"i>>' +
             '<"row"<"col-sm-6"l><"col-sm-6"f>>' +
             '<"row"<"col-sm-12"rt>>' +
-            '<"dt_spacer_20">' +
+            '<"spacer_20">' +
             '<"row"<"col-sm-12"p>>',
             columnDefs: [ { orderable: false, targets: [4] } ]
         });
