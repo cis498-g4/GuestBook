@@ -5,35 +5,57 @@
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
 <!-- TODO: HTML / JS form validation -->
-<form action="update-user" method="post">
-    <label for="first-name">First Name:</label>
-    <input type="text" name="first-name" id="first-name" value="${user.firstName}" required><br>
-    <label for="last-name">Last Name:</label>
-    <input type="text" name="last-name" id="last-name" value="${user.lastName}" required><br>
-    <label for="email">Email Address:</label>
-    <input type="email" name="email" id="email" value="${user.email}" required><br>
-    <label for="type">User type:</label>
-    <select name="type" id="type">
-        <option value="GUEST" ${user.type == "GUEST" ? "selected" : ""}>
-            Guest
-        </option>
-        <option value="ORGANIZER" ${user.type == "ORGANIZER" ? "selected" : ""}>
-            Organizer
-        </option>
-    </select><br>
-    <input type="hidden" name="id" value="${user.id}"><br>
-    <input type="submit" value="update information">
-</form>
+<form class="form-horizontal" action="update-user" method="post">
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="first-name">First Name:</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" name="first-name" id="first-name" value="${user.firstName}" required>
+        </div>
+    </div>
 
-<h4>Click below to update this user's password</h4>
-<form action="update-password" method="get">
-    <input type="hidden" name="id" value="${user.id}">
-    <input type="submit" id="submit-button" value="change password">
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="last-name">Last Name:</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" name="last-name" id="last-name" value="${user.lastName}" required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="email">Email Address:</label>
+        <div class="col-sm-4">
+            <input type="email" class="form-control" name="email" id="email" value="${user.email}" required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="type">User type:</label>
+        <div class="col-sm-2">
+            <select class="form-control" name="type" id="type" selected="GUEST">
+                <option value="GUEST" ${user.type == "GUEST" ? "selected" : ""}>Guest</option>
+                <option value="ORGANIZER" ${user.type == "ORGANIZER" ? "selected" : ""}>Organizer</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="type">Password:</label>
+        <div class="col-sm-4">
+            <a class="btn btn-default btn-block" href="update-password?id=${user.id}">Click here to update</a>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input type="hidden" name="id" value="${user.id}">
+        <div class="col-sm-offset-2 col-sm-10">
+            <input type="submit" value="Update User Information" class="btn btn-success">
+        </div>
+    </div>
+
 </form>
 
 <hr>
 
-<button onclick="history.go(-1)">back</button>
+<button class="btn btn-primary" onclick="history.go(-1)">back</button>
 
 <jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
 </html>
