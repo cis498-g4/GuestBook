@@ -4,36 +4,42 @@
 <html lang="en">
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
-<p>The following user will be <strong>permanently</strong> deleted from the database:</p>
+<div class="spacer_1em"></div>
 
-<table class="table table-condensed info-list" id="user-info">
-    <thead hidden></thead>
-    <tbody>
-        <tr>
-            <td class="col-xs-3"><strong>First Name:</strong></td>
-            <td>${user.firstName}</td>
-        </tr>
-        <tr>
-            <td class="col-xs-3"><strong>Last Name:</strong></td>
-            <td>${user.lastName}</td>
-        </tr>
-        <tr>
-            <td class="col-xs-3"><strong>Email Address:</strong></td>
-            <td>${user.email}</td>
-        </tr>
-        <tr>
-            <td class="col-xs-3"><strong>User Type:</strong></td>
-            <td>${user.type == 'ORGANIZER' ? 'Organizer' : 'Guest'}</td>
-        </tr>
-    </tbody>
-</table>
+<p class="text-center">The following user will be <strong>permanently</strong> deleted from the database:</p>
+
+<div class="row">
+    <div class="col-sm-4 col-sm-offset-4">
+        <table class="table table-condensed info-list" id="user-info">
+            <thead hidden></thead>
+            <tbody>
+                <tr>
+                    <td class="col-xs-6"><strong>First Name:</strong></td>
+                    <td class="col-xs-6">${user.firstName}</td>
+                </tr>
+                <tr>
+                    <td class="col-xs-6"><strong>Last Name:</strong></td>
+                    <td class="col-xs-6">${user.lastName}</td>
+                </tr>
+                <tr>
+                    <td class="col-xs-6"><strong>Email Address:</strong></td>
+                    <td class="col-xs-6">${user.email}</td>
+                </tr>
+                <tr>
+                    <td class="col-xs-6"><strong>User Type:</strong></td>
+                    <td class="col-xs-6">${user.type == 'ORGANIZER' ? 'Organizer' : 'Guest'}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 
 <form class="form form-vertical" action="remove-user" method="post">
-    <div class="form-group">
+    <div class="form-group text-center">
         <label>This user will no longer be able to ${user.type == 'ORGANIZER' ? 'organize' : 'sign in or register for'} events. Are you sure?</label>
         <input type="hidden" name="id" value="${user.id}">
     </div>
-    <div class="form-group">
+    <div class="form-group text-center">
         <button class="btn btn-primary col" onclick="history.go(-1)">Cancel</button>
         <input type="submit" class="btn btn-danger col" value="Confirm Delete">
     </div>
