@@ -5,7 +5,7 @@
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
 <c:if test="${remain >= 0}">
-    <h4>${remain} seats remaining</h4>
+    <h3 class="text-center">${remain} seats remaining</h3>
 </c:if>
 
 <table class="table table-responsive" id="user-regs-list">
@@ -54,7 +54,14 @@
             '<"row"<"col-sm-6"B><"col-sm-6"p>>',
             columnDefs: [ { orderable: false, targets: [2] } ],
             buttons: [
-                { extend: 'csv', text: 'Download CSV', className: 'btn-primary' },
+                {
+                    text: 'Back',
+                    className: 'btn-primary',
+                    action: function (e, dt, node, conf) {
+                        window.location('list-event-registrations');
+                    }
+                },
+                { extend: 'csv', text: 'CSV', className: 'btn-primary' },
                 { extend: 'print', className: 'btn-primary'},
                 {
                     text: 'Register new users',
