@@ -58,7 +58,7 @@
                     text: 'Back',
                     className: 'btn-primary',
                     action: function (e, dt, node, conf) {
-                        window.location('list-event-registrations');
+                        window.location.href = 'list-event-registrations';
                     }
                 },
                 { extend: 'csv', text: 'CSV', className: 'btn-primary' },
