@@ -6,39 +6,45 @@
 
 <div class="spacer_1em"></div>
 
-<table class="table table-condensed info-list" id="survey-info">
-    <thead hidden></thead>
-    <tbody>
-        <tr>
-            <td class="col-xs-3"><strong>Event Name:</strong></td>
-            <td>${survey.event.name}</td>
-        </tr>
-        <tr>
-            <td class="col-xs-3"><strong>Event Date:</strong></td>
-            <td>${survey.event.startDateTime.getMonthValue()}/${survey.event.startDateTime.getDayOfMonth()}/${survey.event.startDateTime.getYear()}</td>
-        </tr>
-        </tr>
-        <tr>
-            <td class="col-xs-3"><strong>Presenter:</strong></td>
-            <td>${survey.event.presenter.firstName} ${survey.event.presenter.lastName}</td>
-        </tr>
-        <tr>
-            <td class="col-xs-3"><strong>Reviewer Name:</strong></td>
-            <td>${survey.user.firstName} ${survey.user.lastName}</td>
-        </tr>
-        <tr>
-            <td class="col-xs-3"><strong>Submission Date:</strong></td>
-            <td>
-                ${survey.submissionDateTime.getMonthValue()}/${survey.submissionDateTime.getDayOfMonth()}/${survey.submissionDateTime.getYear()}
-                ${survey.submissionDateTime.getHour()}:${survey.submissionDateTime.getMinute() < 10 ? "0" : ""}${survey.submissionDateTime.getMinute()}
-            </td>
-        </tr>
-    </tbody>
-</table>
+<div class="row">
+    <div class="col-sm-4 col-sm-offset-4">
+        <table class="table table-condensed info-list" id="survey-info">
+            <thead hidden></thead>
+            <tbody>
+                <tr>
+                    <td class="col-xs-6"><strong>Event Name:</strong></td>
+                    <td class="col-xs-6">${survey.event.name}</td>
+                </tr>
+                <tr>
+                    <td class="col-xs-6"><strong>Event Date:</strong></td>
+                    <td class="col-xs-6">${survey.event.startDateTime.getMonthValue()}/${survey.event.startDateTime.getDayOfMonth()}/${survey.event.startDateTime.getYear()}</td>
+                </tr>
+                </tr>
+                <tr>
+                    <td class="col-xs-6"><strong>Presenter:</strong></td>
+                    <td class="col-xs-6">${survey.event.presenter.firstName} ${survey.event.presenter.lastName}</td>
+                </tr>
+                <tr>
+                    <td class="col-xs-6"><strong>Reviewer Name:</strong></td>
+                    <td class="col-xs-6">${survey.user.firstName} ${survey.user.lastName}</td>
+                </tr>
+                <tr>
+                    <td class="col-xs-6"><strong>Submission Date:</strong></td>
+                    <td class="col-xs-6">
+                        ${survey.submissionDateTime.getMonthValue()}/${survey.submissionDateTime.getDayOfMonth()}/${survey.submissionDateTime.getYear()}
+                        ${survey.submissionDateTime.getHour()}:${survey.submissionDateTime.getMinute() < 10 ? "0" : ""}${survey.submissionDateTime.getMinute()}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 
 <hr>
 
-<p>Overall, this survey is <strong>${sentiment}</strong>, with an average rating of <strong>${average}</strong></p>
+<div class="text-center">
+    <p>Overall, this survey is <strong>${sentiment}</strong>, with an average rating of <strong>${average}</strong></p>
+</div>
 
 <hr>
 
@@ -132,7 +138,7 @@
             dom: '<"row"<"col-sm-12"rt>>' +
             '<"spacer_20">' +
             '<"hr_1em">' +
-            '<"row"<"col-sm-12"B>>',
+            '<"row"<"col-sm-12 text-center"B>>',
             paging: false,
             order: [],
             columnDefs: [ { orderable: false, targets: [0,1] } ],
