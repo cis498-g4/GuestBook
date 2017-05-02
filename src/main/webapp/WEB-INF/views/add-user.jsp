@@ -54,6 +54,7 @@
                     <input type="password" class="form-control" name="pwd-conf" id="pwd-conf" required>
                 </div>
             </div>
+            
         </div>
     </div>
 
