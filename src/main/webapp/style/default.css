@@ -60,3 +60,11 @@
     padding-left: 10px;
     padding-right: 10px;
 }
+
+/* jQuery Bar Rating */
+.br-theme-bars-square .br-widget a {
+    display: inline-block;
+    float: none;
+    border: none;
+    color: #ff0000;
+}
