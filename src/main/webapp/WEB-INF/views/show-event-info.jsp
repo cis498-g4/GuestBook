@@ -8,42 +8,42 @@
     <thead hidden></thead>
     <tbody>
         <tr>
-            <td class="col-xs-3"><strong>Event Name:</strong></td>
-            <td>${event.name}</td>
+            <td class="col-xs-6"><strong>Event Name:</strong></td>
+            <td class="col-xs-6">${event.name}</td>
         </tr>
         <tr>
-            <td class="col-xs-3"><strong>Event Start:</strong></td>
-            <td>
+            <td class="col-xs-6"><strong>Event Start:</strong></td>
+            <td class="col-xs-6">
                 ${event.startDateTime.getMonthValue()}/${event.startDateTime.getDayOfMonth()}/${event.startDateTime.getYear()}
                 ${event.startDateTime.getHour()}:${event.startDateTime.getMinute() < 10 ? "0" : ""}${event.startDateTime.getMinute()}
             </td>
         </tr>
         <tr>
-            <td class="col-xs-3"><strong>Event End:</strong></td>
-            <td>
+            <td class="col-xs-6"><strong>Event End:</strong></td>
+            <td class="col-xs-6">
                 ${event.endDateTime.getMonthValue()}/${event.endDateTime.getDayOfMonth()}/${event.endDateTime.getYear()}
                 ${event.endDateTime.getHour()}:${event.endDateTime.getMinute() < 10 ? "0" : ""}${event.endDateTime.getMinute()}
             </td>
         </tr>
         <tr>
-            <td class="col-xs-3"><strong>Presenter:</strong></td>
-            <td>${event.presenter.firstName} ${event.presenter.lastName}</td>
+            <td class="col-xs-6"><strong>Presenter:</strong></td>
+            <td class="col-xs-6">${event.presenter.firstName} ${event.presenter.lastName}</td>
         </tr>
         <tr>
-            <td class="col-xs-3"><strong>Registration Type:</strong></td>
-            <td>${event.openRegistration ? "Open" : "Closed"}</td>
+            <td class="col-xs-6"><strong>Registration Type:</strong></td>
+            <td class="col-xs-6">${event.openRegistration ? "Open" : "Closed"}</td>
         </tr>
         <tr>
-            <td class="col-xs-3"><strong>Registration Code:</strong></td>
-            <td>${event.registrationCode != null ? event.registrationCode : "<em>none</em>"}</td>
+            <td class="col-xs-6"><strong>Registration Code:</strong></td>
+            <td class="col-xs-6">${event.registrationCode != null ? event.registrationCode : "<em>none</em>"}</td>
         </tr>
         <tr>
-            <td class="col-xs-3"><strong>Survey Required:</strong></td>
-            <td>${event.mandatorySurvey ? "Yes" : "No"}</td>
+            <td class="col-xs-6"><strong>Survey Required:</strong></td>
+            <td class="col-xs-6">${event.mandatorySurvey ? "Yes" : "No"}</td>
         </tr>
         <tr>
-            <td class="col-xs-3"><strong>Max Capacity:</strong></td>
-            <td>${event.capacity > 0 ? event.capacity : "<em>none</em>"}</td>
+            <td class="col-xs-6"><strong>Max Capacity:</strong></td>
+            <td class="col-xs-6">${event.capacity > 0 ? event.capacity : "<em>none</em>"}</td>
         </tr>
     </tbody>
 </table>
@@ -54,10 +54,9 @@
 
     $(document).ready(function() {
         var table = $('#event-info').DataTable( {
-            dom: '<"row"<"col-sm-12"rt>>' +
-            '<"spacer_20">' +
-            '<"hr_1em">' +
-            '<"row"<"col-sm-12"B>>',
+            dom: '<"row"<"col-sm-4 col-sm-offset-4"rt>>' +
+            '<"spacer_2em">' +
+            '<"row"<"col-sm-12 text-center"B>>',
             columnDefs: [ { orderable: false, targets: [0,1] } ],
             buttons: [
                 {
@@ -68,7 +67,7 @@
                     }
                 },
                 {
-                    text: 'Update Event Information',
+                    text: 'Update Information',
                     className: 'btn-primary',
                     action: function ( e, dt, node, conf ) {
                         $.redirect('update-event', { id: ${event.id} })
