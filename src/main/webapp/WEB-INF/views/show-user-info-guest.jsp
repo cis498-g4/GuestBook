@@ -4,34 +4,51 @@
 <html lang="en">
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
+<div class="spacer_1em"></div>
+
 <!-- TODO: HTML / JS form validation -->
-<form action="show-user-info-guest" method="post">
-    <table>
-        <tr>
-            <td><strong>First Name:</strong></td>
-            <td><input type="text" name="first-name" id="first-name" value="${sessionUser.firstName}" required></td>
-        </tr>
-        <tr>
-            <td><strong>Last Name:</strong></td>
-            <td><input type="text" name="last-name" id="last-name" value="${sessionUser.lastName}" required></td>
-        </tr>
-        <tr>
-            <td><strong>Email Address:</strong></td>
-            <td><input type="email" name="email" id="email" value="${sessionUser.email}" required></td>
-        </tr>
-    </table>
+<form class="form-horizontal" action="show-user-info-guest" method="post">
+    <div class="row padding-horiz-10px">
+        <div class="col-sm-offset-1">
+            <div class="form-group">
+                <label class="control-label col-sm-3" for="first-name">First Name:</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" name="first-name" id="first-name" value="${sessionUser.firstName}" required>
+                </div>
+            </div>
 
-    <br>
+            <div class="form-group">
+                <label class="control-label col-sm-3" for="last-name">Last Name:</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" name="last-name" id="last-name" value="${sessionUser.lastName}" required>
+                </div>
+            </div>
 
-    <input type="submit" value="update information">
+            <div class="form-group">
+                <label class="control-label col-sm-3" for="email">Email Address:</label>
+                <div class="col-sm-5">
+                    <input type="email" class="form-control" name="email" id="email" value="${sessionUser.email}" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-3">Password:</label>
+                <div class="col-sm-5">
+                    <a class="btn btn-default btn-block" href="update-password-guest">Click here to update</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="spacer_1em"></div>
+
+    <div class="form-group text-center">
+        <a class="btn btn-primary" href="home">Cancel</a>
+        <input type="submit" class="btn btn-success" value="Update Information">
+    </div>
 
 </form>
-
-<a href="update-password-guest">Click here to change your password</a>
-
-<hr>
-
-<button onclick="history.go(-1)">back</button>
 
 <jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
 </html>
