@@ -4,25 +4,31 @@
 <html lang="en">
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
-<c:if test="${status <= 3}">
-    <img src="${pageContext.request.contextPath}/img/cool_cat.png" width="100">
-</c:if>
+<div class="spacer_1em"></div>
 
-<c:if test="${status == 1}">
-    <h3>Don't forget to complete the survey!</h3>
-</c:if>
+<div class="text-center">
+    <c:if test="${status <= 3}">
+        <img src="${pageContext.request.contextPath}/img/cool_cat.png" width="100">
+    </c:if>
 
-<p>
-    ${message1}
-    <br>
-    ${message2}
-</p>
+    <c:if test="${status == 1}">
+        <h3>Don't forget to complete the survey!</h3>
+    </c:if>
 
-<a href="${pageContext.request.contextPath}/kiosk">Return to Sign-in</a>
+    <p>
+        ${message1}
+        <br>
+        ${message2}
+    </p>
 
-<c:if test="${status == 4}">
-    <a href="kiosk/add-new-user-account">Create new user</a>
-</c:if>
+    <div class="spacer_1em"></div>
+
+    <a class="btn btn-primary" href="${pageContext.request.contextPath}/kiosk">Return to Sign-in</a>
+
+    <c:if test="${status == 4}">
+        <a class="btn btn-success" href="kiosk/add-new-user-account">Create new user</a>
+    </c:if>
+</div>
 
 <jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
 </html>

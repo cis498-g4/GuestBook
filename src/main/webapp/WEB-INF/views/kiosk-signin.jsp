@@ -4,15 +4,30 @@
 <html lang="en">
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
-<p>Presented by ${event.presenter.firstName} ${event.presenter.lastName}</p>
+<h4 class="text-center">Presented by ${event.presenter.firstName} ${event.presenter.lastName}</h4>
 
 <!-- TODO: HTML / JS form validation -->
-<form action="kiosk" method="post">
-    <p>Please sign in with your email address:</p>
-    <input type="email" name="email" id="email" required>
-    <br>
-    <input type="submit" value="sign in">
-</form>
+<div class="row">
+    <div class="col-sm-10 col-sm-offset-1 hid">
+        <div class="col-sm-6 col-sm-offset-3">
+            <form class="form-vertical" action="kiosk" method="post">
+
+                <div class="spacer_2em"></div>
+
+                <div class="form-group text-center">
+                    <label for="email">Please sign in with your email address:</label>
+                    <input type="email" class="form-control" name="email" id="email" placeholder="yourname@example.com" required>
+                </div>
+
+                <div class="form-group text-center">
+                    <input type="submit" class="btn btn-primary" value="Sign In">
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
 
 <jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
 </html>
