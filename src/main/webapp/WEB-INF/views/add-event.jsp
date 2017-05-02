@@ -77,7 +77,7 @@
 
     <div class="form-group text-center">
         <a class="btn btn-primary" href="list-events">Cancel</a>
-        <input type="submit" value="Create Event" class="btn btn-success">
+        <input type="submit" class="btn btn-success" value="Create Event">
     </div>
 
 </form>

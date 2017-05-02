@@ -47,7 +47,7 @@
         <form action="remove-registration-guest">
             You are registered to attend this event on ${eventLongDate}.
             <input type="hidden" name="eventId" value="${event.id}">
-            <input type="submit" value="remove registration" class="btn btn-link">
+            <input type="submit" class="btn btn-link" value="remove registration">
         </form>
     </c:if>
     <c:if test="${temporalStatus == 'current'}">
@@ -63,7 +63,7 @@
         <form action="take-survey">
             You signed in to this event, but still need to complete a survey.
             <input type="hidden" name="eventId" value="${event.id}">
-            <input type="submit" value="take survey" class="btn btn-link">
+            <input type="submit" class="btn btn-link" value="take survey">
         </form>
     </c:if>
     <c:if test="${temporalStatus == 'in-attendance'}">

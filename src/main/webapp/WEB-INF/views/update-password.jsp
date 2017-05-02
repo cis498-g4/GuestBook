@@ -47,7 +47,7 @@
     <div class="form-group text-center">
         <a class="btn btn-primary" href="javascript:history.go(-1)">Cancel</a>
         <input type="hidden" name="id" value="${user.id}">
-        <input type="submit" value="Change Password" class="btn btn-success">
+        <input type="submit" class="btn btn-success" value="Change Password">
     </div>
 
 </form>

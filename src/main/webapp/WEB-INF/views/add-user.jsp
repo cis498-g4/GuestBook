@@ -62,7 +62,7 @@
 
     <div class="form-group text-center">
         <a class="btn btn-primary" href="list-users">Cancel</a>
-        <input type="submit" value="Create User" class="btn btn-success">
+        <input type="submit" class="btn btn-success" value="Create User">
     </div>
 
 </form>

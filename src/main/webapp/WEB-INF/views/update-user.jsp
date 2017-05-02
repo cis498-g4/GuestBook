@@ -56,7 +56,7 @@
     <div class="form-group text-center">
         <a class="btn btn-primary" href="list-users">Cancel</a>
         <input type="hidden" name="id" value="${user.id}">
-        <input type="submit" value="Update User Information" class="btn btn-success">
+        <input type="submit" class="btn btn-success" value="Update User Information">
     </div>
 
 </form>

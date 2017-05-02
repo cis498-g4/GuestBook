@@ -80,7 +80,7 @@
     <div class="form-group text-center">
         <a class="btn btn-primary" href="list-events">Cancel</a>
         <input type="hidden" name="id" value="${event.id}">
-        <input type="submit" value="Update Event Information" class="btn btn-success">
+        <input type="submit" class="btn btn-success" value="Update Event Information">
     </div>
 
 </form>

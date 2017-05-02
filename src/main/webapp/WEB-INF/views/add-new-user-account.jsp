@@ -56,7 +56,7 @@
     <div class="form-group text-center">
         <a class="btn btn-primary" href="${back}">Back to sign-in</a>
         <input type="hidden" name="type" value="GUEST">
-        <input type="submit" value="Create User" class="btn btn-success">
+        <input type="submit" class="btn btn-success" value="Create User">
     </div>
 
 </form>
