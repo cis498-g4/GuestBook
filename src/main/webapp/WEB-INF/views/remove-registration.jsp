@@ -19,7 +19,7 @@
     </div>
 
     <div class="form-group text-center">
-        <button class="btn btn-primary col" onclick="history.go(-1)">Cancel</button>
+        <a class="btn btn-primary col" href="javascript:history.go(-1)">Cancel</a>
         <input type="submit" class="btn btn-danger col" value="Confirm Delete">
     </div>
 
