@@ -4,21 +4,23 @@
 <html lang="en">
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
-<p>This will <strong>remove</strong> your registration from the event ${event.name} on ${eventLongDate}.</p>
-<p>${warningMessage}</p>
+<div class="spacer_1em"></div>
+
+<p class="text-center">This will <strong>remove</strong> your registration from the event ${event.name} on ${eventLongDate}.</p>
+<p class="text-center">${warningMessage}</p>
 
 <form action="remove-registration-guest" method="post">
-    <p>
-        Are you sure?<br>
-        <input type="hidden" name="eventId" value="${event.id}"><br>
-        <input type="submit" value="remove registration">
-        <button onclick="history.go(-1)">cancel</button>
-    </p>
+    <div class="form-group text-center">
+        <input type="hidden" name="eventId" value="${event.id}">
+        <label>Are you sure?</label>
+    </div>
+
+    <div class="form-group text-center">
+        <a class="btn btn-primary col" href="list-registrations-guest">Cancel</a>
+        <input type="submit" class="btn btn-danger" value="Remove Registration">
+    </div>
+
 </form>
-
-<hr>
-
-<button onclick="history.go(-1)">back</button>
 
 <jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
 </html>
