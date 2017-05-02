@@ -4,79 +4,84 @@
 <html lang="en">
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
+<div class="spacer_1em"></div>
+
 <!-- TODO: HTML / JS form validation -->
 <form class="form-horizontal" action="add-event" method="post">
-    <div class="form-group">
-        <label class="control-label col-sm-2" for="name">Event Name:</label>
-        <div class="col-sm-5">
-            <input type="text" class="form-control" name="name" id="name" required>
+    <div class="row padding-horiz-10px">
+        <div class="col-sm-offset-1">
+
+            <div class="form-group">
+                <label class="control-label col-sm-3" for="name">Event Name:</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" name="name" id="name" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-3" for="start-dt">Start date/time:</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" name="start-dt" id="start-dt" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-3" for="end-dt">End date/time:</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" name="end-dt" id="end-dt" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-3" for="pres-id">Presenter:</label>
+                <div class="col-sm-5">
+                    <select class="form-control" name="pres-id" id="pres-id">
+
+                        <c:forEach items="${organizers}" var="organizer">
+                            <option value="${organizer.id}">${organizer.firstName} ${organizer.lastName}</option>
+                        </c:forEach>
+
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-3" for="capacity">Event capacity:</label>
+                <div class="col-sm-3">
+                    <input type="number" min="0" max="10000" class="form-control" name="capacity" id="capacity">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-8">
+                    <input type="checkbox" name="open-reg" id="open-reg"> Allow open registration
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-3" for="reg-code">Registration code:</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" name="reg-code" id="reg-code" maxlength="8">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-8">
+                    <input type="checkbox" name="survey-req" id="survey-req"> Require survey completion to record attendance
+                </div>
+            </div>
+
         </div>
     </div>
 
-    <div class="form-group">
-        <label class="control-label col-sm-2" for="start-dt">Start date/time:</label>
-        <div class="col-sm-2">
-            <input type="text" class="form-control" name="start-dt" id="start-dt" required>
-        </div>
-    </div>
+    <div class="spacer_1em"></div>
 
-    <div class="form-group">
-        <label class="control-label col-sm-2" for="end-dt">End date/time:</label>
-        <div class="col-sm-2">
-            <input type="text" class="form-control" name="end-dt" id="end-dt" required>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="control-label col-sm-2" for="pres-id">Presenter:</label>
-        <div class="col-sm-5">
-            <select class="form-control" name="pres-id" id="pres-id">
-
-                <c:forEach items="${organizers}" var="organizer">
-                    <option value="${organizer.id}">${organizer.firstName} ${organizer.lastName}</option>
-                </c:forEach>
-        
-            </select>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="control-label col-sm-2" for="capacity">Event capacity:</label>
-        <div class="col-sm-2">
-            <input type="number" min="0" max="10000" class="form-control" name="capacity" id="capacity">
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-            <input type="checkbox" name="open-reg" id="open-reg"> Allow open registration
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="control-label col-sm-2" for="reg-code">Registration code:</label>
-        <div class="col-sm-2">
-            <input type="text" class="form-control" name="reg-code" id="reg-code" maxlength="8">
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-            <input type="checkbox" name="survey-req" id="survey-req"> Require survey completion to record attendance
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-            <input type="submit" value="Create Event" class="btn btn-success">
-        </div>
+    <div class="form-group text-center">
+        <a class="btn btn-primary" href="javascript:history.go(-1)">Cancel</a>
+        <input type="submit" value="Create Event" class="btn btn-success">
     </div>
 
 </form>
-
-<hr>
-
-<button onclick="history.go(-1)" class="btn btn-primary">Back</button>
 
 </div><!--container-->
 
