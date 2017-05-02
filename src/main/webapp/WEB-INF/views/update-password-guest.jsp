@@ -42,7 +42,7 @@
     <div class="spacer_1em"></div>
 
     <div class="form-group text-center">
-        <a class="btn btn-primary" href="javascript:history.go(-1)">Cancel</a>
+        <a class="btn btn-primary" href="show-user-info-guest">Cancel</a>
         <input type="submit" class="btn btn-success" value="Change password">
     </div>
 
