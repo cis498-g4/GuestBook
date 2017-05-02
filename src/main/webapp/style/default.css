@@ -55,3 +55,8 @@
     border-top: none;
 }
 
+/* Add 10px horizontal padding */
+.padding-horiz-10px {
+    padding-left: 10px;
+    padding-right: 10px;
+}
