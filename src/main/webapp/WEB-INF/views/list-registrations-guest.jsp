@@ -53,11 +53,14 @@
 
 <h4>Register for a new event</h4>
 
-<form action="add-registration-guest" method="post">
-    <label for="reg-code">If you have the registration code for a new event, enter it here: </label>
-    <input type="text" name="reg-code" id="reg-code" required>
-    <input type="submit" class="btn btn-success" value="register">
-    <p>If you do not have a registration code, please contact an event organizer to assist you with registration.</p>
+<p>If you do not have a registration code, please contact an event organizer to assist you with registration.</p>
+
+<form class="form-inline" action="add-registration-guest" method="post">
+    <div class="form-group">
+        <input type="text" class="form-control" name="reg-code" id="reg-code" placeholder="Registration Code" maxlength="8" required>
+        <input type="submit" class="btn btn-success" value="Register">
+    </div>
+
 </form>
 
 </div><!--container-->
