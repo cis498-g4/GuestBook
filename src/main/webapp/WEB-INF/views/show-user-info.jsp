@@ -8,20 +8,20 @@
     <thead hidden></thead>
     <tbody>
         <tr>
-            <td class="col-xs-2"><strong>First Name:</strong></td>
-            <td>${user.firstName}</td>
+            <td class="col-xs-6"><strong>First Name:</strong></td>
+            <td class="col-xs-6">${user.firstName}</td>
         </tr>
         <tr>
-            <td class="col-xs-2"><strong>Last Name:</strong></td>
-            <td>${user.lastName}</td>
+            <td class="col-xs-6"><strong>Last Name:</strong></td>
+            <td class="col-xs-6">${user.lastName}</td>
         </tr>
         <tr>
-            <td class="col-xs-2"><strong>Email Address:</strong></td>
-            <td>${user.email}</td>
+            <td class="col-xs-6"><strong>Email Address:</strong></td>
+            <td class="col-xs-6">${user.email}</td>
         </tr>
         <tr>
-            <td class="col-xs-2"><strong>User Type:</strong></td>
-            <td>${user.type == 'ORGANIZER' ? 'Organizer' : 'Guest'}</td>
+            <td class="col-xs-6"><strong>User Type:</strong></td>
+            <td class="col-xs-6">${user.type == 'ORGANIZER' ? 'Organizer' : 'Guest'}</td>
         </tr>
     </tbody>
 </table>
@@ -32,10 +32,9 @@
 
     $(document).ready(function() {
         var table = $('#user-info').DataTable( {
-            dom: '<"row"<"col-sm-12"rt>>' +
-            '<"spacer_20">' +
-            '<"hr_1em">' +
-            '<"row"<"col-sm-12"B>>',
+            dom: '<"row"<"col-sm-4 col-sm-offset-4"rt>>' +
+            '<"spacer_2em">' +
+            '<"row"<"col-sm-12 text-center"B>>',
             columnDefs: [ { orderable: false, targets: [0,1] } ],
             buttons: [
                 {
@@ -46,7 +45,7 @@
                     }
                 },
                 {
-                    text: 'Update User Information',
+                    text: 'Update Information',
                     className: 'btn-primary',
                     action: function ( e, dt, node, conf ) {
                         $.redirect('update-user', { id: ${user.id} })
