@@ -42,7 +42,7 @@
             </div>
 
             <div class="form-group">
-                <label class="control-label col-sm-3" for="type">Password:</label>
+                <label class="control-label col-sm-3">Password:</label>
                 <div class="col-sm-5">
                     <a class="btn btn-default btn-block" href="update-password?id=${user.id}">Click here to update</a>
                 </div>
