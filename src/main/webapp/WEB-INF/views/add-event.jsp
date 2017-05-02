@@ -10,7 +10,6 @@
 <form class="form-horizontal" action="add-event" method="post">
     <div class="row padding-horiz-10px">
         <div class="col-sm-offset-1">
-
             <div class="form-group">
                 <label class="control-label col-sm-3" for="name">Event Name:</label>
                 <div class="col-sm-5">
@@ -77,7 +76,7 @@
     <div class="spacer_1em"></div>
 
     <div class="form-group text-center">
-        <a class="btn btn-primary" href="javascript:history.go(-1)">Cancel</a>
+        <a class="btn btn-primary" href="list-events">Cancel</a>
         <input type="submit" value="Create Event" class="btn btn-success">
     </div>
 
