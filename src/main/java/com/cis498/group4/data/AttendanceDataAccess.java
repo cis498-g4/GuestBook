@@ -183,7 +183,7 @@ public class AttendanceDataAccess {
 
             // Set parameters and execute SQL
             String sql = SELECT_ALL_ATTRIBUTES +
-                         " WHERE a.`user_id` = ? AND (e.`end_date_time` < CURDATE() OR a.`attendance_status_id` > 0)";
+                         " WHERE a.`user_id` = ? AND (e.`end_date_time` < NOW() OR a.`attendance_status_id` > 0)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, user.getId());
             ResultSet results = preparedStatement.executeQuery();
@@ -218,7 +218,7 @@ public class AttendanceDataAccess {
 
             // Set parameters and execute SQL
             String sql = SELECT_ALL_ATTRIBUTES +
-                         " WHERE a.`user_id` = ? AND e.`end_date_time` > CURDATE() AND a.`attendance_status_id` = 0";
+                         " WHERE a.`user_id` = ? AND e.`end_date_time` > NOW() AND a.`attendance_status_id` = 0";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, user.getId());
             ResultSet results = preparedStatement.executeQuery();
@@ -254,7 +254,7 @@ public class AttendanceDataAccess {
             // Set parameters and execute SQL
             String sql = SELECT_ALL_ATTRIBUTES +
                          "LEFT JOIN `survey` s ON a.`user_id` = s.`user_id` AND a.`event_id` = s.`event_id` " +
-                         "WHERE a.`user_id` = ? AND s.`survey_id` IS NULL AND e.`end_date_time` <= CURDATE()";
+                         "WHERE a.`user_id` = ? AND s.`survey_id` IS NULL AND e.`end_date_time` <= NOW()";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, user.getId());
             ResultSet results = preparedStatement.executeQuery();

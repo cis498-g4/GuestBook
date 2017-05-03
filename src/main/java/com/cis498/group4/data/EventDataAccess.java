@@ -98,7 +98,7 @@ public class EventDataAccess {
 
         try {
             // Execute SQL
-            String sql = SELECT_ALL_ATTRIBUTES + " WHERE e.`end_date_time` > CURDATE() ORDER BY e.`start_date_time`";
+            String sql = SELECT_ALL_ATTRIBUTES + " WHERE e.`end_date_time` > NOW() ORDER BY e.`start_date_time`";
             Statement statement = connection.createStatement();
             ResultSet results = statement.executeQuery(sql);
 
