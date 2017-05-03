@@ -44,6 +44,11 @@
     height: 2.0em;
 }
 
+/* 3.0em spacer */
+.spacer_3em {
+    height: 3.0em;
+}
+
 /* 1.0em tall hr */
 .hr_1em {
     height: 1.0em;
@@ -62,9 +67,9 @@
 }
 
 /* jQuery Bar Rating */
-.br-theme-bars-square .br-widget a {
-    display: inline-block;
-    float: none;
-    border: none;
-    color: #ff0000;
+.br-theme-fontawesome-stars-o .br-widget a.br-selected:after,
+.br-theme-fontawesome-stars-o .br-widget a.br-active:after {
+    color: #1467aa;
 }
+
+

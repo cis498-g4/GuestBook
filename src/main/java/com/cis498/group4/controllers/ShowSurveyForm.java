@@ -86,7 +86,7 @@ public class ShowSurveyForm extends HttpServlet {
         request.setAttribute("responses", responses);
 
         String pageTitle = String.format("Survey for %s %s", event.getName(),
-                event.getStartDateTime().format(DateTimeFormatter.ofPattern("M/d/YYYY")));
+                event.getStartDateTime().format(DateTimeFormatter.ofPattern("M/d/YY")));
         request.setAttribute("pageTitle", pageTitle);
 
         RequestDispatcher view = request.getRequestDispatcher(url);
