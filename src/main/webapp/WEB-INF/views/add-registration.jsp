@@ -38,7 +38,7 @@
 
 <div class="row padding-horiz-10px">
     <div class="col-sm-6 col-sm-offset-3">
-        <form class="form-vertical" action="add-registration-csv" method="post">
+        <form class="form-vertical" action="add-registration-csv" method="post" enctype="multipart/form-data">
             <div class="form-group text-center">
                 <div class="input-group">
                     <label class="input-group-btn">
