@@ -4,59 +4,65 @@
 <html lang="en">
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
-<p>The following event will be <strong>permanently</strong> deleted from the database:</p>
+<div class="spacer_1em"></div>
 
-<table class="table table-condensed info-list" id="event-info">
-    <thead hidden></thead>
-    <tbody>
-        <tr>
-            <td class="col-xs-3"><strong>Event Name:</strong></td>
-            <td>${event.name}</td>
-        </tr>
-        <tr>
-            <td class="col-xs-3"><strong>Event Start:</strong></td>
-            <td>
-                ${event.startDateTime.getMonthValue()}/${event.startDateTime.getDayOfMonth()}/${event.startDateTime.getYear()}
-                ${event.startDateTime.getHour()}:${event.startDateTime.getMinute() < 10 ? "0" : ""}${event.startDateTime.getMinute()}
-            </td>
-        </tr>
-        <tr>
-            <td class="col-xs-3"><strong>Event End:</strong></td>
-            <td>
-                ${event.endDateTime.getMonthValue()}/${event.endDateTime.getDayOfMonth()}/${event.endDateTime.getYear()}
-                ${event.endDateTime.getHour()}:${event.endDateTime.getMinute() < 10 ? "0" : ""}${event.endDateTime.getMinute()}
-            </td>
-        </tr>
-        <tr>
-            <td class="col-xs-3"><strong>Presenter:</strong></td>
-            <td>${event.presenter.firstName} ${event.presenter.lastName}</td>
-        </tr>
-        <tr>
-            <td class="col-xs-3"><strong>Registration Type:</strong></td>
-            <td>${event.openRegistration ? "Open" : "Closed"}</td>
-        </tr>
-        <tr>
-            <td class="col-xs-3"><strong>Registration Code:</strong></td>
-            <td>${event.registrationCode != null ? event.registrationCode : "<em>none</em>"}</td>
-        </tr>
-        <tr>
-            <td class="col-xs-3"><strong>Survey Required:</strong></td>
-            <td>${event.mandatorySurvey ? "Yes" : "No"}</td>
-        </tr>
-        <tr>
-            <td class="col-xs-3"><strong>Max Capacity:</strong></td>
-            <td>${event.capacity > 0 ? event.capacity : "<em>none</em>"}</td>
-        </tr>
-    </tbody>
-</table>
+<p class="text-center">The following event will be <strong>permanently</strong> deleted from the database:</p>
+
+<div class="row">
+    <div class="col-sm-4 col-sm-offset-4">
+        <table class="table table-condensed info-list" id="event-info">
+            <thead hidden></thead>
+            <tbody>
+                <tr>
+                    <td class="col-xs-6"><strong>Event Name:</strong></td>
+                    <td class="col-xs-6">${event.name}</td>
+                </tr>
+                <tr>
+                    <td class="col-xs-6"><strong>Event Start:</strong></td>
+                    <td class="col-xs-6">
+                        ${event.startDateTime.getMonthValue()}/${event.startDateTime.getDayOfMonth()}/${event.startDateTime.getYear()}
+                        ${event.startDateTime.getHour()}:${event.startDateTime.getMinute() < 10 ? "0" : ""}${event.startDateTime.getMinute()}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-xs-6"><strong>Event End:</strong></td>
+                    <td class="col-xs-6">
+                        ${event.endDateTime.getMonthValue()}/${event.endDateTime.getDayOfMonth()}/${event.endDateTime.getYear()}
+                        ${event.endDateTime.getHour()}:${event.endDateTime.getMinute() < 10 ? "0" : ""}${event.endDateTime.getMinute()}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-xs-6"><strong>Presenter:</strong></td>
+                    <td class="col-xs-6">${event.presenter.firstName} ${event.presenter.lastName}</td>
+                </tr>
+                <tr>
+                    <td class="col-xs-6"><strong>Registration Type:</strong></td>
+                    <td class="col-xs-6">${event.openRegistration ? "Open" : "Closed"}</td>
+                </tr>
+                <tr>
+                    <td class="col-xs-6"><strong>Registration Code:</strong></td>
+                    <td class="col-xs-6">${event.registrationCode != null ? event.registrationCode : "<em>none</em>"}</td>
+                </tr>
+                <tr>
+                    <td class="col-xs-6"><strong>Survey Required:</strong></td>
+                    <td class="col-xs-6">${event.mandatorySurvey ? "Yes" : "No"}</td>
+                </tr>
+                <tr>
+                    <td class="col-xs-6"><strong>Max Capacity:</strong></td>
+                    <td class="col-xs-6">${event.capacity > 0 ? event.capacity : "<em>none</em>"}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 
 <form class="form form-vertical" action="remove-event" method="post">
-    <div class="form-group">
+    <div class="form-group text-center">
         <label>This effectively cancels the event. Are you sure?</label>
         <input type="hidden" name="id" value="${event.id}">
     </div>
-    <div class="form-group">
-        <button class="btn btn-primary col" onclick="history.go(-1)">Cancel</button>
+    <div class="form-group text-center">
+        <a class="btn btn-primary" href="javascript:history.go(-1)">Cancel</a>
         <input type="submit" class="btn btn-danger col" value="Confirm Delete">
     </div>
 </form>
