@@ -100,6 +100,7 @@ public class AddRegistration extends HttpServlet {
         if (user.getEmail() != null) {
             int insertStatus = attendanceData.insertAttendance(user, event);
 
+            // TODO Add duplicate check
             if (insertStatus == 0) {
                 statusMessage = "Registration was successful!";
                 statusType = "success";
