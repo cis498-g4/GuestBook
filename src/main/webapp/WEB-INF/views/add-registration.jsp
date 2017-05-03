@@ -22,7 +22,7 @@
 
             <div class="form-group text-center">
                 <input type="hidden" name="eventId" value="${event.id}">
-                <input type="submit" class="btn btn-success" value="Register User">
+                <input type="submit" class="btn btn-success" value="Register ${statusType.equals('success') ? 'Another' : ''} User">
             </div>
 
         </form>
@@ -41,7 +41,7 @@
 <hr>
 
 <div class="text-center">
-    <a class="btn btn-primary" href="javascript:history.go(-1)">Cancel</a>
+    <a class="btn btn-primary" href="list-user-regs-for-event?id=${event.id}">Registration List for ${event.name}</a>
 </div>
 
 <jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>

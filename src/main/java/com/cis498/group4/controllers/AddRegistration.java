@@ -88,9 +88,14 @@ public class AddRegistration extends HttpServlet {
 
         User user = userData.getUserByEmail(request.getParameter("email"));
         Event event = eventData.getEvent(Integer.parseInt(request.getParameter("eventId")));
-        request.setAttribute("event", event);
+        String eventDate = event.getStartDateTime().format(DateTimeFormatter.ofPattern("M/d/YY"));
+        String pageTitle = String.format("Registration for %s %s", event.getName(), eventDate);
 
-        String url = String.format("/manager/list-user-regs-for-event?id=%d", event.getId());
+        request.setAttribute("event", event);
+        request.setAttribute("eventDate", eventDate);
+        request.setAttribute("pageTitle", pageTitle);
+
+        String url = String.format("/WEB-INF/views/add-registration.jsp?id=%s", event.getId());
 
         if (user.getEmail() != null) {
             int insertStatus = attendanceData.insertAttendance(user, event);
