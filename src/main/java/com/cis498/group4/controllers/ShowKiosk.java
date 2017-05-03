@@ -53,7 +53,7 @@ public class ShowKiosk extends HttpServlet {
             User sessionUser = (User) session.getAttribute("sessionUser");
 
             if (SessionHelpers.checkOrganizer(request.getSession())) {
-                response.sendRedirect("/manager/start-kiosk");
+                response.sendRedirect(String.format("%s/manager/start-kiosk", request.getContextPath()));
                 return;
             }
 
