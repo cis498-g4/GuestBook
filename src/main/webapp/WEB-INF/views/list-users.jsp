@@ -18,12 +18,6 @@
     </thead>
 
     <tbody>
-        <c:if test="${users.isEmpty()}">
-            <tr>
-                <td colspan="7" align="center">No users found</td>
-            </tr>
-        </c:if>
-
         <c:forEach items="${users}" var="user">
             <tr>
                 <td>${user.lastName}</td>

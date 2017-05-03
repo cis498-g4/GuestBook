@@ -18,12 +18,6 @@
     </thead>
 
     <tbody>
-        <c:if test="${events.isEmpty()}">
-            <tr>
-                <td colspan="7" align="center">No events found</td>
-            </tr>
-        </c:if>
-
         <c:forEach items="${registrations}" var="registration">
             <tr>
                 <td>${registration.event.name}</td>

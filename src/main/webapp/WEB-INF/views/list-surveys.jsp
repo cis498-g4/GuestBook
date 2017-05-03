@@ -30,12 +30,6 @@
     </thead>
 
     <tbody>
-        <c:if test="${surveys.isEmpty()}">
-            <tr>
-                <td colspan="6" align="center">No surveys found</td>
-            </tr>
-        </c:if>
-
         <c:forEach items="${surveys}" var="survey">
             <tr>
                 <td>${survey.event.name}</td>

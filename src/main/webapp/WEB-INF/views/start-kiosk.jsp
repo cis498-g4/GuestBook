@@ -21,12 +21,6 @@
     </thead>
 
     <tbody>
-        <c:if test="${futureEvents.isEmpty()}">
-            <tr>
-                <td colspan="11" align="center">No events found</td>
-            </tr>
-        </c:if>
-
         <c:forEach items="${futureEvents}" var="event">
             <tr>
                 <td>${event.name}</td>

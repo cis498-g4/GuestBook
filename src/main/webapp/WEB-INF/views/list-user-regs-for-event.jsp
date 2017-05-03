@@ -18,12 +18,6 @@
     </thead>
 
     <tbody>
-        <c:if test="${attendanceList.isEmpty()}">
-            <tr>
-                <td colspan="4" align="center">No registrations found</td>
-            </tr>
-        </c:if>
-
         <c:forEach items="${attendanceList}" var="attendance">
             <tr>
                 <td>${attendance.user.lastName}, ${attendance.user.firstName}</td>
