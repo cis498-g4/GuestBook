@@ -63,6 +63,35 @@ public class UserHelpers {
     }
 
     /**
+     * Validates a user record read from a CSV (lastName, firstName, email)
+     * @param user
+     * @return
+     */
+    public static boolean validateCSVUser(User user) {
+        if (user == null) {
+            return false;
+        }
+
+        if (user.getLastName() == null || user.getLastName().trim().isEmpty()) {
+            return false;
+        }
+
+        if (user.getFirstName() == null || user.getFirstName().trim().isEmpty()) {
+            return false;
+        }
+
+        if (user.getEmail() == null || user.getEmail().trim().isEmpty()) {
+            return false;
+        }
+
+        boolean lastName = validateName(user.getLastName());
+        boolean firstName = validateName(user.getFirstName());
+        boolean email = validateEmail(user.getEmail());
+
+        return (lastName && firstName && email);
+    }
+
+    /**
      * Returns a hex string SHA-1 message digest of the password
      */
     public static String shaHash(String message) throws NoSuchAlgorithmException, UnsupportedEncodingException {
