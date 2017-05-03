@@ -51,6 +51,10 @@
             </div>
 
             <div class="form-group text-center">
+                <input type="checkbox" name="header-row"> File contains header row
+            </div>
+
+            <div class="form-group text-center">
                 <input type="hidden" name="eventId" value="${event.id}">
                 <input type="submit" class="btn btn-success" value="Submit Registrations">
             </div>
