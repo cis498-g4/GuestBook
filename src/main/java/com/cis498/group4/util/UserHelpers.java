@@ -5,6 +5,8 @@ import com.cis498.group4.models.User;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * The UserHelpers class contains methods to assist with User data (verification, etc)
@@ -31,6 +33,33 @@ public class UserHelpers {
     public static boolean validatePassword(String password) {
         //TODO
         return true;
+    }
+
+    /**
+     * Validates a user first name / last name
+     * @param name
+     * @return Logical AND of several boolean expressions (e.g. length <= 64)
+     */
+    public static boolean validateName(String name) {
+        boolean length = (name.trim().length() <= 64);
+
+        return (length);
+    }
+
+    /**
+     * Validates a user email address using VERY basic criteria
+     * (e.g. one or more characters followed by an @ and one or more characters)
+     * @param email
+     * @return The logical AND of several boolean checks (e.g. length)
+     */
+    public static boolean validateEmail(String email) {
+        Pattern pattern = Pattern.compile("\\w*@\\w*");
+        Matcher matcher = pattern.matcher(email);
+
+        boolean length = (email.trim().length() <= 64);
+        boolean format = matcher.matches();
+
+        return (length && format);
     }
 
     /**
