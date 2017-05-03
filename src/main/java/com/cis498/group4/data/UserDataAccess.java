@@ -46,7 +46,7 @@ public class UserDataAccess {
             // Store results in User object
             if (results.next()) {
                 setAttributes(user, results);
-            }
+            } // TODO return null if none found
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -76,7 +76,7 @@ public class UserDataAccess {
             // Store results in User object
             if (results.next()) {
                 setAttributes(user, results);
-            }
+            } // TODO return null if none found - used in AddRegistration and AddRegistrationCSV
 
         } catch (SQLException e) {
             e.printStackTrace();
