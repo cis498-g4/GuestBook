@@ -4,24 +4,45 @@
 <html lang="en">
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
-<p>Register a user for ${event.name} by entering their email address below.</p>
+<div class="spacer_1em"></div>
+
+<div class="text-center">
+    <h3>Single Registration</h3>
+    <p>Register an individual user for Coding in Java by entering their email address below.</p>
+</div>
 
 <!-- TODO: HTML / JS form validation -->
-<form action="add-registration" method="post">
-    <label for="email">Email:</label>
-    <input type="email" name="email" id="email" required><br>
-    <input type="hidden" name="eventId" value="${event.id}">
-    <input type="submit" value="register user">
-</form>
+<div class="row padding-horiz-10px">
+    <div class="col-sm-6 col-sm-offset-3">
+        <form class="form-vertical" action="add-registration" method="post">
+
+            <div class="form-group text-center">
+                <input type="email" class="form-control" name="email" id="email" placeholder="Email address" required>
+            </div>
+
+            <div class="form-group text-center">
+                <input type="hidden" name="eventId" value="${event.id}">
+                <input type="submit" class="btn btn-success" value="Register User">
+            </div>
+
+        </form>
+    </div>
+</div>
 
 <hr>
 
-<p>Or, upload a CSV to register multiple users at once. CSV must be in the format last name, first name, email address</p>
-<button onclick="#">upload CSV</button>
+<div class="text-center">
+    <h3>Group Registration</h3>
+    <p>Register multiple users simulataneously by uploading a CSV in the format last name, first name, email address</p>
+
+    <button class="btn btn-success" onclick="#">Upload CSV</button>
+</div>
 
 <hr>
 
-<button onclick="history.go(-1)">back</button>
+<div class="text-center">
+    <a class="btn btn-primary" href="javascript:history.go(-1)">Cancel</a>
+</div>
 
 <jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
 </html>
