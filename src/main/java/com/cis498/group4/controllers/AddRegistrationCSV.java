@@ -23,9 +23,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
+
+import static org.apache.commons.lang3.StringEscapeUtils.unescapeCsv;
 
 /**
  * The AddRegistration servlet responds to requests to register users in a CSV file for an event.
@@ -65,8 +65,6 @@ public class AddRegistrationCSV extends HttpServlet {
             return;
         }
 
-        Event event = eventData.getEvent(Integer.parseInt(request.getParameter("eventId")));
-
         // Check that request is of multipart type (i.e. it contains a file upload)
         if (ServletFileUpload.isMultipartContent(request)) {
             try {
@@ -78,21 +76,38 @@ public class AddRegistrationCSV extends HttpServlet {
                 // Set max upload size to MAX_UPLOAD_SIZE
                 upload.setFileSizeMax(MAX_UPLOAD_SIZE);
 
-                // Read first file item from request
+                // Read file items from request
                 List<FileItem> requestFileItems = upload.parseRequest(request);
                 Iterator items = requestFileItems.iterator();
+
+                Map<String, String> requestParams = new HashMap<String, String>();
+                Map<String, String> requestFileContents = new HashMap<String, String>();
+
                 String csv = null;
 
                 while (items.hasNext()) {
                     FileItem item = (FileItem) items.next();
 
-                    if(!item.isFormField()) {
-                        csv = item.getString();
-                        break;  // Stop after first file
+                    // Get other form data (e.g. eventId)
+                    if (item.isFormField()) {
+                        requestParams.put(item.getFieldName(), item.getString());
                     }
+
+                    if(!item.isFormField()) {
+                        requestFileContents.put(item.getFieldName(), item.getString());
+                    }
+
                 }
 
+                // Get parameter data
+                Event event = eventData.getEvent(Integer.parseInt(requestParams.get("eventId")));
+                boolean headerRow = requestParams.containsKey("header-row");
+
+                // Get CSV contents
+                csv = unescapeCsv(requestFileContents.get("csv-list"));
+
                 // TODO: Validate CSV
+
 
                 // Parse CSV into list of users
                 List<User> csvUsers = new ArrayList<User>();
@@ -100,13 +115,11 @@ public class AddRegistrationCSV extends HttpServlet {
                 CSVParser parser = CSVParser.parse(csv, CSVFormat.DEFAULT);
                 List<CSVRecord> records = parser.getRecords();
 
-                int i;
-
                 // Start from row 2 if there is a header
-                if (request.getParameter("header-row") != null) {
+                int i = 0;
+
+                if (headerRow) {
                     i = 1;
-                } else {
-                    i = 0;
                 }
 
                 while(i < records.size()) {
@@ -147,28 +160,31 @@ public class AddRegistrationCSV extends HttpServlet {
                         } else {
                             // If user valid and not existing, create and register, add to newUsers arrayList
                             // Generate default password (in production environment we would NOT do this)
-                            regUser.setPassword("abc123");
-                            regUser.setType(User.UserType.GUEST);
+                            csvUser.setPassword("abc123");
+                            csvUser.setType(User.UserType.GUEST);
 
-                            insertStatus = userData.insertUser(regUser);
+                            insertStatus = userData.insertUser(csvUser);
 
                             if (insertStatus == 0) {
+                                regUser = userData.getUserByEmail(csvUser.getEmail());
+
                                 regStatus = attendanceData.insertAttendance(regUser, event);
 
                                 if (regStatus == 0) {
-                                    newUsers.add(regUser);
+                                    newUsers.add(csvUser);
+                                } else {
+                                    errorUsers.add(csvUser);
                                 }
-                            }
-                        }
 
-                        // If registration or create user failed, add to error list
-                        if (insertStatus != 0 || regStatus != 0) {
-                            errorUsers.add(regUser);
+                            } else {
+                                errorUsers.add(csvUser);
+                            }
                         }
 
                     } else {
                         // If user name or email invalid, add to error list
                         errorUsers.add(csvUser);
+
                     }
 
                 }
@@ -179,12 +195,26 @@ public class AddRegistrationCSV extends HttpServlet {
                 String statusMessage;
                 String statusType;
 
+                /*
                 if (!errorUsers.isEmpty()) {
                     statusMessage = "Registration completed, but with errors. See below.";
                 }
+                */
 
                 PrintWriter out = response.getWriter();
                 response.setContentType("text/html");
+
+                out.println("<h4>CSV Users</h4>");
+                out.println("<ul>");
+
+                Iterator<User> csvList = csvUsers.iterator();
+
+                while(csvList.hasNext()) {
+                    User csvListUser = csvList.next();
+                    out.printf("<li>%s %s %s</li>\n", csvListUser.getFirstName(), csvListUser.getLastName(), csvListUser.getEmail());
+                }
+
+                out.println("</ul>");
 
                 out.println("<h4>Existing Users</h4>");
                 out.println("<ul>");
@@ -192,7 +222,8 @@ public class AddRegistrationCSV extends HttpServlet {
                 Iterator<User> existingList = existingUsers.iterator();
 
                 while(existingList.hasNext()) {
-                    out.printf("<li>%s</li>\n", existingList.next());
+                    User exUser = existingList.next();
+                    out.printf("<li>%s %s %s</li>\n", exUser.getFirstName(), exUser.getLastName(), exUser.getEmail());
                 }
 
                 out.println("</ul>");
@@ -203,18 +234,20 @@ public class AddRegistrationCSV extends HttpServlet {
                 Iterator<User> newList = newUsers.iterator();
 
                 while(newList.hasNext()) {
-                    out.printf("<li>%s</li>\n", newList.next());
+                    User newUser = newList.next();
+                    out.printf("<li>%s %s %s</li>\n", newUser.getFirstName(), newUser.getLastName(), newUser.getEmail());
                 }
 
                 out.println("</ul>");
 
-                out.println("<h4>Error Users</h4>");
+                out.println("<h4>Registration Failures</h4>");
                 out.println("<ul>");
-
+                
                 Iterator<User> errorList = errorUsers.iterator();
 
                 while(errorList.hasNext()) {
-                    out.printf("<li>%s</li>\n", errorList.next());
+                    User errUser = errorList.next();
+                    out.printf("<li>%s %s %s</li>\n", errUser.getFirstName(), errUser.getLastName(), errUser.getEmail());
                 }
 
                 out.println("</ul>");
