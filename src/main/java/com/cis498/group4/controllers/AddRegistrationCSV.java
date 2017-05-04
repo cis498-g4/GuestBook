@@ -67,6 +67,8 @@ public class AddRegistrationCSV extends HttpServlet {
 
         // Check that request is of multipart type (i.e. it contains a file upload)
         if (ServletFileUpload.isMultipartContent(request)) {
+            CSVParser csvParser = null;
+
             try {
                 DiskFileItemFactory factory = new DiskFileItemFactory();
                 // All files (less than max upload size) get stored in memory
@@ -112,8 +114,8 @@ public class AddRegistrationCSV extends HttpServlet {
                 // Parse CSV into list of users
                 List<User> csvUsers = new ArrayList<User>();
 
-                CSVParser parser = CSVParser.parse(csv, CSVFormat.DEFAULT);
-                List<CSVRecord> records = parser.getRecords();
+                csvParser = CSVParser.parse(csv, CSVFormat.DEFAULT);
+                List<CSVRecord> records = csvParser.getRecords();
 
                 // Start from row 2 if there is a header
                 int i = 0;
@@ -195,14 +197,37 @@ public class AddRegistrationCSV extends HttpServlet {
                 String statusMessage;
                 String statusType;
 
-                /*
-                if (!errorUsers.isEmpty()) {
-                    statusMessage = "Registration completed, but with errors. See below.";
+                if (!existingUsers.isEmpty() || !newUsers.isEmpty()) {
+                    statusMessage = "Registration succeeded";
+                    statusType = "success";
+
+                    if (!errorUsers.isEmpty()) {
+                        statusMessage += ", but with errors. Registration attempts that failed are listed below";
+                        statusType = "warning";
+                    }
+
+                    if (!newUsers.isEmpty()) {
+                        statusMessage += ".<br>New users were created with a default password. Please have new users change their password";
+                        statusType = "warning";
+                    }
+
+                    statusMessage += ".";
+
+                } else {
+                    statusMessage = "No users were registered";
+                    statusType = "danger";
+
+                    if (!errorUsers.isEmpty()) {
+                        statusMessage += ". Registration attempts that failed are listed below";
+                    }
+
+                    statusMessage += ".";
                 }
-                */
 
                 PrintWriter out = response.getWriter();
                 response.setContentType("text/html");
+
+                out.printf("<p>%s: %s</p>\n", statusType, statusMessage);
 
                 out.println("<h4>CSV Users</h4>");
                 out.println("<ul>");
@@ -242,7 +267,7 @@ public class AddRegistrationCSV extends HttpServlet {
 
                 out.println("<h4>Registration Failures</h4>");
                 out.println("<ul>");
-                
+
                 Iterator<User> errorList = errorUsers.iterator();
 
                 while(errorList.hasNext()) {
@@ -260,6 +285,7 @@ public class AddRegistrationCSV extends HttpServlet {
                 //TODO
             } finally {
                 // TODO close CSVParser (and others?)
+                csvParser.close();
             }
 
         } else {
