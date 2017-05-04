@@ -14,6 +14,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
+
 /**
  * The UserDataAccess class facilitates operations on User data in the database.
  */
@@ -310,10 +312,10 @@ public class UserDataAccess {
      */
     private void setAttributes(User user, ResultSet results) throws SQLException, IllegalArgumentException {
         user.setId(results.getInt("user_id"));
-        user.setType(User.UserType.valueOf(results.getString("user_type").trim().toUpperCase()));
-        user.setFirstName(results.getString("first_name"));
-        user.setLastName(results.getString("last_name"));
-        user.setEmail(results.getString("email"));
+        user.setType(User.UserType.valueOf(escapeHtml4(results.getString("user_type").trim().toUpperCase())));
+        user.setFirstName(escapeHtml4(results.getString("first_name")));
+        user.setLastName(escapeHtml4(results.getString("last_name")));
+        user.setEmail(escapeHtml4(results.getString("email")));
         // NOTE: Do not get passwords from DB with normal read operations, use getUserPassword
     }
 

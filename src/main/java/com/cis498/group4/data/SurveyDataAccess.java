@@ -18,6 +18,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
+
 /**
  * The SurveyDataAccess class facilitates operations on Survey data in the database.
  */
@@ -185,26 +187,26 @@ public class SurveyDataAccess {
     private void setAttributes(Survey survey, ResultSet results) throws SQLException, IllegalArgumentException {
         User user = new User();
         user.setId(results.getInt("user_id"));
-        user.setType(User.UserType.valueOf(results.getString("user_type").toUpperCase()));
-        user.setFirstName(results.getString("first_name"));
-        user.setLastName(results.getString("last_name"));
-        user.setEmail(results.getString("email"));
+        user.setType(User.UserType.valueOf(escapeHtml4(results.getString("user_type").toUpperCase())));
+        user.setFirstName(escapeHtml4(results.getString("first_name")));
+        user.setLastName(escapeHtml4(results.getString("last_name")));
+        user.setEmail(escapeHtml4(results.getString("email")));
 
         User presenter = new User();
         presenter.setId(results.getInt("presenter_id"));
-        presenter.setType(User.UserType.valueOf(results.getString("presenter_type").toUpperCase()));
-        presenter.setFirstName(results.getString("presenter_first_name"));
-        presenter.setLastName(results.getString("presenter_last_name"));
-        presenter.setEmail(results.getString("presenter_email"));
+        presenter.setType(User.UserType.valueOf(escapeHtml4(results.getString("presenter_type").toUpperCase())));
+        presenter.setFirstName(escapeHtml4(results.getString("presenter_first_name")));
+        presenter.setLastName(escapeHtml4(results.getString("presenter_last_name")));
+        presenter.setEmail(escapeHtml4(results.getString("presenter_email")));
 
         Event event = new Event();
         event.setId(results.getInt("event_id"));
-        event.setName(results.getString("event_name"));
+        event.setName(escapeHtml4(results.getString("event_name")));
         event.setStartDateTime(results.getTimestamp("start_date_time").toLocalDateTime());
         event.setEndDateTime(results.getTimestamp("end_date_time").toLocalDateTime());
         event.setPresenter(presenter);
         event.setOpenRegistration(results.getBoolean("open_registration"));
-        event.setRegistrationCode(results.getString("registration_code"));
+        event.setRegistrationCode(escapeHtml4(results.getString("registration_code")));
         event.setMandatorySurvey(results.getBoolean("mandatory_survey"));
         event.setCapacity(results.getInt("capacity"));
 

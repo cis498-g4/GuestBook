@@ -14,6 +14,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
+
 /**
  * The EventDataAccess class facilitates operations on Event data in the database.
  */
@@ -239,18 +241,18 @@ public class EventDataAccess {
     private void setAttributes(Event event, ResultSet results) throws SQLException, IllegalArgumentException {
         User user = new User();
         user.setId(results.getInt("user_id"));
-        user.setType(User.UserType.valueOf(results.getString("user_type").toUpperCase()));
-        user.setFirstName(results.getString("first_name"));
-        user.setLastName(results.getString("last_name"));
-        user.setEmail(results.getString("email"));
+        user.setType(User.UserType.valueOf(escapeHtml4(results.getString("user_type").toUpperCase())));
+        user.setFirstName(escapeHtml4(results.getString("first_name")));
+        user.setLastName(escapeHtml4(results.getString("last_name")));
+        user.setEmail(escapeHtml4(results.getString("email")));
         // NOTE: Do not retrieve password from DB, only use the data to check
 
         event.setId(results.getInt("event_id"));
-        event.setName(results.getString("event_name"));
+        event.setName(escapeHtml4(results.getString("event_name")));
         event.setStartDateTime(results.getTimestamp("start_date_time").toLocalDateTime());
         event.setEndDateTime(results.getTimestamp("end_date_time").toLocalDateTime());
         event.setPresenter(user);
-        event.setRegistrationCode(results.getString("registration_code"));
+        event.setRegistrationCode(escapeHtml4(results.getString("registration_code")));
         event.setOpenRegistration(results.getBoolean("open_registration"));
         event.setMandatorySurvey(results.getBoolean("mandatory_survey"));
         event.setCapacity(results.getInt("capacity"));
