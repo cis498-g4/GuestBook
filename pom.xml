@@ -92,6 +92,14 @@
       <version>1.4</version>
     </dependency>
 
+    <!-- Apache Commons Lang for escaping HTML chars -->
+    <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.5</version>
+    </dependency>
+
     <!-- JSP DisplayTag Library for table sorting -->
     <!-- https://mvnrepository.com/artifact/displaytag/displaytag -->
     <!-- Disabled - using jQuery DataTables instead
