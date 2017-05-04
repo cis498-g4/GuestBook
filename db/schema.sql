@@ -100,7 +100,3 @@ INSERT INTO `guestbookdb`.`user_type`(`user_type_id`, `user_type`) VALUES (1, 'G
 INSERT INTO `guestbookdb`.`attendance_status`(`attendance_status_id`, `attendance_status`) VALUES (0, 'NOT_ATTENDED');
 INSERT INTO `guestbookdb`.`attendance_status`(`attendance_status_id`, `attendance_status`) VALUES (1, 'SIGNED_IN');
 INSERT INTO `guestbookdb`.`attendance_status`(`attendance_status_id`, `attendance_status`) VALUES (2, 'ATTENDED');
-
--- INSERT DEFAULT USER (DELETE FOR PRODUCTION
-
-INSERT INTO `guestbookdb`.`user`(`user_type_id`, `first_name`, `last_name`, `email`, `password`) VALUES (0, 'Default', 'User', 'root@root', '382d65224bda884212c3f86b8b85291cdbe653b9');
