@@ -53,10 +53,10 @@ public class UserHelpers {
      * @return The logical AND of several boolean checks (e.g. length)
      */
     public static boolean validateEmail(String email) {
-        Pattern pattern = Pattern.compile("\\w*@\\w*");
+        Pattern pattern = Pattern.compile("^[\\w\\-]+(?:\\.[\\w\\-]+)*@[\\w\\-]+(?:\\.[\\w\\-]+)*$");
         Matcher matcher = pattern.matcher(email);
 
-        boolean length = (email.trim().length() <= 64);
+        boolean length = (email.trim().length() <= 256);
         boolean format = matcher.matches();
 
         return (length && format);
