@@ -15,6 +15,7 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static org.apache.commons.lang3.StringEscapeUtils.unescapeCsv;
@@ -103,12 +105,14 @@ public class AddRegistrationCSV extends HttpServlet {
 
                 // Get parameter data
                 Event event = eventData.getEvent(Integer.parseInt(requestParams.get("eventId")));
+                String eventDate = event.getStartDateTime().format(DateTimeFormatter.ofPattern("M/d/YY"));
                 boolean headerRow = requestParams.containsKey("header-row");
 
                 // Get CSV contents
                 csv = unescapeCsv(requestFileContents.get("csv-list"));
 
-                // TODO: Validate CSV
+
+                // TODO: Validate CSV (or just catch exceptions?)
 
 
                 // Parse CSV into list of users
@@ -192,8 +196,8 @@ public class AddRegistrationCSV extends HttpServlet {
                 }
 
                 // TODO Generate response
-                String url;
-                String pageTitle;
+                String url = "/WEB-INF/views/add-registration-csv.jsp";
+                String pageTitle = String.format("Group Registration for %s %s", event.getName(), eventDate);
                 String statusMessage;
                 String statusType;
 
@@ -224,65 +228,25 @@ public class AddRegistrationCSV extends HttpServlet {
                     statusMessage += ".";
                 }
 
-                PrintWriter out = response.getWriter();
-                response.setContentType("text/html");
+                request.setAttribute("event", event);
+                request.setAttribute("eventDate", eventDate);
+                request.setAttribute("pageTitle", pageTitle);
+                request.setAttribute("statusMessage", statusMessage);
+                request.setAttribute("statusType", statusType);
 
-                out.printf("<p>%s: %s</p>\n", statusType, statusMessage);
+                request.setAttribute("existingUsers", existingUsers);
+                request.setAttribute("newUsers", newUsers);
+                request.setAttribute("errorUsers", errorUsers);
 
-                out.println("<h4>CSV Users</h4>");
-                out.println("<ul>");
-
-                Iterator<User> csvList = csvUsers.iterator();
-
-                while(csvList.hasNext()) {
-                    User csvListUser = csvList.next();
-                    out.printf("<li>%s %s %s</li>\n", csvListUser.getFirstName(), csvListUser.getLastName(), csvListUser.getEmail());
-                }
-
-                out.println("</ul>");
-
-                out.println("<h4>Existing Users</h4>");
-                out.println("<ul>");
-
-                Iterator<User> existingList = existingUsers.iterator();
-
-                while(existingList.hasNext()) {
-                    User exUser = existingList.next();
-                    out.printf("<li>%s %s %s</li>\n", exUser.getFirstName(), exUser.getLastName(), exUser.getEmail());
-                }
-
-                out.println("</ul>");
-
-                out.println("<h4>New Users</h4>");
-                out.println("<ul>");
-
-                Iterator<User> newList = newUsers.iterator();
-
-                while(newList.hasNext()) {
-                    User newUser = newList.next();
-                    out.printf("<li>%s %s %s</li>\n", newUser.getFirstName(), newUser.getLastName(), newUser.getEmail());
-                }
-
-                out.println("</ul>");
-
-                out.println("<h4>Registration Failures</h4>");
-                out.println("<ul>");
-
-                Iterator<User> errorList = errorUsers.iterator();
-
-                while(errorList.hasNext()) {
-                    User errUser = errorList.next();
-                    out.printf("<li>%s %s %s</li>\n", errUser.getFirstName(), errUser.getLastName(), errUser.getEmail());
-                }
-
-                out.println("</ul>");
-
-                out.close();
+                RequestDispatcher view = request.getRequestDispatcher(url);
+                view.forward(request, response);
 
             } catch (FileUploadException e) {
                 //TODO: Problem with upload: invalid file, exceeds max size, ...
             } catch (NullPointerException e) {
-                //TODO
+                // TODO invalid file format
+            } catch (ArrayIndexOutOfBoundsException e){
+                // TODO invalid file format
             } finally {
                 // TODO close CSVParser (and others?)
                 csvParser.close();

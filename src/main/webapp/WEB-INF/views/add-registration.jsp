@@ -84,7 +84,7 @@
         input.trigger('fileselect', [numFiles, label]);
     });
 
-    // We can watch for our custom `fileselect` event like this
+    // Watch for custom `fileselect` event
     $(document).ready( function() {
         $(':file').on('fileselect', function(event, numFiles, label) {
 
