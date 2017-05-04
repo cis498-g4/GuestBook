@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -93,7 +94,7 @@ public class AddRegistrationCSV extends HttpServlet {
 
                 // TODO: Validate CSV
 
-                // TODO: Parse CSV into list of users
+                // Parse CSV into list of users
                 List<User> csvUsers = new ArrayList<User>();
 
                 CSVParser parser = CSVParser.parse(csv, CSVFormat.DEFAULT);
@@ -121,7 +122,7 @@ public class AddRegistrationCSV extends HttpServlet {
                     i++;
                 }
 
-                // TODO: Validate users
+                // Validate and register users
                 List<User> existingUsers = new ArrayList<User>();
                 List<User> newUsers = new ArrayList<User>();
                 List<User> errorUsers = new ArrayList<User>();
@@ -130,10 +131,12 @@ public class AddRegistrationCSV extends HttpServlet {
                     if (UserHelpers.validateCSVUser(csvUser)) {
                         User regUser = userData.getUserByEmail(csvUser.getEmail());
 
+                        int regStatus = -1;
+                        int insertStatus = -1;
+
                         if (regUser.getId() > 0) {
-                            // If valid and existing, register, add to existingUsers arrayList
-                            // TODO This can be factored out since it is used by both existing and new users?
-                            int regStatus = attendanceData.insertAttendance(regUser, event);
+                            // If user valid and existing, register, add to existingUsers arrayList
+                            regStatus = attendanceData.insertAttendance(regUser, event);
 
                             if (regStatus == 0) {
                                 existingUsers.add(regUser);
@@ -142,36 +145,81 @@ public class AddRegistrationCSV extends HttpServlet {
                             }
 
                         } else {
-                            // TODO: If valid and not existing, create and register, add to newUsers arrayList
+                            // If user valid and not existing, create and register, add to newUsers arrayList
                             // Generate default password (in production environment we would NOT do this)
                             regUser.setPassword("abc123");
                             regUser.setType(User.UserType.GUEST);
 
-                            int insertStatus = userData.insertUser(regUser);
+                            insertStatus = userData.insertUser(regUser);
 
                             if (insertStatus == 0) {
-                                int regStatus = attendanceData.insertAttendance(regUser, event);
+                                regStatus = attendanceData.insertAttendance(regUser, event);
 
                                 if (regStatus == 0) {
-                                    existingUsers.add(regUser);
-                                } else {
-                                    errorUsers.add(regUser);
+                                    newUsers.add(regUser);
                                 }
-                            } else {
-                                errorUsers.add(regUser);
                             }
+                        }
 
+                        // If registration or create user failed, add to error list
+                        if (insertStatus != 0 || regStatus != 0) {
+                            errorUsers.add(regUser);
                         }
 
                     } else {
+                        // If user name or email invalid, add to error list
                         errorUsers.add(csvUser);
                     }
 
                 }
 
                 // TODO Generate response
+                String url;
+                String pageTitle;
+                String statusMessage;
+                String statusType;
 
+                if (!errorUsers.isEmpty()) {
+                    statusMessage = "Registration completed, but with errors. See below.";
+                }
 
+                PrintWriter out = response.getWriter();
+                response.setContentType("text/html");
+
+                out.println("<h4>Existing Users</h4>");
+                out.println("<ul>");
+
+                Iterator<User> existingList = existingUsers.iterator();
+
+                while(existingList.hasNext()) {
+                    out.printf("<li>%s</li>\n", existingList.next());
+                }
+
+                out.println("</ul>");
+
+                out.println("<h4>New Users</h4>");
+                out.println("<ul>");
+
+                Iterator<User> newList = newUsers.iterator();
+
+                while(newList.hasNext()) {
+                    out.printf("<li>%s</li>\n", newList.next());
+                }
+
+                out.println("</ul>");
+
+                out.println("<h4>Error Users</h4>");
+                out.println("<ul>");
+
+                Iterator<User> errorList = errorUsers.iterator();
+
+                while(errorList.hasNext()) {
+                    out.printf("<li>%s</li>\n", errorList.next());
+                }
+
+                out.println("</ul>");
+
+                out.close();
 
             } catch (FileUploadException e) {
                 //TODO: Problem with upload: invalid file, exceeds max size, ...
