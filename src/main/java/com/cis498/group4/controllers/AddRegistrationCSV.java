@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -65,6 +66,11 @@ public class AddRegistrationCSV extends HttpServlet {
                     HttpServletResponse.SC_FORBIDDEN, "You do not have permission to access this resource");
             return;
         }
+
+        String url;
+        String pageTitle;
+        String statusMessage;
+        String statusType;
 
         // Check that request is of multipart type (i.e. it contains a file upload)
         if (ServletFileUpload.isMultipartContent(request)) {
@@ -195,10 +201,8 @@ public class AddRegistrationCSV extends HttpServlet {
                 }
 
                 // TODO Generate response
-                String url = "/WEB-INF/views/add-registration-csv.jsp";
-                String pageTitle = String.format("Group Registration Status for %s %s", event.getName(), eventDate);
-                String statusMessage;
-                String statusType;
+                url = "/WEB-INF/views/add-registration-csv.jsp";
+                pageTitle = String.format("Group Registration Status for %s %s", event.getName(), eventDate);
 
                 if (!existingUsers.isEmpty() || !newUsers.isEmpty()) {
                     statusMessage = "Registration succeeded";
@@ -242,10 +246,19 @@ public class AddRegistrationCSV extends HttpServlet {
 
             } catch (FileUploadException e) {
                 //TODO: Problem with upload: invalid file, exceeds max size, ...
+                PrintWriter out = response.getWriter();
+                out.println(e);
+                out.close();
             } catch (NullPointerException e) {
                 // TODO invalid file format
+                PrintWriter out = response.getWriter();
+                out.println(e);
+                out.close();
             } catch (ArrayIndexOutOfBoundsException e){
                 // TODO invalid file format
+                PrintWriter out = response.getWriter();
+                out.println(e);
+                out.close();
             } finally {
                 if (csvParser != null) {
                     csvParser.close();
@@ -253,10 +266,20 @@ public class AddRegistrationCSV extends HttpServlet {
             }
 
         } else {
-            // TODO handle conditions where request does not contain file upload
-        }
+            Event event = eventData.getEvent(Integer.parseInt(request.getParameter("eventId")));
+            String eventDate = event.getStartDateTime().format(DateTimeFormatter.ofPattern("M/d/YY"));
+            url = String.format("/WEB-INF/views/add-registration.jsp?id=%s", event.getId());
+            statusMessage = "<strong>Error!</strong> No file was included with the registration request!";
+            statusType = "danger";
 
-        // TODO reject uploads greater than a certain size (by default >10kB files must be written to disk
+            //TODO what if there's no event?
+
+            request.setAttribute("event", event);
+            request.setAttribute("eventDate", eventDate);
+            request.setAttribute("pageTitle", pageTitle);
+            request.setAttribute("statusMessage", statusMessage);
+            request.setAttribute("statusType", statusType);
+        }
 
     }
 }
