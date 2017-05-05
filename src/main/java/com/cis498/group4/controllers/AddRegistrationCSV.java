@@ -7,6 +7,7 @@ import com.cis498.group4.models.Event;
 import com.cis498.group4.models.User;
 import com.cis498.group4.util.SessionHelpers;
 import com.cis498.group4.util.UserHelpers;
+
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -21,9 +22,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -248,8 +247,9 @@ public class AddRegistrationCSV extends HttpServlet {
             } catch (ArrayIndexOutOfBoundsException e){
                 // TODO invalid file format
             } finally {
-                // TODO close CSVParser (and others?)
-                csvParser.close();
+                if (csvParser != null) {
+                    csvParser.close();
+                }
             }
 
         } else {
