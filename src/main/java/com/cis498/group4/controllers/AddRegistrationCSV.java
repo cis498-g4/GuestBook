@@ -272,7 +272,7 @@ public class AddRegistrationCSV extends HttpServlet {
             statusMessage = "<strong>Error!</strong> No file was included with the registration request!";
             statusType = "danger";
 
-            //TODO what if there's no event?
+            //TODO what if there's no event? Use generic error page for situations like this that no one will see
 
             request.setAttribute("event", event);
             request.setAttribute("eventDate", eventDate);
