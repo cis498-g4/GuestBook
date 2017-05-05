@@ -196,7 +196,7 @@ public class AddRegistrationCSV extends HttpServlet {
 
                 // TODO Generate response
                 String url = "/WEB-INF/views/add-registration-csv.jsp";
-                String pageTitle = String.format("Group Registration for %s %s", event.getName(), eventDate);
+                String pageTitle = String.format("Group Registration Status for %s %s", event.getName(), eventDate);
                 String statusMessage;
                 String statusType;
 
