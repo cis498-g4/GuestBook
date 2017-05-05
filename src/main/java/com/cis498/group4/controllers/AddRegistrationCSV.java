@@ -266,19 +266,13 @@ public class AddRegistrationCSV extends HttpServlet {
             }
 
         } else {
-            Event event = eventData.getEvent(Integer.parseInt(request.getParameter("eventId")));
-            String eventDate = event.getStartDateTime().format(DateTimeFormatter.ofPattern("M/d/YY"));
-            url = String.format("/WEB-INF/views/add-registration.jsp?id=%s", event.getId());
-            statusMessage = "<strong>Error!</strong> No file was included with the registration request!";
-            statusType = "danger";
+            url = "/WEB-INF/views/generic-error.jsp";
+            pageTitle = "File upload error";
+            String message = "The request did not contain a file upload";
 
-            //TODO what if there's no event? Use generic error page for situations like this that no one will see
-
-            request.setAttribute("event", event);
-            request.setAttribute("eventDate", eventDate);
             request.setAttribute("pageTitle", pageTitle);
-            request.setAttribute("statusMessage", statusMessage);
-            request.setAttribute("statusType", statusType);
+            request.setAttribute("message", message);
+
         }
 
     }
