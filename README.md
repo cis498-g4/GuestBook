@@ -79,7 +79,7 @@ This is useful for deploying to a running Tomcat instance for development and te
 
 # Deploying to Tomcat server with Apache Maven and WAR
 
-This is useful for building a Web Archive (WAR) for final deployment to a Servlet container.
+This is useful for building a Web Archive (WAR) for final deployment to a Servlet container. This is also an easy way to push new versions, or "refresh" the application.
 
 ## Requirements
 - Java  (1.8)
