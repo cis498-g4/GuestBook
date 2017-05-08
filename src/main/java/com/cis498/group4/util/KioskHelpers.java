@@ -20,6 +20,7 @@ public class KioskHelpers {
     public static final int FAIL_EVENT_FULL = 6;
     public static final int FAIL_CLOSED_REGISTRATION = 7;
     public static final int FAIL_EVENT_ENDED = 8;
+    public static final int FAIL_INVALID_TYPE = 9;
 
     /**
      * Checks sign-in status conditions and returns a status code
@@ -36,6 +37,10 @@ public class KioskHelpers {
 
         if (user.getEmail() == null) {
             return ACTION_USER_NOT_FOUND;
+        }
+
+        if (user.getType() != User.UserType.GUEST) {
+            return FAIL_INVALID_TYPE;
         }
 
         if (attendance.getStatus() != Attendance.AttendanceStatus.NOT_ATTENDED) {

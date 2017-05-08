@@ -161,8 +161,15 @@ public class ShowKiosk extends HttpServlet {
             // Case 8: Failure: Event has ended. Users may no longer sign in
             case KioskHelpers.FAIL_EVENT_ENDED:
                 pageTitle = "Sign-in Failure: Event Ended";
-                message1 = String.format("The event %s occurs in the past.", event.getName());;
+                message1 = String.format("The event %s occurs in the past.", event.getName());
                 message2 = "Thank you for your interest. We hope to see you in the future.";
+                break;
+            // Case 9: Failure: Non-Guest type user attempts to sign in
+            case KioskHelpers.FAIL_INVALID_TYPE:
+                pageTitle = "Sign-in Failure: Invalid guest";
+                message1 = "Only users of type \"Guest\" should sign in.";
+                message2 = String.format("Please change the user type or set up a new Guest account for %s %s.",
+                        user.getFirstName(), user.getLastName());
                 break;
             // Default: Fail closed with generic error message
             default:
