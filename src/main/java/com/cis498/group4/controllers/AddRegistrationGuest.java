@@ -76,8 +76,6 @@ public class AddRegistrationGuest extends HttpServlet {
         String statusMessage;
         String statusType;
 
-        int status;
-
         String registrationCode = request.getParameter("reg-code");
         Event event = eventData.getEventByRegistrationCode(registrationCode);
 
@@ -91,7 +89,7 @@ public class AddRegistrationGuest extends HttpServlet {
         }
 
         // Perform appropriate registration action / respond with appropriate message
-        status = AttendanceHelpers.registerStatus(user, event, registrations);
+        int status = AttendanceHelpers.registerStatus(user, event, registrations);
 
         switch(status) {
             case AttendanceHelpers.SUCCESS:
