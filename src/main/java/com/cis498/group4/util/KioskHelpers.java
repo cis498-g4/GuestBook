@@ -4,13 +4,12 @@ import com.cis498.group4.models.Attendance;
 import com.cis498.group4.models.Event;
 import com.cis498.group4.models.User;
 
-import java.time.LocalDateTime;
-
 /**
  * The KioskHelpers class contains methods to aid kiosk mode functionality (e.g. validating a sign-in)
  */
 public class KioskHelpers {
 
+    // Sign-in status codes
     public static final int SUCCESS_COMPLETE = 0;
     public static final int SUCCESS_NEED_SURVEY = 1;
     public static final int SUCCESS_OPEN_REGISTRATION = 2;
