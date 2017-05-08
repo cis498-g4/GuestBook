@@ -1,9 +1,7 @@
 package com.cis498.group4.controllers;
 
 import com.cis498.group4.data.AttendanceDataAccess;
-import com.cis498.group4.data.EventDataAccess;
 import com.cis498.group4.models.Attendance;
-import com.cis498.group4.models.Event;
 import com.cis498.group4.models.User;
 import com.cis498.group4.util.SessionHelpers;
 
@@ -58,7 +56,7 @@ public class ListRegistrationsGuest extends HttpServlet {
 
         List<Attendance> registrations = attendanceData.getFutureRegistrations(user);
         Map<Integer, Integer> attendanceCounts = attendanceData.getAttendanceCounts();
-        request.setAttribute("registrations", registrations);
+        session.setAttribute("registrations", registrations);
 
         request.setAttribute("pageTitle", pageTitle);
         RequestDispatcher view = request.getRequestDispatcher(url);
