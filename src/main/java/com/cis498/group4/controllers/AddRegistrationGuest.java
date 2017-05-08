@@ -3,6 +3,7 @@ package com.cis498.group4.controllers;
 import com.cis498.group4.data.AttendanceDataAccess;
 import com.cis498.group4.data.EventDataAccess;
 import com.cis498.group4.data.UserDataAccess;
+import com.cis498.group4.models.Attendance;
 import com.cis498.group4.models.Event;
 import com.cis498.group4.models.User;
 import com.cis498.group4.util.AttendanceHelpers;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * The AddRegistration servlet responds to requests to register users for an event.
@@ -70,46 +72,67 @@ public class AddRegistrationGuest extends HttpServlet {
         User user = (User) session.getAttribute("sessionUser");
 
         String url = "/manager/list-registrations-guest";
+        int status;
         String statusMessage;
         String statusType;
 
         String registrationCode = request.getParameter("reg-code");
         Event event = eventData.getEventByRegistrationCode(registrationCode);
-        event.setNumRegistered(attendanceData.getAttendanceCount(event.getId()));
-        request.setAttribute("event", event);
 
+        // Get registrations from session, or if unavailable, re-query DB
+        List<Attendance> registrations;
 
-        // TODO: move these checks into a helper method that returns a status code
-        if (event.getName() != null) {
-            if (event.isOpenRegistration()) {
-                if (!AttendanceHelpers.isFull(event)) {
+        if (session.getAttribute("registrations") instanceof List<?>) {
+            registrations = (List<Attendance>) session.getAttribute("registrations");
+        } else {
+            registrations = attendanceData.getFutureRegistrations(user);
+        }
 
-                    int insertStatus = attendanceData.insertAttendance(user, event);
+        // Perform appropriate registration action / respond with appropriate message
+        status = AttendanceHelpers.registerStatus(user, event, registrations);
 
-                    if (insertStatus == 0) {
-                        statusMessage = String.format("Successfully registered for %s!", event.getName());
-                        statusType = "success";
-                    } else if (insertStatus == 1062) {
-                        statusMessage = "<strong>Error!</strong> This registration overlaps with another one of your events!";
-                        statusType = "danger";
-                    } else {
-                        statusMessage = String.format(
-                                "<strong>Error!</strong> There was a problem processing your registration %d", insertStatus);
-                        statusType = "danger";
-                    }
-
+        switch(status) {
+            case AttendanceHelpers.SUCCESS:
+                int insertStatus = attendanceData.insertAttendance(user, event);
+                if (insertStatus == 0) {
+                    statusMessage = String.format("Successfully registered for %s!", event.getName());
+                    statusType = "success";
+                } else if (insertStatus == 1062) {
+                    statusMessage = String.format("You are already registered for %s!", event.getName());
+                    statusType = "warning";
                 } else {
-                    statusMessage = String.format("<strong>Error!</strong> The event %s is at capacity.", event.getName());
+                    statusMessage = String.format(
+                            "<strong>Error!</strong> There was a problem processing your registration %d", insertStatus);
                     statusType = "danger";
                 }
-            } else {
+                break;
+            case AttendanceHelpers.ACTION_CLOSED_REGISTRATION:
                 statusMessage = String.format("<strong>Error!</strong> %s does not have open registration. " +
                         "Please contact an event organizer to register.", event.getName());
                 statusType = "danger";
-            }
-        } else {
-            statusMessage = String.format("<strong>Error!</strong> No event was found with the registration code %s", registrationCode);
-            statusType = "danger";
+                break;
+            case AttendanceHelpers.FAIL_EVENT_ENDED:
+                statusMessage = String.format("<strong>Error!</strong> %s has already concluded.", event.getName());
+                statusType = "danger";
+                break;
+            case AttendanceHelpers.FAIL_EVENT_FULL:
+                statusMessage = String.format("<strong>Error!</strong> The event %s is at capacity.", event.getName());
+                statusType = "danger";
+                break;
+            case AttendanceHelpers.FAIL_INVALID_EVENT:
+                statusMessage = String.format(
+                        "<strong>Error!</strong> No event was found with the registration code %s", registrationCode);
+                statusType = "danger";
+                break;
+            case AttendanceHelpers.FAIL_REG_OVERLAP:
+                statusMessage = String.format(
+                        "<strong>Error!</strong> %s overlaps one of your existing registrations.", event.getName());
+                statusType = "danger";
+                break;
+            default:
+                statusMessage = "<strong>Error!</strong> There was a problem processing your registration.";
+                statusType = "danger";
+                break;
         }
 
         request.setAttribute("statusMessage", statusMessage);

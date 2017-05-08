@@ -45,17 +45,19 @@
 
 <hr>
 
-<h4>Register for a new event</h4>
+<div class="text-center">
+    <h3>Register for a new event</h3>
+    <p>If you do not have a registration code, please contact an event organizer to assist you with registration.</p>
 
-<p>If you do not have a registration code, please contact an event organizer to assist you with registration.</p>
+    <form class="form-inline" action="add-registration-guest" method="post">
+        <div class="input-group">
+            <input type="text" class="form-control" name="reg-code" id="reg-code" placeholder="Registration Code" maxlength="8" required>
+            <span class="input-group-btn"><input type="submit" class="btn btn-success" value="Register"></span>
+        </div>
 
-<form class="form-inline" action="add-registration-guest" method="post">
-    <div class="form-group">
-        <input type="text" class="form-control" name="reg-code" id="reg-code" placeholder="Registration Code" maxlength="8" required>
-        <input type="submit" class="btn btn-success" value="Register">
-    </div>
+    </form>
 
-</form>
+</div>
 
 </div><!--container-->
 

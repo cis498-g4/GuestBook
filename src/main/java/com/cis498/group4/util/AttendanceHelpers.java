@@ -12,6 +12,16 @@ import java.util.List;
  */
 public class AttendanceHelpers {
 
+    // Registration status codes
+    public static final int SUCCESS = 0;
+    public static final int ACTION_CLOSED_REGISTRATION = 1;
+    public static final int FAIL_INVALID_EVENT = 2;
+    public static final int FAIL_EVENT_FULL = 3;
+    public static final int FAIL_EVENT_ENDED = 4;
+    public static final int FAIL_REG_OVERLAP = 5;
+
+
+
     /**
      * Validates an attendance record (e.g. no event registrations overlap for that user, capacity not full).
      * Use before writing to database.
@@ -81,32 +91,30 @@ public class AttendanceHelpers {
 
     /**
      * Checks whether the registration overlaps with an existing registration
-     * @param user
-     * @param event
+     * @param eventA
      * @return
      */
-    public static boolean isOverlapping(User user, Event event) {
-        boolean overlap = false;
-
-        // TODO lookup attendance record for user, event. If exists true, otherwise false
-        // TODO Is it better to simply have the DBMS enforce this?
-
-        return overlap;
-    }
-
-    /**
-     * Checks whether an event is at capacity
-     * @param attendance Attendance record, which returns the event with a numRegistered parameter already set
-     * @return
-     */
-    public static boolean isFull(Attendance attendance) {
-        Event event = attendance.getEvent();
-
-        if (event.getCapacity() <= 0) {
+    public static boolean isOverlapping(Event eventA, List<Attendance> registrations) {
+        if (registrations.isEmpty()) {
             return false;
         }
 
-        return (event.getNumRegistered() >= event.getCapacity());
+        for (Attendance registration : registrations) {
+            Event eventB = registration.getEvent();
+
+            if (eventA.getStartDateTime().isAfter(eventB.getStartDateTime()) &&
+                    eventA.getStartDateTime().isBefore(eventB.getEndDateTime())) {
+                return true;
+            }
+
+            if (eventA.getEndDateTime().isAfter(eventB.getStartDateTime()) &&
+                    eventA.getEndDateTime().isBefore(eventB.getEndDateTime())) {
+                return true;
+            }
+
+        }
+
+        return false;
     }
 
     /**
@@ -123,6 +131,36 @@ public class AttendanceHelpers {
         int attendanceCount = attendanceData.getAttendanceCount(event.getId());
 
         return (attendanceCount >= event.getCapacity());
+    }
+
+    /**
+     *
+     * @param user
+     * @param event
+     * @return
+     */
+    public static int registerStatus(User user, Event event, List<Attendance> registrations) {
+        if (event.getId() < 1) {
+            return FAIL_INVALID_EVENT;
+        }
+
+        if (EventHelpers.endedInPast(event)) {
+            return FAIL_EVENT_ENDED;
+        }
+
+        if (isFull(event)) {
+            return FAIL_EVENT_FULL;
+        }
+
+        if (isOverlapping(event, registrations)) {
+            return FAIL_REG_OVERLAP;
+        }
+
+        if (!event.isOpenRegistration()) {
+            return ACTION_CLOSED_REGISTRATION;
+        }
+
+        return SUCCESS;
     }
 
     /**
