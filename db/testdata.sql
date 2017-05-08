@@ -48,6 +48,7 @@ INSERT INTO `guestbookdb`.`user`(`user_type_id`, `first_name`, `last_name`, `ema
 INSERT INTO `guestbookdb`.`user`(`user_type_id`, `first_name`, `last_name`, `email`, `password`) VALUES (1, 'Bruno', 'Aubert', 'asifsne@imotane.org', '6367c48dd193d56ea7b0baad25b19455e529f5ee');
 INSERT INTO `guestbookdb`.`user`(`user_type_id`, `first_name`, `last_name`, `email`, `password`) VALUES (1, 'Simona', 'Zachery', 'elortrt@tamaisit.com', '6367c48dd193d56ea7b0baad25b19455e529f5ee');
 INSERT INTO `guestbookdb`.`user`(`user_type_id`, `first_name`, `last_name`, `email`, `password`) VALUES (1, 'Van', 'Biggs', 'netsongh@wiyl.org', '6367c48dd193d56ea7b0baad25b19455e529f5ee');
+INSERT INTO `guestbookdb`.`user`(`user_type_id`, `first_name`, `last_name`, `email`, `password`) VALUES (1, 'Joe', 'Sample', 'test@test.com', '6367c48dd193d56ea7b0baad25b19455e529f5ee');
 
 
 INSERT INTO `guestbookdb`.`event`(`event_name`, `start_date_time`, `end_date_time`, `presenter_id`, `open_registration`, `registration_code`, `mandatory_survey`, `capacity`) VALUES ('Building Webpages', '2017-07-10 10:00:00', '2017-07-10 11:00:00', 1, TRUE, 'WEBD1001', TRUE, 15);
@@ -62,6 +63,12 @@ INSERT INTO `guestbookdb`.`event`(`event_name`, `start_date_time`, `end_date_tim
 INSERT INTO `guestbookdb`.`event`(`event_name`, `start_date_time`, `end_date_time`, `presenter_id`, `open_registration`, `registration_code`, `mandatory_survey`, `capacity`) VALUES ('Cloud Computing', '2017-04-12 14:00:00', '2017-04-12 15:00:00', 1, FALSE, 'NETW1010', FALSE, 40);
 INSERT INTO `guestbookdb`.`event`(`event_name`, `start_date_time`, `end_date_time`, `presenter_id`, `open_registration`, `registration_code`, `mandatory_survey`, `capacity`) VALUES ('Network Security', '2017-04-13 09:30:00', '2017-04-13 11:00:00', 2, TRUE, 'SECT1111', TRUE, 45);
 INSERT INTO `guestbookdb`.`event`(`event_name`, `start_date_time`, `end_date_time`, `presenter_id`, `open_registration`, `registration_code`, `mandatory_survey`, `capacity`) VALUES ('Building a Robot', '2017-04-13 11:30:00', '2017-04-13 15:30:00', 3, FALSE, 'PRGM1212', TRUE, 25);
+INSERT INTO `guestbookdb`.`event`(`event_name`, `start_date_time`, `end_date_time`, `presenter_id`, `open_registration`, `registration_code`, `mandatory_survey`, `capacity`) VALUES ('Really Big Lecture', '2017-09-21 14:30:00', '2017-09-21 15:30:00', 1, TRUE, 'BIG12345', TRUE, 10000);
+INSERT INTO `guestbookdb`.`event`(`event_name`, `start_date_time`, `end_date_time`, `presenter_id`, `open_registration`, `registration_code`, `mandatory_survey`, `capacity`) VALUES ('Full Event', '2017-08-21 11:30:00', '2017-08-21 12:30:00', 2, TRUE, 'FULL1234', TRUE, 1);
+INSERT INTO `guestbookdb`.`event`(`event_name`, `start_date_time`, `end_date_time`, `presenter_id`, `open_registration`, `registration_code`, `mandatory_survey`, `capacity`) VALUES ('Overlapping Event I', '2017-07-21 10:30:00', '2017-07-21 11:30:00', 3, TRUE, 'OVER1111', TRUE, 25);
+INSERT INTO `guestbookdb`.`event`(`event_name`, `start_date_time`, `end_date_time`, `presenter_id`, `open_registration`, `registration_code`, `mandatory_survey`, `capacity`) VALUES ('Overlapping Event II', '2017-07-21 10:00:00', '2017-07-21 11:00:00', 4, TRUE, 'OVER2222', TRUE, 25);
+INSERT INTO `guestbookdb`.`event`(`event_name`, `start_date_time`, `end_date_time`, `presenter_id`, `open_registration`, `registration_code`, `mandatory_survey`, `capacity`) VALUES ('Overlapping Event III', '2017-07-21 11:15:00', '2017-07-21 12:15:00', 1, TRUE, 'OVER3333', TRUE, 25);
+INSERT INTO `guestbookdb`.`event`(`event_name`, `start_date_time`, `end_date_time`, `presenter_id`, `open_registration`, `registration_code`, `mandatory_survey`, `capacity`) VALUES ('Overlapping Event IV', '2017-07-21 10:45:00', '2017-07-21 12:15:00', 2, TRUE, 'OVER4444', TRUE, 25);
 
 
 INSERT INTO `guestbookdb`.`event_attendance`(`event_id`, `user_id`, `attendance_status_id`) VALUES (1, 13, 0);
@@ -263,6 +270,7 @@ INSERT INTO `guestbookdb`.`event_attendance`(`event_id`, `user_id`, `attendance_
 INSERT INTO `guestbookdb`.`event_attendance`(`event_id`, `user_id`, `attendance_status_id`) VALUES (12, 39, 1);
 INSERT INTO `guestbookdb`.`event_attendance`(`event_id`, `user_id`, `attendance_status_id`) VALUES (12, 40, 2);
 INSERT INTO `guestbookdb`.`event_attendance`(`event_id`, `user_id`, `attendance_status_id`) VALUES (12, 41, 2);
+INSERT INTO `guestbookdb`.`event_attendance`(`event_id`, `user_id`, `attendance_status_id`) VALUES (14, 5, 0);
 
 
 
