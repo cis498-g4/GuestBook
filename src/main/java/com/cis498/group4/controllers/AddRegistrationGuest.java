@@ -72,9 +72,11 @@ public class AddRegistrationGuest extends HttpServlet {
         User user = (User) session.getAttribute("sessionUser");
 
         String url = "/manager/list-registrations-guest";
-        int status;
+        String pageTitle = "Upcoming Registrations";
         String statusMessage;
         String statusType;
+
+        int status;
 
         String registrationCode = request.getParameter("reg-code");
         Event event = eventData.getEventByRegistrationCode(registrationCode);
@@ -135,6 +137,7 @@ public class AddRegistrationGuest extends HttpServlet {
                 break;
         }
 
+        request.setAttribute("pageTitle", pageTitle);
         request.setAttribute("statusMessage", statusMessage);
         request.setAttribute("statusType", statusType);
 
