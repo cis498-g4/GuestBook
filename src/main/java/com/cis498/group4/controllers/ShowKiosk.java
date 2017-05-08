@@ -99,6 +99,7 @@ public class ShowKiosk extends HttpServlet {
         User user = userData.getUserByEmail(request.getParameter("email"));
         Attendance attendance = attendanceData.getAttendance(user.getId(), event.getId());
 
+        // Perform appropriate sign in action / respond with appropriate sign in message
         status = KioskHelpers.signInStatus(event, user, attendance);
 
         switch (status) {
