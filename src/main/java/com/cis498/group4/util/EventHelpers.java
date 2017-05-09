@@ -11,7 +11,16 @@ import java.time.temporal.ChronoUnit;
  */
 public class EventHelpers {
 
-
+    // Event status codes
+    public static final int SUCCESSFUL_WRITE = 0;
+    public static final int INVALID_DATA = 1;
+    public static final int CONCLUDED = 2;
+    public static final int START_IN_PAST = 3;
+    public static final int END_BEFORE_START = 4;
+    public static final int INVALID_PRESENTER = 5;
+    public static final int OVERLAPPING_PRESENTER = 6;
+    public static final int INVALID_CAPACITY = 7;
+    public static final int INVALID_CODE = 8;
 
     /**
      * Validates an event record (e.g. no events are scheduled at the same time).
@@ -120,6 +129,48 @@ public class EventHelpers {
         } else {
             return Integer.MAX_VALUE;
         }
+    }
+
+    /**
+     * Get status code for verifying the success or failure of an insert or update operation
+     * @param event
+     * @return
+     */
+    public static int writeStatus(Event event) {
+
+        if (false /*TODO*/) {
+            return INVALID_DATA;
+        }
+
+        if (startedInPast(event)) {
+            return START_IN_PAST;
+        }
+
+        if (event.getEndDateTime().isBefore(event.getStartDateTime())) {
+            return END_BEFORE_START;
+        }
+
+        if (endedInPast(event)) {
+            return CONCLUDED;
+        }
+
+        if (false /*TODO*/) {
+            return INVALID_PRESENTER;
+        }
+
+        if (isOverlapping(event)) {
+            return OVERLAPPING_PRESENTER;
+        }
+
+        if (false /*TODO*/) {
+            return INVALID_CAPACITY;
+        }
+
+        if (false /*TODO*/) {
+            return INVALID_CODE;
+        }
+
+        return SUCCESSFUL_WRITE;
     }
 
 }
