@@ -8,7 +8,6 @@ import com.cis498.group4.models.Event;
 import com.cis498.group4.models.User;
 import com.cis498.group4.util.AttendanceHelpers;
 import com.cis498.group4.util.SessionHelpers;
-import com.cis498.group4.util.UserHelpers;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -25,7 +24,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -169,8 +167,8 @@ public class AddRegistrationCSV extends HttpServlet {
                     }
 
                     switch(status) {
-                        case AttendanceHelpers.ACTION_CLOSED_REGISTRATION:
-                        case AttendanceHelpers.SUCCESS:
+                        case AttendanceHelpers.CLOSED_REGISTRATION:
+                        case AttendanceHelpers.SUCCESSFUL_REGISTRATION:
                             int regStatus = attendanceData.insertAttendance(regUser, event);
 
                             if (regStatus == 0) {
@@ -179,7 +177,7 @@ public class AddRegistrationCSV extends HttpServlet {
                                 errorUsers.add(csvUser);
                             }
                             break;
-                        case AttendanceHelpers.ACTION_NEW_USER:
+                        case AttendanceHelpers.NEW_USER:
                             csvUser.setPassword("abc123");
 
                             int insertStatus = userData.insertUser(csvUser);

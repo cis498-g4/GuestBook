@@ -11,6 +11,8 @@ import java.time.temporal.ChronoUnit;
  */
 public class EventHelpers {
 
+
+
     /**
      * Validates an event record (e.g. no events are scheduled at the same time).
      * Use before writing to database.

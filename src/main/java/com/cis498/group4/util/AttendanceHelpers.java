@@ -13,15 +13,15 @@ import java.util.List;
 public class AttendanceHelpers {
 
     // Registration status codes
-    public static final int SUCCESS = 0;
-    public static final int ACTION_CLOSED_REGISTRATION = 1;
-    public static final int ACTION_NEW_USER = 2;
-    public static final int FAIL_INVALID_USER = 3;
-    public static final int FAIL_INVALID_USER_TYPE = 4;
-    public static final int FAIL_INVALID_EVENT = 5;
-    public static final int FAIL_EVENT_FULL = 6;
-    public static final int FAIL_EVENT_ENDED = 7;
-    public static final int FAIL_REG_OVERLAP = 8;
+    public static final int SUCCESSFUL_REGISTRATION = 0;
+    public static final int CLOSED_REGISTRATION = 1;
+    public static final int NEW_USER = 2;
+    public static final int INVALID_USER = 3;
+    public static final int INVALID_USER_TYPE = 4;
+    public static final int INVALID_EVENT = 5;
+    public static final int EVENT_FULL = 6;
+    public static final int EVENT_ENDED = 7;
+    public static final int REGISTRATION_OVERLAP = 8;
 
     /**
      * Validates an attendance record (e.g. no event registrations overlap for that user, capacity not full).
@@ -143,38 +143,38 @@ public class AttendanceHelpers {
     public static int registerStatus(User user, Event event, List<Attendance> registrations) {
 
         if (event.getId() < 1) {
-            return FAIL_INVALID_EVENT;
+            return INVALID_EVENT;
         }
 
         if (!UserHelpers.validateFields(user)) {
-            return FAIL_INVALID_USER;
+            return INVALID_USER;
         }
 
         if (user.getType() != User.UserType.GUEST) {
-            return FAIL_INVALID_USER_TYPE;
+            return INVALID_USER_TYPE;
         }
 
         if (EventHelpers.endedInPast(event)) {
-            return FAIL_EVENT_ENDED;
+            return EVENT_ENDED;
         }
 
         if (isFull(event)) {
-            return FAIL_EVENT_FULL;
+            return EVENT_FULL;
         }
 
         if (isOverlapping(event, registrations)) {
-            return FAIL_REG_OVERLAP;
+            return REGISTRATION_OVERLAP;
         }
 
         if (user.getId() < 1) {
-            return ACTION_NEW_USER;
+            return NEW_USER;
         }
 
         if (!event.isOpenRegistration()) {
-            return ACTION_CLOSED_REGISTRATION;
+            return CLOSED_REGISTRATION;
         }
 
-        return SUCCESS;
+        return SUCCESSFUL_REGISTRATION;
     }
 
     /**

@@ -92,7 +92,7 @@ public class AddRegistrationGuest extends HttpServlet {
         int status = AttendanceHelpers.registerStatus(user, event, registrations);
 
         switch(status) {
-            case AttendanceHelpers.SUCCESS:
+            case AttendanceHelpers.SUCCESSFUL_REGISTRATION:
                 int insertStatus = attendanceData.insertAttendance(user, event);
                 if (insertStatus == 0) {
                     statusMessage = String.format("Successfully registered for %s!", event.getName());
@@ -106,25 +106,25 @@ public class AddRegistrationGuest extends HttpServlet {
                     statusType = "danger";
                 }
                 break;
-            case AttendanceHelpers.ACTION_CLOSED_REGISTRATION:
+            case AttendanceHelpers.CLOSED_REGISTRATION:
                 statusMessage = String.format("<strong>Error!</strong> %s does not have open registration. " +
                         "Please contact an event organizer to register.", event.getName());
                 statusType = "danger";
                 break;
-            case AttendanceHelpers.FAIL_EVENT_ENDED:
+            case AttendanceHelpers.EVENT_ENDED:
                 statusMessage = String.format("<strong>Error!</strong> %s has already concluded.", event.getName());
                 statusType = "danger";
                 break;
-            case AttendanceHelpers.FAIL_EVENT_FULL:
+            case AttendanceHelpers.EVENT_FULL:
                 statusMessage = String.format("<strong>Error!</strong> The event %s is at capacity.", event.getName());
                 statusType = "danger";
                 break;
-            case AttendanceHelpers.FAIL_INVALID_EVENT:
+            case AttendanceHelpers.INVALID_EVENT:
                 statusMessage = String.format(
                         "<strong>Error!</strong> No event was found with the registration code %s", registrationCode);
                 statusType = "danger";
                 break;
-            case AttendanceHelpers.FAIL_REG_OVERLAP:
+            case AttendanceHelpers.REGISTRATION_OVERLAP:
                 statusMessage = String.format(
                         "<strong>Error!</strong> %s overlaps one of your existing registrations.", event.getName());
                 statusType = "danger";
