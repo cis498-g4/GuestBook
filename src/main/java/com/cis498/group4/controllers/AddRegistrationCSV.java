@@ -3,8 +3,10 @@ package com.cis498.group4.controllers;
 import com.cis498.group4.data.AttendanceDataAccess;
 import com.cis498.group4.data.EventDataAccess;
 import com.cis498.group4.data.UserDataAccess;
+import com.cis498.group4.models.Attendance;
 import com.cis498.group4.models.Event;
 import com.cis498.group4.models.User;
+import com.cis498.group4.util.AttendanceHelpers;
 import com.cis498.group4.util.SessionHelpers;
 import com.cis498.group4.util.UserHelpers;
 
@@ -107,7 +109,6 @@ public class AddRegistrationCSV extends HttpServlet {
                     if (item.isFormField()) {
                         requestParams.put(item.getFieldName(), item.getString());
                     }
-
                 }
 
                 // Get parameter data from list
@@ -150,50 +151,56 @@ public class AddRegistrationCSV extends HttpServlet {
                 List<User> errorUsers = new ArrayList<User>();
 
                 for (User csvUser : csvUsers) {
-                    if (UserHelpers.validateCSVUser(csvUser)) {
-                        User regUser = userData.getUserByEmail(csvUser.getEmail());
+                    User regUser = userData.getUserByEmail(csvUser.getEmail());
 
-                        int regStatus = -1;
-                        int insertStatus = -1;
+                    if (csvUser.getType() == null) {
+                        csvUser.setType(User.UserType.GUEST);
+                    }
 
-                        if (regUser.getId() > 0) {
-                            // If user valid and existing, register, add to existingUsers arrayList
-                            regStatus = attendanceData.insertAttendance(regUser, event);
+                    // Perform appropriate registration action / respond with appropriate message
+                    int status;
+
+                    if (regUser.getId() < 1) {
+                        status = AttendanceHelpers.registerStatus(csvUser, event, new ArrayList<Attendance>());
+                    } else {
+                        // Get existing user registrations
+                        List<Attendance> registrations = attendanceData.getFutureRegistrations(regUser);
+                        status = AttendanceHelpers.registerStatus(regUser, event, registrations);
+                    }
+
+                    switch(status) {
+                        case AttendanceHelpers.ACTION_CLOSED_REGISTRATION:
+                        case AttendanceHelpers.SUCCESS:
+                            int regStatus = attendanceData.insertAttendance(regUser, event);
 
                             if (regStatus == 0) {
                                 existingUsers.add(regUser);
                             } else {
-                                errorUsers.add(regUser);
+                                errorUsers.add(csvUser);
                             }
-
-                        } else {
-                            // If user valid and not existing, create and register, add to newUsers arrayList
-                            // Generate default password (in production environment we would NOT do this)
+                            break;
+                        case AttendanceHelpers.ACTION_NEW_USER:
                             csvUser.setPassword("abc123");
-                            csvUser.setType(User.UserType.GUEST);
 
-                            insertStatus = userData.insertUser(csvUser);
+                            int insertStatus = userData.insertUser(csvUser);
 
                             if (insertStatus == 0) {
                                 regUser = userData.getUserByEmail(csvUser.getEmail());
 
-                                regStatus = attendanceData.insertAttendance(regUser, event);
+                                int newRegStatus = attendanceData.insertAttendance(regUser, event);
 
-                                if (regStatus == 0) {
-                                    newUsers.add(csvUser);
+                                if (newRegStatus == 0) {
+                                    newUsers.add(regUser);
                                 } else {
                                     errorUsers.add(csvUser);
                                 }
-
                             } else {
                                 errorUsers.add(csvUser);
                             }
-                        }
-
-                    } else {
-                        // If user name or email invalid, add to error list
-                        errorUsers.add(csvUser);
-
+                            break;
+                        default:
+                            errorUsers.add(csvUser);
+                            break;
                     }
 
                 }

@@ -14,14 +14,82 @@ import java.util.regex.Pattern;
 public class UserHelpers {
 
     /**
-     * Validates a user record (e.g. required fields are not null).
+     * Validates an existing user record.
+     * User is not null, has valid id, type, firstName, lastName, email
      * Use before writing to database.
      * @param user
      * @return
      */
-    public static boolean validate(User user) {
-        //TODO
-        return true;
+    public static boolean validateRecord(User user) {
+        if (user == null) {
+            return false;
+        }
+
+        if (user.getId() < 1) {
+            return false;
+        }
+
+        return (validateFields(user));
+    }
+
+    /**
+     * Validates basic user fields.
+     * User is not null, has valid type, firstName, lastName, email
+     * Use before writing to database.
+     * @param user
+     * @return
+     */
+    public static boolean validateFields(User user) {
+        if (user == null) {
+            return false;
+        }
+
+        boolean type = validateType(user.getType());
+        boolean lastName = validateName(user.getLastName());
+        boolean firstName = validateName(user.getFirstName());
+        boolean email = validateEmail(user.getEmail());
+
+        return (type && lastName && firstName && email);
+    }
+
+
+    /**
+     * Validates a user email address using VERY basic criteria
+     * (e.g. one or more characters followed by an @ and one or more characters)
+     * @param email
+     * @return The logical AND of several boolean checks (e.g. length)
+     */
+    public static boolean validateEmail(String email) {
+        if (email == null || email.trim().isEmpty()) {
+            return false;
+        }
+
+        Pattern pattern = Pattern.compile("^[\\w\\-]+(?:\\.[\\w\\-]+)*@[\\w\\-]+(?:\\.[\\w\\-]+)*$");
+        Matcher matcher = pattern.matcher(email);
+
+        boolean length = (email.trim().length() <= 256);
+        boolean format = matcher.matches();
+
+        return (length && format);
+    }
+
+    /**
+     * Validates a user first name / last name
+     * @param name
+     * @return Logical AND of several boolean expressions (e.g. length <= 64)
+     */
+    public static boolean validateName(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            return false;
+        }
+
+        Pattern pattern = Pattern.compile("^[^<>=:;\\/\\\\]+$");
+        Matcher matcher = pattern.matcher(name);
+
+        boolean length = (name.trim().length() <= 64);
+        boolean characters = matcher.matches();
+
+        return (characters && length);
     }
 
     /**
@@ -31,35 +99,19 @@ public class UserHelpers {
      * @return
      */
     public static boolean validatePassword(String password) {
-        //TODO
+        if (password == null || password.trim().isEmpty()) {
+            return false;
+        }
+
         return true;
     }
 
-    /**
-     * Validates a user first name / last name
-     * @param name
-     * @return Logical AND of several boolean expressions (e.g. length <= 64)
-     */
-    public static boolean validateName(String name) {
-        boolean length = (name.trim().length() <= 64);
+    public static boolean validateType(User.UserType type) {
+        if (type == User.UserType.GUEST || type == User.UserType.ORGANIZER) {
+            return true;
+        }
 
-        return (length);
-    }
-
-    /**
-     * Validates a user email address using VERY basic criteria
-     * (e.g. one or more characters followed by an @ and one or more characters)
-     * @param email
-     * @return The logical AND of several boolean checks (e.g. length)
-     */
-    public static boolean validateEmail(String email) {
-        Pattern pattern = Pattern.compile("^[\\w\\-]+(?:\\.[\\w\\-]+)*@[\\w\\-]+(?:\\.[\\w\\-]+)*$");
-        Matcher matcher = pattern.matcher(email);
-
-        boolean length = (email.trim().length() <= 256);
-        boolean format = matcher.matches();
-
-        return (length && format);
+        return false;
     }
 
     /**

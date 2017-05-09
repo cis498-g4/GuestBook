@@ -15,11 +15,13 @@ public class AttendanceHelpers {
     // Registration status codes
     public static final int SUCCESS = 0;
     public static final int ACTION_CLOSED_REGISTRATION = 1;
-    public static final int FAIL_INVALID_EVENT = 2;
+    public static final int ACTION_NEW_USER = 2;
     public static final int FAIL_INVALID_USER = 3;
-    public static final int FAIL_EVENT_FULL = 4;
-    public static final int FAIL_EVENT_ENDED = 5;
-    public static final int FAIL_REG_OVERLAP = 6;
+    public static final int FAIL_INVALID_USER_TYPE = 4;
+    public static final int FAIL_INVALID_EVENT = 5;
+    public static final int FAIL_EVENT_FULL = 6;
+    public static final int FAIL_EVENT_ENDED = 7;
+    public static final int FAIL_REG_OVERLAP = 8;
 
 
 
@@ -146,9 +148,12 @@ public class AttendanceHelpers {
             return FAIL_INVALID_EVENT;
         }
 
-
-        if (user.getId() < 1) {
+        if (!UserHelpers.validateFields(user)) {
             return FAIL_INVALID_USER;
+        }
+
+        if (user.getType() != User.UserType.GUEST) {
+            return FAIL_INVALID_USER_TYPE;
         }
 
         if (EventHelpers.endedInPast(event)) {
@@ -161,6 +166,10 @@ public class AttendanceHelpers {
 
         if (isOverlapping(event, registrations)) {
             return FAIL_REG_OVERLAP;
+        }
+
+        if (user.getId() < 1) {
+            return ACTION_NEW_USER;
         }
 
         if (!event.isOpenRegistration()) {

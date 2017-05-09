@@ -127,8 +127,13 @@ public class AddRegistration extends HttpServlet {
                 statusMessage = "<strong>Error!</strong> Event not found!";
                 statusType = "danger";
                 break;
+            case AttendanceHelpers.ACTION_NEW_USER:
             case AttendanceHelpers.FAIL_INVALID_USER:
                 statusMessage = "<strong>Error!</strong> User not found!";
+                statusType = "danger";
+                break;
+            case AttendanceHelpers.FAIL_INVALID_USER_TYPE:
+                statusMessage = "<strong>Error!</strong> Only users of type Guest may register!";
                 statusType = "danger";
                 break;
             case AttendanceHelpers.FAIL_EVENT_ENDED:

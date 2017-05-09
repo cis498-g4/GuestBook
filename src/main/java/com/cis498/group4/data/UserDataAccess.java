@@ -206,7 +206,7 @@ public class UserDataAccess {
      * @return 0 for success, -1 for invalid data, -2 or -3 for encryption error, SQL error code for database failure
      */
     public int insertUser(User user) {
-        if (!UserHelpers.validate(user)) {
+        if (!UserHelpers.validateFields(user)) {
             return -1;
         }
 
@@ -238,7 +238,7 @@ public class UserDataAccess {
      * @return 0 for success, -1 for invalid data, SQL error code for database failure
      */
     public int updateUser(User user) {
-        if (!UserHelpers.validate(user)) {
+        if (!UserHelpers.validateRecord(user)) {
             return -1;
         }
 
