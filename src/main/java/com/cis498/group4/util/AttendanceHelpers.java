@@ -135,9 +135,10 @@ public class AttendanceHelpers {
     }
 
     /**
-     *
+     * Get status code for verifying the success or failure of an insert or update operation
      * @param user
      * @param event
+     * @param registrations
      * @return
      */
     public static int registerStatus(User user, Event event, List<Attendance> registrations) {
