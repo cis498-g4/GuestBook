@@ -23,8 +23,6 @@ public class AttendanceHelpers {
     public static final int FAIL_EVENT_ENDED = 7;
     public static final int FAIL_REG_OVERLAP = 8;
 
-
-
     /**
      * Validates an attendance record (e.g. no event registrations overlap for that user, capacity not full).
      * Use before writing to database.
