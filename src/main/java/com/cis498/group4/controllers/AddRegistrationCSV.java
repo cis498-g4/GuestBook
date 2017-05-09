@@ -69,6 +69,7 @@ public class AddRegistrationCSV extends HttpServlet {
 
         String url;
         String pageTitle;
+        String back;
         String statusMessage;
         String statusType;
 
@@ -92,23 +93,24 @@ public class AddRegistrationCSV extends HttpServlet {
                 Map<String, String> requestParams = new HashMap<String, String>();
                 Map<String, String> requestFileContents = new HashMap<String, String>();
 
-                String csv = null;
+                String csv;
 
                 while (items.hasNext()) {
                     FileItem item = (FileItem) items.next();
 
-                    // Get other form data (e.g. eventId)
-                    if (item.isFormField()) {
-                        requestParams.put(item.getFieldName(), item.getString());
-                    }
-
+                    // Add non-form field data to fileContents list
                     if(!item.isFormField()) {
                         requestFileContents.put(item.getFieldName(), item.getString());
                     }
 
+                    // Add form field data (e.g. eventId) to parameters list
+                    if (item.isFormField()) {
+                        requestParams.put(item.getFieldName(), item.getString());
+                    }
+
                 }
 
-                // Get parameter data
+                // Get parameter data from list
                 Event event = eventData.getEvent(Integer.parseInt(requestParams.get("eventId")));
                 String eventDate = event.getStartDateTime().format(DateTimeFormatter.ofPattern("M/d/YY"));
                 boolean headerRow = requestParams.containsKey("header-row");
@@ -127,11 +129,7 @@ public class AddRegistrationCSV extends HttpServlet {
                 List<CSVRecord> records = csvParser.getRecords();
 
                 // Start from row 2 if there is a header
-                int i = 0;
-
-                if (headerRow) {
-                    i = 1;
-                }
+                int i = headerRow ? 1 : 0;
 
                 while(i < records.size()) {
                     User user = new User();
@@ -203,6 +201,7 @@ public class AddRegistrationCSV extends HttpServlet {
                 // TODO Generate response
                 url = "/WEB-INF/views/add-registration-csv.jsp";
                 pageTitle = String.format("Group Registration Status for %s %s", event.getName(), eventDate);
+                back = String.format("list-user-regs-for-event?id=%s", event.getId());
 
                 if (!existingUsers.isEmpty() || !newUsers.isEmpty()) {
                     statusMessage = "Registration succeeded";
@@ -233,32 +232,32 @@ public class AddRegistrationCSV extends HttpServlet {
 
                 request.setAttribute("event", event);
                 request.setAttribute("eventDate", eventDate);
-                request.setAttribute("pageTitle", pageTitle);
-                request.setAttribute("statusMessage", statusMessage);
-                request.setAttribute("statusType", statusType);
 
                 request.setAttribute("existingUsers", existingUsers);
                 request.setAttribute("newUsers", newUsers);
                 request.setAttribute("errorUsers", errorUsers);
 
-                RequestDispatcher view = request.getRequestDispatcher(url);
-                view.forward(request, response);
+                request.setAttribute("statusMessage", statusMessage);
+                request.setAttribute("statusType", statusType);
 
             } catch (FileUploadException e) {
                 //TODO: Problem with upload: invalid file, exceeds max size, ...
-                PrintWriter out = response.getWriter();
-                out.println(e);
-                out.close();
+                url = "/WEB-INF/views/error-generic.jsp";
+                pageTitle = "File upload error";
+                back = "list-event-registrations";
+                request.setAttribute("message", "Invalid file format");
             } catch (NullPointerException e) {
                 // TODO invalid file format
-                PrintWriter out = response.getWriter();
-                out.println(e);
-                out.close();
+                url = "/WEB-INF/views/error-generic.jsp";
+                pageTitle = "File upload error";
+                back = "list-event-registrations";
+                request.setAttribute("message", "Invalid file format");
             } catch (ArrayIndexOutOfBoundsException e){
                 // TODO invalid file format
-                PrintWriter out = response.getWriter();
-                out.println(e);
-                out.close();
+                url = "/WEB-INF/views/error-generic.jsp";
+                pageTitle = "File upload error";
+                back = "list-event-registrations";
+                request.setAttribute("message", "Invalid file format");
             } finally {
                 if (csvParser != null) {
                     csvParser.close();
@@ -266,14 +265,17 @@ public class AddRegistrationCSV extends HttpServlet {
             }
 
         } else {
-            url = "/WEB-INF/views/generic-error.jsp";
+            url = "/WEB-INF/views/error-generic.jsp";
             pageTitle = "File upload error";
-            String message = "The request did not contain a file upload";
-
-            request.setAttribute("pageTitle", pageTitle);
-            request.setAttribute("message", message);
-
+            back = "list-event-registrations";
+            request.setAttribute("message", "The request did not contain a file upload");
         }
+
+        request.setAttribute("pageTitle", pageTitle);
+        request.setAttribute("back", back);
+
+        RequestDispatcher view = request.getRequestDispatcher(url);
+        view.forward(request, response);
 
     }
 }
