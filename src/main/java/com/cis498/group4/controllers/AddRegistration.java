@@ -105,25 +105,30 @@ public class AddRegistration extends HttpServlet {
         int status = AttendanceHelpers.registerStatus(user, event, registrations);
 
         switch(status) {
+            case AttendanceHelpers.ACTION_CLOSED_REGISTRATION:
             case AttendanceHelpers.SUCCESS:
                 int insertStatus = attendanceData.insertAttendance(user, event);
                 if (insertStatus == 0) {
-                    statusMessage = String.format("Successfully %s %s registered for %s!",
+                    statusMessage = String.format("Successfully registered %s %s for %s!",
                             user.getFirstName(), user.getLastName(), event.getName());
                     statusType = "success";
-// TODO
                 } else if (insertStatus == 1062) {
-                    statusMessage = String.format("You are already registered for %s!", event.getName());
+                    statusMessage = String.format("%s %s is already registered for %s!",
+                            user.getFirstName(), user.getLastName(), event.getName());
                     statusType = "warning";
                 } else {
                     statusMessage = String.format(
-                            "<strong>Error!</strong> There was a problem processing your registration %d", insertStatus);
+                            "<strong>Error!</strong> Could not process the registration for %s %s for %s (%d)",
+                            user.getFirstName(), user.getLastName(), event.getName(), insertStatus);
                     statusType = "danger";
                 }
                 break;
-            case AttendanceHelpers.ACTION_CLOSED_REGISTRATION:
-                statusMessage = String.format("<strong>Error!</strong> %s does not have open registration. " +
-                        "Please contact an event organizer to register.", event.getName());
+            case AttendanceHelpers.FAIL_INVALID_EVENT:
+                statusMessage = "<strong>Error!</strong> Event not found!";
+                statusType = "danger";
+                break;
+            case AttendanceHelpers.FAIL_INVALID_USER:
+                statusMessage = "<strong>Error!</strong> User not found!";
                 statusType = "danger";
                 break;
             case AttendanceHelpers.FAIL_EVENT_ENDED:
@@ -134,38 +139,16 @@ public class AddRegistration extends HttpServlet {
                 statusMessage = String.format("<strong>Error!</strong> The event %s is at capacity.", event.getName());
                 statusType = "danger";
                 break;
-            case AttendanceHelpers.FAIL_INVALID_EVENT:
-                statusMessage = String.format(
-                        "<strong>Error!</strong> No event was found with the registration code %s", registrationCode);
-                statusType = "danger";
-                break;
             case AttendanceHelpers.FAIL_REG_OVERLAP:
                 statusMessage = String.format(
-                        "<strong>Error!</strong> %s overlaps one of your existing registrations.", event.getName());
+                        "<strong>Error!</strong> %s overlaps one of the existing registrations for %s %s.",
+                        event.getName(), user.getFirstName(), user.getLastName());
                 statusType = "danger";
                 break;
             default:
-                statusMessage = "<strong>Error!</strong> There was a problem processing your registration.";
+                statusMessage = "<strong>Error!</strong> There was a problem processing the registration.";
                 statusType = "danger";
                 break;
-        }
-
-
-        if (user.getEmail() != null) {
-            int insertStatus = attendanceData.insertAttendance(user, event);
-
-            // TODO Add duplicate check
-            if (insertStatus == 0) {
-                statusMessage = "Registration was successful!";
-                statusType = "success";
-            } else {
-                statusMessage = "<strong>Error!</strong> Registration failed!";
-                statusType = "danger";
-            }
-
-        }  else {
-            statusMessage = "<strong>Error!</strong> User not found!!";  // TODO move this into insert status check
-            statusType = "danger";
         }
 
         request.setAttribute("event", event);
