@@ -69,7 +69,7 @@
     <a class="btn btn-primary" href="list-user-regs-for-event?id=${event.id}">Back to Registration List</a>
 </div>
 
-</div><!--container-->
+<jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
 
 <script>
 /**

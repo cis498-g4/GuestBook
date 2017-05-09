@@ -62,7 +62,7 @@
 </c:if>
 
 
-</div><!--container-->
+<jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
 
 <script src="${pageContext.request.contextPath}/scripts/survey-barrating.js"></script>
 

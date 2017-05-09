@@ -30,4 +30,6 @@
 </div>
 
 <jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
+
+</body>
 </html>

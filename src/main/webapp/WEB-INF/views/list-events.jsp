@@ -58,7 +58,7 @@
 
 </table>
 
-</div><!--container-->
+<jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
 
 <script>
 
