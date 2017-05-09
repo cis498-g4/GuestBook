@@ -34,6 +34,14 @@ public class EventHelpers {
     }
 
     /**
+     * Verifies that the registration code is exactly eight alphanumeric characters
+     * @param code
+     */
+    public static boolean validateRegistrationCode(String code) {
+
+    }
+
+    /**
      * Checks whether the event overlaps with an existing event with the same presenter
      * @param event
      * @return
