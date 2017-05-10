@@ -192,7 +192,7 @@ public class EventDataAccess {
                          "`registration_code`, `open_registration`, `mandatory_survey`, `capacity`) " +
                          "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, event.getName());
+            preparedStatement.setString(1, event.getName().trim());
             preparedStatement.setString(2,
                     event.getStartDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:SS")));
             preparedStatement.setString(3,
@@ -227,7 +227,7 @@ public class EventDataAccess {
                          "`capacity` = ? " +
                          "WHERE `event_id` = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, event.getName());
+            preparedStatement.setString(1, event.getName().trim());
             preparedStatement.setString(2,
                     event.getStartDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:SS")));
             preparedStatement.setString(3,
