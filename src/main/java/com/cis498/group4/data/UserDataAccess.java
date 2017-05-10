@@ -216,11 +216,11 @@ public class UserDataAccess {
                          "VALUES (?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, user.getType().ordinal());
-            preparedStatement.setString(2, user.getFirstName());
-            preparedStatement.setString(3, user.getLastName());
-            preparedStatement.setString(4, user.getEmail());
+            preparedStatement.setString(2, user.getFirstName().trim());
+            preparedStatement.setString(3, user.getLastName().trim());
+            preparedStatement.setString(4, user.getEmail().trim());
             // Only set password for new users
-            preparedStatement.setString(5, UserHelpers.shaHash(user.getPassword()));
+            preparedStatement.setString(5, UserHelpers.shaHash(user.getPassword().trim()));
             preparedStatement.executeUpdate();
             return 0;
         } catch (SQLException e) {
@@ -248,9 +248,9 @@ public class UserDataAccess {
                          "WHERE `user_id` = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, user.getType().ordinal());
-            preparedStatement.setString(2, user.getFirstName());
-            preparedStatement.setString(3, user.getLastName());
-            preparedStatement.setString(4, user.getEmail());
+            preparedStatement.setString(2, user.getFirstName().trim());
+            preparedStatement.setString(3, user.getLastName().trim());
+            preparedStatement.setString(4, user.getEmail().trim());
             // Do not set password on update. Use updateUserPassword instead
             preparedStatement.setInt(5, user.getId());
             preparedStatement.executeUpdate();
@@ -274,7 +274,7 @@ public class UserDataAccess {
         try {
             String sql = "UPDATE `user` SET `password` = ? WHERE `user_id` = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, UserHelpers.shaHash(password));
+            preparedStatement.setString(1, UserHelpers.shaHash(password.trim()));
             preparedStatement.setInt(2, user.getId());
             preparedStatement.executeUpdate();
             return 0;
