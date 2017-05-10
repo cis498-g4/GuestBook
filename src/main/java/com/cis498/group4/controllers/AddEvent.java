@@ -91,7 +91,6 @@ public class AddEvent extends HttpServlet {
         // Create new event with form information
         Event event = new Event();
 
-        // Create new event with form information
         int status = EventHelpers.setAttributesFromRequest(event, request, eventData, userData);
 
         // Perform update and respond with appropriate message
