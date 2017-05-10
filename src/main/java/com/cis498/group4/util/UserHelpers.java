@@ -35,7 +35,7 @@ public class UserHelpers {
     /**
      * Validates basic user fields.
      * User is not null, has valid type, firstName, lastName, email
-     * Use before writing to database.
+     * Use before writing new user to database.
      * @param user
      * @return
      */
