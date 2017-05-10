@@ -116,14 +116,25 @@ public class EventHelpers {
         }
 
         for (Event eventB : presenterEvents) {
-            if (eventA.getStartDateTime().isAfter(eventB.getStartDateTime()) &&
-                    eventA.getStartDateTime().isBefore(eventB.getEndDateTime())) {
-                return true;
-            }
+            if (eventA.getId() != eventB.getId()) {
 
-            if (eventA.getEndDateTime().isAfter(eventB.getStartDateTime()) &&
-                    eventA.getEndDateTime().isBefore(eventB.getEndDateTime())) {
-                return true;
+                if (eventA.getStartDateTime().isEqual(eventB.getStartDateTime())) {
+                    return true;
+                }
+
+                if (eventA.getEndDateTime().isEqual(eventB.getEndDateTime())) {
+                    return true;
+                }
+
+                if (eventA.getStartDateTime().isAfter(eventB.getStartDateTime()) &&
+                        eventA.getStartDateTime().isBefore(eventB.getEndDateTime())) {
+                    return true;
+                }
+
+                if (eventA.getEndDateTime().isAfter(eventB.getStartDateTime()) &&
+                        eventA.getEndDateTime().isBefore(eventB.getEndDateTime())) {
+                    return true;
+                }
             }
         }
 
