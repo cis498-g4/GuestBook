@@ -116,55 +116,12 @@ public class UpdateEvent extends HttpServlet {
 
         Event event = eventData.getEvent(Integer.parseInt(request.getParameter("id")));
 
-        // If event ended in the past, block edit
         if (EventHelpers.endedInPast(event)) {
+            // If event ended in the past, block edit
             status = EventHelpers.CONCLUDED;
         } else {
-            try {
-                // Create new event with form information
-                event.setName(request.getParameter("name"));
-
-                String startInput = request.getParameter("start-dt");
-                LocalDateTime startDt = LocalDateTime.parse(startInput, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-                event.setStartDateTime(startDt);
-
-                String endInput = request.getParameter("end-dt");
-                LocalDateTime endDt = LocalDateTime.parse(endInput, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-                event.setEndDateTime(endDt);
-
-                User presenter = userData.getUser(Integer.parseInt(request.getParameter("pres-id")));
-                event.setPresenter(presenter);
-
-                // Get list of events for the presenter, to check for overlaps
-                List<Event> presenterEvents = eventData.getPresenterFutureEvents(presenter);
-
-                event.setOpenRegistration(request.getParameter("open-reg") != null);
-
-                if (request.getParameter("reg-code") != null && request.getParameter("reg-code").length() > 0) {
-                    event.setRegistrationCode(request.getParameter("reg-code"));
-                }
-
-                event.setMandatorySurvey(request.getParameter("survey-req") != null);
-
-                if (request.getParameter("capacity") != null && request.getParameter("capacity").length() > 0) {
-                    event.setCapacity(Integer.parseInt(request.getParameter("capacity")));
-                } else {
-                    event.setCapacity(-1);
-                }
-
-                if (event.getCapacity() <= 0) {
-                    event.setCapacity(-1);
-                }
-
-                // Get status message
-                status = EventHelpers.writeStatus(event, presenterEvents);
-
-            } catch (DateTimeParseException e) {
-                status = EventHelpers.INVALID_DATE;
-            } catch (Exception e) {
-                status = EventHelpers.INVALID_DATA;
-            }
-
+            // Add form information to event
+            status = EventHelpers.setAttributesFromRequest(event, request, eventData, userData);
         }
 
         // Perform update and respond with appropriate message
