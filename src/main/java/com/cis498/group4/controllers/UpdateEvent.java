@@ -115,7 +115,6 @@ public class UpdateEvent extends HttpServlet {
         int status;
 
         Event event = eventData.getEvent(Integer.parseInt(request.getParameter("id")));
-        List<Event> presenterEvents = new ArrayList<Event>();
 
         // If event ended in the past, block edit
         if (EventHelpers.endedInPast(event)) {
@@ -137,7 +136,7 @@ public class UpdateEvent extends HttpServlet {
                 event.setPresenter(presenter);
 
                 // Get list of events for the presenter, to check for overlaps
-                presenterEvents = eventData.getPresenterFutureEvents(presenter);
+                List<Event> presenterEvents = eventData.getPresenterFutureEvents(presenter);
 
                 event.setOpenRegistration(request.getParameter("open-reg") != null);
 
@@ -157,14 +156,14 @@ public class UpdateEvent extends HttpServlet {
                     event.setCapacity(-1);
                 }
 
+                // Get status message
+                status = EventHelpers.writeStatus(event, presenterEvents);
+
             } catch (DateTimeParseException e) {
                 status = EventHelpers.INVALID_DATE;
             } catch (Exception e) {
                 status = EventHelpers.INVALID_DATA;
             }
-
-            // Get status message
-            status = EventHelpers.writeStatus(event, presenterEvents);
 
         }
 
@@ -224,64 +223,7 @@ public class UpdateEvent extends HttpServlet {
                 statusType = "danger";
                 break;
         }
-
-
-//        if (startDt.isAfter(LocalDateTime.now())) {
-//            if (startDt.isBefore(endDt)) {
-//
-//                Event event = new Event();
-//                event.setId(Integer.parseInt(request.getParameter("id")));
-//                event.setName(request.getParameter("name"));
-//                event.setStartDateTime(startDt);
-//                event.setEndDateTime(endDt);
-//
-//                // Assume user ID is valid - chosen from selection box
-//                User presenter = new User();
-//                presenter.setId(Integer.parseInt(request.getParameter("pres-id")));
-//                event.setPresenter(presenter);
-//
-//                event.setOpenRegistration(request.getParameter("open-reg") != null);
-//
-//                if (request.getParameter("reg-code") != null && request.getParameter("reg-code").length() > 0) {
-//                    event.setRegistrationCode(request.getParameter("reg-code"));
-//                }
-//
-//                event.setMandatorySurvey(request.getParameter("survey-req") != null);
-//
-//                if (request.getParameter("capacity") != null && request.getParameter("capacity").length() > 0) {
-//                    event.setCapacity(Integer.parseInt(request.getParameter("capacity")));
-//                } else {
-//                    event.setCapacity(-1);
-//                }
-//
-//                if (event.getCapacity() <= 0) {
-//                    event.setCapacity(-1);
-//                }
-//
-//                // Attempt write to DB and respond to event
-//                int updateStatus = eventData.updateEvent(event);
-//
-//                if (updateStatus == 0) {
-//                    statusMessage = "Event updated successfully.";
-//                    statusType = "success";
-//                } else if (updateStatus == -1) {
-//                    statusMessage = "<strong>Error!</strong> Invalid data entered for new event!";
-//                    statusType = "danger";
-//                } else {
-//                    statusMessage = "<strong>Error!</strong> Update event operation failed!";
-//                    statusType = "danger";
-//                }
-//
-//            } else {
-//                statusMessage = "<strong>Error!</strong> Event end time occurs before event start time!";    // TODO move these into insert status check
-//                statusType = "danger";
-//            }
-//
-//        } else {
-//            statusMessage = "<strong>Error!</strong> Start time occurs in the past!";    // TODO move these into insert status check
-//            statusType = "danger";
-//        }
-
+        
         request.setAttribute("statusMessage", statusMessage);
         request.setAttribute("statusType", statusType);
         RequestDispatcher view = request.getRequestDispatcher(url);
