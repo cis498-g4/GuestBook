@@ -4,6 +4,7 @@ import com.cis498.group4.data.EventDataAccess;
 import com.cis498.group4.data.UserDataAccess;
 import com.cis498.group4.models.Event;
 import com.cis498.group4.models.User;
+import com.cis498.group4.util.EventHelpers;
 import com.cis498.group4.util.SessionHelpers;
 
 import javax.servlet.RequestDispatcher;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 /**
@@ -82,50 +84,20 @@ public class AddEvent extends HttpServlet {
         }
 
         String url = "/manager/list-events";
+        // Do not need pageTitle and back attributes
         String statusMessage;
         String statusType;
 
         // Create new event with form information
-        String startInput = request.getParameter("start-dt");
-        LocalDateTime startDt = LocalDateTime.parse(startInput, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        Event event = new Event();
 
-        String endInput = request.getParameter("end-dt");
-        LocalDateTime endDt = LocalDateTime.parse(endInput, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        // Create new event with form information
+        int status = EventHelpers.setAttributesFromRequest(event, request, eventData, userData);
 
-        if (startDt.isAfter(LocalDateTime.now())) {
-            if (startDt.isBefore(endDt)) {
-
-                Event event = new Event();
-                event.setName(request.getParameter("name"));
-                event.setStartDateTime(startDt);
-                event.setEndDateTime(endDt);
-
-                // Assume user ID is valid - chosen from selection box
-                User presenter = new User();
-                presenter.setId(Integer.parseInt(request.getParameter("pres-id")));
-                event.setPresenter(presenter);
-
-                event.setOpenRegistration(request.getParameter("open-reg") != null);
-
-                if (request.getParameter("reg-code") != null && request.getParameter("reg-code").length() > 0) {
-                    event.setRegistrationCode(request.getParameter("reg-code"));
-                }
-
-                event.setMandatorySurvey(request.getParameter("survey-req") != null);
-
-                if (request.getParameter("capacity") != null && request.getParameter("capacity").length() > 0) {
-                    event.setCapacity(Integer.parseInt(request.getParameter("capacity")));
-                } else {
-                    event.setCapacity(-1);
-                }
-
-                if (event.getCapacity() <= 0) {
-                    event.setCapacity(-1);
-                }
-
-                // Attempt write to DB and respond to event
+        // Perform update and respond with appropriate message
+        switch (status) {
+            case EventHelpers.SUCCESSFUL_WRITE:
                 int insertStatus = eventData.insertEvent(event);
-
                 if (insertStatus == 0) {
                     statusMessage = "Event created successfully.";
                     statusType = "success";
@@ -136,15 +108,47 @@ public class AddEvent extends HttpServlet {
                     statusMessage = "<strong>Error!</strong> Add event operation failed!";
                     statusType = "danger";
                 }
-
-            } else {
-                statusMessage = "<strong>Error!</strong> Event end time occurs before event start time!";    // TODO move these into insert status check
+                break;
+            case EventHelpers.INVALID_DATA:
+                statusMessage = "<strong>Error!</strong> Invalid data entered for new event!";
                 statusType = "danger";
-            }
-
-        } else {
-            statusMessage = "<strong>Error!</strong> Start time occurs in the past!";    // TODO move these into insert status check
-            statusType = "danger";
+                break;
+            case EventHelpers.INVALID_DATE:
+                statusMessage = "<strong>Error!</strong> Date must be in the format YYYY-MM-DD HH:MM:SS";
+                statusType = "danger";
+                break;
+            case EventHelpers.START_IN_PAST:
+                statusMessage = "<strong>Error!</strong> Start time must not occur in the past!";
+                statusType = "danger";
+                break;
+            case EventHelpers.END_BEFORE_START:
+                statusMessage = "<strong>Error!</strong> Event end time occurs before event start time!";
+                statusType = "danger";
+                break;
+            case EventHelpers.CONCLUDED:
+                statusMessage = "<strong>Error!</strong> Event time must not occur in the past!";
+                statusType = "danger";
+                break;
+            case EventHelpers.INVALID_PRESENTER:
+                statusMessage = "<strong>Error!</strong> Selected presenter not found!";
+                statusType = "danger";
+                break;
+            case EventHelpers.OVERLAPPING_PRESENTER:
+                statusMessage = "<strong>Error!</strong> This event overlaps with another event by the same presenter!";
+                statusType = "danger";
+                break;
+            case EventHelpers.INVALID_CAPACITY:
+                statusMessage = "<strong>Error!</strong> Capacity must be an integer between 1 and 1000!";
+                statusType = "danger";
+                break;
+            case EventHelpers.INVALID_CODE:
+                statusMessage = "<strong>Error!</strong> Registration code must be a string of exactly eight letters and/or numbers!";
+                statusType = "danger";
+                break;
+            default:
+                statusMessage = "<strong>Error!</strong> Add event operation failed!";
+                statusType = "danger";
+                break;
         }
 
         request.setAttribute("statusMessage", statusMessage);

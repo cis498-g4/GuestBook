@@ -175,7 +175,7 @@ public class UpdateEvent extends HttpServlet {
                     statusMessage = "Event updated successfully.";
                     statusType = "success";
                 } else if (updateStatus == -1) {
-                    statusMessage = "<strong>Error!</strong> Invalid data entered for new event!";
+                    statusMessage = "<strong>Error!</strong> Invalid data entered for event!";
                     statusType = "danger";
                 } else {
                     statusMessage = "<strong>Error!</strong> Update event operation failed!";
@@ -183,7 +183,7 @@ public class UpdateEvent extends HttpServlet {
                 }
                 break;
             case EventHelpers.INVALID_DATA:
-                statusMessage = "<strong>Error!</strong> Invalid data entered for new event!";
+                statusMessage = "<strong>Error!</strong> Invalid data entered for event!";
                 statusType = "danger";
                 break;
             case EventHelpers.INVALID_DATE:

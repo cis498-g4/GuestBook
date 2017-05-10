@@ -1,10 +1,14 @@
 package com.cis498.group4.util;
 
 import com.cis498.group4.data.EventDataAccess;
+import com.cis498.group4.data.UserDataAccess;
 import com.cis498.group4.models.Event;
 import com.cis498.group4.models.User;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -49,8 +53,8 @@ public class EventHelpers {
 
     /**
      * Validates basic event fields.
-     * Event is not null, has valid name, chronological start date and end date in the future,
-     * presenter with no conflicts, registration code, and capacity
+     * Event is not null, has valid name, chronological start date and end date in the future, presenter,
+     * registration code, and capacity
      * Use before writing new event to database.
      * @param event
      * @return
@@ -62,14 +66,14 @@ public class EventHelpers {
 
         //TODO
 
-        boolean name = true; // TODO validate event name
+        boolean name = validateName(event.getName());
         boolean startInFuture = startsInFuture(event);
         boolean chronological = event.getEndDateTime().isAfter(event.getStartDateTime());
-        boolean presenterFree = true; //TODO validate presenter
+        boolean presenter = validatePresenter(event.getPresenter());
         boolean registrationCode = validateRegistrationCode(event.getRegistrationCode());
         boolean capacity = validateCapacity(event.getCapacity());
 
-        return (name && startInFuture && chronological && presenterFree && registrationCode && capacity);
+        return (name && startInFuture && chronological && presenter && registrationCode && capacity);
     }
 
     /**
@@ -87,6 +91,32 @@ public class EventHelpers {
         }
 
         return false;
+    }
+
+    /**
+     * Validates event name (is under 256 characters)
+     * @param name
+     * @return
+     */
+    public static boolean validateName(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            return false;
+        }
+
+        return name.trim().length() <= 256;
+    }
+
+    /**
+     * Validates that presenter is not null and of type Organizer
+     * @param presenter
+     * @return
+     */
+    public static boolean validatePresenter(User presenter) {
+        if (presenter == null) {
+            return false;
+        }
+
+        return (presenter.getType() == User.UserType.ORGANIZER);
     }
 
     /**
@@ -224,6 +254,64 @@ public class EventHelpers {
         } else {
             return Integer.MAX_VALUE;
         }
+    }
+
+    /**
+     * Sets an event objects attributes based on parameters passed in request
+     * @param event
+     * @param request
+     * @param eventData
+     * @param userData
+     * @return writeStatus of created event
+     */
+    public static int setAttributesFromRequest(
+            Event event, HttpServletRequest request, EventDataAccess eventData, UserDataAccess userData) {
+
+        try {
+
+            event.setName(request.getParameter("name"));
+
+            String startInput = request.getParameter("start-dt");
+            LocalDateTime startDt = LocalDateTime.parse(startInput, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            event.setStartDateTime(startDt);
+
+            String endInput = request.getParameter("end-dt");
+            LocalDateTime endDt = LocalDateTime.parse(endInput, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            event.setEndDateTime(endDt);
+
+            User presenter = userData.getUser(Integer.parseInt(request.getParameter("pres-id")));
+            event.setPresenter(presenter);
+
+            // Get list of events for the presenter, to check for overlaps
+            List<Event> presenterEvents = eventData.getPresenterFutureEvents(presenter);
+
+            event.setOpenRegistration(request.getParameter("open-reg") != null);
+
+            if (request.getParameter("reg-code") != null && request.getParameter("reg-code").length() > 0) {
+                event.setRegistrationCode(request.getParameter("reg-code"));
+            }
+
+            event.setMandatorySurvey(request.getParameter("survey-req") != null);
+
+            if (request.getParameter("capacity") != null && request.getParameter("capacity").length() > 0) {
+                event.setCapacity(Integer.parseInt(request.getParameter("capacity")));
+            } else {
+                event.setCapacity(-1);
+            }
+
+            if (event.getCapacity() <= 0) {
+                event.setCapacity(-1);
+            }
+
+            // Get status message
+            return EventHelpers.writeStatus(event, presenterEvents);
+
+        } catch (DateTimeParseException e) {
+            return EventHelpers.INVALID_DATE;
+        } catch (Exception e) {
+            return EventHelpers.INVALID_DATA;
+        }
+
     }
 
     /**
