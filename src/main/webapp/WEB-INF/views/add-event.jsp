@@ -20,14 +20,14 @@
             <div class="form-group">
                 <label class="control-label col-sm-3" for="start-dt">Start date/time:</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" name="start-dt" id="start-dt" required>
+                    <input type="text" class="form-control" name="start-dt" id="start-dt" placeholder="YYYY-MM-DD HH:MM:SS" required>
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="control-label col-sm-3" for="end-dt">End date/time:</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" name="end-dt" id="end-dt" required>
+                    <input type="text" class="form-control" name="end-dt" id="end-dt" placeholder="YYYY-MM-DD HH:MM:SS" required>
                 </div>
             </div>
 
@@ -47,7 +47,7 @@
             <div class="form-group">
                 <label class="control-label col-sm-3" for="capacity">Event capacity:</label>
                 <div class="col-sm-3">
-                    <input type="number" min="0" max="10000" class="form-control" name="capacity" id="capacity">
+                    <input type="number" min="0" max="1000" class="form-control" name="capacity" id="capacity">
                 </div>
             </div>
 
