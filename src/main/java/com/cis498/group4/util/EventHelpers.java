@@ -304,7 +304,7 @@ public class EventHelpers {
             }
 
             // Get status message
-            return EventHelpers.writeStatus(event, presenterEvents);
+            return writeStatus(event, presenterEvents);
 
         } catch (DateTimeParseException e) {
             return EventHelpers.INVALID_DATE;
