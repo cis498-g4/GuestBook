@@ -218,7 +218,8 @@ public class AddRegistrationCSV extends HttpServlet {
                     }
 
                     if (!newUsers.isEmpty()) {
-                        statusMessage += ".<br>New users were created with a default password. Please have new users change their password";
+                        statusMessage += ".<br>New users were created with a default password. " +
+                                         "Please have new users change their password";
                         statusType = "warning";
                     }
 
