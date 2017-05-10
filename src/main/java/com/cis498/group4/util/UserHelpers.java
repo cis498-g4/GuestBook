@@ -2,6 +2,7 @@ package com.cis498.group4.util;
 
 import com.cis498.group4.models.User;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -12,6 +13,14 @@ import java.util.regex.Pattern;
  * The UserHelpers class contains methods to assist with User data (verification, etc)
  */
 public class UserHelpers {
+
+    // Write status codes
+    public static final int SUCCESSFUL_WRITE = 0;
+    public static final int INVALID_DATA = 1;
+    public static final int INVALID_NAME = 2;
+    public static final int INVALID_EMAIL = 3;
+    public static final int INVALID_PASSWORD = 4;
+    public static final int REPEAT_PASSWORD = 5;
 
     /**
      * Validates an existing user record.
@@ -54,8 +63,8 @@ public class UserHelpers {
 
 
     /**
-     * Validates a user email address using VERY basic criteria
-     * (e.g. one or more characters followed by an @ and one or more characters)
+     * Validates a user email address.
+     * Not null, <= 256 chars, matches basic email address pattern
      * @param email
      * @return The logical AND of several boolean checks (e.g. length)
      */
@@ -93,7 +102,8 @@ public class UserHelpers {
     }
 
     /**
-     * Validates a user password (e.g. length).
+     * Validates a user password.
+     * Password is not null or empty, and contains valid characters (https://www.owasp.org/index.php/Password_special_characters)
      * Use before writing to database.
      * @param password
      * @return
@@ -103,44 +113,26 @@ public class UserHelpers {
             return false;
         }
 
-        return true;
+        Pattern pattern = Pattern.compile("[\\w !\\\"#$%&'\\(\\)\\*\\+,\\-\\.\\/\\\\:;<=>?@\\[\\]^_`\\{\\|\\}~]+");
+        Matcher matcher = pattern.matcher(password);
+
+        boolean length = password.length() <= 40;
+        boolean characters = matcher.matches();
+
+        return (length & characters);
     }
 
+    /**
+     * Validates that user type is either Guest or Organizer
+     * @param type
+     * @return
+     */
     public static boolean validateType(User.UserType type) {
         if (type == User.UserType.GUEST || type == User.UserType.ORGANIZER) {
             return true;
         }
 
         return false;
-    }
-
-    /**
-     * Validates a user record read from a CSV (lastName, firstName, email)
-     * @param user
-     * @return
-     */
-    public static boolean validateCSVUser(User user) {
-        if (user == null) {
-            return false;
-        }
-
-        if (user.getLastName() == null || user.getLastName().trim().isEmpty()) {
-            return false;
-        }
-
-        if (user.getFirstName() == null || user.getFirstName().trim().isEmpty()) {
-            return false;
-        }
-
-        if (user.getEmail() == null || user.getEmail().trim().isEmpty()) {
-            return false;
-        }
-
-        boolean lastName = validateName(user.getLastName());
-        boolean firstName = validateName(user.getFirstName());
-        boolean email = validateEmail(user.getEmail());
-
-        return (lastName && firstName && email);
     }
 
     /**
@@ -162,6 +154,49 @@ public class UserHelpers {
         }
 
         return hex;
+    }
+
+    /**
+     * Sets a user object's attributes based on parameters passed in request
+     * @param user
+     * @param request
+     * @return writeStatus of created event
+     */
+    public static int setAttributesFromRequest(User user, HttpServletRequest request) {
+        try {
+            user.setType(User.UserType.valueOf(request.getParameter("type").trim()));
+            user.setFirstName(request.getParameter("first-name").trim());
+            user.setLastName(request.getParameter("last-name").trim());
+            user.setEmail(request.getParameter("email").trim());
+
+            // Get status message
+            return writeStatus(user);
+
+        } catch (Exception e) {
+            return INVALID_DATA;
+        }
+    }
+
+    /**
+     * Get status code for verifying the success or failure of an insert or update operation
+     * @param user
+     * @return status code
+     */
+    public static int writeStatus(User user) {
+
+        if (!validateName(user.getLastName())) {
+            return INVALID_NAME;
+        }
+
+        if (!validateName(user.getFirstName())) {
+            return INVALID_NAME;
+        }
+
+        if (!validateEmail(user.getEmail())) {
+            return INVALID_EMAIL;
+        }
+
+        return SUCCESSFUL_WRITE;
     }
 
 }
