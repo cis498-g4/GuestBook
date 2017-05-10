@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
+import java.util.List;
+import java.util.Map;
 
 /**
  * TestServlet responds with a simple HTTP message and the list of request parameters
@@ -35,6 +37,38 @@ public class TestServlet extends HttpServlet {
             for (int i = 0; i < paramValues.length; i++) {
                 out.printf("%s<br>\n", paramValues[i]);
             }
+        }
+
+        out.println("</p>");
+        out.println("<h3>Attributes</h3>");
+        out.println("<p>");
+
+        Enumeration<?> attributes = getServletContext().getAttributeNames();
+        while (attributes.hasMoreElements())
+        {
+            String name = (String) attributes.nextElement();
+            out.println(String.format("<h4>%s</h4>", name));
+
+            // Get the value of the attribute
+            Object value = getServletContext().getAttribute(name);
+
+            out.println("<ul>");
+
+            if (value instanceof Map) {
+                for (Map.Entry<?, ?> entry : ((Map<?, ?>)value).entrySet()) {
+                    out.println(String.format("<li>%s : %s</li>", entry.getKey(), entry.getValue()));
+                }
+            } else if (value instanceof List) {
+                out.println("<ul>");
+                for (Object element : (List)value) {
+                    out.println(String.format("<li>%s</li>", element));
+                }
+                out.println("</ul>");
+            } else {
+                out.println(String.format("<li>%s</li>", value));
+            }
+
+            out.println("</ul>");
         }
 
         out.println("</p>");
