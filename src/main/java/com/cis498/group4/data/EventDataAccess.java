@@ -120,6 +120,36 @@ public class EventDataAccess {
     }
 
     /**
+     * Retrieves all events associated with a presenter whose end times occur in the future
+     * @return List of Event objects
+     */
+    public List<Event> getPresenterFutureEvents(User presenter) {
+        List<Event> events = new ArrayList<Event>();
+
+        try {
+            // Execute SQL
+            String sql = SELECT_ALL_ATTRIBUTES +
+                         " WHERE e.`presenter_id` = ? AND e.`end_date_time` > NOW() ORDER BY e.`start_date_time`";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, presenter.getId());
+            ResultSet results = preparedStatement.executeQuery();
+
+            // Store results in List of Events
+            while (results.next()) {
+                Event event = new Event();
+                setAttributes(event, results);
+                events.add(event);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+        return events;
+    }
+
+    /**
      * Retrieves an event by its unique registration code
      * @param registrationCode
      * @return Event matching the registration code
@@ -152,7 +182,7 @@ public class EventDataAccess {
      * @return 0 for success, -1 for invalid data, SQL error code for database failure
      */
     public int insertEvent(Event event) {
-        if (!EventHelpers.validate(event)) {
+        if (!EventHelpers.validateFields(event)) {
             return -1;
         }
 
@@ -185,7 +215,7 @@ public class EventDataAccess {
      * @return 0 for success, -1 for invalid data, SQL error code for database failure
      */
     public int updateEvent(Event event) {
-        if (!EventHelpers.validate(event)) {
+        if (!EventHelpers.validateRecord(event)) {
             return -1;
         }
 
