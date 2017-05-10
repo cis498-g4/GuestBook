@@ -14,8 +14,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -111,9 +114,10 @@ public class UpdateEvent extends HttpServlet {
 
         int status;
 
-        // TODO If event ended in the past, block edit
         Event event = eventData.getEvent(Integer.parseInt(request.getParameter("id")));
+        List<Event> presenterEvents = new ArrayList<Event>();
 
+        // If event ended in the past, block edit
         if (EventHelpers.endedInPast(event)) {
             status = EventHelpers.CONCLUDED;
         } else {
@@ -131,6 +135,9 @@ public class UpdateEvent extends HttpServlet {
 
                 User presenter = userData.getUser(Integer.parseInt(request.getParameter("pres-id")));
                 event.setPresenter(presenter);
+
+                // Get list of events for the presenter, to check for overlaps
+                presenterEvents = eventData.getPresenterFutureEvents(presenter);
 
                 event.setOpenRegistration(request.getParameter("open-reg") != null);
 
@@ -150,12 +157,14 @@ public class UpdateEvent extends HttpServlet {
                     event.setCapacity(-1);
                 }
 
+            } catch (DateTimeParseException e) {
+                status = EventHelpers.INVALID_DATE;
             } catch (Exception e) {
                 status = EventHelpers.INVALID_DATA;
             }
 
             // Get status message
-            status = EventHelpers.writeStatus(event);
+            status = EventHelpers.writeStatus(event, presenterEvents);
 
         }
 
@@ -176,6 +185,10 @@ public class UpdateEvent extends HttpServlet {
                 break;
             case EventHelpers.INVALID_DATA:
                 statusMessage = "<strong>Error!</strong> Invalid data entered for new event!";
+                statusType = "danger";
+                break;
+            case EventHelpers.INVALID_DATE:
+                statusMessage = "<strong>Error!</strong> Date must be in the format YYYY-MM-DD HH:MM:SS";
                 statusType = "danger";
                 break;
             case EventHelpers.START_IN_PAST:
