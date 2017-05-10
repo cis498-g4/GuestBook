@@ -6,7 +6,6 @@
 
 <div class="spacer_1em"></div>
 
-<!-- TODO: HTML / JS form validation -->
 <form class="form-horizontal" action="add-user" method="post">
     <div class="row padding-horiz-10px">
         <div class="col-sm-offset-1">
@@ -53,6 +52,9 @@
                 <div class="col-sm-5">
                     <input type="password" class="form-control" name="pwd-conf" id="pwd-conf" required>
                 </div>
+                <c:if test="${error.equals('match')}">
+                    <span class="label label-warning">Password fields must match</span>
+                </c:if>
             </div>
 
         </div>
@@ -61,7 +63,7 @@
     <div class="spacer_1em"></div>
 
     <div class="form-group text-center">
-        <a class="btn btn-primary" href="list-users">Cancel</a>
+        <a class="btn btn-primary" href="${back}">Cancel</a>
         <input type="submit" class="btn btn-success" value="Create User">
     </div>
 
