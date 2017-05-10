@@ -223,7 +223,7 @@ public class UpdateEvent extends HttpServlet {
                 statusType = "danger";
                 break;
         }
-        
+
         request.setAttribute("statusMessage", statusMessage);
         request.setAttribute("statusType", statusType);
         RequestDispatcher view = request.getRequestDispatcher(url);
