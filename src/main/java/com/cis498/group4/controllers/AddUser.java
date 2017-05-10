@@ -3,6 +3,7 @@ package com.cis498.group4.controllers;
 import com.cis498.group4.data.UserDataAccess;
 import com.cis498.group4.models.User;
 import com.cis498.group4.util.SessionHelpers;
+import com.cis498.group4.util.UserHelpers;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -45,6 +46,8 @@ public class AddUser extends HttpServlet {
 
         String url = "/WEB-INF/views/add-user.jsp";
         String pageTitle = "Add new user";
+        String back = "list-users";
+
         request.setAttribute("pageTitle", pageTitle);
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
@@ -69,31 +72,80 @@ public class AddUser extends HttpServlet {
         }
 
         String url = "/manager/list-users";
+        String pageTitle;
+        String back;
         String statusMessage;
         String statusType;
 
-        // TODO validate new user
-
         // Create new user with form information
         User user = new User();
-        user.setType(User.UserType.valueOf(request.getParameter("type").trim()));
-        user.setFirstName(request.getParameter("first-name"));
-        user.setLastName(request.getParameter("last-name"));
-        user.setEmail(request.getParameter("email"));
-        user.setPassword(request.getParameter("password"));
 
-        // Attempt write to DB and respond to user
-        int insertStatus = userData.insertUser(user);
+        int status = UserHelpers.setAttributesFromRequest(user, request);
 
-        if (insertStatus == 0) {
-            statusMessage = "User created successfully.";
-            statusType = "success";
-        } else if (insertStatus == -1) {
-            statusMessage = "<strong>Error!</strong> Invalid data entered for new user!";
-            statusType = "danger";
+        String password = request.getParameter("password").trim();
+        String repeatPassword = request.getParameter("pwd-conf").trim();
+
+        // New passwords don't match? Try again!
+        if (!password.equals(repeatPassword)) {
+            status = UserHelpers.REPEAT_PASSWORD;
+        }
+
+        if (UserHelpers.validatePassword(password)) {
+            user.setPassword(password);
         } else {
-            statusMessage = "<strong>Error!</strong> Add user operation failed!";
-            statusType = "danger";
+            status = UserHelpers.INVALID_PASSWORD;
+        }
+
+        // Perform insert and respond with appropriate message
+        switch(status) {
+            case UserHelpers.SUCCESSFUL_WRITE:
+                int insertStatus = userData.insertUser(user);
+                if (insertStatus == 0) {
+                    statusMessage = "User created successfully.";
+                    statusType = "success";
+                } else if (insertStatus == -1) {
+                    statusMessage = "<strong>Error!</strong> Invalid data entered for new user!";
+                    statusType = "danger";
+                } else if (insertStatus == 1062) {
+                    statusMessage = "<strong>Error!</strong> A user with that email address already exists!";
+                    statusType = "danger";
+                } else {
+                    statusMessage = "<strong>Error!</strong> Add user operation failed!";
+                    statusType = "danger";
+                }
+                break;
+            case UserHelpers.INVALID_DATA:
+                statusMessage = "<strong>Error!</strong> Invalid data entered for new user!";
+                statusType = "danger";
+                break;
+            case UserHelpers.INVALID_NAME:
+                statusMessage = "<strong>Error!</strong> Invalid name entered for new user!";
+                statusType = "danger";
+                break;
+            case UserHelpers.INVALID_EMAIL:
+                statusMessage = "<strong>Error!</strong> Email address must be in the format name@host!";
+                statusType = "danger";
+                break;
+            case UserHelpers.INVALID_PASSWORD:
+                statusMessage = "<strong>Error!</strong> Password must be 40 or fewer letters, numbers, and/or special characters!";
+                statusType = "danger";
+                break;
+            case UserHelpers.REPEAT_PASSWORD:
+                url = "/WEB-INF/views/add-user.jsp";
+                pageTitle = "Add New User";
+                back = "list-users";
+                statusMessage = "<strong>Error!</strong> New password fields do not match!";
+                statusType = "danger";
+                String error = "match";
+
+                request.setAttribute("pageTitle", pageTitle);
+                request.setAttribute("back", back);
+                request.setAttribute("error", error);
+                break;
+            default:
+                statusMessage = "<strong>Error!</strong> Add user operation failed!";
+                statusType = "danger";
+                break;
         }
 
         request.setAttribute("statusMessage", statusMessage);

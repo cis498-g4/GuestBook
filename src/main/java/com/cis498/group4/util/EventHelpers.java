@@ -257,7 +257,7 @@ public class EventHelpers {
     }
 
     /**
-     * Sets an event objects attributes based on parameters passed in request
+     * Sets an event object's attributes based on parameters passed in request
      * @param event
      * @param request
      * @param eventData
@@ -304,7 +304,7 @@ public class EventHelpers {
             }
 
             // Get status message
-            return EventHelpers.writeStatus(event, presenterEvents);
+            return writeStatus(event, presenterEvents);
 
         } catch (DateTimeParseException e) {
             return EventHelpers.INVALID_DATE;
