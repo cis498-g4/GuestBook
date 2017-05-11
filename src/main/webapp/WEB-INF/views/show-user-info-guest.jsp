@@ -45,6 +45,7 @@
 
     <div class="form-group text-center">
         <a class="btn btn-primary" href="home">Cancel</a>
+        <input type="hidden" name="type" value="GUEST">
         <input type="submit" class="btn btn-success" value="Update Information">
     </div>
 

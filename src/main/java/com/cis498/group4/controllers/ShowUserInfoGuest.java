@@ -3,6 +3,7 @@ package com.cis498.group4.controllers;
 import com.cis498.group4.data.UserDataAccess;
 import com.cis498.group4.models.User;
 import com.cis498.group4.util.SessionHelpers;
+import com.cis498.group4.util.UserHelpers;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -73,6 +74,7 @@ public class ShowUserInfoGuest extends HttpServlet {
 
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("sessionUser");
+        int userId = user.getId();
 
         String url = "/WEB-INF/views/show-user-info-guest.jsp";
         String pageTitle = "Account Information";
@@ -80,27 +82,49 @@ public class ShowUserInfoGuest extends HttpServlet {
         String statusType;
 
         // Update user with form information
-        user.setFirstName(request.getParameter("first-name"));
-        user.setLastName(request.getParameter("last-name"));
-        user.setEmail(request.getParameter("email"));
+        int status = UserHelpers.setAttributesFromRequest(user, request);
 
-        // Attempt write to DB and respond to user
-        int updateStatus = userData.updateUser(user);
+        // Perform update and respond with appropriate message
+        switch(status) {
+            case UserHelpers.SUCCESSFUL_WRITE:
+                int updateStatus = userData.updateUser(user);
 
-        if (updateStatus == 0) {
-            statusMessage = "User information updated successfully.";
-            statusType = "success";
+                if (updateStatus == 0) {
+                    statusMessage = "Information updated successfully.";
+                    statusType = "success";
 
-            // Update session user information as well
-            session.setAttribute("sessionUser", user);
+                    // Update session user information as well
+                    session.setAttribute("sessionUser", user);
 
-        } else if (updateStatus == -1) {
-            statusMessage = "<strong>Error!</strong> Invalid data entered for user update!";
-            statusType = "danger";
-        } else {
-            statusMessage = "<strong>Error!</strong> Update operation failed!";
-            statusType = "danger";
+                } else if (updateStatus == -1) {
+                    statusMessage = "<strong>Error!</strong> Invalid data entered for update!";
+                    statusType = "danger";
+                } else {
+                    statusMessage = "<strong>Error!</strong> Update operation failed!";
+                    statusType = "danger";
+                }
+                break;
+            case UserHelpers.INVALID_DATA:
+                statusMessage = "<strong>Error!</strong> Invalid data entered!";
+                statusType = "danger";
+                break;
+            case UserHelpers.INVALID_NAME:
+                statusMessage = "<strong>Error!</strong> Invalid name entered!";
+                statusType = "danger";
+                break;
+            case UserHelpers.INVALID_EMAIL:
+                statusMessage = "<strong>Error!</strong> Email address must be in the format name@host!";
+                statusType = "danger";
+                break;
+            default:
+                statusMessage = "<strong>Error!</strong> Update operation failed!";
+                statusType = "danger";
+                break;
         }
+
+        // Update session user from database - otherwise, sessionUser gets updated even in cases of failure
+        User updatedUser = userData.getUser(userId);
+        session.setAttribute("sessionUser", updatedUser);
 
         request.setAttribute("pageTitle", pageTitle);
         request.setAttribute("statusMessage", statusMessage);
