@@ -143,6 +143,8 @@ public class ShowSurveyForm extends HttpServlet {
         int status = SurveyHelpers.setAttributesFromRequest(survey, user, attendance, request);
 
 
+        // TODO perform insert and respond with appropriate message
+
 //        survey.setUser(user);
 //        survey.setEvent(attendance.getEvent());
 //        LocalDateTime submissionDateTime = LocalDateTime.now();
