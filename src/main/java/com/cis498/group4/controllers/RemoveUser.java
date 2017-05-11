@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
@@ -45,13 +46,13 @@ public class RemoveUser extends HttpServlet {
         }
 
         String url = "/WEB-INF/views/remove-user.jsp";
+        String pageTitle;
 
         User user = userData.getUser(Integer.parseInt(request.getParameter("id")));
+        pageTitle = String.format("Remove user %s %s?", user.getFirstName(), user.getLastName());
+
         request.setAttribute("user", user);
-
-        String pageTitle = String.format("Remove user %s %s?", user.getFirstName(), user.getLastName());
         request.setAttribute("pageTitle", pageTitle);
-
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 
@@ -74,21 +75,41 @@ public class RemoveUser extends HttpServlet {
             return;
         }
 
+        HttpSession session = request.getSession();
+        User sessionUser = (User) session.getAttribute("sessionUser");
+
         String url = "/manager/list-users";
         String statusMessage;
         String statusType;
 
-        User user = userData.getUser(Integer.parseInt(request.getParameter("id")));
+        User user = null;
 
-        int deleteStatus = userData.deleteUser(user);
+        try {
+            int userId = Integer.parseInt(request.getParameter("id"));
 
-        if (deleteStatus == 0) {
-            statusMessage = "All we are is dust in the wind";
-            statusType = "success";
-        } else if (deleteStatus == 1451) {
-            statusMessage = "<strong>Error!</strong> Cannot remove a user who is associated with one or more events or surveys!";
+            // Block users from deleting themselves
+            if (userId == sessionUser.getId()) {
+                throw new IllegalArgumentException();
+            }
+
+            user = userData.getUser(userId);
+
+            int deleteStatus = userData.deleteUser(user);
+
+            if (deleteStatus == 0) {
+                statusMessage = "All we are is dust in the wind";
+                statusType = "success";
+            } else if (deleteStatus == 1451) {
+                statusMessage = "<strong>Error!</strong> Cannot remove a user who is associated with one or more events or surveys!";
+                statusType = "danger";
+            } else {
+                statusMessage = "<strong>Error!</strong> Remove user operation failed!";
+                statusType = "danger";
+            }
+        } catch (IllegalArgumentException e) {
+            statusMessage = "<strong>Error!</strong> You cannot remove yourself!";
             statusType = "danger";
-        } else {
+        } catch (Exception e) {
             statusMessage = "<strong>Error!</strong> Remove user operation failed!";
             statusType = "danger";
         }
