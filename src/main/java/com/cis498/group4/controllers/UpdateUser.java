@@ -46,13 +46,15 @@ public class UpdateUser extends HttpServlet {
         }
 
         String url = "/WEB-INF/views/update-user.jsp";
+        String pageTitle;
+        String back = "list-users";
 
         User user = userData.getUser(Integer.parseInt(request.getParameter("id")));
+
+        pageTitle = String.format("Edit info for user %s %s", user.getFirstName(), user.getLastName());
+
         request.setAttribute("user", user);
-
-        String pageTitle = String.format("Edit info for user %s %s", user.getFirstName(), user.getLastName());
         request.setAttribute("pageTitle", pageTitle);
-
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 
@@ -76,29 +78,56 @@ public class UpdateUser extends HttpServlet {
         }
 
         String url = "/manager/list-users";
+        // No need for pageTitle or back
         String statusMessage;
         String statusType;
 
-        // Create new user with form information
-        User user = new User();
-        user.setId(Integer.parseInt(request.getParameter("id")));
-        user.setType(User.UserType.valueOf(request.getParameter("type").trim()));
-        user.setFirstName(request.getParameter("first-name"));
-        user.setLastName(request.getParameter("last-name"));
-        user.setEmail(request.getParameter("email"));
+        int status;
 
-        // Attempt write to DB and respond to user
-        int updateStatus = userData.updateUser(user);
+        User user = null;
 
-        if (updateStatus == 0) {
-            statusMessage = "User information updated successfully.";
-            statusType = "success";
-        } else if (updateStatus == -1) {
-            statusMessage = "<strong>Error!</strong> Invalid data entered for user update!";
-            statusType = "danger";
-        } else {
-            statusMessage = "<strong>Error!</strong> Update operation failed!";
-            statusType = "danger";
+        try {
+            user = userData.getUser(Integer.parseInt(request.getParameter("id")));
+
+            status = UserHelpers.setAttributesFromRequest(user, request);
+
+        } catch (Exception e) {
+            status = UserHelpers.INVALID_USER;
+        }
+
+        // Perform update and respond with appropriate message
+        switch(status) {
+            case UserHelpers.SUCCESSFUL_WRITE:
+                // Attempt write to DB and respond to user
+                int updateStatus = userData.updateUser(user);
+
+                if (updateStatus == 0) {
+                    statusMessage = "User information updated successfully.";
+                    statusType = "success";
+                } else if (updateStatus == -1) {
+                    statusMessage = "<strong>Error!</strong> Invalid data entered for user update!";
+                    statusType = "danger";
+                } else {
+                    statusMessage = "<strong>Error!</strong> Update operation failed!";
+                    statusType = "danger";
+                }
+                break;
+            case UserHelpers.INVALID_DATA:
+                statusMessage = "<strong>Error!</strong> Invalid data entered for user!";
+                statusType = "danger";
+                break;
+            case UserHelpers.INVALID_NAME:
+                statusMessage = "<strong>Error!</strong> Invalid name entered for user!";
+                statusType = "danger";
+                break;
+            case UserHelpers.INVALID_EMAIL:
+                statusMessage = "<strong>Error!</strong> Email address must be in the format name@host!";
+                statusType = "danger";
+                break;
+            default:
+                statusMessage = "<strong>Error!</strong> Update user operation failed!";
+                statusType = "danger";
+                break;
         }
 
         request.setAttribute("statusMessage", statusMessage);
