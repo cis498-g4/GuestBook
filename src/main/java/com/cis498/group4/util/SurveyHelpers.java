@@ -195,7 +195,7 @@ public class SurveyHelpers {
             return INVALID_USER_TYPE;
         }
 
-        if (!EventHelpers.validateRecord(attendance.getEvent())) {
+        if (false /* TODO Can't use EventHelpers.validateEvent() because it checks that event is not in past */) {
             return INVALID_EVENT;
         }
 
