@@ -129,77 +129,73 @@ public class ShowSurveyForm extends HttpServlet {
         String statusMessage;
         String statusType;
 
-        Attendance attendance = attendanceData.getAttendance(user.getId(), Integer.parseInt(request.getParameter("eventId")));
+        try {
+            Attendance attendance = attendanceData.getAttendance(user.getId(), Integer.parseInt(request.getParameter("eventId")));
 
-        // Restrict access to surveys if the guest did not sign in to the event
-        if (attendance.getStatus() == null || attendance.getStatus() == Attendance.AttendanceStatus.NOT_ATTENDED) {
-            response.sendError(
-                    HttpServletResponse.SC_FORBIDDEN, "You do not have permission to access this resource");
-            return;
-        }
+            // Build survey object
+            Survey survey = new Survey();
 
-        // Build survey object
-        Survey survey = new Survey();
+            int status = SurveyHelpers.setAttributesFromRequest(survey, user, attendance, request);
 
-        int status = SurveyHelpers.setAttributesFromRequest(survey, user, attendance, request);
+            // Perform insert and respond with appropriate message
+            switch (status) {
+                case SurveyHelpers.SUCCESSFUL_SUBMISSION:
+                    int insertStatus = surveyData.insertSurvey(survey);
+                    if (insertStatus == 0) {
+                        statusMessage = "Thank you for submitting your survey!";
+                        statusType = "success";
 
-
-        // TODO perform insert and respond with appropriate message
-
-        switch(status) {
-            case SurveyHelpers.SUCCESSFUL_SUBMISSION:
-                int insertStatus = surveyData.insertSurvey(survey);
-                if (insertStatus == 0) {
-                    statusMessage = "Thank you for submitting your survey!";
-                    statusType = "success";
-
-                    // Update status if needed
-                    if (attendance.getStatus() == Attendance.AttendanceStatus.SIGNED_IN) {
-                        attendanceData.updateStatus(attendance, Attendance.AttendanceStatus.ATTENDED.ordinal());
+                        // Update status if needed
+                        if (attendance.getStatus() == Attendance.AttendanceStatus.SIGNED_IN) {
+                            attendanceData.updateStatus(attendance, Attendance.AttendanceStatus.ATTENDED.ordinal());
+                        }
+                    } else if (insertStatus == 1062) {
+                        statusMessage = "<strong>Error!</strong> Survey already submitted for this event!";
+                        statusType = "danger";
+                    } else if (insertStatus == -1) {
+                        statusMessage = "<strong>Error!</strong> Invalid data submitted for survey!";
+                        statusType = "danger";
+                    } else {
+                        statusMessage = "<strong>Error!</strong> There was a problem submitting your survey.";
+                        statusType = "danger";
                     }
-                } else if (insertStatus == 1062) {
-                    statusMessage = "<strong>Error!</strong> Survey already submitted for this event!";
+                    break;
+                case SurveyHelpers.INVALID_USER:
+                    statusMessage = "<strong>Error!</strong> Invalid user data for survey. Please try again.";
                     statusType = "danger";
-                } else if (insertStatus == -1) {
+                    break;
+                case SurveyHelpers.INVALID_USER_TYPE:
+                    statusMessage = "<strong>Error!</strong> Only users of type Guest may submit a survey.";
+                    statusType = "danger";
+                    break;
+                case SurveyHelpers.INVALID_EVENT:
+                    statusMessage = "<strong>Error!</strong> Invalid event data for survey. Please try again.";
+                    statusType = "danger";
+                    break;
+                case SurveyHelpers.INVALID_EVENT_DATE:
+                    statusMessage = "<strong>Error!</strong> Cannot submit a survey before the event has ended.";
+                    statusType = "danger";
+                    break;
+                case SurveyHelpers.INVALID_ATTENDANCE:
+                    statusMessage = "<strong>Error!</strong> Cannot submit a survey for an event if you have not signed in.";
+                    statusType = "danger";
+                    break;
+                case SurveyHelpers.INVALID_RESPONSE:
+                    statusMessage = "<strong>Error!</strong> One or more of your responses was invalid or missing.";
+                    statusType = "danger";
+                    break;
+                case SurveyHelpers.INVALID_DATA:
                     statusMessage = "<strong>Error!</strong> Invalid data submitted for survey!";
                     statusType = "danger";
-                } else {
-                    statusMessage = "<strong>Error!</strong> There was a problem submitting your survey.";
+                    break;
+                default:
+                    statusMessage = "<strong>Error!</strong> Invalid data submitted for survey!";
                     statusType = "danger";
-                }
-                break;
-            case SurveyHelpers.INVALID_USER:
-                statusMessage = "<strong>Error!</strong> Invalid user data for survey. Please try again.";
-                statusType = "danger";
-                break;
-            case SurveyHelpers.INVALID_USER_TYPE:
-                statusMessage = "<strong>Error!</strong> Only users of type Guest may submit a survey.";
-                statusType = "danger";
-                break;
-            case SurveyHelpers.INVALID_EVENT:
-                statusMessage = "<strong>Error!</strong> Invalid event data for survey. Please try again.";
-                statusType = "danger";
-                break;
-            case SurveyHelpers.INVALID_EVENT_DATE:
-                statusMessage = "<strong>Error!</strong> Cannot submit a survey before the event has ended.";
-                statusType = "danger";
-                break;
-            case SurveyHelpers.INVALID_ATTENDANCE:
-                statusMessage = "<strong>Error!</strong> Cannot submit a survey for an event if you have not signed in.";
-                statusType = "danger";
-                break;
-            case SurveyHelpers.INVALID_RESPONSE:
-                statusMessage = "<strong>Error!</strong> One or more of your responses was invalid or missing.";
-                statusType = "danger";
-                break;
-            case SurveyHelpers.INVALID_DATA:
-                statusMessage = "<strong>Error!</strong> Invalid data submitted for survey!";
-                statusType = "danger";
-                break;
-            default:
-                statusMessage = "<strong>Error!</strong> Invalid data submitted for survey!";
-                statusType = "danger";
-                break;
+                    break;
+            }
+        } catch (Exception e) {
+            statusMessage = "<strong>Error!</strong> Invalid data submitted for survey!";
+            statusType = "danger";
         }
 
         request.setAttribute("statusMessage", statusMessage);
