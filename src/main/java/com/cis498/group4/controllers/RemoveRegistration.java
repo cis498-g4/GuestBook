@@ -49,26 +49,39 @@ public class RemoveRegistration extends HttpServlet {
         }
 
         String url = "/WEB-INF/views/remove-registration.jsp";
+        String pageTitle;
+        String back;
 
-        int userId = Integer.parseInt(request.getParameter("userId"));
-        int eventId = Integer.parseInt(request.getParameter("eventId"));
+        try {
+            int userId = Integer.parseInt(request.getParameter("userId"));
+            int eventId = Integer.parseInt(request.getParameter("eventId"));
 
-        Attendance attendance = attendanceData.getAttendance(userId, eventId);
-        User user = attendance.getUser();
-        Event event = attendance.getEvent();
-        request.setAttribute("attendance", attendance);
-        request.setAttribute("user", user);
-        request.setAttribute("event", event);
+            Attendance attendance = attendanceData.getAttendance(userId, eventId);
+            User user = attendance.getUser();
+            Event event = attendance.getEvent();
+            request.setAttribute("attendance", attendance);
+            request.setAttribute("user", user);
+            request.setAttribute("event", event);
 
-        String eventDate = event.getStartDateTime().format(DateTimeFormatter.ofPattern("M/d/YY"));
-        request.setAttribute("eventDate", eventDate);
-        String eventLongDate = event.getStartDateTime().format(DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy"));
-        request.setAttribute("eventLongDate", eventLongDate);
+            String eventDate = event.getStartDateTime().format(DateTimeFormatter.ofPattern("M/d/YY"));
+            request.setAttribute("eventDate", eventDate);
+            String eventLongDate = event.getStartDateTime().format(DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy"));
+            request.setAttribute("eventLongDate", eventLongDate);
 
-        String pageTitle = String.format("Remove user %s %s from %s on %s?",
-                user.getFirstName(), user.getLastName(), event.getName(), eventDate);
+            pageTitle = String.format("Remove user %s %s from %s on %s?",
+                    user.getFirstName(), user.getLastName(), event.getName(), eventDate);
+            back = String.format("/manager/list-user-regs-for-event?id=%d", eventId);
+
+        } catch (Exception e) {
+            url = "/WEB-INF/views/error-generic.jsp";
+            pageTitle = "Invalid Registration Data";
+            back = "list-event-registrations";
+            String message = "The registration data you were looking for could not be found.";
+            request.setAttribute("message", message);
+        }
+
         request.setAttribute("pageTitle", pageTitle);
-
+        request.setAttribute("back", back);
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 
@@ -91,36 +104,44 @@ public class RemoveRegistration extends HttpServlet {
             return;
         }
 
-        int userId = Integer.parseInt(request.getParameter("userId"));
-        int eventId = Integer.parseInt(request.getParameter("eventId"));
-
-        Attendance attendance = attendanceData.getAttendance(userId, eventId);
-
-        String url = String.format("/manager/list-user-regs-for-event?id=%d", eventId);
+        String url;
         String statusMessage;
         String statusType;
 
-        if (attendance.getStatus() == Attendance.AttendanceStatus.NOT_ATTENDED) {
-            if (EventHelpers.endsInFuture(attendance.getEvent())) {
+        try {
+            int userId = Integer.parseInt(request.getParameter("userId"));
+            int eventId = Integer.parseInt(request.getParameter("eventId"));
 
-                int deregStatus = attendanceData.deleteAttendance(attendance);
+            Attendance attendance = attendanceData.getAttendance(userId, eventId);
 
-                // Check status code returned by remove registration operation
-                if (deregStatus == 0) {
-                    statusMessage = "Registration has been removed";
-                    statusType = "success";
+            url = String.format("/manager/list-user-regs-for-event?id=%d", eventId);
+
+            if (attendance.getStatus() == Attendance.AttendanceStatus.NOT_ATTENDED) {
+                if (EventHelpers.endsInFuture(attendance.getEvent())) {
+
+                    int deregStatus = attendanceData.deleteAttendance(attendance);
+
+                    // Check status code returned by remove registration operation
+                    if (deregStatus == 0) {
+                        statusMessage = "Registration has been removed";
+                        statusType = "success";
+                    } else {
+                        statusMessage = "<strong>Error!</strong> Remove registration operation failed!";
+                        statusType = "danger";
+                    }
+
                 } else {
-                    statusMessage = "<strong>Error!</strong> Remove registration operation failed!";
+                    statusMessage = "<strong>Error!</strong> You cannot remove a guest's registration from an event that has already taken place!";
                     statusType = "danger";
                 }
-
             } else {
-                statusMessage = "<strong>Error!</strong> You cannot remove a guest's registration from an event that has already taken place!";
+                statusMessage = "<strong>Error!</strong> You cannot remove a guest's registration if they have already signed in!";
                 statusType = "danger";
             }
-        } else {
-            statusMessage = "<strong>Error!</strong> You cannot remove a guest's registration if they have already signed in!";
+        } catch (Exception e) {
+            statusMessage = "<strong>Error!</strong> Remove registration operation failed!";
             statusType = "danger";
+            url = "/manager/list-event-registrations";
         }
 
         request.setAttribute("statusMessage", statusMessage);

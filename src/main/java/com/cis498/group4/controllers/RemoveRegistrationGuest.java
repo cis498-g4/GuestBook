@@ -53,39 +53,52 @@ public class RemoveRegistrationGuest extends HttpServlet {
         User user = (User) session.getAttribute("sessionUser");
 
         String url = "/WEB-INF/views/remove-registration-guest.jsp";
+        String pageTitle;
+        String back;
 
-        Attendance attendance = attendanceData.getAttendance(
-                user.getId(), Integer.parseInt(request.getParameter("eventId")));
+        try {
+            Attendance attendance = attendanceData.getAttendance(
+                    user.getId(), Integer.parseInt(request.getParameter("eventId")));
 
-        Event event = attendance.getEvent();
-        request.setAttribute("event", event);
-        String eventDate = event.getStartDateTime().format(DateTimeFormatter.ofPattern("MM/dd/yy"));
-        request.setAttribute("eventDate", eventDate);
-        String eventLongDate = event.getStartDateTime().format(DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy"));
-        request.setAttribute("eventLongDate", eventLongDate);
+            Event event = attendance.getEvent();
+            request.setAttribute("event", event);
+            String eventDate = event.getStartDateTime().format(DateTimeFormatter.ofPattern("MM/dd/yy"));
+            request.setAttribute("eventDate", eventDate);
+            String eventLongDate = event.getStartDateTime().format(DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy"));
+            request.setAttribute("eventLongDate", eventLongDate);
 
-        // Set warning message
-        String warningMessage;
+            // Set warning message
+            String warningMessage;
 
-        if (!event.isOpenRegistration()) {
-            warningMessage = "<strong>You will not be able to re-register for this event " +
-                             "without the assistance of an event organizer!</strong>";
-        } else {
-            if (event.getRegistrationCode() != null) {
-                warningMessage = String.format(
-                        "If you wish to re-register, use the registration code <strong>%s</strong>.",
-                        event.getRegistrationCode());
+            if (!event.isOpenRegistration()) {
+                warningMessage = "<strong>You will not be able to re-register for this event " +
+                        "without the assistance of an event organizer!</strong>";
             } else {
-                warningMessage = "This event has open registration but no registration code. " +
-                                 "You may still sign in freely at the event kiosk.";
+                if (event.getRegistrationCode() != null) {
+                    warningMessage = String.format(
+                            "If you wish to re-register, use the registration code <strong>%s</strong>.",
+                            event.getRegistrationCode());
+                } else {
+                    warningMessage = "This event has open registration but no registration code. " +
+                            "You may still sign in freely at the event kiosk.";
+                }
             }
+
+            request.setAttribute("warningMessage", warningMessage);
+
+            pageTitle = String.format("Remove your registration from %s on %s?", event.getName(), eventDate);
+            back = "/manager/list-registrations-guest";
+
+        } catch (Exception e) {
+            url = "/WEB-INF/views/error-generic.jsp";
+            pageTitle = "Invalid Registration Data";
+            back = "list-registrations-guest";
+            String message = "The registration data you were looking for could not be found.";
+            request.setAttribute("message", message);
         }
 
-        request.setAttribute("warningMessage", warningMessage);
-
-        String pageTitle = String.format("Remove your registration from %s on %s?", event.getName(), eventDate);
         request.setAttribute("pageTitle", pageTitle);
-
+        request.setAttribute("back", back);
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 
@@ -111,35 +124,39 @@ public class RemoveRegistrationGuest extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("sessionUser");
 
-        Attendance attendance = attendanceData.getAttendance(
-                user.getId(), Integer.parseInt(request.getParameter("eventId")));
-
         String url = "/manager/list-registrations-guest";
-
         String statusMessage;
         String statusType;
 
-        if (attendance.getStatus() == Attendance.AttendanceStatus.NOT_ATTENDED) {
-            if (EventHelpers.endsInFuture(attendance.getEvent())) {
+        try {
+            Attendance attendance = attendanceData.getAttendance(
+                    user.getId(), Integer.parseInt(request.getParameter("eventId")));
 
-                int deregStatus = attendanceData.deleteAttendance(attendance);
+            if (attendance.getStatus() == Attendance.AttendanceStatus.NOT_ATTENDED) {
+                if (EventHelpers.endsInFuture(attendance.getEvent())) {
 
-                // Check status code returned by remove registration operation
-                if (deregStatus == 0) {
-                    statusMessage = String.format("Your registration from %s has been removed",
-                            attendance.getEvent().getName());
-                    statusType = "success";
+                    int deregStatus = attendanceData.deleteAttendance(attendance);
+
+                    // Check status code returned by remove registration operation
+                    if (deregStatus == 0) {
+                        statusMessage = String.format("Your registration from %s has been removed",
+                                attendance.getEvent().getName());
+                        statusType = "success";
+                    } else {
+                        statusMessage = "<strong>Error!</strong> Remove registration operation failed!";
+                        statusType = "danger";
+                    }
+
                 } else {
-                    statusMessage = "<strong>Error!</strong> Remove registration operation failed!";
+                    statusMessage = "<strong>Error!</strong> You cannot remove your registration from an event that has already taken place!";
                     statusType = "danger";
                 }
-
             } else {
-                statusMessage = "<strong>Error!</strong> You cannot remove your registration from an event that has already taken place!";
+                statusMessage = "<strong>Error!</strong> You cannot remove your registration once you have signed in!";
                 statusType = "danger";
             }
-        } else {
-            statusMessage = "<strong>Error!</strong> You cannot remove your registration once you have signed in!";
+        } catch (Exception e) {
+            statusMessage = "<strong>Error!</strong> Remove registration operation failed!";
             statusType = "danger";
         }
 
