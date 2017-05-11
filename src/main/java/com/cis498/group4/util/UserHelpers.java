@@ -21,6 +21,7 @@ public class UserHelpers {
     public static final int INVALID_EMAIL = 3;
     public static final int INVALID_PASSWORD = 4;
     public static final int REPEAT_PASSWORD = 5;
+    public static final int INVALID_USER = 6;
 
     /**
      * Validates an existing user record.
