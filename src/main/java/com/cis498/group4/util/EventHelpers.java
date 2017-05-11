@@ -65,8 +65,6 @@ public class EventHelpers {
             return false;
         }
 
-        //TODO
-
         boolean name = validateName(event.getName());
         boolean startInFuture = startsInFuture(event);
         boolean chronological = event.getEndDateTime().isAfter(event.getStartDateTime());

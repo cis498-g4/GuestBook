@@ -1,6 +1,7 @@
 package com.cis498.group4.util;
 
 import com.cis498.group4.models.Attendance;
+import com.cis498.group4.models.Event;
 import com.cis498.group4.models.Survey;
 import com.cis498.group4.models.User;
 
@@ -80,6 +81,23 @@ public class SurveyHelpers {
         }
 
         return (attendance.getStatus() != Attendance.AttendanceStatus.NOT_ATTENDED);
+    }
+
+    /**
+     * Validates that event exists and is valid
+     * @param event
+     * @return
+     */
+    public static boolean validateEvent(Event event) {
+        if (event == null) {
+            return false;
+        }
+
+        if (event.getId() < 1) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -195,7 +213,7 @@ public class SurveyHelpers {
             return INVALID_USER_TYPE;
         }
 
-        if (false /* TODO Can't use EventHelpers.validateEvent() because it checks that event is not in past */) {
+        if (!validateEvent(attendance.getEvent())) {
             return INVALID_EVENT;
         }
 
