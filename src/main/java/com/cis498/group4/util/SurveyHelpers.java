@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * The SurveyHelpers class contains methods to assist with Survey data (verification, etc)
@@ -160,6 +161,15 @@ public class SurveyHelpers {
             survey.setEvent(attendance.getEvent());
             LocalDateTime submissionDateTime = LocalDateTime.now();
             survey.setSubmissionDateTime(submissionDateTime);
+
+            Map<String, Integer> responses = new HashMap<String, Integer>();    //TODO Make this a TreeMap, so it is sorted.
+
+            for(int i = 1; i <= 10; i++) {
+                String responseLabel = String.format("response_%02d", i);
+                responses.put(responseLabel, Integer.valueOf(request.getParameter(responseLabel)));
+            }
+
+            survey.setResponses(responses);
 
             // Get status code
             return submissionStatus(survey, user, attendance);
