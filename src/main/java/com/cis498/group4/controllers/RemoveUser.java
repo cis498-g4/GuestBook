@@ -45,13 +45,13 @@ public class RemoveUser extends HttpServlet {
         }
 
         String url = "/WEB-INF/views/remove-user.jsp";
+        String pageTitle;
 
         User user = userData.getUser(Integer.parseInt(request.getParameter("id")));
+        pageTitle = String.format("Remove user %s %s?", user.getFirstName(), user.getLastName());
+
         request.setAttribute("user", user);
-
-        String pageTitle = String.format("Remove user %s %s?", user.getFirstName(), user.getLastName());
         request.setAttribute("pageTitle", pageTitle);
-
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 
