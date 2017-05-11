@@ -16,7 +16,7 @@
     </div>
 
     <div class="form-group text-center">
-        <a class="btn btn-primary col" href="list-registrations-guest">Cancel</a>
+        <a class="btn btn-primary col" href="${back}">Cancel</a>
         <input type="submit" class="btn btn-danger" value="Remove Registration">
     </div>
 
@@ -26,5 +26,3 @@
 
 </body>
 </html>
-
-
