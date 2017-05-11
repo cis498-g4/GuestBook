@@ -46,13 +46,14 @@ public class RemoveEvent extends HttpServlet {
         }
 
         String url = "/WEB-INF/views/remove-event.jsp";
+        String pageTitle;
 
         Event event = eventData.getEvent(Integer.parseInt(request.getParameter("id")));
         request.setAttribute("event", event);
 
-        String pageTitle = String.format("Remove event %s?", event.getName());
-        request.setAttribute("pageTitle", pageTitle);
+        pageTitle = String.format("Remove event %s?", event.getName());
 
+        request.setAttribute("pageTitle", pageTitle);
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 
@@ -79,31 +80,37 @@ public class RemoveEvent extends HttpServlet {
         String statusMessage;
         String statusType;
 
-        int id = Integer.parseInt(request.getParameter("id"));
+        Event event = null;
 
-        Event event = eventData.getEvent(id);
+        try {
+            event = eventData.getEvent(Integer.parseInt(request.getParameter("id")));
 
-        if (EventHelpers.startsInFuture(event)) {
+            if (EventHelpers.startsInFuture(event)) {
 
-            int deleteStatus = eventData.deleteEvent(event);
+                int deleteStatus = eventData.deleteEvent(event);
 
-            // Check status code returned by delete operation
-            if (deleteStatus == 0) {
-                statusMessage = "Event has been removed";
-                statusType = "success";
-            } else if (deleteStatus == 1451) {
-                statusMessage = "<strong>Error!</strong> Cannot remove a event that is associated with surveys or registrations!";
-                statusType = "danger";
+                // Check status code returned by delete operation
+                if (deleteStatus == 0) {
+                    statusMessage = "Event has been removed";
+                    statusType = "success";
+                } else if (deleteStatus == 1451) {
+                    statusMessage = "<strong>Error!</strong> Cannot remove a event that is associated with surveys or registrations!";
+                    statusType = "danger";
+                } else {
+                    statusMessage = "<strong>Error!</strong> Remove event operation failed!";
+                    statusType = "danger";
+                }
+
             } else {
-                statusMessage = "<strong>Error!</strong> Remove event operation failed!";
+                statusMessage = "<strong>Error!</strong> Cannot remove an event that has already started!";
                 statusType = "danger";
             }
 
-        } else {
-            statusMessage = "<strong>Error!</strong> Cannot remove an event that has already started!";
+        } catch (Exception e) {
+            statusMessage = "<strong>Error!</strong> Remove event operation failed!";
             statusType = "danger";
         }
-
+        
         request.setAttribute("statusMessage", statusMessage);
         request.setAttribute("statusType", statusType);
         RequestDispatcher view = request.getRequestDispatcher(url);
