@@ -62,7 +62,7 @@ public class AddNewUserAccount extends HttpServlet {
 
         String url = "/WEB-INF/views/manager-login.jsp";
         String pageTitle = "Management Console Login";
-        String back = null;
+        String back = request.getContextPath() + "/manager/";
         String statusMessage;
         String statusType;
 
@@ -117,35 +117,30 @@ public class AddNewUserAccount extends HttpServlet {
             case UserHelpers.INVALID_DATA:
                 url = "/WEB-INF/views/add-new-user-account.jsp";
                 pageTitle = "Create new user account";
-                back = request.getContextPath() + "/manager/";
                 statusMessage = "<strong>Error!</strong> Invalid data entered for new user!";
                 statusType = "danger";
                 break;
             case UserHelpers.INVALID_NAME:
                 url = "/WEB-INF/views/add-new-user-account.jsp";
                 pageTitle = "Create new user account";
-                back = request.getContextPath() + "/manager/";
                 statusMessage = "<strong>Error!</strong> Invalid name entered for new user!";
                 statusType = "danger";
                 break;
             case UserHelpers.INVALID_EMAIL:
                 url = "/WEB-INF/views/add-new-user-account.jsp";
                 pageTitle = "Create new user account";
-                back = request.getContextPath() + "/manager/";
                 statusMessage = "<strong>Error!</strong> Email address must be in the format name@host!";
                 statusType = "danger";
                 break;
             case UserHelpers.INVALID_PASSWORD:
                 url = "/WEB-INF/views/add-new-user-account.jsp";
                 pageTitle = "Create new user account";
-                back = request.getContextPath() + "/manager/";
                 statusMessage = "<strong>Error!</strong> Password must be 40 or fewer letters, numbers, and/or special characters!";
                 statusType = "danger";
                 break;
             case UserHelpers.REPEAT_PASSWORD:
                 url = "/WEB-INF/views/add-new-user-account.jsp";
                 pageTitle = "Create new user account";
-                back = request.getContextPath() + "/manager/";
                 statusMessage = "<strong>Error!</strong> Password fields do not match!";
                 statusType = "danger";
                 String error = "match";
@@ -154,17 +149,13 @@ public class AddNewUserAccount extends HttpServlet {
             default:
                 url = "/WEB-INF/views/add-new-user-account.jsp";
                 pageTitle = "Create new user account";
-                back = request.getContextPath() + "/manager/";
                 statusMessage = "<strong>Error!</strong> Add user operation failed!";
                 statusType = "danger";
                 break;
         }
 
-        if (back != null) {
-            request.setAttribute("back", back);
-        }
-
         request.setAttribute("pageTitle", pageTitle);
+        request.setAttribute("back", back);
         request.setAttribute("statusMessage", statusMessage);
         request.setAttribute("statusType", statusType);
         RequestDispatcher view = request.getRequestDispatcher(url);
