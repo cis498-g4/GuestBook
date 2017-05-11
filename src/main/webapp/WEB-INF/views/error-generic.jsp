@@ -7,8 +7,6 @@
 
 <p class="text-center">${message}</p>
 
-<hr>
-
 <div class="text-center">
     <a class="btn btn-primary" href="${back}">Back</a>
 </div>

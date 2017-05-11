@@ -53,7 +53,7 @@
 
         <div class="form-group text-center">
             <input type="hidden" name="eventId" value="${event.id}">
-            <a class="btn btn-primary" href="list-surveys-guest">Back</a>
+            <a class="btn btn-primary" href="${back}">Back</a>
             <input type="submit" class="btn btn-success" value="Submit Survey">
         </div>
 

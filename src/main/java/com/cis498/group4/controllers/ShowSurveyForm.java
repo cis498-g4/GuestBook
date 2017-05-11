@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by mpm624 on 4/24/17.
@@ -60,35 +61,45 @@ public class ShowSurveyForm extends HttpServlet {
         User user = (User) session.getAttribute("sessionUser");
 
         String url = "/WEB-INF/views/survey.jsp";
+        String pageTitle;
+        String back = "list-surveys-guest";
 
-        Attendance attendance = attendanceData.getAttendance(
-                user.getId(), Integer.parseInt(request.getParameter("eventId")));
+        try {
+            Attendance attendance = attendanceData.getAttendance(
+                    user.getId(), Integer.parseInt(request.getParameter("eventId")));
 
-        Event event = attendance.getEvent();
-        request.setAttribute("event", event);
+            Event event = attendance.getEvent();
+            request.setAttribute("event", event);
 
-        // Restrict access to surveys if the guest did not sign in to the event
-        if (attendance.getStatus() == null || attendance.getStatus() == Attendance.AttendanceStatus.NOT_ATTENDED) {
-            response.sendError(
-                    HttpServletResponse.SC_FORBIDDEN, "You do not have permission to access this resource");
-            return;
+            // Restrict access to surveys if the guest did not sign in to the event
+            if (attendance.getStatus() == null || attendance.getStatus() == Attendance.AttendanceStatus.NOT_ATTENDED) {
+                response.sendError(
+                        HttpServletResponse.SC_FORBIDDEN, "You do not have permission to access this resource");
+                return;
+            }
+
+            // Restrict if survey already exists
+            if (surveyData.getSurveyId(user, event) > 0) {
+                request.setAttribute("surveyTaken", true);
+            }
+
+            request.setAttribute("questions", SurveyHelpers.QUESTIONS);
+            request.setAttribute("responseTypes", SurveyHelpers.RESPONSE_TYPES);
+            String[] responses = {"response_01", "response_02", "response_03", "response_04", "response_05", "response_06",
+                    "response_07", "response_08", "response_09", "response_10"};
+            request.setAttribute("responses", responses);
+
+            pageTitle = String.format("Survey for %s %s", event.getName(),
+                    event.getStartDateTime().format(DateTimeFormatter.ofPattern("M/d/YY")));
+        } catch (Exception e) {
+            url = "/WEB-INF/views/error-generic.jsp";
+            pageTitle = "Survey Not Found";
+            String message = "There was an error accessing the survey. Please try again.";
+            request.setAttribute("message", message);
         }
 
-        // Restrict if survey already exists
-        if (surveyData.getSurveyId(user, event) > 0) {
-            request.setAttribute("surveyTaken", true);
-        }
-
-        request.setAttribute("questions", SurveyHelpers.QUESTIONS);
-        request.setAttribute("responseTypes", SurveyHelpers.RESPONSE_TYPES);
-        String[] responses = {"response_01", "response_02", "response_03", "response_04", "response_05", "response_06",
-                "response_07", "response_08", "response_09", "response_10"};
-        request.setAttribute("responses", responses);
-
-        String pageTitle = String.format("Survey for %s %s", event.getName(),
-                event.getStartDateTime().format(DateTimeFormatter.ofPattern("M/d/YY")));
         request.setAttribute("pageTitle", pageTitle);
-
+        request.setAttribute("back", back);
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 
@@ -130,42 +141,65 @@ public class ShowSurveyForm extends HttpServlet {
         // Build survey object
         Survey survey = new Survey();
 
-        survey.setUser(user);
-        survey.setEvent(attendance.getEvent());
-        LocalDateTime submissionDateTime = LocalDateTime.now();
-        survey.setSubmissionDateTime(submissionDateTime);
+        int status = SurveyHelpers.setAttributesFromRequest(survey, user, attendance, request);
 
-        Map<String, Integer> responses = new HashMap<String, Integer>();
 
-        for(int i = 1; i <= 10; i++) {
-            String responseLabel = String.format("response_%02d", i);
-            responses.put(responseLabel, Integer.valueOf(request.getParameter(responseLabel)));
-        }
+        // TODO perform insert and respond with appropriate message
 
-        survey.setResponses(responses);
+        switch(status) {
+            case SurveyHelpers.SUCCESSFUL_SUBMISSION:
+                int insertStatus = surveyData.insertSurvey(survey);
+                if (insertStatus == 0) {
+                    statusMessage = "Thank you for submitting your survey!";
+                    statusType = "success";
 
-        // Write survey to DB and respond to user
-        int insertStatus = surveyData.insertSurvey(survey);
-
-        if (insertStatus == 0) {
-            statusMessage = "Thank you for submitting your survey!";
-            statusType = "success";
-
-            // Update status if needed
-            if (attendance.getStatus() == Attendance.AttendanceStatus.SIGNED_IN) {
-                attendanceData.updateStatus(attendance, Attendance.AttendanceStatus.ATTENDED.ordinal());
-            }
-
-        } else if (insertStatus == 1062) {
-            statusMessage = "<strong>Error!</strong> Survey already submitted for this event!";
-            statusType = "danger";
-        } else if (insertStatus == -1) {
-            statusMessage = "<strong>Error!</strong> Invalid data submitted for survey!";
-            statusType = "danger";
-        } else {
-            statusMessage = String.format("<strong>Error!</strong> There was a problem submitting your survey (%d)",
-                    insertStatus, submissionDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-            statusType = "danger";
+                    // Update status if needed
+                    if (attendance.getStatus() == Attendance.AttendanceStatus.SIGNED_IN) {
+                        attendanceData.updateStatus(attendance, Attendance.AttendanceStatus.ATTENDED.ordinal());
+                    }
+                } else if (insertStatus == 1062) {
+                    statusMessage = "<strong>Error!</strong> Survey already submitted for this event!";
+                    statusType = "danger";
+                } else if (insertStatus == -1) {
+                    statusMessage = "<strong>Error!</strong> Invalid data submitted for survey!";
+                    statusType = "danger";
+                } else {
+                    statusMessage = "<strong>Error!</strong> There was a problem submitting your survey.";
+                    statusType = "danger";
+                }
+                break;
+            case SurveyHelpers.INVALID_USER:
+                statusMessage = "<strong>Error!</strong> Invalid user data for survey. Please try again.";
+                statusType = "danger";
+                break;
+            case SurveyHelpers.INVALID_USER_TYPE:
+                statusMessage = "<strong>Error!</strong> Only users of type Guest may submit a survey.";
+                statusType = "danger";
+                break;
+            case SurveyHelpers.INVALID_EVENT:
+                statusMessage = "<strong>Error!</strong> Invalid event data for survey. Please try again.";
+                statusType = "danger";
+                break;
+            case SurveyHelpers.INVALID_EVENT_DATE:
+                statusMessage = "<strong>Error!</strong> Cannot submit a survey before the event has ended.";
+                statusType = "danger";
+                break;
+            case SurveyHelpers.INVALID_ATTENDANCE:
+                statusMessage = "<strong>Error!</strong> Cannot submit a survey for an event if you have not signed in.";
+                statusType = "danger";
+                break;
+            case SurveyHelpers.INVALID_RESPONSE:
+                statusMessage = "<strong>Error!</strong> One or more of your responses was invalid or missing.";
+                statusType = "danger";
+                break;
+            case SurveyHelpers.INVALID_DATA:
+                statusMessage = "<strong>Error!</strong> Invalid data submitted for survey!";
+                statusType = "danger";
+                break;
+            default:
+                statusMessage = "<strong>Error!</strong> Invalid data submitted for survey!";
+                statusType = "danger";
+                break;
         }
 
         request.setAttribute("statusMessage", statusMessage);
