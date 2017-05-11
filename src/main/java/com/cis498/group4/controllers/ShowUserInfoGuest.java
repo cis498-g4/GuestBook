@@ -47,8 +47,8 @@ public class ShowUserInfoGuest extends HttpServlet {
 
         String url = "/WEB-INF/views/show-user-info-guest.jsp";
         String pageTitle = "Account Information";
-        request.setAttribute("pageTitle", pageTitle);
 
+        request.setAttribute("pageTitle", pageTitle);
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 
