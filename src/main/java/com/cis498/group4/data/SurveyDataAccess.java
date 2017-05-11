@@ -164,22 +164,6 @@ public class SurveyDataAccess {
     }
 
     /**
-     * There should not be any need to update a survey from the application. This method can be deleted for production
-     * @param survey
-     */
-    public void updateSurvey(Survey survey) {
-        // TODO: Remove for production
-    }
-
-    /**
-     * There should not be any need to delete a survey from the application. This method can be deleted for production.
-     * @param survey
-     */
-    public void deleteSurvey(Survey survey) {
-        // TODO: Remove for production
-    }
-
-    /**
      * Sets the attributes of a Survey object based on the result set from a SQL query
      * @param survey The Survey whose attributes to set
      * @param results The results set containing the data
