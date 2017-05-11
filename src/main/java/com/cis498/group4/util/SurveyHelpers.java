@@ -47,9 +47,10 @@ public class SurveyHelpers {
     public static final int INVALID_USER = 1;
     public static final int INVALID_USER_TYPE = 2;
     public static final int INVALID_EVENT = 3;
-    public static final int INVALID_ATTENDANCE = 4;
-    public static final int INVALID_RESPONSE = 5;
-    public static final int INVALID_DATA = 6;
+    public static final int INVALID_EVENT_DATE = 4;
+    public static final int INVALID_ATTENDANCE = 5;
+    public static final int INVALID_RESPONSE = 6;
+    public static final int INVALID_DATA = 7;
 
     /**
      * Validates a survey record (e.g. survey does not already exist).
@@ -61,6 +62,23 @@ public class SurveyHelpers {
         // TODO User attended event
         // TODO Survey does not already exist
         return true;
+    }
+
+    /**
+     * Ensures that the user submitting the survey has signed in to the event
+     * @param attendance
+     * @return
+     */
+    public static boolean validateAttendance(Attendance attendance) {
+        if (attendance == null) {
+            return false;
+        }
+
+        if (attendance.getStatus() == null) {
+            return false;
+        }
+
+        return (attendance.getStatus() != Attendance.AttendanceStatus.NOT_ATTENDED);
     }
 
     /**
@@ -159,19 +177,23 @@ public class SurveyHelpers {
      * @return
      */
     public static int submissionStatus(Survey survey, User user, Attendance attendance) {
-        if (false /*TODO*/) {
+        if (!UserHelpers.validateRecord(user)) {
             return INVALID_USER;
         }
 
-        if (false /*TODO*/) {
+        if (user.getType() != User.UserType.GUEST) {
             return INVALID_USER_TYPE;
         }
 
-        if (false /*TODO*/) {
+        if (!EventHelpers.validateRecord(attendance.getEvent())) {
             return INVALID_EVENT;
         }
 
-        if (false /*TODO*/) {
+        if (EventHelpers.endsInFuture(attendance.getEvent())) {
+            return INVALID_EVENT_DATE;
+        }
+
+        if (!validateAttendance(attendance)) {
             return INVALID_ATTENDANCE;
         }
 
