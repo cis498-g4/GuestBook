@@ -114,9 +114,11 @@ public class UpdateEvent extends HttpServlet {
 
         int status;
 
-        Event event = eventData.getEvent(Integer.parseInt(request.getParameter("id")));
+        Event event = null;
 
         try {
+            event = eventData.getEvent(Integer.parseInt(request.getParameter("id")));
+
             if (EventHelpers.endedInPast(event)) {
                 // If event ended in the past, block edit
                 status = EventHelpers.CONCLUDED;
