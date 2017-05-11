@@ -116,12 +116,16 @@ public class UpdateEvent extends HttpServlet {
 
         Event event = eventData.getEvent(Integer.parseInt(request.getParameter("id")));
 
-        if (EventHelpers.endedInPast(event)) {
-            // If event ended in the past, block edit
-            status = EventHelpers.CONCLUDED;
-        } else {
-            // Add form information to event
-            status = EventHelpers.setAttributesFromRequest(event, request, eventData, userData);
+        try {
+            if (EventHelpers.endedInPast(event)) {
+                // If event ended in the past, block edit
+                status = EventHelpers.CONCLUDED;
+            } else {
+                // Add form information to event
+                status = EventHelpers.setAttributesFromRequest(event, request, eventData, userData);
+            }
+        } catch (Exception e) {
+            status = EventHelpers.INVALID_EVENT;
         }
 
         // Perform update and respond with appropriate message

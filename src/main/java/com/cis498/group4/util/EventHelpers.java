@@ -30,6 +30,7 @@ public class EventHelpers {
     public static final int OVERLAPPING_PRESENTER = 7;
     public static final int INVALID_CAPACITY = 8;
     public static final int INVALID_CODE = 9;
+    public static final int INVALID_EVENT = 10;
 
     /**
      * Validates an existing event record.
