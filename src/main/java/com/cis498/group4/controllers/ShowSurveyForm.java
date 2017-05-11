@@ -60,35 +60,45 @@ public class ShowSurveyForm extends HttpServlet {
         User user = (User) session.getAttribute("sessionUser");
 
         String url = "/WEB-INF/views/survey.jsp";
+        String pageTitle;
+        String back = "list-surveys-guest";
 
-        Attendance attendance = attendanceData.getAttendance(
-                user.getId(), Integer.parseInt(request.getParameter("eventId")));
+        try {
+            Attendance attendance = attendanceData.getAttendance(
+                    user.getId(), Integer.parseInt(request.getParameter("eventId")));
 
-        Event event = attendance.getEvent();
-        request.setAttribute("event", event);
+            Event event = attendance.getEvent();
+            request.setAttribute("event", event);
 
-        // Restrict access to surveys if the guest did not sign in to the event
-        if (attendance.getStatus() == null || attendance.getStatus() == Attendance.AttendanceStatus.NOT_ATTENDED) {
-            response.sendError(
-                    HttpServletResponse.SC_FORBIDDEN, "You do not have permission to access this resource");
-            return;
+            // Restrict access to surveys if the guest did not sign in to the event
+            if (attendance.getStatus() == null || attendance.getStatus() == Attendance.AttendanceStatus.NOT_ATTENDED) {
+                response.sendError(
+                        HttpServletResponse.SC_FORBIDDEN, "You do not have permission to access this resource");
+                return;
+            }
+
+            // Restrict if survey already exists
+            if (surveyData.getSurveyId(user, event) > 0) {
+                request.setAttribute("surveyTaken", true);
+            }
+
+            request.setAttribute("questions", SurveyHelpers.QUESTIONS);
+            request.setAttribute("responseTypes", SurveyHelpers.RESPONSE_TYPES);
+            String[] responses = {"response_01", "response_02", "response_03", "response_04", "response_05", "response_06",
+                    "response_07", "response_08", "response_09", "response_10"};
+            request.setAttribute("responses", responses);
+
+            pageTitle = String.format("Survey for %s %s", event.getName(),
+                    event.getStartDateTime().format(DateTimeFormatter.ofPattern("M/d/YY")));
+        } catch (Exception e) {
+            url = "/WEB-INF/views/error-generic.jsp";
+            pageTitle = "Survey Not Found";
+            String message = "There was an error accessing the survey. Please try again.";
+            request.setAttribute("message", message);
         }
 
-        // Restrict if survey already exists
-        if (surveyData.getSurveyId(user, event) > 0) {
-            request.setAttribute("surveyTaken", true);
-        }
-
-        request.setAttribute("questions", SurveyHelpers.QUESTIONS);
-        request.setAttribute("responseTypes", SurveyHelpers.RESPONSE_TYPES);
-        String[] responses = {"response_01", "response_02", "response_03", "response_04", "response_05", "response_06",
-                "response_07", "response_08", "response_09", "response_10"};
-        request.setAttribute("responses", responses);
-
-        String pageTitle = String.format("Survey for %s %s", event.getName(),
-                event.getStartDateTime().format(DateTimeFormatter.ofPattern("M/d/YY")));
         request.setAttribute("pageTitle", pageTitle);
-
+        request.setAttribute("back", back);
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 
