@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * Created by mpm624 on 4/24/17.
+ * The ShowSurveyForm servlet displays the survey form and reads the responses for insertion into the database.
  */
 @WebServlet(name = "ShowSurveyForm", urlPatterns = "/manager/take-survey")
 public class ShowSurveyForm extends HttpServlet {
