@@ -1,9 +1,25 @@
-/* Remove shading from Bootstrap buttons */
-.btn {
-    background-image: none;
-    text-shadow: none;
-    box-shadow: none;
-    -webkit-box-shadow: none;
+/* Fonts */
+@font-face {
+    font-family: 'leckerli_oneregular';
+    src: url('../fonts/leckerlione/leckerlione-regular-webfont.eot');
+    src: url('../fonts/leckerlione/leckerlione-regular-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/leckerlione/leckerlione-regular-webfont.woff') format('woff'),
+    url('../fonts/leckerlione/leckerlione-regular-webfont.ttf') format('truetype'),
+    url('../fonts/leckerlione/leckerlione-regular-webfont.svg#leckerli_oneregular') format('svg');
+}
+
+@font-face {
+    font-family: 'poller_oneregular';
+    src: url('../fonts/pollerone/pollerone-webfont.eot');
+    src: url('../fonts/pollerone/pollerone-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/pollerone/pollerone-webfont.woff') format('woff'),
+    url('../fonts/pollerone/pollerone-webfont.ttf') format('truetype'),
+    url('../fonts/pollerone/pollerone-webfont.svg#poller_oneregular') format('svg');
+}
+
+@font-face {
+    font-family: 'Klavika Medium';
+    src: url('../fonts/klavika/klavika-med-plain.otf');
 }
 
 /* Remove shading from Bootstrap alerts */
@@ -18,10 +34,41 @@
     padding-right: 16px;
 }
 
+/* jQuery Bar Rating */
+.br-theme-fontawesome-stars-o .br-widget a.br-selected:after,
+.br-theme-fontawesome-stars-o .br-widget a.br-active:after {
+    color: #3d67b9;
+}
+
+/* Remove shading from Bootstrap buttons */
+.btn {
+    background-image: none;
+    text-shadow: none;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
 /* Override DataTables info element styles */
 .dataTables_info {
     padding-bottom: 8px;
     font-weight: bold;
+}
+
+/* 1.0em tall hr */
+.hr_1em {
+    height: 1.0em;
+    border-top: 1px solid #ddd;
+}
+
+/* Remove lines from info view tables */
+.info-list tbody tr td, .info-list tr.odd td, .info-list tr.even td {
+    border-top: none;
+}
+
+/* Add 10px horizontal padding */
+.padding-horiz-10px {
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 /* 20px spacer */
@@ -47,27 +94,4 @@
 /* 3.0em spacer */
 .spacer_3em {
     height: 3.0em;
-}
-
-/* 1.0em tall hr */
-.hr_1em {
-    height: 1.0em;
-    border-top: 1px solid #ddd;
-}
-
-/* Remove lines from info view tables */
-.info-list tbody tr td, .info-list tr.odd td, .info-list tr.even td {
-    border-top: none;
-}
-
-/* Add 10px horizontal padding */
-.padding-horiz-10px {
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
-/* jQuery Bar Rating */
-.br-theme-fontawesome-stars-o .br-widget a.br-selected:after,
-.br-theme-fontawesome-stars-o .br-widget a.br-active:after {
-    color: #1467aa;
 }
