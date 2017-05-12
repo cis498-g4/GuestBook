@@ -4,8 +4,6 @@
 <html lang="en">
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
-<div class="spacer_1em"></div>
-
 <div class="text-center">
     <c:if test="${status <= 3}">
         <img src="${pageContext.request.contextPath}/img/cool_cat.png" width="100">

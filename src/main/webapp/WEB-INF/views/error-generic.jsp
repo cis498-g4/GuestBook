@@ -3,8 +3,6 @@
 
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
-<div class="spacer_1em"></div>
-
 <p class="text-center">${message}</p>
 
 <div class="text-center">

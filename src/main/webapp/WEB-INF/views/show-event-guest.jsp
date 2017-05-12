@@ -4,8 +4,6 @@
 <html lang="en">
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
-<div class="spacer_1em"></div>
-
 <div class="row">
     <div class="col-sm-4 col-sm-offset-4">
         <table class="table table-condensed info-list">

@@ -4,8 +4,6 @@
 <html lang="en">
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
-<div class="spacer_1em"></div>
-
 <form class="form-horizontal" action="add-user" method="post">
     <div class="row padding-horiz-10px">
         <div class="col-sm-offset-1">

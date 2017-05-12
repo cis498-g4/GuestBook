@@ -4,9 +4,6 @@
 <html lang="en">
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
-<div class="spacer_1em"></div>
-
-<!-- TODO: HTML / JS form validation -->
 <form class="form-horizontal" action="update-event" method="post">
     <fieldset ${concluded ? "disabled" : ""}>
 

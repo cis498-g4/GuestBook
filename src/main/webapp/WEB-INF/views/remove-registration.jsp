@@ -4,8 +4,6 @@
 <html lang="en">
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
-<div class="spacer_1em"></div>
-
 <p class="text-center">This will <strong>remove</strong> the registration for ${user.firstName} ${user.lastName} from the event ${event.name} on ${eventLongDate}.</p>
 <c:if test="${event.capacity > 0}">
     <p class="text-center">After removing the registration, there will be <strong>${event.capacity - event.numRegistered + 1}</strong> open seats at this event.</p>

@@ -4,8 +4,6 @@
 <html lang="en">
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
-<div class="spacer_1em"></div>
-
 <p class="text-center">Select an event below to launch the kiosk for that event. This will log you out of your management session and start kiosk mode.</p>
 
 <div class="spacer_1em"></div>

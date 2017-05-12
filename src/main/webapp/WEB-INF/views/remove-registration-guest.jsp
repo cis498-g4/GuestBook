@@ -4,8 +4,6 @@
 <html lang="en">
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
-<div class="spacer_1em"></div>
-
 <p class="text-center">This will <strong>remove</strong> your registration from the event ${event.name} on ${eventLongDate}.</p>
 <p class="text-center">${warningMessage}</p>
 

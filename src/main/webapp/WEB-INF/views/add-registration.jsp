@@ -4,14 +4,11 @@
 <html lang="en">
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
-<div class="spacer_1em"></div>
-
 <div class="text-center">
     <h3>Single Registration</h3>
     <p>Register an individual user for ${event.name} by entering their email address below.</p>
 </div>
 
-<!-- TODO: HTML / JS form validation -->
 <div class="row padding-horiz-10px">
     <div class="col-sm-6 col-sm-offset-3">
         <form class="form-vertical" action="add-registration" method="post">

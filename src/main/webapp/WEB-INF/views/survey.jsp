@@ -4,8 +4,6 @@
 <html lang="en">
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
-<div class="spacer_1em"></div>
-
 <div class="text-center">
     <c:if test="${surveyTaken}">
         <p>You have already submitted this survey. Thank you for your response!</p>
@@ -24,7 +22,7 @@
 
 <c:if test="${!surveyTaken}">
 
-    <!-- TODO: HTML / JS form validation -->
+
     <form class="form-vertical" action="take-survey" method="post">
         <c:forEach begin="0" end="9" varStatus="outer">
 

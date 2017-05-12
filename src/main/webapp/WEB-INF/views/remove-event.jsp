@@ -4,8 +4,6 @@
 <html lang="en">
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
-<div class="spacer_1em"></div>
-
 <p class="text-center">The following event will be <strong>permanently</strong> deleted from the database:</p>
 
 <div class="row">

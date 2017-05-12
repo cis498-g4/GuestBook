@@ -3,8 +3,6 @@
 
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
-<div class="spacer_1em"></div>
-
 <p class="text-center">
     Welcome! The sign-in kiosk needs to be activated for this event.<br>
     Please contact an event organizer for assistance.
