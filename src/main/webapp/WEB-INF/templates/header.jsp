@@ -40,4 +40,4 @@
     </div>
 </c:if>
 
-<h2 class="text-center">${pageTitle}</h2>
+<h2 class="page-title text-center">${pageTitle}</h2>

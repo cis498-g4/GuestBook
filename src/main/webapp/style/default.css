@@ -75,12 +75,13 @@
     color: #0a3489;
 }
 
-
+/* Basic navbar styles */
 .navbar-default {
     box-shadow: none;
     border: none;
     background-color: #fff;
     background-image: none;
+    margin-bottom: 0px;
 }
 
 .navbar-collapse {
@@ -91,7 +92,6 @@
 .navbar-header {
     background-color: #3d67b9;
 }
-
 
 /* Navbar "hamburger menu" styles */
 .navbar-header .navbar-toggle {
@@ -125,6 +125,13 @@
 .padding-horiz-10px {
     padding-left: 10px;
     padding-right: 10px;
+}
+
+/* Main header for each page */
+.page-title {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 2.0em;
 }
 
 /* 20px spacer */
