@@ -25,6 +25,10 @@
 </head>
 <body>
 
+<div class="jumbotron">
+    <h1><a href="home">Guestbook</a></h1>
+</div>
+
 <jsp:include page="nav.jsp"></jsp:include>
 
 <div class="container">

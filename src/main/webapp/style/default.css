@@ -1,25 +1,12 @@
 /* Fonts */
 @font-face {
-    font-family: 'leckerli_oneregular';
-    src: url('../fonts/leckerlione/leckerlione-regular-webfont.eot');
-    src: url('../fonts/leckerlione/leckerlione-regular-webfont.eot?#iefix') format('embedded-opentype'),
-    url('../fonts/leckerlione/leckerlione-regular-webfont.woff') format('woff'),
-    url('../fonts/leckerlione/leckerlione-regular-webfont.ttf') format('truetype'),
-    url('../fonts/leckerlione/leckerlione-regular-webfont.svg#leckerli_oneregular') format('svg');
-}
-
-@font-face {
-    font-family: 'poller_oneregular';
-    src: url('../fonts/pollerone/pollerone-webfont.eot');
-    src: url('../fonts/pollerone/pollerone-webfont.eot?#iefix') format('embedded-opentype'),
-    url('../fonts/pollerone/pollerone-webfont.woff') format('woff'),
-    url('../fonts/pollerone/pollerone-webfont.ttf') format('truetype'),
-    url('../fonts/pollerone/pollerone-webfont.svg#poller_oneregular') format('svg');
-}
-
-@font-face {
     font-family: 'Klavika Medium';
     src: url('../fonts/klavika/klavika-med-plain.otf');
+}
+
+/* Hide mini logo (overriden on small screens) */
+#navbar-logo {
+    display: none;
 }
 
 /* Remove shading from Bootstrap alerts */
@@ -65,6 +52,75 @@
     border-top: none;
 }
 
+/* Styling for Jumbotron when width is not less than 768 */
+.jumbotron {
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+    color: #3d67b9;
+}
+
+.jumbotron h1 {
+    text-align: center;
+    font-family: 'Klavika Medium', Arial, sans-serif;
+}
+
+.jumbotron a {
+    text-decoration: none;
+    color: #3d67b9;
+}
+
+.jumbotron a:hover {
+    text-decoration: none;
+    color: #0a3489;
+}
+
+
+.navbar-default {
+    box-shadow: none;
+    border: none;
+    background-color: #fff;
+    background-image: none;
+}
+
+.navbar-collapse {
+    background-color: #fff;
+    text-align: center;
+}
+
+.navbar-header {
+    background-color: #3d67b9;
+}
+
+
+/* Navbar "hamburger menu" styles */
+.navbar-header .navbar-toggle {
+    border: none;
+}
+
+.navbar-header .navbar-toggle:hover {
+    background-color: #0a3489;
+}
+
+.navbar-header .navbar-toggle:focus {
+    background-color: #3d67b9;
+}
+
+.navbar-header .navbar-toggle .icon-bar {
+    background-color: #fff;
+}
+
+/* Navbar text styles */
+.navbar-nav {
+    display: inline-block;
+    float: none;
+}
+
+.navbar-default .navbar-nav li, .navbar .navbar-nav li a {
+    text-shadow: none;
+    font-weight: bold;
+}
+
 /* Add 10px horizontal padding */
 .padding-horiz-10px {
     padding-left: 10px;
@@ -94,4 +150,50 @@
 /* 3.0em spacer */
 .spacer_3em {
     height: 3.0em;
+}
+
+/* Small-screen specific rules */
+@media (max-width: 767px) {
+
+    /* Hide Jumbotron on small screens */
+    .jumbotron {
+        display: none;
+    }
+
+    /* Dropdown menu styles on small screens */
+    .navbar-collapse {
+        background-color: #eee;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #999;
+    }
+
+    .navbar-collapse li {
+        margin: 8px;
+        text-align: center;
+    }
+
+    /* Mini logo styles */
+    #navbar-logo {
+        display: inline-block;
+        margin: 4px 16px;
+    }
+
+    #navbar-logo a {
+        color: #fff;
+        font-family: 'Klavika Medium', Arial, sans-serif;
+        font-size: 24pt;
+        text-decoration: none;
+    }
+
+    #navbar-logo a:hover {
+        color: #ccc;
+        text-decoration: none;
+    }
+
+}
+
+/* Large-screen specific rules */
+@media (min-width: 768px) {
+
+
 }
