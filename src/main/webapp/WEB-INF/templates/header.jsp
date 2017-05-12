@@ -31,7 +31,7 @@
 
 <jsp:include page="nav.jsp"></jsp:include>
 
-<div class="container">
+<div class="container" id="main-content">
 
 <c:if test="${statusMessage.length() > 0}">
     <div class="alert alert-${statusType != null ? statusType : 'info'} alert-dismissable}">

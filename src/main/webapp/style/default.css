@@ -4,6 +4,20 @@
     src: url('../fonts/klavika/klavika-med-plain.otf');
 }
 
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+/* Allows resizing main content to push footer */
+#main-content {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -60px;
+    overflow-x: scroll;
+}
+
 /* Hide mini logo (overriden on small screens) */
 #navbar-logo {
     display: none;
@@ -39,6 +53,33 @@
 .dataTables_info {
     padding-bottom: 8px;
     font-weight: bold;
+}
+
+/* Sticky footer at the bottom of each page */
+.footer {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #e5e5e5;
+    margin-top: 30px;
+}
+
+.footer-content {
+    text-align: center;
+    width: auto;
+    padding: 16px;
+    color: #999;
+}
+
+.footer-push {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
 }
 
 /* 1.0em tall hr */
