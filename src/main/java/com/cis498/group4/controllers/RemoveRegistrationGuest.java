@@ -87,7 +87,7 @@ public class RemoveRegistrationGuest extends HttpServlet {
             request.setAttribute("warningMessage", warningMessage);
 
             pageTitle = String.format("Remove your registration from %s on %s?", event.getName(), eventDate);
-            back = "/manager/list-registrations-guest";
+            back = "list-registrations-guest";
 
         } catch (Exception e) {
             url = "/WEB-INF/views/error-generic.jsp";

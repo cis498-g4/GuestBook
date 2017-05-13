@@ -70,7 +70,7 @@ public class RemoveRegistration extends HttpServlet {
 
             pageTitle = String.format("Remove user %s %s from %s on %s?",
                     user.getFirstName(), user.getLastName(), event.getName(), eventDate);
-            back = String.format("/manager/list-user-regs-for-event?id=%d", eventId);
+            back = String.format("list-user-regs-for-event?id=%d", eventId);
 
         } catch (Exception e) {
             url = "/WEB-INF/views/error-generic.jsp";
@@ -114,7 +114,7 @@ public class RemoveRegistration extends HttpServlet {
 
             Attendance attendance = attendanceData.getAttendance(userId, eventId);
 
-            url = String.format("/manager/list-user-regs-for-event?id=%d", eventId);
+            url = String.format("list-user-regs-for-event?id=%d", eventId);
 
             if (attendance.getStatus() == Attendance.AttendanceStatus.NOT_ATTENDED) {
                 if (EventHelpers.endsInFuture(attendance.getEvent())) {
@@ -141,7 +141,7 @@ public class RemoveRegistration extends HttpServlet {
         } catch (Exception e) {
             statusMessage = "<strong>Error!</strong> Remove registration operation failed!";
             statusType = "danger";
-            url = "/manager/list-event-registrations";
+            url = "list-event-registrations";
         }
 
         request.setAttribute("statusMessage", statusMessage);
