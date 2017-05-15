@@ -46,6 +46,7 @@ public class AddUser extends HttpServlet {
             return;
         }
 
+        // Set params and redirect to add user form
         String url = "/WEB-INF/views/add-user.jsp";
         String pageTitle = "Add new user";
         String back = "list-users";
@@ -57,7 +58,7 @@ public class AddUser extends HttpServlet {
     }
 
     /**
-     * Create a new User from posted data, write to database, and send confirmation to user
+     * Create a new User from posted data, attempt write to database, and send confirmation to user
      * @param request
      * @param response
      * @throws ServletException
@@ -79,11 +80,11 @@ public class AddUser extends HttpServlet {
         String statusMessage;
         String statusType;
 
-        // Create new user with form information
+        // Create new user with form information, get status code for response
         User user = new User();
-
         int status = UserHelpers.setAttributesFromRequest(user, request);
 
+        // Get passwords separately
         String password = request.getParameter("password").trim();
         String repeatPassword = request.getParameter("pwd-conf").trim();
 
@@ -98,7 +99,7 @@ public class AddUser extends HttpServlet {
             status = UserHelpers.INVALID_PASSWORD;
         }
 
-        // Perform insert and respond with appropriate message
+        // Perform insert and/or respond with appropriate message
         switch(status) {
             case UserHelpers.SUCCESSFUL_WRITE:
                 int insertStatus = userData.insertUser(user);

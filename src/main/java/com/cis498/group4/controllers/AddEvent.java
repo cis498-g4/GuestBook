@@ -55,6 +55,7 @@ public class AddEvent extends HttpServlet {
             return;
         }
 
+        // Set params and redirect to add event form
         String url = "/WEB-INF/views/add-event.jsp";
         String pageTitle = "Add new event";
 
@@ -69,7 +70,7 @@ public class AddEvent extends HttpServlet {
     }
 
     /**
-     * Create a new Event from posted data, write to database, and send confirmation to user
+     * Create a new Event from posted data, attempt write to database, and send confirmation to user
      * @param request
      * @param response
      * @throws ServletException
@@ -86,13 +87,12 @@ public class AddEvent extends HttpServlet {
         }
 
         String url = "/manager/list-events";
-        // Do not need pageTitle and back attributes
+        // Do not need pageTitle and back attributes, get status code for response
         String statusMessage;
         String statusType;
 
         // Create new event with form information
         Event event = new Event();
-
         int status = EventHelpers.setAttributesFromRequest(event, request, eventData, userData);
 
         // Perform update and respond with appropriate message
