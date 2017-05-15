@@ -56,16 +56,29 @@ public class AddRegistration extends HttpServlet {
             return;
         }
 
+        // Set params and redirect to add registration form
         String url = "/WEB-INF/views/add-registration.jsp";
+        String pageTitle;
 
-        Event event = eventData.getEvent(Integer.parseInt(request.getParameter("id")));
-        String eventDate = event.getStartDateTime().format(DateTimeFormatter.ofPattern("M/d/YY"));
-        String pageTitle = String.format("Registration for %s %s", event.getName(), eventDate);
+        // Get data for specified event, send generic error message if event not found
+        try {
+            Event event = eventData.getEvent(Integer.parseInt(request.getParameter("id")));
+            String eventDate = event.getStartDateTime().format(DateTimeFormatter.ofPattern("M/d/YY"));
+            pageTitle = String.format("Registration for %s %s", event.getName(), eventDate);
 
-        request.setAttribute("event", event);
-        request.setAttribute("eventDate", eventDate);
+            request.setAttribute("event", event);
+            request.setAttribute("eventDate", eventDate);
+
+        } catch (Exception e) {
+            pageTitle = "Event Not Found";
+            url = "/WEB-INF/views/error-generic.jsp";
+            String back = "list-event-registrations";
+            String message = "The event you were attempting to register for could not be found.";
+            request.setAttribute("message", message);
+            request.setAttribute("back", back);
+        }
+
         request.setAttribute("pageTitle", pageTitle);
-
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 
@@ -93,6 +106,7 @@ public class AddRegistration extends HttpServlet {
         String statusMessage;
         String statusType;
 
+        // Get user and event from params
         User user = userData.getUserByEmail(request.getParameter("email"));
         Event event = eventData.getEvent(Integer.parseInt(request.getParameter("eventId")));
         String eventDate = event.getStartDateTime().format(DateTimeFormatter.ofPattern("M/d/YY"));
