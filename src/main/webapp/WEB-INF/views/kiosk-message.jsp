@@ -28,7 +28,7 @@
     </c:if>
 </div>
 
-<jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/templates/footer-kiosk.jsp"></jsp:include>
 
 </body>
 </html>
