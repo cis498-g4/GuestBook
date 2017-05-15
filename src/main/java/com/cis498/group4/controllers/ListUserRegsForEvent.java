@@ -45,8 +45,10 @@ public class ListUserRegsForEvent extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Restrict access by non-Organizers
         if (!SessionHelpers.checkOrganizer(request.getSession())) {
-            response.sendError(
-                    HttpServletResponse.SC_FORBIDDEN, "You do not have permission to access this resource");
+            request.setAttribute("statusMessage", "You must be logged in as an organizer to view the requested page.");
+            request.setAttribute("statusType", "warning");
+            RequestDispatcher view = request.getRequestDispatcher("/manager/login");
+            view.forward(request, response);
             return;
         }
 

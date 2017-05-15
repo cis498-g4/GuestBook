@@ -42,8 +42,10 @@ public class ListEventsGuest extends HttpServlet {
 
         // Restrict access by non-Guests
         if (!SessionHelpers.checkGuest(request.getSession())) {
-            response.sendError(
-                    HttpServletResponse.SC_FORBIDDEN, "You do not have permission to access this resource");
+            request.setAttribute("statusMessage", "You must be logged in as a guest to view the requested page.");
+            request.setAttribute("statusType", "warning");
+            RequestDispatcher view = request.getRequestDispatcher("/manager/login");
+            view.forward(request, response);
             return;
         }
 
