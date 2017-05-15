@@ -53,26 +53,39 @@ public class ListUserRegsForEvent extends HttpServlet {
         }
 
         String url = "/WEB-INF/views/list-user-regs-for-event.jsp";
+        String pageTitle;
+        String back = "list-event-registrations";
 
-        Event event = eventData.getEvent(Integer.parseInt(request.getParameter("id")));
-        request.setAttribute("event", event);
+        // Get data, if not found, send generic error
+        try {
+            Event event = eventData.getEvent(Integer.parseInt(request.getParameter("id")));
+            request.setAttribute("event", event);
 
-        List<Attendance> attendanceList = attendanceData.getEventAttendance(event);
-        request.setAttribute("attendanceList", attendanceList);
+            List<Attendance> attendanceList = attendanceData.getEventAttendance(event);
+            request.setAttribute("attendanceList", attendanceList);
 
-        // Calculate # of spots remaining
-        int remain = event.getCapacity();
+            // Calculate # of spots remaining
+            int remain = event.getCapacity();
 
-        if (!attendanceList.isEmpty()) {
-            remain = AttendanceHelpers.calculateSpotsRemaining(attendanceList.get(0));
+            if (!attendanceList.isEmpty()) {
+                remain = AttendanceHelpers.calculateSpotsRemaining(attendanceList.get(0));
+            }
+
+            // Set attributes and render page
+            pageTitle = String.format("Users registered for %s %s",
+                    event.getName(), event.getStartDateTime().format(DateTimeFormatter.ofPattern("M/d/YY")));
+
+            request.setAttribute("remain", remain);
+            
+        } catch (Exception e) {
+            pageTitle = "Registration Data Not Found";
+            url = "/WEB-INF/views/error-generic.jsp";
+            String message = "The registration data you requested could not be found.";
+            request.setAttribute("message", message);
         }
 
-        request.setAttribute("remain", remain);
-
-        String pageTitle = String.format("Users registered for %s %s",
-                event.getName(), event.getStartDateTime().format(DateTimeFormatter.ofPattern("M/d/YY")));
         request.setAttribute("pageTitle", pageTitle);
-
+        request.setAttribute("back", back);
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 
