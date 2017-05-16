@@ -53,13 +53,13 @@ public class ListEventsGuest extends HttpServlet {
         User user = (User) session.getAttribute("sessionUser");
 
         String url = "/WEB-INF/views/list-events-guest.jsp";
+        String pageTitle = "My Events";
 
+        // Get user attendance data from DB
         List<Attendance> userAttendance = attendanceData.getUserAttendance(user);
         request.setAttribute("userAttendance", userAttendance);
 
-        String pageTitle = "My Events";
         request.setAttribute("pageTitle", pageTitle);
-
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 

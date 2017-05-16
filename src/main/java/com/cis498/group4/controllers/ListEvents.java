@@ -47,13 +47,13 @@ public class ListEvents extends HttpServlet {
         }
 
         String url = "/WEB-INF/views/list-events.jsp";
+        String pageTitle = "Events";
 
+        // Get event data from DB
         List<Event> events = eventData.getAllEvents();
         request.setAttribute("events", events);
 
-        String pageTitle = "Events";
         request.setAttribute("pageTitle", pageTitle);
-
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 

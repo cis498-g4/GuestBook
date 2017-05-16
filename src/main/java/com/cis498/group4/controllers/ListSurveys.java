@@ -49,13 +49,13 @@ public class ListSurveys extends HttpServlet {
         }
 
         String url = "/WEB-INF/views/list-surveys.jsp";
+        String pageTitle = "Surveys";
 
+        // Get survey data from DB
         List<Survey> surveys = surveyData.getAllSurveys();
         request.setAttribute("surveys", surveys);
 
-        String pageTitle = "Surveys";
         request.setAttribute("pageTitle", pageTitle);
-
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 

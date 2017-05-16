@@ -49,13 +49,13 @@ public class ListUsers extends HttpServlet {
         }
 
         String url = "/WEB-INF/views/list-users.jsp";
+        String pageTitle = "Users";
 
+        // Get list of users from DB
         List<User> users = userData.getAllUsers();
         request.setAttribute("users", users);
 
-        String pageTitle = "Users";
         request.setAttribute("pageTitle", pageTitle);
-
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 

@@ -55,8 +55,8 @@ public class ListPendingSurveysGuest extends HttpServlet {
 
         String url = "/WEB-INF/views/list-surveys-guest.jsp";
         String pageTitle = "Pending Surveys";
-        request.setAttribute("pageTitle", pageTitle);
 
+        // Get attendance data with pending surveys from DB, extract only event information
         List<Attendance> pendingSurveys = attendanceData.getPendingSurveys(user);
         List<Event> pendingSurveyEvents = new ArrayList<Event>();
 
@@ -66,6 +66,7 @@ public class ListPendingSurveysGuest extends HttpServlet {
 
         request.setAttribute("events", pendingSurveyEvents);
 
+        request.setAttribute("pageTitle", pageTitle);
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 

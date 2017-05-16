@@ -56,6 +56,7 @@ public class ListRegistrationsGuest extends HttpServlet {
         String url = "/WEB-INF/views/list-registrations-guest.jsp";
         String pageTitle = "Upcoming Registrations";
 
+        // Get data from DB, assign to session attribute for reuse in Guest Console
         List<Attendance> registrations = attendanceData.getFutureRegistrations(user);
         Map<Integer, Integer> attendanceCounts = attendanceData.getAttendanceCounts();
         session.setAttribute("registrations", registrations);

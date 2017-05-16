@@ -54,6 +54,7 @@ public class ListEventRegistrations extends HttpServlet {
         String url = "/WEB-INF/views/list-event-registrations.jsp";
         String pageTitle = "Upcoming Events";
 
+        // Get events occurring in future from DB, calculate spots remaining
         List<Event> futureEvents = eventData.getFutureEvents();
         Map<Integer, Integer> attendanceCounts = attendanceData.getAttendanceCounts();
 
