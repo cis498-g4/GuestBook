@@ -23,6 +23,7 @@ public class EventDataAccess {
 
     private Connection connection;
 
+    // Default SQL selects all columns from the Event table, and the associated presenters in the User table
     private final String SELECT_ALL_ATTRIBUTES = "SELECT e.`event_id`, e.`event_name`, e.`start_date_time`, " +
             "e.`end_date_time`, u.`user_id`, ut.`user_type`, u.`first_name`, u.`last_name`, u.`email`, " +
             "e.`registration_code`, e.`open_registration`, e.`mandatory_survey`, e.`capacity` " +
@@ -30,6 +31,7 @@ public class EventDataAccess {
             "INNER JOIN `user` u ON e.`presenter_id` = u.`user_id` " +
             "INNER JOIN `user_type` ut ON u.`user_type_id` = ut.`user_type_id`";
 
+    // Get new database connection
     public EventDataAccess() {
         this.connection = DbConn.getConnection();
     }

@@ -27,6 +27,7 @@ public class SurveyDataAccess {
 
     private Connection connection;
 
+    // Default SQL selects all relevant columns from Survey table and linked tables
     private final String SELECT_ALL_ATTRIBUTES = "SELECT s.`survey_id`, u.`user_id`, ut.`user_type`, u.`first_name`, " +
             "u.`last_name`, u.`email`, e.`event_id`, e.`event_name`, e.`start_date_time`, e.`end_date_time`, " +
             "p.`user_id` AS 'presenter_id', pt.`user_type` AS 'presenter_type', " +
@@ -42,6 +43,7 @@ public class SurveyDataAccess {
             "INNER JOIN `user` p ON e.`presenter_id` = p.`user_id` " +
             "INNER JOIN `user_type` pt ON p.`user_type_id` = pt.`user_type_id`";
 
+    // Get new database connection
     public SurveyDataAccess() {
         this.connection = DbConn.getConnection();
     }

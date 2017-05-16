@@ -23,9 +23,11 @@ public class UserDataAccess {
 
     private Connection connection;
 
+    // Default SQL to select all attributes from User table
     private final String SELECT_ALL_ATTRIBUTES = "SELECT u.`user_id`, ut.`user_type`, u.`first_name`, u.`last_name`, " +
             "u.`email` FROM `user` u INNER JOIN `user_type` ut ON u.`user_type_id` = ut.`user_type_id`";
 
+    // Get new database connection
     public UserDataAccess() {
         this.connection = DbConn.getConnection();
     }

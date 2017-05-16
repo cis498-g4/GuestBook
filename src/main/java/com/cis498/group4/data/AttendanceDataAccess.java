@@ -22,6 +22,7 @@ public class AttendanceDataAccess {
 
     private Connection connection;
 
+    // Default SQL selects all columns from Attendance table and linked User and Event tables
     private final String SELECT_ALL_ATTRIBUTES = "SELECT e.`event_id`, e.`event_name`, e.`start_date_time`, " +
             "e.`end_date_time`, p.`user_id` AS 'presenter_id', pt.`user_type` AS 'presenter_type', " +
             "p.`first_name` AS 'presenter_first_name', p.`last_name` AS 'presenter_last_name', " +
@@ -36,6 +37,7 @@ public class AttendanceDataAccess {
             "INNER JOIN `user_type` ut ON u.`user_type_id` = ut.`user_type_id` " +
             "INNER JOIN `attendance_status` st on a.`attendance_status_id` = st.`attendance_status_id`";
 
+    // Get new database connection
     public AttendanceDataAccess() {
         this.connection = DbConn.getConnection();
     }
