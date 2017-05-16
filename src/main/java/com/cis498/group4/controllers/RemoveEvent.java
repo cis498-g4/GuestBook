@@ -49,13 +49,28 @@ public class RemoveEvent extends HttpServlet {
 
         String url = "/WEB-INF/views/remove-event.jsp";
         String pageTitle;
+        String back = "list-events";
 
-        Event event = eventData.getEvent(Integer.parseInt(request.getParameter("id")));
-        request.setAttribute("event", event);
+        // Get event data, redirect to generic error if not found
+        try {
+            Event event = eventData.getEvent(Integer.parseInt(request.getParameter("id")));
+            request.setAttribute("event", event);
 
-        pageTitle = String.format("Remove event %s?", event.getName());
+            if (event.getName() == null) {
+                throw new Exception("Event name null");
+            }
+
+            pageTitle = String.format("Remove event %s?", event.getName());
+
+        } catch (Exception e) {
+            pageTitle = "Event Not Found";
+            url = "/WEB-INF/views/error-generic.jsp";
+            String message = "The event you were attempting to remove could not be found.";
+            request.setAttribute("message", message);
+        }
 
         request.setAttribute("pageTitle", pageTitle);
+        request.setAttribute("back", back);
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 
@@ -84,6 +99,7 @@ public class RemoveEvent extends HttpServlet {
 
         Event event = null;
 
+        // Remove event if it has not already started, and does not have any registrants
         try {
             event = eventData.getEvent(Integer.parseInt(request.getParameter("id")));
 
