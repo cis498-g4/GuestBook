@@ -49,10 +49,13 @@ public class UpdatePasswordGuest extends HttpServlet {
         }
 
         String url = "/WEB-INF/views/update-password-guest.jsp";
-
         String pageTitle = "Update password";
-        request.setAttribute("pageTitle", pageTitle);
+        String back = "show-user-info-guest";
 
+        // Using session data, no attributes to pass to view
+
+        request.setAttribute("pageTitle", pageTitle);
+        request.setAttribute("back", back);
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 
@@ -81,6 +84,7 @@ public class UpdatePasswordGuest extends HttpServlet {
 
         String url;
         String pageTitle;
+        String back = "show-user-info-guest";
         String statusMessage;
         String statusType;
         String error;
@@ -137,6 +141,7 @@ public class UpdatePasswordGuest extends HttpServlet {
 
         request.setAttribute("error", error);
         request.setAttribute("pageTitle", pageTitle);
+        request.setAttribute("back", back);
         request.setAttribute("statusMessage", statusMessage);
         request.setAttribute("statusType", statusType);
         request.setAttribute("user", user);

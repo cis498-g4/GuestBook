@@ -49,13 +49,29 @@ public class UpdatePassword extends HttpServlet {
         }
 
         String url = "/WEB-INF/views/update-password.jsp";
+        String pageTitle;
+        String back = "list-users";
 
-        User user = userData.getUser(Integer.parseInt(request.getParameter("id")));
-        request.setAttribute("user", user);
+        // Create form for specified user's password, send generic error if user not found
+        try {
+            User user = userData.getUser(Integer.parseInt(request.getParameter("id")));
+            request.setAttribute("user", user);
 
-        String pageTitle = String.format("Change password for %s %s", user.getFirstName(), user.getLastName());
+            // Throw error if email is null
+            if (user.getEmail() == null) {
+                throw new Exception("User email null");
+            }
+
+            pageTitle = String.format("Change password for %s %s", user.getFirstName(), user.getLastName());
+        } catch (Exception e) {
+            pageTitle = "User Not Found";
+            url = "/WEB-INF/views/error-generic.jsp";
+            String message = "The user you were attempting to update could not be found.";
+            request.setAttribute("message", message);
+        }
+
         request.setAttribute("pageTitle", pageTitle);
-
+        request.setAttribute("back", back);
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 
@@ -81,6 +97,7 @@ public class UpdatePassword extends HttpServlet {
 
         String url;
         String pageTitle;
+        String back = "list-users";
         String statusMessage;
         String statusType;
         String error;
@@ -142,6 +159,7 @@ public class UpdatePassword extends HttpServlet {
         }
 
         request.setAttribute("pageTitle", pageTitle);
+        request.setAttribute("back", back);
         request.setAttribute("statusMessage", statusMessage);
         request.setAttribute("statusType", statusType);
         request.setAttribute("user", user);
