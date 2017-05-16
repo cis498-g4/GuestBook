@@ -5,6 +5,8 @@
 
 <p class="text-center">${message}</p>
 
+<div class="spacer_1em"></div>
+
 <div class="text-center">
     <a class="btn btn-primary" href="${back}">Back</a>
 </div>
