@@ -54,6 +54,7 @@ public class RemoveRegistration extends HttpServlet {
         String pageTitle;
         String back;
 
+        // Get registration data for user/event combination, if not found, respond with generic error
         try {
             int userId = Integer.parseInt(request.getParameter("userId"));
             int eventId = Integer.parseInt(request.getParameter("eventId"));
@@ -110,6 +111,7 @@ public class RemoveRegistration extends HttpServlet {
         String statusMessage;
         String statusType;
 
+        // Remove registration if event is not in past, and user has not signed in
         try {
             int userId = Integer.parseInt(request.getParameter("userId"));
             int eventId = Integer.parseInt(request.getParameter("eventId"));

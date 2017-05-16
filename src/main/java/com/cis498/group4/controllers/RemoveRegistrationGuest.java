@@ -58,6 +58,7 @@ public class RemoveRegistrationGuest extends HttpServlet {
         String pageTitle;
         String back;
 
+        // Get registration data for current session user and selected event, respond with generic error if not found
         try {
             Attendance attendance = attendanceData.getAttendance(
                     user.getId(), Integer.parseInt(request.getParameter("eventId")));
@@ -130,6 +131,7 @@ public class RemoveRegistrationGuest extends HttpServlet {
         String statusMessage;
         String statusType;
 
+        // Remove registration if event not in past, and user has not already signed in
         try {
             Attendance attendance = attendanceData.getAttendance(
                     user.getId(), Integer.parseInt(request.getParameter("eventId")));
