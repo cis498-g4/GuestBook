@@ -55,26 +55,38 @@ public class ShowEventInfoGuest extends HttpServlet {
         User user = (User) session.getAttribute("sessionUser");
 
         String url = "/WEB-INF/views/show-event-guest.jsp";
+        String pageTitle;
+        String back = "list-events-guest";
 
-        Attendance attendance = attendanceData.getAttendance(user.getId(),
-                Integer.parseInt(request.getParameter("eventId")));
+        // Get registration data for current guest, if requested event not found respond with generic error
+        try {
+            Attendance attendance = attendanceData.getAttendance(user.getId(),
+                    Integer.parseInt(request.getParameter("eventId")));
 
-        Event event = attendance.getEvent();
-        request.setAttribute("event", event);
-        request.setAttribute("eventStart",
-                event.getStartDateTime().format(DateTimeFormatter.ofPattern("M/d/yyyy HH:mm")));
-        request.setAttribute("eventEnd",
-                event.getEndDateTime().format(DateTimeFormatter.ofPattern("M/d/yyyy HH:mm")));
-        request.setAttribute("eventLongDate",
-                event.getStartDateTime().format(DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy")));
+            Event event = attendance.getEvent();
+            request.setAttribute("event", event);
+            request.setAttribute("eventStart",
+                    event.getStartDateTime().format(DateTimeFormatter.ofPattern("M/d/yyyy HH:mm")));
+            request.setAttribute("eventEnd",
+                    event.getEndDateTime().format(DateTimeFormatter.ofPattern("M/d/yyyy HH:mm")));
+            request.setAttribute("eventLongDate",
+                    event.getStartDateTime().format(DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy")));
 
-        String pageTitle = String.format("Info for event - %s", event.getName());
+            // Get temporal status of attendance (especially for NOT_ATTENDED)
+            String temporalStatus = AttendanceHelpers.temporalStatus(attendance);
+            request.setAttribute("temporalStatus", temporalStatus);
+
+            pageTitle = String.format("Info for event - %s", event.getName());
+
+        } catch (Exception e) {
+            pageTitle = "Event Not Found";
+            url = "/WEB-INF/views/error-generic.jsp";
+            String message = "The event you were attempting to view could not be found.";
+            request.setAttribute("message", message);
+        }
+
         request.setAttribute("pageTitle", pageTitle);
-
-        // Get temporal status of attendance (especially for NOT_ATTENDED)
-        String temporalStatus = AttendanceHelpers.temporalStatus(attendance);
-        request.setAttribute("temporalStatus", temporalStatus);
-
+        request.setAttribute("back", back);
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 

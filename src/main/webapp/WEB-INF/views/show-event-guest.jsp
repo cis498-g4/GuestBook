@@ -75,7 +75,7 @@
 <hr>
 
 <div class="text-center">
-    <button class="btn btn-primary" onclick="window.location.href='list-events-guest'">Back</button>
+    <a class="btn btn-primary" href="${back}">Back</a>
 </div>
 
 <jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
