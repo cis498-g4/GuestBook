@@ -62,28 +62,37 @@ public class UpdateEvent extends HttpServlet {
         String statusMessage;
         String statusType;
 
-        Event event = eventData.getEvent(Integer.parseInt(request.getParameter("id")));
+        // Populate form with existing event data, redirect to generic error if event not found
+        try {
+            Event event = eventData.getEvent(Integer.parseInt(request.getParameter("id")));
 
-        String startDt = event.getStartDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        String endDt = event.getEndDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            String startDt = event.getStartDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            String endDt = event.getEndDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-        // If event ended in the past, warn and block editing capability
-        if (EventHelpers.endedInPast(event)) {
-            statusMessage = "This event occurred in the past, and cannot be updated.";
-            statusType = "danger";
-            request.setAttribute("concluded", true);
-            request.setAttribute("statusMessage", statusMessage);
-            request.setAttribute("statusType", statusType);
+            // If event ended in the past, warn and block editing capability
+            if (EventHelpers.endedInPast(event)) {
+                statusMessage = "This event occurred in the past, and cannot be updated.";
+                statusType = "danger";
+                request.setAttribute("concluded", true);
+                request.setAttribute("statusMessage", statusMessage);
+                request.setAttribute("statusType", statusType);
+            }
+
+            List<User> organizers = userData.getOrganizers();
+
+            pageTitle = String.format("Edit info for event %s", event.getName());
+
+            request.setAttribute("event", event);
+            request.setAttribute("organizers", organizers);
+            request.setAttribute("startDt", startDt);
+            request.setAttribute("endDt", endDt);
+
+        } catch (Exception e) {
+            pageTitle = "Event Not Found";
+            url = "/WEB-INF/views/error-generic.jsp";
+            String message = "The event you were attempting to update could not be found.";
+            request.setAttribute("message", message);
         }
-
-        List<User> organizers = userData.getOrganizers();
-
-        pageTitle = String.format("Edit info for event %s", event.getName());
-
-        request.setAttribute("event", event);
-        request.setAttribute("organizers", organizers);
-        request.setAttribute("startDt", startDt);
-        request.setAttribute("endDt", endDt);
 
         request.setAttribute("pageTitle", pageTitle);
         request.setAttribute("back", back);
