@@ -37,7 +37,7 @@
 <jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
 
 <script>
-
+    // jQuery DataTables https://datatables.net/
     $(document).ready(function() {
         var table = $('#guest-surveys-list').DataTable( {
             dom: '<"row"<"col-sm-12"i>>' +

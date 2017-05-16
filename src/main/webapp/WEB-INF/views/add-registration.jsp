@@ -69,10 +69,10 @@
 <jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
 
 <script>
-/**
- * Source:
- * https://www.abeautifulsite.net/whipping-file-inputs-into-shape-with-bootstrap-3
- */
+    /**
+    * Source:
+    * https://www.abeautifulsite.net/whipping-file-inputs-into-shape-with-bootstrap-3
+    */
     // Attach the `fileselect` event to all file inputs on the page
     $(document).on('change', ':file', function() {
         var input = $(this),

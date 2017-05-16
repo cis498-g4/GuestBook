@@ -62,6 +62,7 @@
 
 <jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
 
+<!-- jQuery Bar Rating http://antenna.io/demo/jquery-bar-rating/examples/ -->
 <script src="${pageContext.request.contextPath}/scripts/survey-barrating.js"></script>
 
 </body>

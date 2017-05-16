@@ -89,6 +89,7 @@
 <jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
 
 <script type="text/javascript">
+    // Bootstrap Datetime Picker https://eonasdan.github.io/bootstrap-datetimepicker/
     $(function () {
         var startDt = new Date('${startDt}');
         var endDt = new Date('${endDt}');

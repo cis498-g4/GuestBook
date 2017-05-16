@@ -51,7 +51,7 @@
 <jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
 
 <script>
-
+    // jQuery DataTables https://datatables.net/
     $(document).ready(function() {
         var table = $('#event-info').DataTable( {
             dom: '<"row"<"col-sm-4 col-sm-offset-4"rt>>' +
