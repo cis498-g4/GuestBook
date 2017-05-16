@@ -135,6 +135,22 @@ public class AttendanceHelpers {
     }
 
     /**
+     * Checks whether the maximum number of guests have signed in to the event
+     * @param event
+     * @return
+     */
+    public static boolean isFullSignIn(Event event) {
+        if (event.getCapacity() <= 0) {
+            return false;
+        }
+
+        AttendanceDataAccess attendanceData = new AttendanceDataAccess();
+        int signInCount = attendanceData.getSignInCount(event.getId());
+
+        return (signInCount >= event.getCapacity());
+    }
+
+    /**
      * Get status code for verifying the success or failure of an insert or update operation
      * @param user
      * @param event

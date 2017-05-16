@@ -265,6 +265,29 @@ public class AttendanceDataAccess {
     }
 
     /**
+     * Gets the number of users signed in to an event
+     * @param eventId
+     * @return
+     */
+    public int getSignInCount(int eventId) {
+        try {
+            String sql = "SELECT COUNT(`event_id`) AS 'count' FROM `event_attendance` " +
+                         "WHERE `event_id` = ? AND `attendance_status_id` > 0";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, eventId);
+            ResultSet results = preparedStatement.executeQuery();
+
+            if (results.next()) {
+                return results.getInt("count");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    /**
      * Gets an attendance count for each event id
      */
     public Map<Integer, Integer> getAttendanceCounts() {

@@ -5,6 +5,7 @@ import com.cis498.group4.data.UserDataAccess;
 import com.cis498.group4.models.Attendance;
 import com.cis498.group4.models.Event;
 import com.cis498.group4.models.User;
+import com.cis498.group4.util.AttendanceHelpers;
 import com.cis498.group4.util.EventHelpers;
 import com.cis498.group4.util.KioskHelpers;
 import com.cis498.group4.util.SessionHelpers;
@@ -46,7 +47,8 @@ public class ShowKiosk extends HttpServlet {
 
         HttpSession session = request.getSession();
 
-        String url = "/WEB-INF/views/kiosk-signin.jsp";
+        String url;
+        String pageTitle;
 
         // If there is a logged in organizer, redirect to event selection, otherwise to error message
         if (session.getAttribute("sessionUser") != null) {
@@ -71,12 +73,27 @@ public class ShowKiosk extends HttpServlet {
         Event event = (Event) session.getAttribute("event");
         request.setAttribute("event", event);
 
-        // Set session expiration time to number of seconds between event end time and now
-        session.setMaxInactiveInterval(EventHelpers.secondsToEnd(event));
+        String message;
+        if (EventHelpers.endedInPast(event)) {
+            url = "/WEB-INF/views/kiosk-lock.jsp";
+            pageTitle = String.format("%s has concluded", event.getName());
+            message = "This event has concluded and is no longer accepting sign-ins.";
+            request.setAttribute("message", message);
+        } else if (AttendanceHelpers.isFullSignIn(event)) {
+            url = "/WEB-INF/views/kiosk-lock.jsp";
+            pageTitle = String.format("%s is full", event.getName());
+            message = "This event is at capacity and is no longer accepting sign-ins.";
+            request.setAttribute("message", message);
+        } else {
+            // Event OK, render form
+            url = "/WEB-INF/views/kiosk-signin.jsp";
+            pageTitle = String.format("Welcome to %s", event.getName());
 
-        String pageTitle = String.format("Welcome to %s", event.getName());
+            // Set session expiration time to number of seconds between event end time and now
+            session.setMaxInactiveInterval(EventHelpers.secondsToEnd(event));
+        }
+
         request.setAttribute("pageTitle", pageTitle);
-
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 
