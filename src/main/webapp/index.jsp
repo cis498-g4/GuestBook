@@ -8,7 +8,7 @@
     Please contact an event organizer for assistance.
 </p>
 
-
+<jsp:include page="/WEB-INF/templates/footer-kiosk.jsp"></jsp:include>
 
 </body>
 </html>
