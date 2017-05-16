@@ -51,12 +51,27 @@ public class UpdateUser extends HttpServlet {
         String pageTitle;
         String back = "list-users";
 
-        User user = userData.getUser(Integer.parseInt(request.getParameter("id")));
+        // Populate form with user data, redirect to generic error if user not found
+        try {
+            User user = userData.getUser(Integer.parseInt(request.getParameter("id")));
+            request.setAttribute("user", user);
 
-        pageTitle = String.format("Edit info for user %s %s", user.getFirstName(), user.getLastName());
+            // Throw error if email is null
+            if (user.getEmail() == null) {
+                throw new Exception("User email null");
+            }
 
-        request.setAttribute("user", user);
+            pageTitle = String.format("Edit info for user %s %s", user.getFirstName(), user.getLastName());
+
+        } catch (Exception e) {
+            pageTitle = "User Not Found";
+            url = "/WEB-INF/views/error-generic.jsp";
+            String message = "The user you were attempting to update could not be found.";
+            request.setAttribute("message", message);
+        }
+
         request.setAttribute("pageTitle", pageTitle);
+        request.setAttribute("back", back);
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 
@@ -88,6 +103,7 @@ public class UpdateUser extends HttpServlet {
 
         User user = null;
 
+        // Update user if existing and data posted is valid
         try {
             user = userData.getUser(Integer.parseInt(request.getParameter("id")));
 
