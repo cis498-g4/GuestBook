@@ -117,7 +117,7 @@ public class AddRegistration extends HttpServlet {
         // Get existing user registrations
         List<Attendance> registrations = attendanceData.getFutureRegistrations(user);
 
-        // Perform appropriate registration action / respond with appropriate message
+        // Perform appropriate registration action / respond with appropriate message based on status check
         int status = AttendanceHelpers.registerStatus(user, event, registrations);
 
         switch(status) {

@@ -47,6 +47,7 @@ public class AddRegistrationGuest extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        // There is no GET action, registration form is rendered on guest registration list
         response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
 
     }

@@ -149,8 +149,10 @@ public class AddRegistrationCSV extends HttpServlet {
                 List<User> errorUsers = new ArrayList<User>();
 
                 for (User csvUser : csvUsers) {
+                    // Get user data based on email information in CSV
                     User regUser = userData.getUserByEmail(csvUser.getEmail());
 
+                    // Set type to guest
                     if (csvUser.getType() == null) {
                         csvUser.setType(User.UserType.GUEST);
                     }
@@ -203,7 +205,7 @@ public class AddRegistrationCSV extends HttpServlet {
 
                 }
 
-                // TODO Generate response
+                // Generate response
                 url = "/WEB-INF/views/add-registration-csv.jsp";
                 pageTitle = String.format("Group Registration Status for %s %s", event.getName(), eventDate);
                 back = String.format("list-user-regs-for-event?id=%s", event.getId());
@@ -247,19 +249,19 @@ public class AddRegistrationCSV extends HttpServlet {
                 request.setAttribute("statusType", statusType);
 
             } catch (FileUploadException e) {
-                //TODO: Problem with upload: invalid file, exceeds max size, ...
+                // Problem with upload: invalid file, exceeds max size, ...
                 url = "/WEB-INF/views/error-generic.jsp";
                 pageTitle = "File upload error";
                 back = "list-event-registrations";
                 request.setAttribute("message", "Invalid file format");
             } catch (NullPointerException e) {
-                // TODO invalid file format
+                // Invalid file format
                 url = "/WEB-INF/views/error-generic.jsp";
                 pageTitle = "File upload error";
                 back = "list-event-registrations";
                 request.setAttribute("message", "Invalid file format");
             } catch (ArrayIndexOutOfBoundsException e){
-                // TODO invalid file format
+                // Invalid file format
                 url = "/WEB-INF/views/error-generic.jsp";
                 pageTitle = "File upload error";
                 back = "list-event-registrations";
