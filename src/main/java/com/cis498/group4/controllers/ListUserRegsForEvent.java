@@ -76,7 +76,7 @@ public class ListUserRegsForEvent extends HttpServlet {
                     event.getName(), event.getStartDateTime().format(DateTimeFormatter.ofPattern("M/d/YY")));
 
             request.setAttribute("remain", remain);
-            
+
         } catch (Exception e) {
             pageTitle = "Registration Data Not Found";
             url = "/WEB-INF/views/error-generic.jsp";
