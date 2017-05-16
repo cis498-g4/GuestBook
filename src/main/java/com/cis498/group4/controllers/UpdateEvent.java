@@ -127,6 +127,7 @@ public class UpdateEvent extends HttpServlet {
 
         Event event = null;
 
+        // Update event if it is not in past, does not conflict with presenter's other events, and data posted is valid
         try {
             event = eventData.getEvent(Integer.parseInt(request.getParameter("id")));
 
