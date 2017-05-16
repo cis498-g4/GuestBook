@@ -49,12 +49,29 @@ public class RemoveUser extends HttpServlet {
 
         String url = "/WEB-INF/views/remove-user.jsp";
         String pageTitle;
+        String back = "list-users";
 
-        User user = userData.getUser(Integer.parseInt(request.getParameter("id")));
-        pageTitle = String.format("Remove user %s %s?", user.getFirstName(), user.getLastName());
+        // Get event data, redirect to generic error if not found
+        try {
+            User user = userData.getUser(Integer.parseInt(request.getParameter("id")));
+            request.setAttribute("user", user);
 
-        request.setAttribute("user", user);
+            // Throw error if user email is null
+            if (user.getEmail() == null) {
+                throw new Exception("User email null");
+            }
+
+            pageTitle = String.format("Remove user %s %s?", user.getFirstName(), user.getLastName());
+
+        } catch (Exception e) {
+            pageTitle = "User Not Found";
+            url = "/WEB-INF/views/error-generic.jsp";
+            String message = "The user you were attempting to remove could not be found.";
+            request.setAttribute("message", message);
+        }
+
         request.setAttribute("pageTitle", pageTitle);
+        request.setAttribute("back", back);
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 
@@ -77,6 +94,7 @@ public class RemoveUser extends HttpServlet {
             return;
         }
 
+        // Get current session user to ensure user is not attempting to delete him/herself
         HttpSession session = request.getSession();
         User sessionUser = (User) session.getAttribute("sessionUser");
 
@@ -86,6 +104,7 @@ public class RemoveUser extends HttpServlet {
 
         User user = null;
 
+        // Remove user if not current user, and user is not associated with registrations or surveys
         try {
             int userId = Integer.parseInt(request.getParameter("id"));
 
