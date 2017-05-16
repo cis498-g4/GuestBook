@@ -5,24 +5,28 @@
 <jsp:include page="/WEB-INF/templates/header.jsp"></jsp:include>
 
 <c:if test="${sessionUser.type == 'ORGANIZER'}">
-    <ul>
-        <li><a href="list-users">Manage Users</a></li>
-        <li><a href="list-events">Manage Events</a></li>
-        <li><a href="list-surveys">View Surveys</a></li>
-        <li><a href="list-event-registrations">Event Registration</a></li>
-        <li><a href="start-kiosk">Sign-In Kiosk</a></li>
-        <li><a href="logout">Logout</a></li>
-    </ul>
+    <div class="row text-center">
+        <div class="col-sm-4"><a class="btn btn-default btn-block" style="margin-bottom: 16px;" href="list-users">Manage Users</a></div>
+        <div class="col-sm-4"><a class="btn btn-default btn-block" style="margin-bottom: 16px;" href="list-events">Manage Events</a></div>
+        <div class="col-sm-4"><a class="btn btn-default btn-block" style="margin-bottom: 16px;" href="list-surveys">View Surveys</a></div>
+    </div>
+    <div class="row text-center">
+        <div class="col-sm-4"><a class="btn btn-default btn-block" style="margin-bottom: 16px;" href="list-event-registrations">Event Registration</a></div>
+        <div class="col-sm-4"><a class="btn btn-default btn-block" style="margin-bottom: 16px;" href="start-kiosk">Sign-In Kiosk</a></div>
+        <div class="col-sm-4"><a class="btn btn-default btn-block" style="margin-bottom: 16px;" href="logout">Logout</a></div>
+    </div>
 </c:if>
 
 <c:if test="${sessionUser.type == 'GUEST'}">
-    <ul>
-        <li><a href="list-events-guest">My Events</a></li>
-        <li><a href="list-surveys-guest">My Surveys</a></li>
-        <li><a href="list-registrations-guest">Event Registration</a></li>
-        <li><a href="show-user-info-guest">My Account</a></li>
-        <li><a href="logout">Logout</a></li>
-    </ul>
+    <div class="row text-center">
+        <div class="col-sm-4"><a class="btn btn-default btn-block" style="margin-bottom: 16px;" href="list-events-guest">My Events</a></div>
+        <div class="col-sm-4"><a class="btn btn-default btn-block" style="margin-bottom: 16px;" href="list-surveys-guest">My Surveys</a></div>
+        <div class="col-sm-4"><a class="btn btn-default btn-block" style="margin-bottom: 16px;" href="list-registrations-guest">Event Registration</a></div>
+    </div>
+    <div class="row text-center">
+        <div class="col-sm-4 col-sm-offset-2"><a class="btn btn-default btn-block" style="margin-bottom: 16px;" href="show-user-info-guest">My Account</a></div>
+        <div class="col-sm-4"><a class="btn btn-default btn-block" style="margin-bottom: 16px;" href="logout">Logout</a></div>
+    </div>
 </c:if>
 
 <jsp:include page="/WEB-INF/templates/footer.jsp"></jsp:include>
