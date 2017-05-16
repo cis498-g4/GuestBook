@@ -145,7 +145,7 @@
                     text: 'Back',
                     className: 'btn-primary',
                     action: function ( e, dt, node, conf ) {
-                        window.location.href = 'list-surveys';
+                        window.location.href = '${back}';
                     }
                 },
                 { extend: 'csv', text: 'Download CSV', className: 'btn-primary' },

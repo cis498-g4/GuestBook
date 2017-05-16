@@ -50,21 +50,33 @@ public class ShowSurveyInfo extends HttpServlet {
         }
 
         String url = "/WEB-INF/views/show-survey-info.jsp";
+        String pageTitle;
+        String back = "list-surveys";
 
-        Survey survey = surveyData.getSurvey(Integer.parseInt(request.getParameter("id")));
-        request.setAttribute("survey", survey);
+        // Get survey data, redirect to generic error if not found
+        try {
+            Survey survey = surveyData.getSurvey(Integer.parseInt(request.getParameter("id")));
+            request.setAttribute("survey", survey);
 
-        // Respond with some basic statistics
-        BigDecimal average = SurveyHelpers.responseAverage(survey);
-        String sentiment = SurveyHelpers.responseSentiment(average.doubleValue());
+            // Respond with some basic statistics
+            BigDecimal average = SurveyHelpers.responseAverage(survey);
+            String sentiment = SurveyHelpers.responseSentiment(average.doubleValue());
 
-        request.setAttribute("average", average);
-        request.setAttribute("sentiment", sentiment);
+            request.setAttribute("average", average);
+            request.setAttribute("sentiment", sentiment);
 
-        String pageTitle = String.format("Survey for %s by %s %s", survey.getEvent().getName(),
-                survey.getUser().getFirstName(), survey.getUser().getLastName());
+            pageTitle = String.format("Survey for %s by %s %s", survey.getEvent().getName(),
+                    survey.getUser().getFirstName(), survey.getUser().getLastName());
+
+        } catch (Exception e) {
+            pageTitle = "Survey Not Found";
+            url = "/WEB-INF/views/error-generic.jsp";
+            String message = "The survey you were attempting to view could not be found.";
+            request.setAttribute("message", message);
+        }
+
         request.setAttribute("pageTitle", pageTitle);
-
+        request.setAttribute("back", back);
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 
