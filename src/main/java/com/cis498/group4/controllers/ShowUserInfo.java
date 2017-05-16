@@ -47,13 +47,30 @@ public class ShowUserInfo extends HttpServlet {
         }
 
         String url = "/WEB-INF/views/show-user-info.jsp";
+        String pageTitle;
+        String back = "list-users";
 
-        User user = userData.getUser(Integer.parseInt(request.getParameter("id")));
-        request.setAttribute("user", user);
+        // Get user data, if not found, respond with generic error
+        try {
+            User user = userData.getUser(Integer.parseInt(request.getParameter("id")));
+            request.setAttribute("user", user);
 
-        String pageTitle = String.format("Info for user %s %s", user.getFirstName(), user.getLastName());
+            // Throw error if user email is null
+            if (user.getEmail() == null) {
+                throw new Exception("User email null");
+            }
+
+            pageTitle = String.format("Info for user %s %s", user.getFirstName(), user.getLastName());
+
+        } catch (Exception e) {
+            pageTitle = "User Not Found";
+            url = "/WEB-INF/views/error-generic.jsp";
+            String message = "The user you were attempting to view could not be found.";
+            request.setAttribute("message", message);
+        }
+
         request.setAttribute("pageTitle", pageTitle);
-
+        request.setAttribute("back", back);
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 
