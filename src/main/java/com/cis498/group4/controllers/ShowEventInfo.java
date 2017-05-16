@@ -46,13 +46,30 @@ public class ShowEventInfo extends HttpServlet {
         }
 
         String url = "/WEB-INF/views/show-event-info.jsp";
+        String pageTitle;
+        String back = "list-events";
 
-        Event event = eventData.getEvent(Integer.parseInt(request.getParameter("id")));
-        request.setAttribute("event", event);
+        // Get event data, redirect to generic error if not found
+        try {
+            Event event = eventData.getEvent(Integer.parseInt(request.getParameter("id")));
+            request.setAttribute("event", event);
 
-        String pageTitle = String.format("Info for %s", event.getName());
+            // Throw error if event name is null
+            if (event.getName() == null) {
+                throw new Exception("Event name null");
+            }
+
+            pageTitle = String.format("Info for %s", event.getName());
+
+        } catch (Exception e) {
+            pageTitle = "Event Not Found";
+            url = "/WEB-INF/views/error-generic.jsp";
+            String message = "The event you were attempting to view could not be found.";
+            request.setAttribute("message", message);
+        }
+
         request.setAttribute("pageTitle", pageTitle);
-
+        request.setAttribute("back", back);
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 

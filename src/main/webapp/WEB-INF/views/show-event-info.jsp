@@ -63,7 +63,7 @@
                     text: 'Back',
                     className: 'btn-primary',
                     action: function ( e, dt, node, conf ) {
-                        window.location.href = 'list-events';
+                        window.location.href = '${back}';
                     }
                 },
                 {
