@@ -66,6 +66,7 @@ public class ShowSurveyForm extends HttpServlet {
         String pageTitle;
         String back = "list-surveys-guest";
 
+        // Show survey only if user signed in, and has not already completed a survey
         try {
             Attendance attendance = attendanceData.getAttendance(
                     user.getId(), Integer.parseInt(request.getParameter("eventId")));
@@ -85,6 +86,7 @@ public class ShowSurveyForm extends HttpServlet {
                 request.setAttribute("surveyTaken", true);
             }
 
+            // Enforce response order
             request.setAttribute("questions", SurveyHelpers.QUESTIONS);
             request.setAttribute("responseTypes", SurveyHelpers.RESPONSE_TYPES);
             String[] responses = {"response_01", "response_02", "response_03", "response_04", "response_05", "response_06",
@@ -137,9 +139,10 @@ public class ShowSurveyForm extends HttpServlet {
             // Build survey object
             Survey survey = new Survey();
 
+            // Validate survey object and get status code
             int status = SurveyHelpers.setAttributesFromRequest(survey, user, attendance, request);
 
-            // Perform insert and respond with appropriate message
+            // Perform insert and respond with appropriate message based on status code
             switch (status) {
                 case SurveyHelpers.SUCCESSFUL_SUBMISSION:
                     int insertStatus = surveyData.insertSurvey(survey);

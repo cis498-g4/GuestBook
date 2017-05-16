@@ -69,7 +69,7 @@ public class ShowKiosk extends HttpServlet {
             return;
         }
 
-        // TODO Render form for sign-in, or alert page if event is full or ended
+        // Render form for sign-in, or alert page if event is full or ended
         Event event = (Event) session.getAttribute("event");
         request.setAttribute("event", event);
 

@@ -51,7 +51,7 @@ public class ShowKioskSelection extends HttpServlet {
         String url = "/WEB-INF/views/start-kiosk.jsp";
         String pageTitle = "Kiosk Event Selection";
 
-        // Provide a list of Events that end in the future for the selection dropdown
+        // Provide a list of Events that end in the future for the selection list
         List<Event> futureEvents = eventData.getFutureEvents();
         request.setAttribute("futureEvents", futureEvents);
 
@@ -79,7 +79,7 @@ public class ShowKioskSelection extends HttpServlet {
             return;
         }
 
-        // Invalidate organizer session and store event data in new session
+        // Invalidate organizer session (logout) and store event data in new session
         HttpSession session = request.getSession();
         session.invalidate();
 
@@ -87,6 +87,7 @@ public class ShowKioskSelection extends HttpServlet {
         Event event = eventData.getEvent(Integer.parseInt(request.getParameter("eventId")));
         session.setAttribute("event", event);
 
+        // Redirect new session to sign-in kiosk
         String url = request.getContextPath() + "/kiosk";
         response.sendRedirect(url);
 

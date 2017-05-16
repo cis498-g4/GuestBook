@@ -51,6 +51,8 @@ public class ShowUserInfoGuest extends HttpServlet {
         String url = "/WEB-INF/views/show-user-info-guest.jsp";
         String pageTitle = "Account Information";
 
+        // Guest info comes from session, nothing to pass to view
+
         request.setAttribute("pageTitle", pageTitle);
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
