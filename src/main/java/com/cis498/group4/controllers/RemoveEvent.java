@@ -56,6 +56,7 @@ public class RemoveEvent extends HttpServlet {
             Event event = eventData.getEvent(Integer.parseInt(request.getParameter("id")));
             request.setAttribute("event", event);
 
+            // Throw error if event name is null
             if (event.getName() == null) {
                 throw new Exception("Event name null");
             }
