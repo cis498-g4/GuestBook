@@ -52,13 +52,23 @@
             '<"row"<"col-sm-12"rt>>' +
             '<"spacer_20">' +
             '<"row"<"col-sm-6"B><"col-sm-6"p>>',
-            columnDefs: [ { orderable: false, targets: [4] } ],
+            columnDefs: [ { orderable: false, targets: [4] },
+                { render: $.fn.dataTable.render.ellipsis(25), targets: [0, 2] } ],
             buttons: [
                 { extend: 'csv', text: 'Download CSV', className: 'btn-primary' },
                 { extend: 'print', className: 'btn-primary'}
             ]
         });
     });
+
+    // render ellipses for data longer than maxLen
+    $.fn.dataTable.render.ellipsis = function (maxLen) {
+        return function (data, type, row) {
+            return type === 'display' && data.length > maxLen ?
+                data.substr(0, maxLen) +'&hellip;' :
+                data;
+        }
+    };
 
 </script>
 
