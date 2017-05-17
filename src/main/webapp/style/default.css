@@ -23,6 +23,14 @@ html, body {
     display: none;
 }
 
+/* Truncate logout button in nav if name long */
+#nav-menu li a {
+    white-space: nowrap;
+    max-width: 25em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 /* Remove shading from Bootstrap alerts */
 .alert {
     background-image: none;
