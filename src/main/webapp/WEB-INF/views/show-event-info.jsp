@@ -58,6 +58,7 @@
             '<"spacer_2em">' +
             '<"row"<"col-sm-12 text-center"B>>',
             columnDefs: [ { orderable: false, targets: [0,1] } ],
+            ordering: false,
             buttons: [
                 {
                     text: 'Back',
