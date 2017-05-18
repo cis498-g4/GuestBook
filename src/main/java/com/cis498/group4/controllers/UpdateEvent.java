@@ -152,6 +152,10 @@ public class UpdateEvent extends HttpServlet {
                 } else if (updateStatus == -1) {
                     statusMessage = "<strong>Error!</strong> Invalid data entered for event!";
                     statusType = "danger";
+                } else if (updateStatus == 1062) {
+                    statusMessage = String.format("<strong>Error!</strong> The registration code %s is already in use. " +
+                            "Please choose a different code.", event.getRegistrationCode());
+                    statusType = "danger";
                 } else {
                     statusMessage = "<strong>Error!</strong> Update event operation failed!";
                     statusType = "danger";

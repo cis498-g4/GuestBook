@@ -40,6 +40,7 @@ CREATE TABLE `guestbookdb`.`event` (
     `mandatory_survey` BOOLEAN NOT NULL DEFAULT FALSE,
     `capacity` INT,
     PRIMARY KEY (`event_id`),
+    UNIQUE (`registration_code`),
     FOREIGN KEY `fk_event$user` (`presenter_id`)
     REFERENCES `guestbookdb`.`user`(`user_id`)
         ON DELETE RESTRICT

@@ -105,6 +105,10 @@ public class AddEvent extends HttpServlet {
                 } else if (insertStatus == -1) {
                     statusMessage = "<strong>Error!</strong> Invalid data entered for new event!";
                     statusType = "danger";
+                } else if (insertStatus == 1062) {
+                    statusMessage = String.format("<strong>Error!</strong> The registration code %s is already in use. " +
+                            "Please choose a different code.", event.getRegistrationCode());
+                    statusType = "danger";
                 } else {
                     statusMessage = "<strong>Error!</strong> Add event operation failed!";
                     statusType = "danger";
