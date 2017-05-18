@@ -204,6 +204,7 @@ public class SurveyHelpers {
      * @param attendance
      * @return
      */
+    @SuppressWarnings("unchecked")
     public static int submissionStatus(Survey survey, User user, Attendance attendance) {
         if (!UserHelpers.validateRecord(user)) {
             return INVALID_USER;
