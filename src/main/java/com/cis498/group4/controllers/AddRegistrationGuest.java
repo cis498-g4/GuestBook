@@ -2,7 +2,6 @@ package com.cis498.group4.controllers;
 
 import com.cis498.group4.data.AttendanceDataAccess;
 import com.cis498.group4.data.EventDataAccess;
-import com.cis498.group4.data.UserDataAccess;
 import com.cis498.group4.models.Attendance;
 import com.cis498.group4.models.Event;
 import com.cis498.group4.models.User;
@@ -28,13 +27,11 @@ public class AddRegistrationGuest extends HttpServlet {
 
     private AttendanceDataAccess attendanceData;
     private EventDataAccess eventData;
-    private UserDataAccess userData;
 
     public AddRegistrationGuest() {
         super();
         attendanceData = new AttendanceDataAccess();
         eventData = new EventDataAccess();
-        userData = new UserDataAccess();
     }
 
     /**
@@ -60,6 +57,7 @@ public class AddRegistrationGuest extends HttpServlet {
      * @throws IOException
      */
     @Override
+    @SuppressWarnings("unchecked")
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         // Restrict access by non-Guests
