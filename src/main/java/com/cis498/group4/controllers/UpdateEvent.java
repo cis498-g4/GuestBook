@@ -193,6 +193,10 @@ public class UpdateEvent extends HttpServlet {
                 statusMessage = "<strong>Error!</strong> Capacity must be an integer between 1 and 1000!";
                 statusType = "danger";
                 break;
+            case EventHelpers.INVALID_MIN_CAPACITY:
+                statusMessage = "<strong>Error!</strong> Capacity must be greater than the number of users registered!";
+                statusType = "danger";
+                break;
             case EventHelpers.INVALID_CODE:
                 statusMessage = "<strong>Error!</strong> Registration code must be a string of exactly eight letters and/or numbers!";
                 statusType = "danger";

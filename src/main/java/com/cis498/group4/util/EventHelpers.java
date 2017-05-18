@@ -1,5 +1,6 @@
 package com.cis498.group4.util;
 
+import com.cis498.group4.data.AttendanceDataAccess;
 import com.cis498.group4.data.EventDataAccess;
 import com.cis498.group4.data.UserDataAccess;
 import com.cis498.group4.models.Event;
@@ -31,6 +32,7 @@ public class EventHelpers {
     public static final int INVALID_CAPACITY = 8;
     public static final int INVALID_CODE = 9;
     public static final int INVALID_EVENT = 10;
+    public static final int INVALID_MIN_CAPACITY = 11;
 
     /**
      * Validates an existing event record.
@@ -90,6 +92,26 @@ public class EventHelpers {
         }
 
         return false;
+    }
+
+    /**
+     * Ensures that the capacity is not less than the number of users registered or signed in to the event.
+     * @param event
+     * @return
+     */
+    public static boolean validateMinCapacity(Event event) {
+        int capacity = event.getCapacity();
+
+        // Don't evaluate if capacity is unlimited
+        if (capacity == -1) {
+            return true;
+        }
+
+        // Get attendance count for event
+        AttendanceDataAccess attendanceData = new AttendanceDataAccess();
+        int minCapacity = attendanceData.getAttendanceCount(event.getId());
+
+        return capacity >= minCapacity;
     }
 
     /**
@@ -346,6 +368,10 @@ public class EventHelpers {
 
         if (!validateCapacity(event.getCapacity())) {
             return INVALID_CAPACITY;
+        }
+
+        if (!validateMinCapacity(event)) {
+            return INVALID_MIN_CAPACITY;
         }
 
         if (!validateRegistrationCode(event.getRegistrationCode())) {
