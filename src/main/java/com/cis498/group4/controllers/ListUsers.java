@@ -10,9 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -31,10 +29,10 @@ public class ListUsers extends HttpServlet {
 
     /**
      * Render a list of users, with buttons to view, edit, or delete each
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
+     * @param request The HTTP request received from the client
+     * @param response The HTTP response returned by the servlet
+     * @throws ServletException The request could not be handled
+     * @throws IOException An input or output error has occurred
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

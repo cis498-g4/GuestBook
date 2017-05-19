@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 /**
  * The UpdateUser servlet responds to requests to edit a user's information.
@@ -30,10 +29,10 @@ public class UpdateUser extends HttpServlet {
 
     /**
      * Render form to collect new User information. Existing information should pre-populate the fields
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
+     * @param request The HTTP request received from the client
+     * @param response The HTTP response returned by the servlet
+     * @throws ServletException The request could not be handled
+     * @throws IOException An input or output error has occurred
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -79,10 +78,10 @@ public class UpdateUser extends HttpServlet {
 
     /**
      * Build new User with posted information and submit it for the database. Respond with confirmation message.
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
+     * @param request The HTTP request received from the client
+     * @param response The HTTP response returned by the servlet
+     * @throws ServletException The request could not be handled
+     * @throws IOException An input or output error has occurred
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

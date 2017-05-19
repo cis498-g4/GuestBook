@@ -33,10 +33,10 @@ public class RemoveRegistration extends HttpServlet {
 
     /**
      * Render a confirmation message for the registration record to be removed (cancelled)
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
+     * @param request The HTTP request received from the client
+     * @param response The HTTP response returned by the servlet
+     * @throws ServletException The request could not be handled
+     * @throws IOException An input or output error has occurred
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -92,10 +92,10 @@ public class RemoveRegistration extends HttpServlet {
 
     /**
      * Receive deletion confirmation, process the deletion in the database, and respond with a confirmation message
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
+     * @param request The HTTP request received from the client
+     * @param response The HTTP response returned by the servlet
+     * @throws ServletException The request could not be handled
+     * @throws IOException An input or output error has occurred
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

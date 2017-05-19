@@ -160,7 +160,7 @@ public class UserHelpers {
     /**
      * Sets a user object's attributes based on parameters passed in request
      * @param user
-     * @param request
+     * @param request The HTTP request received from the client
      * @return writeStatus of created event
      */
     public static int setAttributesFromRequest(User user, HttpServletRequest request) {

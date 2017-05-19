@@ -280,7 +280,7 @@ public class EventHelpers {
     /**
      * Sets an event object's attributes based on parameters passed in request
      * @param event
-     * @param request
+     * @param request The HTTP request received from the client
      * @param eventData
      * @param userData
      * @return writeStatus of created event

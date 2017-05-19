@@ -34,10 +34,10 @@ public class ShowEventInfoGuest extends HttpServlet {
     /**
      * Render page to display all data about an event associated with a user,
      * with buttons to take surveys or remove registration (if applicable)
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
+     * @param request The HTTP request received from the client
+     * @param response The HTTP response returned by the servlet
+     * @throws ServletException The request could not be handled
+     * @throws IOException An input or output error has occurred
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

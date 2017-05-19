@@ -36,10 +36,10 @@ public class AddRegistrationGuest extends HttpServlet {
 
     /**
      * Respond with method not allowed message
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
+     * @param request The HTTP request received from the client
+     * @param response The HTTP response returned by the servlet
+     * @throws ServletException The request could not be handled
+     * @throws IOException An input or output error has occurred
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -51,10 +51,10 @@ public class AddRegistrationGuest extends HttpServlet {
 
     /**
      * Create a new registration (attendance) record from posted data, write to database, and send confirmation to user
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
+     * @param request The HTTP request received from the client
+     * @param response The HTTP response returned by the servlet
+     * @throws ServletException The request could not be handled
+     * @throws IOException An input or output error has occurred
      */
     @Override
     @SuppressWarnings("unchecked")

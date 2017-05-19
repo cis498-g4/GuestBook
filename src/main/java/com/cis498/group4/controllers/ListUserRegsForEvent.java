@@ -2,7 +2,6 @@ package com.cis498.group4.controllers;
 
 import com.cis498.group4.data.AttendanceDataAccess;
 import com.cis498.group4.data.EventDataAccess;
-import com.cis498.group4.data.UserDataAccess;
 import com.cis498.group4.models.Attendance;
 import com.cis498.group4.models.Event;
 import com.cis498.group4.util.AttendanceHelpers;
@@ -36,10 +35,10 @@ public class ListUserRegsForEvent extends HttpServlet {
 
     /**
      * Render a list of users with registrations for the specified event
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
+     * @param request The HTTP request received from the client
+     * @param response The HTTP response returned by the servlet
+     * @throws ServletException The request could not be handled
+     * @throws IOException An input or output error has occurred
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

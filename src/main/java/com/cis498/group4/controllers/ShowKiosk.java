@@ -37,10 +37,10 @@ public class ShowKiosk extends HttpServlet {
 
     /**
      * Verify that an event has been set, and no user is logged in to the console, then render the event sign-in form
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
+     * @param request The HTTP request received from the client
+     * @param response The HTTP response returned by the servlet
+     * @throws ServletException The request could not be handled
+     * @throws IOException An input or output error has occurred
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

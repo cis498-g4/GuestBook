@@ -33,10 +33,10 @@ public class ListPendingSurveysGuest extends HttpServlet {
 
     /**
      * Renders a list of all events for which the current user has attended or signed in, but has not completed a survey
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
+     * @param request The HTTP request received from the client
+     * @param response The HTTP response returned by the servlet
+     * @throws ServletException The request could not be handled
+     * @throws IOException An input or output error has occurred
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -2,7 +2,6 @@ package com.cis498.group4.controllers;
 
 import com.cis498.group4.data.UserDataAccess;
 import com.cis498.group4.models.User;
-import com.cis498.group4.util.SessionHelpers;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -29,10 +28,10 @@ public class ManagerLogin extends HttpServlet {
 
     /**
      * Render a form to login (or landing page if user already logged in)
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
+     * @param request The HTTP request received from the client
+     * @param response The HTTP response returned by the servlet
+     * @throws ServletException The request could not be handled
+     * @throws IOException An input or output error has occurred
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -62,10 +61,10 @@ public class ManagerLogin extends HttpServlet {
 
     /**
      * Authenticate user credentials, direct to landing page if valid, redirect to form if invalid
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
+     * @param request The HTTP request received from the client
+     * @param response The HTTP response returned by the servlet
+     * @throws ServletException The request could not be handled
+     * @throws IOException An input or output error has occurred
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

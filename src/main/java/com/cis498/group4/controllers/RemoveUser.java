@@ -3,7 +3,6 @@ package com.cis498.group4.controllers;
 import com.cis498.group4.data.UserDataAccess;
 import com.cis498.group4.models.User;
 import com.cis498.group4.util.SessionHelpers;
-import com.cis498.group4.util.UserHelpers;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -30,10 +29,10 @@ public class RemoveUser extends HttpServlet {
 
     /**
      * Render a confirmation message with the details of the User to be deleted
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
+     * @param request The HTTP request received from the client
+     * @param response The HTTP response returned by the servlet
+     * @throws ServletException The request could not be handled
+     * @throws IOException An input or output error has occurred
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -79,10 +78,10 @@ public class RemoveUser extends HttpServlet {
 
     /**
      * Receive deletion confirmation, process the deletion in the database, and respond with a confirmation message
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
+     * @param request The HTTP request received from the client
+     * @param response The HTTP response returned by the servlet
+     * @throws ServletException The request could not be handled
+     * @throws IOException An input or output error has occurred
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

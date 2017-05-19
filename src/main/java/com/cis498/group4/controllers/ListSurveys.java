@@ -1,9 +1,7 @@
 package com.cis498.group4.controllers;
 
 import com.cis498.group4.data.SurveyDataAccess;
-import com.cis498.group4.data.UserDataAccess;
 import com.cis498.group4.models.Survey;
-import com.cis498.group4.models.User;
 import com.cis498.group4.util.SessionHelpers;
 
 import javax.servlet.RequestDispatcher;
@@ -31,10 +29,10 @@ public class ListSurveys extends HttpServlet {
 
     /**
      * Render a list of completed surveys, with a button to view the details for each
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
+     * @param request The HTTP request received from the client
+     * @param response The HTTP response returned by the servlet
+     * @throws ServletException The request could not be handled
+     * @throws IOException An input or output error has occurred
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

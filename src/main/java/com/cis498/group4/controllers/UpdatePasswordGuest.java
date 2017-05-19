@@ -3,7 +3,6 @@ package com.cis498.group4.controllers;
 import com.cis498.group4.data.UserDataAccess;
 import com.cis498.group4.models.User;
 import com.cis498.group4.util.SessionHelpers;
-import com.cis498.group4.util.UserHelpers;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 
 /**
  * The UpdatePasswordGuest servlet responds to guest requests to change their password.
@@ -31,10 +29,10 @@ public class UpdatePasswordGuest extends HttpServlet {
 
     /**
      * Render form where user must supply old password and type the new password twice to change
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
+     * @param request The HTTP request received from the client
+     * @param response The HTTP response returned by the servlet
+     * @throws ServletException The request could not be handled
+     * @throws IOException An input or output error has occurred
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -64,10 +62,10 @@ public class UpdatePasswordGuest extends HttpServlet {
     /**
      * Verify old password and matching new password fields, update the user password in the database,
      * and respond with confirmation.
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
+     * @param request The HTTP request received from the client
+     * @param response The HTTP response returned by the servlet
+     * @throws ServletException The request could not be handled
+     * @throws IOException An input or output error has occurred
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

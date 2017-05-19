@@ -33,10 +33,10 @@ public class ListRegistrationsGuest extends HttpServlet {
     /**
      * Render a list of the user's events occurring in the future, with buttons to remove registration for each event,
      * and a form field to register for additional events
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
+     * @param request The HTTP request received from the client
+     * @param response The HTTP response returned by the servlet
+     * @throws ServletException The request could not be handled
+     * @throws IOException An input or output error has occurred
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -69,10 +69,10 @@ public class ListRegistrationsGuest extends HttpServlet {
 
     /**
      * Respond to posted form to register for an additional event, if the user knows the code
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
+     * @param request The HTTP request received from the client
+     * @param response The HTTP response returned by the servlet
+     * @throws ServletException The request could not be handled
+     * @throws IOException An input or output error has occurred
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

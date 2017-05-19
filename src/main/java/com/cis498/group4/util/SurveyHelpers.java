@@ -102,7 +102,7 @@ public class SurveyHelpers {
 
     /**
      * Validates that a response is an integer between 1 and 10
-     * @param response
+     * @param response The HTTP response returned by the servlet
      * @return
      */
     public static boolean validateResponse(int response) {

@@ -1,7 +1,6 @@
 package com.cis498.group4.controllers;
 
 import com.cis498.group4.data.AttendanceDataAccess;
-import com.cis498.group4.data.EventDataAccess;
 import com.cis498.group4.data.SurveyDataAccess;
 import com.cis498.group4.models.Attendance;
 import com.cis498.group4.models.Event;
@@ -18,11 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * The ShowSurveyForm servlet displays the survey form and reads the responses for insertion into the database.
@@ -42,10 +37,10 @@ public class ShowSurveyForm extends HttpServlet {
 
     /**
      * Render survey form for the given event
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
+     * @param request The HTTP request received from the client
+     * @param response The HTTP response returned by the servlet
+     * @throws ServletException The request could not be handled
+     * @throws IOException An input or output error has occurred
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -111,10 +106,10 @@ public class ShowSurveyForm extends HttpServlet {
 
     /**
      * Insert posted survey data into new survey record, update user attendance
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
+     * @param request The HTTP request received from the client
+     * @param response The HTTP response returned by the servlet
+     * @throws ServletException The request could not be handled
+     * @throws IOException An input or output error has occurred
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

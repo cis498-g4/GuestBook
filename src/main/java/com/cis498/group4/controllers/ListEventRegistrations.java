@@ -34,10 +34,10 @@ public class ListEventRegistrations extends HttpServlet {
     /**
      * Render a list of events occurring in the future, with buttons to view users registered for that event, or to
      * register additional users for that event
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
+     * @param request The HTTP request received from the client
+     * @param response The HTTP response returned by the servlet
+     * @throws ServletException The request could not be handled
+     * @throws IOException An input or output error has occurred
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
