@@ -27,8 +27,8 @@ public class UserHelpers {
      * Validates an existing user record.
      * User is not null, has valid id, type, firstName, lastName, email
      * Use before writing to database.
-     * @param user
-     * @return
+     * @param user The User object to validate
+     * @return true if the user is not null and its fields contain valid values
      */
     public static boolean validateRecord(User user) {
         if (user == null) {
@@ -46,8 +46,8 @@ public class UserHelpers {
      * Validates basic user fields.
      * User is not null, has valid type, firstName, lastName, email
      * Use before writing new user to database.
-     * @param user
-     * @return
+     * @param user The User object to validate
+     * @return true if the user's fields contain valid values
      */
     public static boolean validateFields(User user) {
         if (user == null) {
@@ -66,8 +66,8 @@ public class UserHelpers {
     /**
      * Validates a user email address.
      * Not null, <= 256 chars, matches basic email address pattern
-     * @param email
-     * @return The logical AND of several boolean checks (e.g. length)
+     * @param email The email address to validate
+     * @return true if the email address is less than 256 characters and is in the pattern of an email address
      */
     public static boolean validateEmail(String email) {
         if (email == null || email.trim().isEmpty()) {
@@ -85,8 +85,8 @@ public class UserHelpers {
 
     /**
      * Validates a user first name / last name
-     * @param name
-     * @return Logical AND of several boolean expressions (e.g. length <= 64)
+     * @param name The name to validate
+     * @return true if the name length is less than 64 characters and contains only valid characters
      */
     public static boolean validateName(String name) {
         if (name == null || name.trim().isEmpty()) {
@@ -106,8 +106,8 @@ public class UserHelpers {
      * Validates a user password.
      * Password is not null or empty, and contains valid characters (https://www.owasp.org/index.php/Password_special_characters)
      * Use before writing to database.
-     * @param password
-     * @return
+     * @param password The password to validate
+     * @return true if the password is less than 40 characters and contains only valid characters
      */
     public static boolean validatePassword(String password) {
         if (password == null || password.trim().isEmpty()) {
@@ -125,8 +125,8 @@ public class UserHelpers {
 
     /**
      * Validates that user type is either Guest or Organizer
-     * @param type
-     * @return
+     * @param type The type value to validate
+     * @return true if the type is valid
      */
     public static boolean validateType(User.UserType type) {
         if (type == User.UserType.GUEST || type == User.UserType.ORGANIZER) {
@@ -138,6 +138,8 @@ public class UserHelpers {
 
     /**
      * Returns a hex string SHA-1 message digest of the password
+     * @param message The plain text of the password
+     * @return The hash of the password
      */
     public static String shaHash(String message) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         MessageDigest md = null;
@@ -159,7 +161,7 @@ public class UserHelpers {
 
     /**
      * Sets a user object's attributes based on parameters passed in request
-     * @param user
+     * @param user The User object whose attributes are to be set
      * @param request The HTTP request received from the client
      * @return writeStatus of created event
      */
@@ -180,8 +182,8 @@ public class UserHelpers {
 
     /**
      * Get status code for verifying the success or failure of an insert or update operation
-     * @param user
-     * @return status code
+     * @param user The user to verify
+     * @return Status code to be used in the response
      */
     public static int writeStatus(User user) {
 
