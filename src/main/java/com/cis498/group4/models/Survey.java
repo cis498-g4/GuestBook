@@ -1,9 +1,7 @@
 package com.cis498.group4.models;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
