@@ -26,8 +26,8 @@ public class AttendanceHelpers {
     /**
      * Validates an attendance record (e.g. no event registrations overlap for that user, capacity not full).
      * Use before writing to database.
-     * @param attendance
-     * @return
+     * @param attendance The Attendance object to validate
+     * @return true if Attendance is valid, false if invalid
      */
     public static boolean validate(Attendance attendance) {
         //TODO
@@ -37,9 +37,9 @@ public class AttendanceHelpers {
     /**
      * Validates an attendance record (e.g. no event registrations overlap for that user).
      * Use before writing to database.
-     * @param user
-     * @param event
-     * @return
+     * @param user The User of the attendance record to be validated
+     * @param event The Event of the attendance record to be validated
+     * @return true if the attendance is valid, false if invalid
      */
     public static boolean validate(User user, Event event) {
         //TODO no registrations overlap
@@ -50,9 +50,9 @@ public class AttendanceHelpers {
     /**
      * Validates an attendance status update (e.g. cannot downgrade an attendance from ATTENDED to SIGNED_IN)
      * Use before writing to database.
-     * @param attendance
-     * @param status
-     * @return
+     * @param attendance The Attendance object to validate
+     * @param status The status code
+     * @return true if the status code is valid, false otherwise
      */
     public static boolean validateStatus(Attendance attendance, int status) {
         //TODO
@@ -92,8 +92,8 @@ public class AttendanceHelpers {
 
     /**
      * Checks whether the registration overlaps with an existing registration
-     * @param eventA
-     * @return
+     * @param eventA The Event to check against existing event schedules
+     * @return true if the event's scheduled time does not overlap any existing events in the registration list
      */
     public static boolean isOverlapping(Event eventA, List<Attendance> registrations) {
         if (registrations.isEmpty()) {
@@ -121,7 +121,7 @@ public class AttendanceHelpers {
     /**
      * Checks whether an event is at capacity
      * @param event Event, which may or may not have a numRegistered parameter set
-     * @return
+     * @return true if the event's number of registered guests is greater or equal to its capacity
      */
     public static boolean isFull(Event event) {
         if (event.getCapacity() <= 0) {
@@ -135,9 +135,9 @@ public class AttendanceHelpers {
     }
 
     /**
-     * Checks whether the maximum number of guests have signed in to the event
-     * @param event
-     * @return
+     * Checks whether the maximum number of guests have signed in to the event.
+     * @param event The Event to check
+     * @return true if the number of guests signed in is greater than or equal to the capacity of the event, if the capacity is unlimited
      */
     public static boolean isFullSignIn(Event event) {
         if (event.getCapacity() <= 0) {
@@ -151,11 +151,47 @@ public class AttendanceHelpers {
     }
 
     /**
+     * Generates an attendance status string, based on whether the event is in the past or future
+     * @param attendance The attendance object to check
+     * @return String indicating the attendance status, taking time into account (e.g. "missed" vs. "upcoming")
+     */
+    public static String temporalStatus(Attendance attendance) {
+        if(attendance.getStatus() == Attendance.AttendanceStatus.NOT_ATTENDED) {
+            if (EventHelpers.startsInFuture(attendance.getEvent())) {
+                return "upcoming";
+            } else if (EventHelpers.isInProgress(attendance.getEvent())) {
+                return "current";
+            } else {
+                return "missed";
+            }
+        }
+
+        if (attendance.getStatus() == Attendance.AttendanceStatus.SIGNED_IN) {
+            if (EventHelpers.endsInFuture(attendance.getEvent())) {
+                return "signed-in";
+            }
+
+            return "survey-pending";
+        }
+
+        if (attendance.getStatus() == Attendance.AttendanceStatus.ATTENDED) {
+            if (EventHelpers.endsInFuture(attendance.getEvent())) {
+                return "in-attendance";
+            }
+
+            return "attended";
+        }
+
+        return "unknown";
+
+    }
+
+    /**
      * Get status code for verifying the success or failure of an insert or update operation
-     * @param user
-     * @param event
-     * @param registrations
-     * @return
+     * @param user The User of the Attendance object to validate
+     * @param event The Event of the Attendance object to be validated
+     * @param registrations A List of registrations to check if the registration would overlap
+     * @return Registration status code to be used by the response
      */
     public static int registerStatus(User user, Event event, List<Attendance> registrations) {
 
@@ -192,42 +228,6 @@ public class AttendanceHelpers {
         }
 
         return SUCCESSFUL_REGISTRATION;
-    }
-
-    /**
-     * Returns more specific attendance status string, based on whether the event is in the past or future
-     * @param attendance
-     * @return
-     */
-    public static String temporalStatus(Attendance attendance) {
-        if(attendance.getStatus() == Attendance.AttendanceStatus.NOT_ATTENDED) {
-            if (EventHelpers.startsInFuture(attendance.getEvent())) {
-                return "upcoming";
-            } else if (EventHelpers.isInProgress(attendance.getEvent())) {
-                return "current";
-            } else {
-                return "missed";
-            }
-        }
-
-        if (attendance.getStatus() == Attendance.AttendanceStatus.SIGNED_IN) {
-            if (EventHelpers.endsInFuture(attendance.getEvent())) {
-                return "signed-in";
-            }
-
-            return "survey-pending";
-        }
-
-        if (attendance.getStatus() == Attendance.AttendanceStatus.ATTENDED) {
-            if (EventHelpers.endsInFuture(attendance.getEvent())) {
-                return "in-attendance";
-            }
-
-            return "attended";
-        }
-
-        return "unknown";
-
     }
 
 }

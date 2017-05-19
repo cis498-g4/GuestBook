@@ -19,7 +19,7 @@ public class DbConn {
     /**
      * Creates and returns a new connection  to the MySQL instance,
      * or returns the current connection if one exists.
-     * @return connection - A connection to the MySQL instance
+     * @return connection A connection to the MySQL instance
      */
     public static Connection getConnection() {
         if (connection == null) {
