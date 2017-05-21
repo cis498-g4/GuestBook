@@ -38,11 +38,7 @@ public class DbConn {
                 Class.forName(driver);
                 connection = DriverManager.getConnection(url, user, password);
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (SQLException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
