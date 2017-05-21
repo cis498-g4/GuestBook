@@ -23,10 +23,10 @@ public class KioskHelpers {
 
     /**
      * Checks sign-in status conditions and returns a status code
-     * @param event
-     * @param user
-     * @param attendance
-     * @return
+     * @param event The kiosk event
+     * @param user The user attempting sign in
+     * @param attendance The attendance data associated with that user for that event
+     * @return Status code indicating the success condition of the sign-in attempt
      */
     public static int signInStatus(Event event, User user, Attendance attendance) {
 

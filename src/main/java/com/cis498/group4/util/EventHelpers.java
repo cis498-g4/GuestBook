@@ -39,8 +39,8 @@ public class EventHelpers {
      * Event is not null, has valid id, name, chronological start date and end date in the future,
      * presenter with no conflicts, registration code, and capacity
      * Use before writing to database.
-     * @param event
-     * @return
+     * @param event The event to check
+     * @return true if event not null and fields contain valid data
      */
     public static boolean validateRecord(Event event) {
         if (event == null) {
@@ -59,8 +59,8 @@ public class EventHelpers {
      * Event is not null, has valid name, chronological start date and end date in the future, presenter,
      * registration code, and capacity
      * Use before writing new event to database.
-     * @param event
-     * @return
+     * @param event The event to check
+     * @return true if all fields contain valid data
      */
     public static boolean validateFields(Event event) {
         if (event == null) {
@@ -79,8 +79,8 @@ public class EventHelpers {
 
     /**
      * Verifies that the capacity is between 1 and 1000, inclusive, or -1
-     * @param capacity
-     * @return
+     * @param capacity The event capacity to check
+     * @return true if capicty value is an integer between 1 and 1000
      */
     public static boolean validateCapacity(int capacity) {
         if (capacity == -1) {
@@ -96,8 +96,8 @@ public class EventHelpers {
 
     /**
      * Ensures that the capacity is not less than the number of users registered or signed in to the event.
-     * @param event
-     * @return
+     * @param event The event to check
+     * @return true if capacity > number of users registered, or the capacity is unlimited
      */
     public static boolean validateMinCapacity(Event event) {
         int capacity = event.getCapacity();
@@ -116,8 +116,8 @@ public class EventHelpers {
 
     /**
      * Validates event name (is under 256 characters)
-     * @param name
-     * @return
+     * @param name The event name to check
+     * @return true if the event name is shorter than 256 characters
      */
     public static boolean validateName(String name) {
         if (name == null || name.trim().isEmpty()) {
@@ -129,8 +129,8 @@ public class EventHelpers {
 
     /**
      * Validates that presenter is not null and of type Organizer
-     * @param presenter
-     * @return
+     * @param presenter The presenter (user) to check
+     * @return true if user is not null and of type ORGANIZER
      */
     public static boolean validatePresenter(User presenter) {
         if (presenter == null) {
@@ -142,7 +142,8 @@ public class EventHelpers {
 
     /**
      * Verifies that the registration code is exactly eight alphanumeric characters, or is null
-     * @param code
+     * @param code The registration code to check
+     * @return true if the code is exactly eight alphanumeric characters
      */
     public static boolean validateRegistrationCode(String code) {
         if (code == null) {
@@ -157,9 +158,9 @@ public class EventHelpers {
 
     /**
      * Checks whether the event overlaps with an existing event with the same presenter
-     * @param eventA
-     * @param presenterEvents
-     * @return
+     * @param eventA The event to check
+     * @param presenterEvents List of events associated with a presenter
+     * @return true if eventA is not scheduled at a time that overlaps with any of the presenter's other events
      */
     public static boolean isOverlapping(Event eventA, List<Event> presenterEvents) {
         if (presenterEvents.isEmpty()) {
@@ -194,7 +195,7 @@ public class EventHelpers {
 
     /**
      * Checks whether an event's start time is in the future
-     * @param event
+     * @param event The event to check
      * @return True if the event's start time is after now
      */
     public static boolean startsInFuture(Event event) {
@@ -208,7 +209,7 @@ public class EventHelpers {
 
     /**
      * Checks whether an event's end time is in the future
-     * @param event
+     * @param event The event to check
      * @return True if the event's end time is after now
      */
     public static boolean endsInFuture(Event event) {
@@ -222,7 +223,7 @@ public class EventHelpers {
 
     /**
      * Checks whether an event's start time is in the past
-     * @param event
+     * @param event The event to check
      * @return True if the event's start time is before now
      */
     public static boolean startedInPast(Event event) {
@@ -236,7 +237,7 @@ public class EventHelpers {
 
     /**
      * Checks whether an event's end time is in the past
-     * @param event
+     * @param event The event to check
      * @return True if the event's end time is before now
      */
     public static boolean endedInPast(Event event) {
@@ -250,8 +251,8 @@ public class EventHelpers {
 
     /**
      * Checks whther the event is currently in progress, based on its scheduled start and end times
-     * @param event
-     * @return
+     * @param event The event to check
+     * @return true if the current time is between the event's start and end time
      */
     public static boolean isInProgress(Event event) {
 
@@ -279,10 +280,10 @@ public class EventHelpers {
 
     /**
      * Sets an event object's attributes based on parameters passed in request
-     * @param event
+     * @param event The event for which to set attributes
      * @param request The HTTP request received from the client
-     * @param eventData
-     * @param userData
+     * @param eventData The data access object for events
+     * @param userData The data access object for users (to retrieve presenter information
      * @return writeStatus of created event
      */
     public static int setAttributesFromRequest(
@@ -337,8 +338,8 @@ public class EventHelpers {
 
     /**
      * Get status code for verifying the success or failure of an insert or update operation
-     * @param event
-     * @return
+     * @param event The event to verify
+     * @return Status code indicating the response to the write request
      */
     public static int writeStatus(Event event, List<Event> presenterEvents) {
 

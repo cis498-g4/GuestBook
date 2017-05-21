@@ -247,7 +247,7 @@ public class AttendanceDataAccess {
     /**
      * Gets a count of the total number of users associated with an event
      * @param eventId The ID of the event whose attendance count to get
-     * @return
+     * @return The count of users associated with a single event
      */
     public int getAttendanceCount(int eventId) {
         try {
@@ -268,8 +268,8 @@ public class AttendanceDataAccess {
 
     /**
      * Gets the number of users signed in to an event
-     * @param eventId
-     * @return
+     * @param eventId The ID of the event desired
+     * @return The count of users for that event whose status is SIGNED_IN or ATTENDED
      */
     public int getSignInCount(int eventId) {
         try {

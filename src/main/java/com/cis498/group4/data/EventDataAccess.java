@@ -123,6 +123,7 @@ public class EventDataAccess {
 
     /**
      * Retrieves all events associated with a presenter whose end times occur in the future
+     * @param presenter The presenter to find
      * @return List of Event objects
      */
     public List<Event> getPresenterFutureEvents(User presenter) {
@@ -153,7 +154,7 @@ public class EventDataAccess {
 
     /**
      * Retrieves an event by its unique registration code
-     * @param registrationCode
+     * @param registrationCode The registration code to find
      * @return Event matching the registration code
      */
     public Event getEventByRegistrationCode(String registrationCode) {

@@ -56,8 +56,8 @@ public class SurveyHelpers {
     /**
      * Validates a survey record (e.g. survey does not already exist).
      * Use before writing to database.
-     * @param survey
-     * @return
+     * @param survey The survey to validate
+     * @return true iof the survey is not null and its data is valid
      */
     public static boolean validate(Survey survey) {
         // TODO User attended event
@@ -67,8 +67,8 @@ public class SurveyHelpers {
 
     /**
      * Ensures that the user submitting the survey has signed in to the event
-     * @param attendance
-     * @return
+     * @param attendance The attendance data for the user submitting the survey
+     * @return true if attendance is SIGNED_IN or ATTENDED
      */
     public static boolean validateAttendance(Attendance attendance) {
         if (attendance == null) {
@@ -84,8 +84,8 @@ public class SurveyHelpers {
 
     /**
      * Validates that event exists and is valid
-     * @param event
-     * @return
+     * @param event The event to check
+     * @return true if event is not null and has a valid ID
      */
     public static boolean validateEvent(Event event) {
         if (event == null) {
@@ -101,8 +101,8 @@ public class SurveyHelpers {
 
     /**
      * Validates that a response is an integer between 1 and 10
-     * @param response The HTTP response returned by the servlet
-     * @return
+     * @param response The rating from a survey question
+     * @return true if response is an integer between 1 and 10
      */
     public static boolean validateResponse(int response) {
         return (response >= 1 && response <= 10);
@@ -124,9 +124,9 @@ public class SurveyHelpers {
     }
 
     /**
-     * Generates a sentiment string from a response value
-     * @param value
-     * @return
+     * Generates a sentiment string from the average of the survey responses
+     * @param value The value of the survey response average
+     * @return String representing the sentiment of the survey
      */
     public static String responseSentiment(double value) {
         if (value < 2.5) {
@@ -150,8 +150,8 @@ public class SurveyHelpers {
 
     /**
      * Remaps survey responses to question strings
-     * @param survey
-     * @return
+     * @param survey The survey to remap
+     * @return Map of question text to survey response
      */
     public static Map<String, Integer> getQuestionsResponses(Survey survey) {
         Map<String, Integer> questionsResponses = new HashMap<String, Integer>();
@@ -166,11 +166,11 @@ public class SurveyHelpers {
     }
 
     /**
-     * Sets a user object's attributes based on parameters passed in request
-     * @param survey
-     * @param user
-     * @param attendance
-     * @return
+     * Sets a survey object's attributes based on parameters passed in request
+     * @param survey The survey to set
+     * @param user The user of the survey
+     * @param attendance The attendance data for the survey
+     * @return Status code of the operation, determined by submissionStatus
      */
     public static int setAttributesFromRequest(Survey survey, User user, Attendance attendance, HttpServletRequest request) {
         try {
@@ -179,7 +179,7 @@ public class SurveyHelpers {
             LocalDateTime submissionDateTime = LocalDateTime.now();
             survey.setSubmissionDateTime(submissionDateTime);
 
-            Map<String, Integer> responses = new HashMap<String, Integer>();    //TODO Make this a TreeMap, so it is sorted.
+            Map<String, Integer> responses = new HashMap<String, Integer>();    //TODO Make this a TreeMap, so it is sorted for iteration
 
             for(int i = 1; i <= 10; i++) {
                 String responseLabel = String.format("response_%02d", i);
@@ -198,10 +198,10 @@ public class SurveyHelpers {
 
     /**
      * Get status code for verifying the success or failure of submission
-     * @param survey
-     * @param user
-     * @param attendance
-     * @return
+     * @param survey The survey to verify
+     * @param user The survey user data
+     * @param attendance The survey attendance data
+     * @return Status code indicating the success of the operation
      */
     @SuppressWarnings("unchecked")
     public static int submissionStatus(Survey survey, User user, Attendance attendance) {
