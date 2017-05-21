@@ -12,17 +12,17 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
-# IntelliJ IDEA
+# IDE files - IntelliJ IDEA
 .idea/**
 *.iml
 
-# Eclipse
+# IDE files - Eclipse
 .metadata/**
 .project
 .settings/**
 build/**
 
-# OS
+# OS garbage
 .DS_Store
 .DS_Store?
 ._*
@@ -31,5 +31,5 @@ build/**
 ehthumbs.db
 Thumbs.db
 
-# Maven
+# Maven builds
 target/**
