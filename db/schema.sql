@@ -84,7 +84,7 @@ CREATE TABLE `guestbookdb`.`event_attendance` (
     PRIMARY KEY (`user_id`, `event_id`),
     FOREIGN KEY `fk_attendance_status$event` (`event_id`)
     REFERENCES `guestbookdb`.`event`(`event_id`)
-        ON DELETE CASCADE,
+        ON DELETE RESTRICT,
     FOREIGN KEY `fk_event_attendance$user` (`user_id`)
     REFERENCES `guestbookdb`.`user`(`user_id`)
         ON DELETE CASCADE,
