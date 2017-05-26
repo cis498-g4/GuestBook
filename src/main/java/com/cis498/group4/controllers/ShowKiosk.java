@@ -90,7 +90,7 @@ public class ShowKiosk extends HttpServlet {
             pageTitle = String.format("Welcome to %s", event.getName());
 
             // Set session expiration time to number of seconds between event end time and now
-            session.setMaxInactiveInterval(EventHelpers.secondsToEnd(event));
+//            session.setMaxInactiveInterval(EventHelpers.secondsToEnd(event));
         }
 
         request.setAttribute("pageTitle", pageTitle);
