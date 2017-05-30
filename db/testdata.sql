@@ -270,7 +270,7 @@ INSERT INTO `guestbookdb`.`event_attendance`(`event_id`, `user_id`, `attendance_
 INSERT INTO `guestbookdb`.`event_attendance`(`event_id`, `user_id`, `attendance_status_id`) VALUES (12, 39, 1);
 INSERT INTO `guestbookdb`.`event_attendance`(`event_id`, `user_id`, `attendance_status_id`) VALUES (12, 40, 2);
 INSERT INTO `guestbookdb`.`event_attendance`(`event_id`, `user_id`, `attendance_status_id`) VALUES (12, 41, 2);
-INSERT INTO `guestbookdb`.`event_attendance`(`event_id`, `user_id`, `attendance_status_id`) VALUES (14, 5, 0);
+INSERT INTO `guestbookdb`.`event_attendance`(`event_id`, `user_id`, `attendance_status_id`) VALUES (14, 51, 0);
 
 
 
