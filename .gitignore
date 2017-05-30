@@ -35,4 +35,4 @@ Thumbs.db
 target/**
 
 # Local JS Libraries
-src/main/webapp/weblib/
+#src/main/webapp/weblib/
