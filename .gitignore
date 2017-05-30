@@ -33,3 +33,6 @@ Thumbs.db
 
 # Maven builds
 target/**
+
+# Local JS Libraries
+src/main/webapp/weblib/
