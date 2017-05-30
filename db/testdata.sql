@@ -49,6 +49,7 @@ INSERT INTO `guestbookdb`.`user`(`user_type_id`, `first_name`, `last_name`, `ema
 INSERT INTO `guestbookdb`.`user`(`user_type_id`, `first_name`, `last_name`, `email`, `password`) VALUES (1, 'Simona', 'Zachery', 'elortrt@tamaisit.com', '6367c48dd193d56ea7b0baad25b19455e529f5ee');
 INSERT INTO `guestbookdb`.`user`(`user_type_id`, `first_name`, `last_name`, `email`, `password`) VALUES (1, 'Van', 'Biggs', 'netsongh@wiyl.org', '6367c48dd193d56ea7b0baad25b19455e529f5ee');
 INSERT INTO `guestbookdb`.`user`(`user_type_id`, `first_name`, `last_name`, `email`, `password`) VALUES (1, 'Joe', 'Sample', 'test@test.com', '6367c48dd193d56ea7b0baad25b19455e529f5ee');
+INSERT INTO `guestbookdb`.`user`(`user_type_id`, `first_name`, `last_name`, `email`, `password`) VALUES (1, 'Jane', 'Sample', 'aaa@aaa.com', '6367c48dd193d56ea7b0baad25b19455e529f5ee');
 
 
 INSERT INTO `guestbookdb`.`event`(`event_name`, `start_date_time`, `end_date_time`, `presenter_id`, `open_registration`, `registration_code`, `mandatory_survey`, `capacity`) VALUES ('Building Webpages', '2017-07-10 10:00:00', '2017-07-10 11:00:00', 1, TRUE, 'WEBD1001', TRUE, 15);
